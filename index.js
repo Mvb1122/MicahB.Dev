@@ -1,0 +1,77 @@
+const fs = require('fs');
+const http = require('http');
+const host = require('os').hostname();;
+const port = 80;
+
+const requestListener = function (req, res) {
+    console.log("\n\nRequest Recieved: " + req.url);
+    console.log(req.method);
+    if (req.method === "GET") {
+        if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
+            url = './mDB/' + req.url.slice("/json/".length - 1);
+            console.log(`Processed URL: ${url}`);
+            let output = "";
+            try {
+                res.setHeader("Content-Type", "application/json");
+                output = fs.readFileSync(url);
+                res.writeHead(200);
+                res.end(output);
+            } catch (e) {
+                res.setHeader("Content-Type", "text/plain");
+                res.statusCode = 404;
+                res.end("Not found.")
+            }
+        } else if (req.url.endsWith("/")) {
+            res.setHeader("Content-Type", "text/html");
+            res.writeHead(200);
+            let output = fs.readFileSync("index.html");
+            res.end(output);
+        } else if (req.url === "/favicon.ico") {
+            res.setHeader("Content-Type", "image/x-icon");
+            let s = fs.createReadStream('./favicon.ico');
+            s.on('open', function () {
+                res.setHeader('Content-Type', "image/x-icon");
+                s.pipe(res);
+            });
+        } else if (req.url.startsWith("/users/")) {
+            try {
+                res.setHeader("Content-Type", "application/json");
+                output = fs.readFileSync("." + req.url);
+                res.writeHead(200);
+                res.end(output);
+            } catch (e) {
+                res.setHeader("Content-Type", "text/plain");
+                res.statusCode = 404;
+                res.end("Not found, Searched for file: ." + req.url);
+            }
+            
+        }
+    } else if (req.method === "POST") {
+        // console.log(req.body);
+        res.setHeader("Content-Type", "text/plain");
+        res.writeHead(200);
+
+        let data = "";
+
+        req.on('data', chunk => {
+            data += chunk;
+        });
+    
+        req.on('end', () => {
+            inputURL = req.url.replace("/json/", "/mDB/");
+            fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
+            console.log(data);
+        })
+
+        // res.end("Complete, " + req.toString());
+    }
+    
+
+    // Post Stuff
+    
+};
+
+const server = http.createServer(requestListener);
+server.listen(port, host, () => {
+    console.log(`Server is running on http://${host}:${port}`);
+});
