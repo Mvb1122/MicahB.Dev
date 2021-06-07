@@ -1,7 +1,5 @@
 {
-  "spiritType": "Text",
-  "length": 2,
-  "content": [
-    "This is line 1 of Strigoi 1, Spirit 1, Panel 1."
-  ]
+	"spiritType": "Text",
+	"length": 9,
+	"content": ["This is line 1 of Strigoi 1, Spirit 1, Panel 1."]
 }
