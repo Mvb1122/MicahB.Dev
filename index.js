@@ -33,6 +33,13 @@ const requestListener = function (req, res) {
                 res.setHeader('Content-Type', "image/x-icon");
                 s.pipe(res);
             });
+        } else if (req.url === "/logo_small_inverted.png") {
+            res.setHeader("Content-Type", "image/png");
+            let s = fs.createReadStream('./logo_small_inverted.png');
+            s.on('open', function () {
+                res.setHeader('Content-Type', "image/png");
+                s.pipe(res);
+            });
         } else if (req.url.startsWith("/users/")) {
             try {
                 res.setHeader("Content-Type", "application/json");
