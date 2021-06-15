@@ -75,9 +75,11 @@ const requestListener = function (req, res) {
             let inputArr = inputURL.split("/");
             for (let i = 0; i < inputArr.length - 2; i++) {
                 inputPath += inputArr[i + 1] + "/";
+                if (!fs.existsSync(inputPath)) {
+                    fs.mkdirSync(inputPath);
+                }
             }
             console.log(inputPath);
-            fs.mkdirSync(inputPath);
             
             // Write data:
             fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
