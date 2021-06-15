@@ -6,6 +6,7 @@ const port = 80;
 const requestListener = function (req, res) {
     console.log("\n\nRequest Recieved: " + req.url);
     console.log(req.method);
+        // GETTING:
     if (req.method === "GET") {
         if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
             url = './mDB/' + req.url.slice("/json/".length - 1);
@@ -53,6 +54,8 @@ const requestListener = function (req, res) {
             }
             
         }
+
+        // POSTING:
     } else if (req.method === "POST") {
         // console.log(req.body);
         res.setHeader("Content-Type", "text/plain");
@@ -66,6 +69,17 @@ const requestListener = function (req, res) {
     
         req.on('end', () => {
             inputURL = req.url.replace("/json/", "/mDB/");
+
+            // Ensure that path to write to exists:
+            let inputPath = "./";
+            let inputArr = inputURL.split("/");
+            for (let i = 0; i < inputArr.length - 2; i++) {
+                inputPath += inputArr[i + 1] + "/";
+            }
+            console.log(inputPath);
+            fs.mkdirSync(inputPath);
+            
+            // Write data:
             fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
             console.log(data);
         })
