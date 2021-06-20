@@ -1,0 +1,7 @@
+{
+  "solution": "Facade\\Ignition\\Solutions\\MakeViewVariableOptionalSolution",
+  "parameters": {
+    "variableName": "username",
+    "viewFile": ""
+  }
+}
