@@ -53,6 +53,16 @@ const requestListener = function (req, res) {
                 res.end("Not found, Searched for file: ." + req.url);
             }
             
+            // Process requests for series images
+        } else if (req.url.startsWith("/seriesImages/")) {
+            res.setHeader("Content-Type", "image/png");
+            let fileName = req.url.split("/");
+            let s = fs.createReadStream('./seriesImages/' + fileName[fileName.length - 1]);
+            s.on('open', function () {
+                res.setHeader('Content-Type', "image/png");
+                s.pipe(res);
+            });
+
         }
 
         // POSTING:
@@ -85,12 +95,7 @@ const requestListener = function (req, res) {
             fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
             console.log(data);
         })
-
-        // res.end("Complete, " + req.toString());
     }
-    
-
-    // Post Stuff
     
 };
 
