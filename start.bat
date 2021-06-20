@@ -1,3 +1,14 @@
 node index.js
-PAUSE
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
 node index.js
