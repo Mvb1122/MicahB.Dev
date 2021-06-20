@@ -55,14 +55,28 @@ const requestListener = function (req, res) {
             
             // Process requests for series images
         } else if (req.url.startsWith("/seriesImages/")) {
-            res.setHeader("Content-Type", "image/png");
             let fileName = req.url.split("/");
-            let s = fs.createReadStream('./seriesImages/' + fileName[fileName.length - 1]);
-            s.on('open', function () {
-                res.setHeader('Content-Type', "image/png");
-                s.pipe(res);
-            });
-
+            let localURL = './seriesImages/' + fileName[fileName.length - 1];
+            console.log(localURL);
+            if (fs.existsSync(localURL)) {
+                try {
+                    let s = fs.createReadStream(localURL);
+                    res.setHeader("Content-Type", "image/png");
+                    s.on('open', function () {
+                        res.setHeader('Content-Type', "image/png");
+                        s.pipe(res);
+                    });
+                } catch (error) {
+                    res.setHeader("Content-Type", "text/plain");
+                    res.statusCode = 404;
+                    res.end("Not found, Local URL: " + localURL + "\nError Code:\n" + error);
+                }
+            } else {
+                res.setHeader("Content-Type", "text/plain");
+                res.statusCode = 404;
+                res.end("Not found, Local URL: " + localURL);
+            }
+            
         }
 
         // POSTING:
