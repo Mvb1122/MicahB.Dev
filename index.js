@@ -77,40 +77,68 @@ const requestListener = function (req, res) {
                 res.end("Not found, Local URL: " + localURL);
             }
             
+        } else {
+            // Generally try to read any given file, throw 404 if it doesn't work.
+            let fileName = req.url.split("/");
+            let localURL = './' + fileName[fileName.length - 1];
+            console.log(localURL);
+            if (fs.existsSync(localURL)) {
+                try {
+                    let s = fs.createReadStream(localURL);
+                    res.setHeader("Content-Type", "text/html");
+                    s.on('open', function () {
+                        res.setHeader('Content-Type', "text/html");
+                        s.pipe(res);
+                    });
+                } catch (error) {
+                    res.setHeader("Content-Type", "text/plain");
+                    res.statusCode = 404;
+                    res.end("Not found, Local URL: " + localURL + "\nError Code:\n" + error);
+                }
+            } else {
+                res.setHeader("Content-Type", "text/plain");
+                res.statusCode = 404;
+                res.end("Not found, Local URL: " + localURL);
+            }
         }
 
         // POSTING:
     } else if (req.method === "POST") {
         // console.log(req.body);
-        res.setHeader("Content-Type", "text/plain");
-        res.writeHead(200);
+        if (req.url.startsWith("/users/") || req.url.startsWith("/seriesImages/") || req.url.startsWith("/mDB/") || req.url.startsWith("/json/")) {
+            res.setHeader("Content-Type", "text/plain");
+            res.writeHead(200);
 
-        let data = "";
+            let data = "";
 
-        req.on('data', chunk => {
-            data += chunk;
-        });
+            req.on('data', chunk => {
+                data += chunk;
+            });
     
-        req.on('end', () => {
-            inputURL = req.url.replace("/json/", "/mDB/");
+            req.on('end', () => {
+                inputURL = req.url.replace("/json/", "/mDB/");
 
-            // Ensure that path to write to exists:
-            let inputPath = "./";
-            let inputArr = inputURL.split("/");
-            for (let i = 0; i < inputArr.length - 2; i++) {
-                inputPath += inputArr[i + 1] + "/";
-                if (!fs.existsSync(inputPath)) {
-                    fs.mkdirSync(inputPath);
-                }
-            }
-            console.log(inputPath);
+                // Ensure that path to write to exists:
+                let inputPath = "./";
+                let inputArr = inputURL.split("/");
+                for (let i = 0; i < inputArr.length - 2; i++) {
+                    inputPath += inputArr[i + 1] + "/";
+                    if (!fs.existsSync(inputPath)) {
+                        fs.mkdirSync(inputPath);
+                    }
+                }   
+                console.log(inputPath);
             
-            // Write data:
-            fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
-            console.log(data);
-        })
+                // Write data:
+                fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
+                console.log(data);
+            })
+        } else {
+            res.setHeader("Content-Type", "text/plain");
+            res.writeHead(403);
+            res.end("You're not allowed to write to there: " + res.url);
+        }
     }
-    
 };
 
 const server = http.createServer(requestListener);
