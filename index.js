@@ -130,7 +130,7 @@ const requestListener = function (req, res) {
                 console.log(inputPath);
             
                 // Write data:
-                fs.writeFile(`./${inputURL}`, data, (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
+                fs.writeFile(`./${inputURL}`, data.replace("\\n", "\\\n"), (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
                 console.log(data);
             })
         } else {
