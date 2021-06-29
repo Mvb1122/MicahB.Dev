@@ -30,23 +30,25 @@
             parsedResponse += "<br>" + await panelOne.content[i];
           }
 		  
-		  parsedResponse += "<br>"
+		      parsedResponse += "<br>"
           
           if (panelOne.length > 1) {
             for (let i = 2; i <= panelOne.length; i++) {
               let panelXX = await fetch("https://ihaveawebsite.tk/json/" + StrigoiNum + "/" + SpiritNum + "/" + i + ".json").then(response => response.json());
               for (let i = 0; i < panelXX.content.length; i++) {
-                parsedResponse += "<br>" + panelXX.content[i];
+                parsedResponse += panelXX.content[i] + "<br>";
               }
             }
           }
 
-          document.getElementById('information').innerHTML = parsedResponse;
+          document.getElementById('information').innerHTML = parsedResponse.replaceAll("\n", "<br>");
         }
       // let response = await fetch(); 
     }
     </script>
-    <a href="Projects.html">Posts or whatever.</a>
+
+    <a href="Projects.html">Posts or whatever.</a> <a href="https://ihaveawebsite.tk/down">Down Detector</a>
+    
   <div id="main" align="center">
     <br>
     <input id="StrigoiNum" value="1"></input>
