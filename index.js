@@ -77,6 +77,16 @@ const requestListener = function (req, res) {
                 res.end("Not found, Local URL: " + localURL);
             }
             
+        } else if (req.url.startsWith("/seriesNumber.json")) {
+            let listOfFiles = fs.readdirSync('./mDB/', { withFileTypes: true })
+                .filter(dirent => dirent.isDirectory())
+                .map(dirent => dirent.name);
+            let numberOfExistingStrigoi = parseInt(listOfFiles[listOfFiles.length - 1]);
+            let newStrigoiNumber = numberOfExistingStrigoi + 1
+
+            res.setHeader("Content-Type", "application/json");
+            res.statusCode = 200;
+            res.end("{\n\t\"number\": " + newStrigoiNumber + "\n}");
         } else {
             // Generally try to read any given file, throw 404 if it doesn't work.
             let fileName = req.url.split("/");
@@ -145,3 +155,10 @@ const server = http.createServer(requestListener);
 server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
+
+let listOfFiles = fs.readdirSync('./mDB/', { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+let numberOfExistingStrigoi = parseInt(listOfFiles[listOfFiles.length - 1]);
+let newStrigoiNumber = numberOfExistingStrigoi + 1
+console.log(newStrigoiNumber);
