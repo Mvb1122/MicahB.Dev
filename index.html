@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,53 +9,33 @@
     <meta name="keywords" content="">
     <title>Strigoi Web Interface</title>
     
-    <!--[if IE]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+      <!--[if IE]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="client.css">
+    <link rel="stylesheet" href="topnav.css">
   </head>
-  <body background-color="#324B5E">
-  <script>
-    async function run() {
-        let StrigoiNum = document.getElementById('StrigoiNum').value;
-        let SpiritNum = document.getElementById('SpiritNum').value;
-        if (StrigoiNum === "Spirit Number" || SpiritNum === "Spirit Number") {
-          // Do Nothing.
-        } else {
-          let url = "https://ihaveawebsite.tk/json/" + StrigoiNum + "/" + SpiritNum + "/1.json";
-          document.getElementById('information').innerHTML = "loading: " + url;
-          let panelOne = await fetch(url).then(response => response.json());
-          // let json1 = panelOne.json();
-          let parsedResponse = "";
-          for (let i = 0; i < panelOne.content.length; i++) {
-            parsedResponse += "<br>" + await panelOne.content[i];
-          }
-		  
-		      parsedResponse += "<br>"
-          
-          if (panelOne.length > 1) {
-            for (let i = 2; i <= panelOne.length; i++) {
-              let panelXX = await fetch("https://ihaveawebsite.tk/json/" + StrigoiNum + "/" + SpiritNum + "/" + i + ".json").then(response => response.json());
-              for (let i = 0; i < panelXX.content.length; i++) {
-                parsedResponse += panelXX.content[i] + "<br>";
-              }
-            }
-          }
 
-          document.getElementById('information').innerHTML = parsedResponse.replaceAll("\n", "<br>");
-        }
-      // let response = await fetch(); 
-    }
-    </script>
+  <body>
+    <script src="page_index.js"></script>
 
-    <a href="Projects.html">Posts or whatever.</a> <a href="https://ihaveawebsite.tk/down">Down Detector</a>
+    <div class="topnav">
+      <a class="active" href="index.html">Home</a>
+      <a href="Projects.html">Projects</a>
+      <a href="https://ihaveawebsite.tk/down">Down Detector</a>
+      <a href="http://htagger.ihaveawebsite.tk:81/">HTagger (May be Down)</a>
+    </div>
     
-  <div id="main" align="center">
-    <br>
-    <input id="StrigoiNum" value="1"></input>
-    <input id="SpiritNum" value="1"></input>
-    <button id="goButton" onClick="run()">Go</button>
-    <br>
-    <a id="information">Input your Strigoi and Spirit numbers.</a>
-  </div>
+    <div id="main" class="center">
+      <br>
+
+      <input id="StrigoiNum" value="1"></input>
+      <input id="SpiritNum" value="1"></input>
+      <button id="goButton" onClick="run()">Go</button>
+
+      <br>
+      <a id="information">Input your Strigoi and Spirit numbers.</a>
+    </div>
   </body>
-  </html>
+</html>

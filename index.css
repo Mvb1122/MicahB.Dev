@@ -1,0 +1,25 @@
+body {
+    background-color: #261A0B;
+    color: white;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10%;
+}
+
+a {
+    color: #74C2E8;
+}
+
+.invis {
+    color: #261A0B;
+    user-select: none;
+}

@@ -1,0 +1,11 @@
+.story {
+    text-align: center;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+.tab {
+    tab-size: 2;
+}
