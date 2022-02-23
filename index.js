@@ -3,6 +3,28 @@ const http = require('http');
 const host = require('os').hostname();;
 const port = 80;
 
+const mimeTypes = {
+    "txt": "text/plain",
+    "html": "text/html",
+    "gif": "image/gif",
+    "ico": "image/x-icon",
+    "json": "application/json",
+    "mp3": "audio/mpeg",
+    "mp4": "video/mp4",
+    "jpeg": "image/jpeg",
+    "jpg": "image/jpeg",
+    "pdf": "application/pdf",
+    "svg": "image/svg+xml",
+    "wav": "audio/wav",
+} 
+
+const getMime = (s) => {
+    for (const p in mimeTypes) {
+        if (s.endsWith(p)) return mimeTypes[p];
+    }
+    return getMime("txt");
+}
+
 const requestListener = function (req, res) {
     console.log("\n\nRequest Recieved: " + req.url);
     console.log(req.method);
@@ -94,10 +116,11 @@ const requestListener = function (req, res) {
             console.log(localURL);
             if (fs.existsSync(localURL)) {
                 try {
+                    let mime = getMime(localURL);
                     let s = fs.createReadStream(localURL);
-                    res.setHeader("Content-Type", "text/html");
+                    res.setHeader("Content-Type", mime);
                     s.on('open', function () {
-                        res.setHeader('Content-Type', "text/html");
+                        res.setHeader('Content-Type', mime);
                         s.pipe(res);
                     });
                 } catch (error) {
