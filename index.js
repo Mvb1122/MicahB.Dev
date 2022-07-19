@@ -16,8 +16,11 @@ const mimeTypes = {
     "pdf": "application/pdf",
     "svg": "image/svg+xml",
     "wav": "audio/wav",
-    "css": "text/css"
+    "css": "text/css",
+    "php": "text/html"
 } 
+
+// Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
 
 const getMime = (s) => {
     for (const p in mimeTypes) {
