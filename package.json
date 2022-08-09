@@ -15,7 +15,9 @@
   "author": "Mvb1122",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^1.0.1",
+    "discord.js": "^14.1.2",
     "http": "0.0.1-security",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.19"
   }
 }

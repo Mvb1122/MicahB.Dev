@@ -1,0 +1,135 @@
+@font-face {
+  font-family: 'gidoleregular';
+  src: url('fonts/gidole/gidole-regular-webfont.woff2') format('woff2'),
+    url('fonts/gidole/gidole-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  /* margin-top: 20px; */
+  height: 100%;
+  font-family: 'gidoleregular', Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+}
+
+/* NAVIAGTION */
+
+#navbar .dropdown-menu {
+  background-color: inherit;
+  border: none;
+}
+
+#navbar .dropdown-item {
+  background-color: inherit;
+  color: #aaa;
+}
+
+#navbar .dropdown-item:hover {
+  color: #f4f4f4;
+}
+
+/* --------- */
+#showcase {
+  background-image: url('images/showcase.jpg');
+  position: relative;
+  opacity: 0.70;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  font-size: 32px;
+  padding: 0 20px;
+}
+
+#showcase .container{
+  max-width: 100%;
+}
+
+#showcase h1 {
+  font-size: 64px;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+#showcase .button {
+  font-size: 32px;
+  text-decoration: none;
+  color: #fff;
+  border: #fff 1px solid;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 300px;
+}
+
+#showcase .button:hover {
+  background: #fff;
+  color: #000;
+}
+
+
+.sample-images{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.sample-image{
+  max-width: 400px;
+}
+
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-cell;
+  }
+}
+
+/*
+ * MEDIA QUERY FOR SCREEN SIZES 768PX+ (IPAD SCREEN AND BIGGER)
+ */
+@media (min-width: 769px) {
+
+  body, html {
+    font-size: 24px;
+  }
+
+  .sample-images {
+    flex-direction: row;
+  }
+
+  .sample-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* max-width: 200px; */
+    margin: 10px 50px;
+    /* max-width: 100%;  */
+    text-align: center;
+  }
+
+
+  .sample-image img {
+    max-width: 10rem;
+  }
+
+
+}
+
+/* END OF MEDIA QUERY */

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A webapp which tracks ESports Attendance.</title>
+        <meta name="description" content="This page lets you register a player.">
+    
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="topnav.css">
+        <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
+
+        <script src="Make_Player.js"></script>
+    </head>
+    
+    <body>
+        <div class="topnav">
+            <a href="Attendance_Home.html">Home</a>
+            <a href="Attendance_Players.html">View Registered Players</a>
+            <a href="Attendance_Winrate.html">View Winrate</a>
+            <a href="Attendance_Attendance.html">View Attendance</a>
+            <a class="active" href="Attendance_Make_Player.html">Create Player</a>
+        </div>
+        <br>
+        <main>
+            <h1 id="Title">Player Registration</h1>
+            <div id="Step0">
+                <br>
+                <h2>Please fill out the following boxes and hit the continue button at the bottom.</h2>
+
+                <label for="name">Enter the player's full name:</label>
+                <br>
+                <input id="name" type="text" placeholder="Player's Full Name">
+                <br><br>
+                <label for="game">Enter the game that the player plays. If there are multiple, place a comma between them.</label>
+                <br>
+                <input id="game" type="text" placeholder="Player's games">
+                <br>
+                <button id="NextStepButton" onclick="FinishStep0()">Move onto Next Step</button>
+                <br>
+            </div>
+            <div id="Step1" hidden="true">
+                <div class="centered">
+                    <h2>Instructions: </h2>
+                    <ol>
+                        <li>Enter the ESports Discord server.</li>
+                        <li>In the #bot-commands channel send the following:</li>
+                        <h2 id="CommandDisplay">/link [token]</h2>
+                        <li>Once you've sent the message, wait for this page to update.</li>
+                    </ol>
+                    <h4>Waiting for link confirmation...</h4>
+                    <div class="centered">
+                        <img src="Spinning_LCHS_Logo.gif">
+                    </div>
+                </div>
+            </div>
+            <div id="Step2" hidden="true">
+                <h2>Your player is now registered!</h2>
+                <p>They are now visible under all of the tabs.</p>
+                <br>
+            </div>
+        </main>
+    </body>
+</html>

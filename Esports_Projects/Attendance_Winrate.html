@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A webapp which tracks ESports Attendance.</title>
+        <meta name="description" content="This page allows you to see a specified players' winrate.">
+
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="topnav.css">
+        <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
+        
+        <script src="SetDropDown.js"></script>
+    </head>
+
+    <body onload="SetDropDown()">
+        <div class="topnav">
+            <a href="Attendance_Home.html">Home</a>
+            <a href="Attendance_Players.html">View Registered Players</a>
+            <a class="active" href="Attendance_Winrate.html">View Winrate</a>
+            <a href="Attendance_Attendance.html">View Attendance</a>
+            <a href="Attendance_Make_Player.html">Create Player</a>
+        </div>
+        <br>
+        <main>
+            <h1 id="Loading_Text">Loading...</h1>
+            <div id="Selection_Helpers">
+                <label for="players">Choose a player to view their game record:</label>
+                <br>
+                <select name="players" id="player-names">
+                    <option value="INVALID">Please wait for this to finish loading.</option>
+                </select>
+                <br>
+                <button type="button" onclick="LoadPlayerFromDropDown()" id="LoadPlayerButton">Load Player</button>
+            </div>
+
+            <div id="MatchDisplay" hidden="true">
+                <br>
+                <div class="centerTop">
+                    <button type="button" onclick="ResetWinratePage()">Go Back</button>
+                </div>
+                <h1 id="Match Display Title"></h1>
+                <div id="Match Display"></div>
+            </div>
+        </main>
+    </body>
+</html>

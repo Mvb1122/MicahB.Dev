@@ -43,3 +43,7 @@ projects/mgta.gmu.edu/summer-virtual-academy/index.html
 projects/mgta.gmu.edu/teacher-training
 projects/mgta.gmu.edu/wp-json/index.html
 projects/mgta.gmu.edu/xmlrpc.phprsd
+Esports_Projects/token.json
+Esports_Projects/Events/*.json
+Esports_Projects/Games/*.json
+Esports_Projects/Players/*.json

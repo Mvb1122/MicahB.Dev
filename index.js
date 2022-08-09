@@ -32,6 +32,19 @@ const getMime = (s) => {
 const requestListener = function (req, res) {
     console.log("\n\nRequest Recieved: " + req.url);
     console.log(req.method);
+    let localURL; 
+    if (req.url.startsWith('/'))
+        localURL = '.' + req.url;
+    else
+        localURL = "./" + req.url;
+
+    // Split off arguments, if they exist.
+    let args;
+    if (localURL.includes('&')) {
+        args = parseQuery(localURL.substring(localURL.indexOf("&")));
+        localURL = localURL.substring(0, localURL.indexOf("&"))
+    }
+
         // GETTING:
     if (req.method === "GET") {
         if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
@@ -48,10 +61,10 @@ const requestListener = function (req, res) {
                 res.statusCode = 404;
                 res.end("Not found.")
             }
-        } else if (req.url.endsWith("/")) {
+        } else if (req.url.endsWith("/") && fs.existsSync("./" + req.url + "index.html")) {
             res.setHeader("Content-Type", "text/html");
             res.writeHead(200);
-            let output = fs.readFileSync("index.html");
+            let output = fs.readFileSync("./" + req.url + "index.html");
             res.end(output);
         } else if (req.url === "/favicon.ico") {
             res.setHeader("Content-Type", "image/x-icon");
@@ -113,11 +126,22 @@ const requestListener = function (req, res) {
             res.setHeader("Content-Type", "application/json");
             res.statusCode = 200;
             res.end("{\n\t\"number\": " + newStrigoiNumber + "\n}");
-        } else {
-            // Generally try to read any given file, throw 404 if it doesn't work.
-            let localURL = './' + req.url;
-            console.log(localURL);
+
+        // Handle module requests.
+        } else if (req.url.includes("/Modules/")) {
+            console.log("Modules request for:" + localURL)
+            // Run the specified file, if it exists.
             if (fs.existsSync(localURL)) {
+                let script = fs.readFileSync(localURL).toString();
+                eval(script)
+            } else {
+                res.statusCode = 404;
+                res.setHeader("Content-Type", "text/plain");
+                res.end("Module Not Found!");
+            }
+        } else {
+            // Generally try to read any given file (that's not a directory), throw 404 if it doesn't work.
+            if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 try {
                     let mime = getMime(localURL);
                     let s = fs.createReadStream(localURL);
@@ -181,3 +205,18 @@ const server = http.createServer(requestListener);
 server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
+
+// Stolen from StackOverflow ;) 
+function parseQuery(queryString) {
+    var query = {};
+    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    }
+    return query;
+}
+
+// Run ESports setup stuff.
+const global = {};
+eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());

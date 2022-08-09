@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A webapp which tracks ESports Attendance.</title>
+        <meta name="description" content="This page shows a list of registered players.">
+
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="topnav.css">
+        <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
+        
+        <script src="Load_Players.js"></script>
+        <script type="text/javascript">window.onload = LoadPlayers()</script>
+    </head>
+
+    <body>
+        <div class="topnav">
+            <a href="Attendance_Home.html">Home</a>
+            <a class="active" href="Attendance_Players.html">View Registered Players</a>
+            <a href="Attendance_Winrate.html">View Winrate</a>
+            <a href="Attendance_Attendance.html">View Attendance</a>
+            <a href="Attendance_Make_Player.html">Create Player</a>
+        </div>
+        <br>
+        <main onload="LoadPlayers()">
+            <h1 id="Loading_Text">Loading...</h1>
+            <h2>You can click the name of each player to view their discord profile.</h2>
+            <br>
+            <div id="players">
+            </div>
+        </main>
+    </body>
+</html>
