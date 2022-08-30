@@ -72,7 +72,8 @@ client.on("messageCreate", async (message) => {
         const Full_Player_Information = {
             "Name": playerInfo.Player,
             "PlayedGames": playerInfo.Games,
-            "Discord_id": message.author.id
+            "Discord_id": message.author.id,
+            "Student_id": playerInfo.Id
         }
             // Saves data to player database.
         fs.writeFileSync(`${PlayerPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
@@ -82,12 +83,11 @@ client.on("messageCreate", async (message) => {
         message.reply("Registration suceeded! Check the website to make sure it went through.");
 
         // Rename the user to have their name as their username.
-            message.member.setNickname(playerInfo.Player, "Changed user's nickname to match their registered name.")
-                // Send them a message if it failed.
-                .catch(error => 
-                    message.channel.send(`I tried to rename you but I can't because I don't have permission; If you could please rename yourself to \`${Full_Player_Information.Name}\`, That'd be great.`)
-                );
-
+        message.member.setNickname(playerInfo.Player, "Changed user's nickname to match their registered name.")
+            // Send them a message if it failed.
+            .catch(error => 
+                message.channel.send(`I tried to rename you but I can't because I don't have permission; If you could please rename yourself to \`${Full_Player_Information.Name}\`, That'd be great.`)
+            );
     }
 
     // Handles starting events.
@@ -106,7 +106,7 @@ client.on("messageCreate", async (message) => {
         let thread = await global.ThreadCache[ThreadID];
 
         // Join thread and tell the user that we're watching it.
-        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost.")
+        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost!\nAlso, use `/addGame *` to add the games that are taking place today, please.\nIf you forgot, you can add people using `/here *`.")
             // .then(message => console.log(`Sent message: ${message.content}`))
             .catch(console.error);
 
@@ -114,10 +114,16 @@ client.on("messageCreate", async (message) => {
         message.reply("Enter the above thread in order to begin tracking attendance.")
 
         // Create event in cache.
-        let today = new Date().toISOString().slice(0, 10).replaceAll("-", "/");
+        let date = new Date();
+        let today = date.toISOString().slice(0, 10).replaceAll("-", "/");
+        let hours = date.getHours();
+        let minutes = date.getMinutes().toString();
+        while (minutes.length < 2) minutes = "0" + minutes;
         global.EventCache[ThreadID] = {
             "Attending": [],
-            "Date": today
+            "Date": today,
+            "StartTime": `${hours}:${minutes}`,
+            "Games": []
         }
 
         // Add the current user to be attending, if they're registered.
@@ -126,7 +132,7 @@ client.on("messageCreate", async (message) => {
         if (userID != -1)
             global.EventCache[ThreadID].Attending.push(userID);
         else 
-            message.channel.send("We tried to add you to the attendance, but it does not appear you are registered.");
+            message.channel.send("I tried to add you to the attendance, but it doesn't appear that you're registered.");
 
         console.log(`Created a new event: ${thread.name}.`);
     } else if (c.startsWith("/createEvent"))
@@ -193,13 +199,32 @@ client.on("messageCreate", async (message) => {
 
         // Handle finishing events.
         if (c.startsWith("/complete")) {
-            let data = JSON.stringify(global.EventCache[eventNumber]);
-            fs.writeFileSync(`${EventPath}/${eventNumber}.json`, data);
+            let data = global.EventCache[eventNumber];
+
+            // Add the ending time.
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes().toString();
+            // Prepend zeroes if minutes is just one digit.
+            while (minutes.length < 2) minutes = "0" + minutes;
+            
+            data.EndTime = `${hours}:${minutes}`;
+
+            console.log(data);
+
+            // Write the file in.
+            fs.writeFileSync(`${EventPath}/${eventNumber}.json`, JSON.stringify(data));
 
             // Tell the user that the event was closed, then archive the channel.
-                // Note that I use .then() here because there was an issue where the bot would send in an already-archived thread, just due to netstuff.
+                // Note that I use setTimeout() here because there was an issue where the bot would send in an already-archived thread, just due to netstuff.
             message.reply("Event closed, you should now be able to see it on the website.")
-                .then(message.channel.setArchived(true));
+            setTimeout(() => {message.channel.setArchived(true)}, 2000)
+        }
+
+        if (c.startsWith("/addGame")) {
+            let Game = c.substring(c.indexOf(" ") + 1);
+            global.EventCache[eventNumber].Games.push(Game);
+            message.reply(`Game attached: ${Game}!`);
         }
     }
 });

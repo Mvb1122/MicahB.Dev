@@ -1,14 +1,15 @@
 const WebsiteURL = "https://micahb.dev/Esports_Projects/";
 
 let token;
-
 async function FinishStep0() {
     // Collate grabbed information into an object so it's easier to send.
     let newPlayerInfo = {
-        Name: document.getElementById("name").value,
-        Games: document.getElementById("game").value
+        Name: document.getElementById("name").value.trim(),
+        Games: document.getElementById("game").value,
+        ID: document.getElementById("StudentID").value
     }
-    let query = `&name=${escape(newPlayerInfo.Name)}&games=${escape(newPlayerInfo.Games)}`
+    let query = `&name=${escape(newPlayerInfo.Name)}&games=${escape(newPlayerInfo.Games)}&id=${escape(newPlayerInfo.ID)}`
+
     // Send that to the server.
     await fetch(`${WebsiteURL}Modules/CollatePlayerAndGetLinkToken.js${query}`)
         .then((response) => response.json())

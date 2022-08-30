@@ -5,6 +5,10 @@ async function LoadAttendance() {
         // Collate Information
     let daysAttended;
     const player = document.getElementById("player-names").value;
+
+    // If the summary is requested, load it.
+    if (player == "summary") return LoadOverallAttendance();
+
         // Send request
     await fetch(`${WebsiteURL}Modules/GetAttendance.js&player=${player.substring(0, player.indexOf("."))}`)
         .then((response) => response.json())
@@ -33,4 +37,15 @@ async function LoadAttendance() {
 
     document.getElementById("AttendanceDisplay").hidden = false;
     document.getElementById("Attendance Display").innerHTML = output;
+}
+
+async function LoadOverallAttendance() {
+    // Get attendance summary from server.
+    await fetch(`${WebsiteURL}Modules/GetSummary.js&cache=false`)
+        .then((response) => response.text())
+        .then((d) => {
+            // Put data on screen.
+            document.getElementById("AttendanceDisplay").hidden = false;
+            document.getElementById("Attendance Display").innerHTML = d.replaceAll("\n", "<br>");
+        });
 }

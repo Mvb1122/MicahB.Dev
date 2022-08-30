@@ -14,6 +14,10 @@ async function SetDropDown() {
     let list = "";
     let NumberLoading = players.Players.length;
 
+    // Add an option for overall attendance, if this is the attendance page.
+    if (document.URL.includes("Attendance_Attendance.html"))
+        list += "<option value=\"summary\">Summary</option>"
+
     players.Players.forEach(player => {
         // Request each player's information.
         let playerURL = `${WebsiteURL}Players/${player}`;
@@ -33,8 +37,8 @@ async function SetDropDown() {
 
     while (NumberLoading != 0) {
         // Check once every 500ms if the stuff has finished loading, show percentage.
-        document.getElementById("Loading_Text").innerHTML = `Loading: ${(players.Players.length - NumberLoading / players.Players.length) * 100}%`;
         await new Promise(r => setTimeout(r, 500));
+        document.getElementById("Loading_Text").innerHTML = `Loading: ${(players.Players.length - NumberLoading / players.Players.length) * 100}%`;
     }
 
     document.getElementById("Loading_Text").hidden = true; 
@@ -48,11 +52,13 @@ async function LoadPlayerFromDropDown() {
     const player = document.getElementById("player-names").value;
     let data;
 
+    // If it's overall, use that function instead.
+    console.log(`Player: "${player}"`);
     // Load the user's data.
-    await fetch(`${WebsiteURL}Players/${player}`)
+        await fetch(`${WebsiteURL}Players/${player}`)
         .then((response) => response.json())
         .then((d) => data = d);
-    
+
     // Get the matches they were in.
     await fetch(`${WebsiteURL}Modules/GetMatches.js&player=${player.substring(0, player.indexOf("."))}`)
         .then((response) => response.json())

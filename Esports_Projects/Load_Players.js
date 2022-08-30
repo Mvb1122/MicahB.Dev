@@ -6,7 +6,7 @@ async function LoadPlayers() {
         .then((data) => players = data);
 
     // Get each player and put it on a list.
-    let list = "";
+    let list = `<table style="width:100%"><tr><th>Name</th><th>ID</th></tr>`;
     let NumberLoading = players.Players.length;
 
     players.Players.forEach(player => {
@@ -16,8 +16,7 @@ async function LoadPlayers() {
         fetch(playerURL)
             .then((response) => response.json())
             .then((d) => {
-                let Discord_id = d.Discord_id;
-                list += `<a href="https://discord.com/users/${Discord_id}">${d.Name}</a><br>`;
+                list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>${d.Student_id}</td>` + "</tr>";
                 NumberLoading--;
             });
     });
@@ -29,5 +28,5 @@ async function LoadPlayers() {
     }
 
     document.getElementById("Loading_Text").innerHTML = `Registered Players:`; 
-    document.getElementById("players").innerHTML = list;
+    document.getElementById("players").innerHTML = list + "</table>";
 }

@@ -28,13 +28,21 @@
                 <br>
                 <h2>Please fill out the following boxes and hit the continue button at the bottom.</h2>
 
-                <label for="name">Enter the player's full name:</label>
+                <label for="name">Enter your first and last names:</label>
                 <br>
                 <input id="name" type="text" placeholder="Player's Full Name">
                 <br><br>
-                <label for="game">Enter the game that the player plays. If there are multiple, place a comma between them.</label>
+                <label for="game">
+                    Enter the games that you plan to play. If there are multiple, place a comma between them.<br>
+                    (Write the full name of the game, rather than a shortened version. EG; <b>Super Smash Bros. Ultimate</b> instead of <b>SSBU</b>.)
+                </label>
                 <br>
                 <input id="game" type="text" placeholder="Player's games">
+                <br>
+                <br>
+                <label for="StudentID">Enter your Student ID below.</label>
+                <br>
+                <input id="StudentID" type="text" placeholder="Your Student ID">
                 <br>
                 <button id="NextStepButton" onclick="FinishStep0()">Move onto Next Step</button>
                 <br>
@@ -55,8 +63,8 @@
                 </div>
             </div>
             <div id="Step2" hidden="true">
-                <h2>Your player is now registered!</h2>
-                <p>They are now visible under all of the tabs.</p>
+                <h2>You're now registered!</h2>
+                <p>You should be visible under all tabs now.</p>
                 <br>
             </div>
         </main>
