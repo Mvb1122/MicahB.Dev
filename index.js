@@ -37,6 +37,7 @@ const requestListener = function (req, res) {
         localURL = '.' + req.url;
     else
         localURL = "./" + req.url;
+    localURL = unescape(localURL);
 
     // Split off arguments, if they exist.
     let args;
@@ -61,10 +62,11 @@ const requestListener = function (req, res) {
                 res.statusCode = 404;
                 res.end("Not found.")
             }
-        } else if (req.url.endsWith("/") && fs.existsSync("./" + req.url + "index.html")) {
+        } else if (localURL.endsWith("/") && fs.existsSync(localURL + "index.html")) {
+            // Handle reading index.html files if there's just a slash at the end.
             res.setHeader("Content-Type", "text/html");
             res.writeHead(200);
-            let output = fs.readFileSync("./" + req.url + "index.html");
+            let output = fs.readFileSync(localURL + "index.html");
             res.end(output);
         } else if (req.url === "/favicon.ico") {
             res.setHeader("Content-Type", "image/x-icon");
@@ -164,17 +166,17 @@ const requestListener = function (req, res) {
 
         // POSTING:
     } else if (req.method === "POST") {
-        // console.log(req.body);
+        // Asyncrounously download data and process the request at the same time.
+        let data = "";
+            // This runs asynchronously... probably.
+        req.on('data', chunk => {
+            data += chunk;
+        });
+
+        // Archaic Strigoi code... No good.
         if (req.url.startsWith("/users/") || req.url.startsWith("/seriesImages/") || req.url.startsWith("/mDB/") || req.url.startsWith("/json/")) {
             res.setHeader("Content-Type", "text/plain");
             res.writeHead(200);
-
-            let data = "";
-
-            req.on('data', chunk => {
-                data += chunk;
-            });
-    
             req.on('end', () => {
                 inputURL = req.url.replace("/json/", "/mDB/");
 
@@ -191,12 +193,28 @@ const requestListener = function (req, res) {
             
                 // Write data:
                 fs.writeFile(`./${inputURL}`, data.replace("\\n", "\\\n"), (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
-                console.log(data);
             })
-        } else {
+        }
+
+        // Ascertain a modules request and process it the better way.
+        if (req.url.toLowerCase().includes("post_modules")) {
+            console.log(`Post_Modules request for ${localURL}`);
+            if (fs.existsSync(localURL))
+            {    
+                req.on('end', () => {
+                    eval(fs.readFileSync(localURL).toString());
+                })
+            }
+            else {
+                res.statusCode = 404;
+                res.setHeader("Content-Type", "text/plain");
+                res.end("Module Not Found!");
+            }
+        }
+        else {
+            res.statusCode = 404;
             res.setHeader("Content-Type", "text/plain");
-            res.writeHead(403);
-            res.end("You're not allowed to write to there: " + res.url);
+            res.end("Endpoint Not Found!");
         }
     }
 };

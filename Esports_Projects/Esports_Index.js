@@ -182,7 +182,7 @@ client.on("messageCreate", async (message) => {
             eventNumber = eventNumber[eventNumber.length - 1];
 
             // If the eventNumber isn't a valid event, return since this isn't an event thread.
-            if (!global.EventCache[eventNumber]) return message.reply("This isn't an event thread, you can't use /here, here.");
+            if (!global.EventCache[eventNumber] && c.startsWith("/")) return message.reply("This isn't an event thread, you can't use /here, here.");
             // console.log("The event number in this thread is " + eventNumber);
         } catch (error) {
             // This is not an event thread.

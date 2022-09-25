@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-16">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .main {
+                border: 5px outset red;
+                text-align: center;
+                align-items: center;
+                overflow: hidden;
+            }
+
+            strong {
+                color: red;
+            }
+        </style>
+        <link rel="stylesheet" href="../../index.css">
+        <link rel="stylesheet" href="../../topnav.css">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135"
+     crossorigin="anonymous"></script>
+
+        <title>My FTP files</title>
+        <meta name="description" content="A list of the files I've shared publically.">
+
+        <script>
+            const mimeTypes = {
+                "txt": "text/plain",
+                "html": "text/html",
+                "gif": "image/gif",
+                "ico": "image/x-icon",
+                "json": "application/json",
+                "mp3": "audio/mpeg",
+                "mp4": "video/mp4",
+                "jpeg": "image/jpeg",
+                "jpg": "image/jpeg",
+                "pdf": "application/pdf",
+                "svg": "image/svg+xml",
+                "wav": "audio/wav",
+                "css": "text/css",
+                "php": "text/html"
+            } 
+
+            async function postData() {
+                let data = document.getElementById("file-selector").files[0];
+                let type = getTypeFromNameFileType(data);
+                let name = escape(document.getElementById("name-selector").value.replace(".", "$$DOT$$"));
+                document.getElementById("main").innerHTML = "<h1>Processing</h1>";
+                /*
+                fetch("Upload.js&target=" + name + "." + type, {method: "POST", body: await data.arrayBuffer(), headers: {
+                    'Content-Type': data.type
+                }})
+                    .then(async (res) => {
+                        let response = `https://micahb.dev/${(await res.json()).upload}`;
+                        console.log(response);
+                        document.getElementById("main").innerHTML = "<h1>Upload Complete</h1>";
+                        document.getElementById("link-display").hidden = false;
+                        document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
+                    }, (rej) => {
+                        document.getElementById("main").innerHTML = "<h1>Error:</h1><br>" + rej;
+                    });
+                */
+                var url = "Upload.js&target=" + name + "." + type;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url);
+
+                xhr.setRequestHeader("Content-Type", data.type);
+
+                xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseText);
+
+                    let response = `https://micahb.dev/${JSON.parse(xhr.responseText).upload}`;
+                    document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
+                    document.getElementById("link-display").hidden = false;
+                    document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
+                }};
+
+                const binaryData = await data.arrayBuffer();
+                console.log(binaryData);
+                xhr.send(binaryData)
+            }
+
+            function getTypeFromNameFileType(file) {
+                for (const type in mimeTypes)
+                    if (mimeTypes[type] == file.type) return type;
+                
+                return "txt";
+            }
+
+            async function ReadFile(e) {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    // convert image file to base64 string
+                    return reader.result;
+                }, false);
+                reader.readAsBinaryString(e);
+                return reader.result
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="topnav">
+            <a href="../index.html">Home</a>
+            <a class="active" href="../../Projects/Projects.html">Projects</a>
+            <a href="https://micahb.dev/down">Down Detector</a>
+            <a href="http://lchsminecraft.tk:81/">HTagger (May be Down)</a>
+        </div>
+
+        <div id="main" scrolling="no">
+            <label for="name-selector">Name the file:</label>
+            <input id="name-selector" type="text">
+            <br>
+            <label for="file-selector">Select a file:</label>
+            <input id="file-selector" type="file">
+            <br>
+            <button onclick="postData()">Upload!</button>
+        </div>
+        <div id="link-display" hidden="true">
+            https://micahb.dev/FTP/
+        </div>
+    </body>
+</html>

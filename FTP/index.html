@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .main {
+                border: 5px outset red;
+                text-align: center;
+                align-items: center;
+                overflow: hidden;
+            }
+
+            strong {
+                color: red;
+            }
+        </style>
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../topnav.css">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135"
+     crossorigin="anonymous"></script>
+
+        <title>My FTP files</title>
+        <meta name="description" content="A list of the files I've shared publically.">
+
+        <script>
+            async function loadFiles() {
+                await fetch(`${document.URL}/Modules/GetFTPFiles.js&cache=false`)
+                    .then((response) => response.json())
+                    .then((d) => {
+                        // Put data on screen.
+                        let links = "";
+                        d.files.forEach(element => {
+                            links += `<a href="${document.URL}${element}">${element}</a><br>`
+                        });
+                        document.getElementById("main").innerHTML = links;
+                    });
+            }
+        </script>
+    </head>
+
+    <body onload="loadFiles()">
+        <div class="topnav">
+            <a href="../index.html">Home</a>
+            <a class="active" href="../Projects/Projects.html">Projects</a>
+            <a href="https://micahb.dev/down">Down Detector</a>
+            <a href="http://lchsminecraft.tk:81/">HTagger (May be Down)</a>
+        </div>
+
+        <div id="main" scrolling="no">
+            <h1>Loading...</h1>
+        </div>
+    </body>
+</html>

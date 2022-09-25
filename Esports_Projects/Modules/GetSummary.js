@@ -15,7 +15,7 @@ files.forEach(async (file) => {
     else
         GameText = "Unknown."
 
-    let data = `Day - ${file.Date}\nTime: ${file.StartTime}-${file.EndTime}\nGames:${GameText.substring(0, GameText.length - 1)}\n\n`;
+    let data = `Day - ${file.Date}\nTime: ${file.StartTime}-${file.EndTime}\nGames:${GameText.substring(0, GameText.length - 1)}\nNumber of players attending: ${file.Attending.length}\n\n`;
 
     summary += data;
     numProcessing--;

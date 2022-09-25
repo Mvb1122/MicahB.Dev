@@ -41,6 +41,7 @@ async function LoadAttendance() {
 
 async function LoadOverallAttendance() {
     // Get attendance summary from server.
+    document.getElementById("Attendance Display Title").innerText = "Events Summary:"
     await fetch(`${WebsiteURL}Modules/GetSummary.js&cache=false`)
         .then((response) => response.text())
         .then((d) => {

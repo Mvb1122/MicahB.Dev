@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-16">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>
+            body {
+                background-color:burlywood;
+                font-family: Arial, Helvetica, sans-serif
+            }
+    
+            .HCenter {
+                text-align: center;
+            }
+    
+            HoverBox {
+                background-color: bisque;
+                width: fit-content;
+                padding: 4px;
+                font-size: larger;
+                border-radius: 5px;
+            }
+    
+            HoverBox:hover {
+                background-color: blanchedalmond;
+            }
+    
+            #active {
+                background-color: black;
+                color: azure;
+            }
+    
+            .small {
+                width: auto;
+                height: 30px;
+            }
+    
+            .medium {
+                width:auto;
+                height: 100px;
+                padding: 10px;
+            }
+    
+            .game {
+                background-color: antiquewhite;
+                padding: 1%;
+                height: fit-content;
+                border-radius: 10px;
+                border-width: 20px;
+                border-color: red;
+            }
+    
+            Display {
+                font-size: 450%;
+                font-weight: bold;
+                padding: 10px
+            }
+    
+            #AnswerInput {
+                text-align: center;
+                width: max-content;
+                border-radius: 7px;
+            }
+    
+            .SubmitButton {
+                background-color: gainsboro;
+                font-size: medium;
+                font-weight: bold;
+                border-bottom-left-radius: 7px;
+                border-bottom-right-radius: 7px;
+            }
+    
+            .SmoothButton {
+                background-color: gainsboro;
+                font-size: medium;
+                font-weight: bold;
+                border-radius: 7px;
+            }
+    
+            .SubmitButton:hover {
+                background-color:lightgrey;
+            }
+        </style>
+    
+        <script>
+            const pageURL = "https://micahb.dev/Hiragana_Teacher/"
+            const promptText = "What is this {c}?";
+            let answerText = "The {at} was {a}"
+    
+            let list, part, character, syllable;
+            async function loadAdditional() {
+                // Get list of character sets from the server and offer it to the user.
+                fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
+                    .then((response) => {
+                        let text = "";
+                        response.lists.forEach(element => {
+                            text += `<option value="${element.ID}">${element.Name}</option>`
+                        });
+                        document.getElementById("Selection").innerHTML = text;
+                    })
+
+                // Make it so that, when the user presses enter on the text box, it goes onto the next question.
+                let inputBox = document.getElementById("AnswerInput");
+                inputBox.addEventListener("keydown", (key) => {
+                    // Check if it's the enter key.
+                    if (key.key == "Enter")
+                        EvaluateAnswer();
+                })
+            }
+    
+            async function LoadSetAndStart() {
+                // Determine the selected list.
+                list = document.getElementById("Selection").value;
+                
+                // Get it from the server.
+                list = await fetchJSON(`${pageURL}Sets/${list}.json`)
+                console.log("Fetched set from server! See below:")
+                console.log(list);
+    
+                // Swap over to the game screen, also prepare prompt and answer texts.
+                document.getElementById("prompt").innerText = promptText.replace("{c}", list.ObjectName)
+                answerText = answerText.replace("{at}", list.AnswerName)
+                ToggleScreen()
+    
+                // Start the game!
+                startGame();
+            }
+    
+            // For now, all it does is choose a random character.
+            async function startGame() {
+                // TODO: Fetch user bias from server.
+    
+                // Wipe the PHAnswerShower.
+                document.getElementById("PHAnswerShower").innerHTML = "";
+    
+                // Select and display a character.
+                SelectAndDisplayACharacter();
+            }
+    
+            function SelectAndDisplayACharacter() {
+                // Select a character.
+                part = SelectCharacter();
+    
+                // Abstract its parts.
+                let parts = JSON.stringify(part).split('"');
+                character = parts[1], syllable = parts[3];
+    
+                // Display the parts.
+                document.getElementById("Display").innerText = character;
+            }
+    
+            function EvaluateAnswer() {
+                // Tell the user if their answer was right or wrong.
+                let UserAnswer = (document.getElementById("AnswerInput").value + "").trim().toLowerCase();
+                
+                // Check if the user's answer matches any of the supplied ones.
+                let right = false;
+                let answers = syllable.trim().toLowerCase().split("/");
+                answers.forEach(a => {
+                    // Save performance by only checking if the answer is correct if a previous answer wasn't correct.
+                        // JS won't let me break from this loop, so this is how I'm doing it.
+                    if (right == false) {
+                        let answer = a.trim();
+                        if (UserAnswer == answer) {
+                            right = true; 
+                        }
+                    }
+                });
+                
+                // Create a human-readable answer by replacing all the slashes with ","
+                    // And the last one with "or"
+                    // But only do this if there's more than one answer...
+                let HRAnswer = syllable;
+                if (syllable.indexOf("/") != -1) {
+                    HRAnswer = syllable.replaceAll("/", ", ");
+                    HRAnswer = HRAnswer.substring(0, HRAnswer.lastIndexOf(", ")) + " or " + HRAnswer.substring(HRAnswer.lastIndexOf(", ") + 1);
+                }
+
+                let text = `[PH] You were ${right ? "right" : "wrong"}!<br>${answerText.replace("{a}", HRAnswer)}`;
+                document.getElementById("PHAnswerShower").innerHTML = text;
+                document.getElementById("AnswerInput").value = "";
+    
+                // Get another character.
+                SelectAndDisplayACharacter();
+            }
+    
+            // Chooses a character to test the user on.
+            // TODO: Implement the learning algorithm.
+            function SelectCharacter() {
+                return list.Set[Math.floor(Math.random() * list.Set.length)];
+            }
+    
+            function ToggleScreen() {
+                document.getElementById("ListSelection").hidden = !document.getElementById("ListSelection").hidden;
+                document.getElementById("game").hidden = !document.getElementById("game").hidden
+            }
+    
+            async function fetchJSON(URL) {
+                return fetch(URL).then((r) => (r.json()));
+            }
+        </script>
+        <title>Hiragana Teacher</title>
+        <meta name="description" content="[PH] A quick app which helps you learn Japanese characters.">
+    </head>
+    <body onload="loadAdditional()">
+        <div class="HCenter">
+            <HoverBox id="active">Home</HoverBox>
+            <HoverBox onclick="location.href= 'About.html'">Other Page</HoverBox>
+        </div>
+    
+        <div id="Home" class="HCenter">
+            <h1>Hiragana Teacher <img class="small" src="https://preview.redd.it/h6w9c5rl0ij71.png?auto=webp&s=4637cd627e00b69e8e573f90a3c4426226ce3887" alt="alpha"> v2.0</h1>
+    
+            <div class="game">
+                <div id="ListSelection">
+                    <h2>Please choose a set to practice.</h2>
+                    <select name="List-selection" id="Selection" class="AnswerInput">
+                        <option value="-1">Loading...</option>
+                    </select>
+                    <br>
+                    <button class="SubmitButton" onclick="LoadSetAndStart()">Start</button>
+                </div>
+                <div id="game" hidden>
+                    <h2 id="prompt">What is this {c}?</h2>
+                    <Display id="Display">ぎゅ</Display>
+                    <br>
+                    <input id="AnswerInput"><br>
+                    <button class="SubmitButton" onclick="EvaluateAnswer()">Submit</button>
+                    <h3 id="PHAnswerShower"></h3>
+                    <br><br>
+                    <button onclick="ToggleScreen()" class="SmoothButton">Back</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

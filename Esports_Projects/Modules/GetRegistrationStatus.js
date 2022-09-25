@@ -5,7 +5,7 @@ const PlayersPath = "Esports_Projects/Players"
     // If there is, the status is "Waiting"
     // If there isn't, check the players folder for a file that is named after the token.
         // If the file exists, the status is "Registered"
-        // If the file doesn't exist the status is "Waiting"
+        // If the file doesn't exist the status is "Error", since this shouldn't occur.
 let token = args.token;
 
 let status;
@@ -13,7 +13,7 @@ if (global.playerCache[token]) status = "Waiting";
 else if (fs.existsSync(`${PlayersPath}/${token}.json`))
 {
     status = "Registered";
-} else status = "Waiting";
+} else status = "Error";
 
 // Send the data back to the client.
 res.statusCode = 200;

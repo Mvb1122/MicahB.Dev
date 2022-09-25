@@ -11,7 +11,7 @@
         <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
         
         <script src="Load_Players.js"></script>
-        <script type="text/javascript">window.onload = LoadPlayers()</script>
+        <script type="text/javascript">window.onload = OnLoad()</script>
     </head>
 
     <body>
@@ -26,6 +26,14 @@
         <main onload="LoadPlayers()">
             <h1 id="Loading_Text">Loading...</h1>
             <h2>You can click the name of each player to view their discord profile.</h2>
+            <label for="games">
+                Select a game below to view the specific players for a game.
+            </label>
+            <br>
+            <select name="games" id="game-selection">
+                <option value="INVALID">Please wait for this to finish loading.</option>
+            </select>
+            <button onclick="LoadPlayersFromGame()">Load Game</button>
             <br>
             <div id="players">
             </div>

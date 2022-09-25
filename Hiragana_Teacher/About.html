@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-16">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>
+            body {
+                background-color:burlywood;
+                font-family: Arial, Helvetica, sans-serif
+            }
+    
+            .HCenter {
+                text-align: center;
+            }
+    
+            HoverBox {
+                background-color: bisque;
+                width: fit-content;
+                padding: 4px;
+                font-size: larger;
+                border-radius: 5px;
+            }
+    
+            HoverBox:hover {
+                background-color: blanchedalmond;
+            }
+    
+            #active {
+                background-color: black;
+                color: azure;
+            }
+        </style>
+        <title>Hiragana Teacher</title>
+        <meta name="description" content="[PH] A quick app which helps you learn Japanese characters.">
+    </head>
+    <body>
+        <div class="HCenter">
+            <HoverBox onclick="location.href= './'">Home</HoverBox>
+            <HoverBox id="active">Other Page</HoverBox>
+        </div>
+        <br>
+        <div class="HCenter">
+            <h1>This is the other page, yup.</h1>
+        </div>
+    </body>
+</html>
