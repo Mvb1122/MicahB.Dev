@@ -20,6 +20,15 @@
                 font-size: larger;
                 border-radius: 5px;
             }
+
+            .game {
+                background-color: antiquewhite;
+                padding: 1%;
+                height: fit-content;
+                border-radius: 10px;
+                border-width: 20px;
+                border-color: red;
+            }
     
             HoverBox:hover {
                 background-color: blanchedalmond;
@@ -36,11 +45,26 @@
     <body>
         <div class="HCenter">
             <HoverBox onclick="location.href= './'">Home</HoverBox>
-            <HoverBox id="active">Other Page</HoverBox>
+            <HoverBox id="active">About</HoverBox>
         </div>
         <br>
         <div class="HCenter">
-            <h1>This is the other page, yup.</h1>
+            <h1>Why does this exist?</h1>
+
+            <div class="game">
+                <br>
+                I got bored and decided to make a tool which helped you memorize characters.
+                <br>
+                Now, that isn't this tool; what happened is that I got bored <i>again</i> and made another version.
+
+                <h2>What was the old version like?</h2>
+                It was basically the same thing, except with in C# on the console-- it was just white text on a black background.
+                <br>
+                If you want to download it, it's avalable <a href="../FTP/Hiragana_Teacher_v1.5.exe">here.</a>
+
+                <h2>Does it work?</h2>
+                Meh, probably.
+            </div>
         </div>
     </body>
 </html>

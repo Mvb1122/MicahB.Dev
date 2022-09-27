@@ -148,6 +148,10 @@ const requestListener = function (req, res) {
                     let mime = getMime(localURL);
                     let s = fs.createReadStream(localURL);
                     res.setHeader("Content-Type", mime);
+
+                    // If this is a JSON request, allow CORS because for some reason it likes to error there.
+                    if (localURL.endsWith(".json")) res.setHeader("Access-Control-Allow-Origin", "*");
+
                     s.on('open', function () {
                         res.setHeader('Content-Type', mime);
                         s.pipe(res);
