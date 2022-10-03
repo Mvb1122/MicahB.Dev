@@ -21,12 +21,22 @@ const mimeTypes = {
 } 
 
 // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
-
 const getMime = (s) => {
     for (const p in mimeTypes) {
         if (s.endsWith(p)) return mimeTypes[p];
     }
     return getMime("txt");
+}
+
+// Implement a simple cache for index.html files, which should recieve more traffic than other files.
+let File_Cache = [];
+function GetFileFromCache(url) {
+    if (File_Cache[url])
+        return File_Cache[url]
+    
+    File_Cache[url] = fs.readFileSync(url)
+    console.log(`File committed to cache! ${url}`);
+    return File_Cache[url];
 }
 
 const requestListener = function (req, res) {
@@ -40,12 +50,15 @@ const requestListener = function (req, res) {
     localURL = unescape(localURL);
 
     // Split off arguments, if they exist.
-    let args;
+    let args = { cache: "true" };
     if (localURL.includes('&')) {
         args = parseQuery(localURL.substring(localURL.indexOf("&")));
         localURL = localURL.substring(0, localURL.indexOf("&"))
     }
 
+    // Also, set the CORS policy so the www domain can also access stuff.
+    res.setHeader("Access-Control-Allow-Origin", "*");
+        
         // GETTING:
     if (req.method === "GET") {
         if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
@@ -66,7 +79,9 @@ const requestListener = function (req, res) {
             // Handle reading index.html files if there's just a slash at the end.
             res.setHeader("Content-Type", "text/html");
             res.writeHead(200);
-            let output = fs.readFileSync(localURL + "index.html");
+            let output;
+            if (args.cache == "false") output = fs.readFileSync(localURL + "index.html");
+            else output = GetFileFromCache(localURL + "index.html");
             res.end(output);
         } else if (req.url === "/favicon.ico") {
             res.setHeader("Content-Type", "image/x-icon");
@@ -132,8 +147,8 @@ const requestListener = function (req, res) {
         // Handle module requests.
         } else if (req.url.includes("/Modules/")) {
             console.log("Modules request for:" + localURL)
-            // Run the specified file, if it exists.
-            if (fs.existsSync(localURL)) {
+            // Run the specified file, if it exists and isn't a directory.
+            if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 let script = fs.readFileSync(localURL).toString();
                 eval(script)
             } else {
@@ -148,9 +163,6 @@ const requestListener = function (req, res) {
                     let mime = getMime(localURL);
                     let s = fs.createReadStream(localURL);
                     res.setHeader("Content-Type", mime);
-
-                    // If this is a JSON request, allow CORS because for some reason it likes to error there.
-                    if (localURL.endsWith(".json")) res.setHeader("Access-Control-Allow-Origin", "*");
 
                     s.on('open', function () {
                         res.setHeader('Content-Type', mime);
@@ -206,7 +218,8 @@ const requestListener = function (req, res) {
             if (fs.existsSync(localURL))
             {    
                 req.on('end', () => {
-                    eval(fs.readFileSync(localURL).toString());
+                    // Because stuff can sometimes get a bit funky, allow post modules to use async/await.
+                    eval("async function f() {" + fs.readFileSync(localURL).toString() + "} f();");
                 })
             }
             else {
@@ -242,3 +255,6 @@ function parseQuery(queryString) {
 // Run ESports setup stuff.
 const global = {};
 eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
+
+// Run Hiragana Teacher stuff.
+eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());

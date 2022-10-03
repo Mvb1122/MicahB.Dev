@@ -1,0 +1,40 @@
+<table>
+    <style>
+        li {
+            font-size: medium;
+            padding-left: -1in;
+        }
+
+        .smoothRight {
+            border-top-left-radius: 7px;
+            border-bottom-left-radius: 7px;
+        }
+
+        .smoothLeft {
+            border-top-right-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+    </style>
+    <th>
+        <h1>What do you get from joining?</h1>
+        <div>
+            <span style="list-style-position: inside; text-align: start;">
+                <ul>
+                    <li>The ability to create lists!</li>
+                    <li>An AI that learns what you're bad at and tests you on it!</li>
+                    <li>Statistics!</li>
+                </ul>
+            </span>
+        </div>
+    </th>
+    <th>
+        <h1>Sign up Here!</h1>
+        <h2>Note that the sign up system is yet to be added and this is a placeholder...</h2>
+        <div SignUp>
+            <input type="text" placeholder="Username" id="SignUpScreenUsername" class="smoothRight"><input type="text" placeholder="Password" id="SignUpScreenPassword" class="smoothLeft">
+            <br>
+            <button onclick="SignUp(document.getElementById(`SignUpScreenUsername`).value, document.getElementById(`SignUpScreenPassword`).value)" class="SubmitButton">Sign Up</button>
+        </div>
+    </th>
+</table>
+<button id="BackButton" onclick="LeaveSignUp()" class="SmoothButton">Back</button>

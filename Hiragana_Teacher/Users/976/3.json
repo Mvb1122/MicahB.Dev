@@ -1,0 +1,40 @@
+{
+    "Chances": [
+        {
+            "Character": "にねんせい",
+            "Chance": 2
+        },
+        {
+            "Character": "ごぜん",
+            "Chance": 2
+        },
+        {
+            "Character": "アジアけんきゅう",
+            "Chance": 2
+        },
+        {
+            "Character": "だいがく",
+            "Chance": 2
+        },
+        {
+            "Character": "アメリカ",
+            "Chance": 2
+        },
+        {
+            "Character": "イギリス",
+            "Chance": 2
+        },
+        {
+            "Character": "だいがくいんせい",
+            "Chance": 2
+        },
+        {
+            "Character": "いちねんせい",
+            "Chance": 2
+        },
+        {
+            "Character": "さんねんせい",
+            "Chance": 2
+        }
+    ]
+}

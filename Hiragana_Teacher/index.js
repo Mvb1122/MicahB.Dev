@@ -2,7 +2,7 @@ const pageURL = "https://micahb.dev/Hiragana_Teacher/"
 let promptText = "";
 let answerText = "";
 
-let list, part, character, syllable, userIsMobile;
+let list, listNumber, part, character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "";
 async function loadAdditional() {
     console.log("Starting initial load!");
     // Determine if the user is using a mobile device.
@@ -28,9 +28,17 @@ async function loadAdditional() {
 
         // Make the instructions change.
         document.getElementById("instructions").innerText = "Please use the dropdown below to select a set and then click the button to start."
+
+        // Hide the Login pane.
+        const loginPane = document.getElementById("Login").style;
+        loginPane.display = "none"
+        loginPane.height = "0px";
+
+        // Hide the "Create a Set" button
+        document.getElementById("CreateASetButton").style.visibility = "hidden";
     }
 
-
+    currentPage = "ListSelection";
     
     // Get list of character sets from the server and offer it to the user.
     fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
@@ -69,24 +77,80 @@ async function loadAdditional() {
     return true;
 }
 
-let chances; const DEFAULT_CHANCE = 3;
+async function GoToSignUp() {
+    // Dynamically load in the sign up information.
+    await loadToInnerHTML('./SignUp.html', "SignUpPane");
+    await loadScriptToChildOf(`SignUpPane`, `./SignUp.js`);
+
+    // Move the user to the Sign up screen.
+    document.getElementById("SignUpPane").style.display = "block"
+    document.getElementById("ListSelection").style.display = "none"
+    document.getElementById("game").style.display = "none"
+
+    // Hide the existing login pane.
+    document.getElementById("Login").style.display = "none";
+}
+
+function LeaveSignUp() {
+    document.getElementById("SignUpPane").style.display = "none";
+    document.getElementById("ListSelection").style.removeProperty("display");
+    document.getElementById("game").style.removeProperty("display");
+    document.getElementById("Login").style.display = "block";
+}
+
+async function loadScriptToChildOf(parent, url) {
+    let script = document.createElement("script");
+    script.src = url;
+    document.getElementById(parent).appendChild(script);
+}
+
+async function loadToInnerHTML(url, elementId) {
+    // Fetch the HTML from the server.
+    return fetch(url)
+        .then(response => response.text())
+        .then(response => document.getElementById(elementId).innerHTML = response);
+}
 
 function load(setID) {
+    currentPage = "game"
     list = setID;
     LoadSetAndStart();
 }
 
+let chances; const DEFAULT_CHANCE = 3;
 async function LoadSetAndStart() {
     // Get the list from the server.
+    listNumber = list;
     list = await fetchJSON(`${pageURL}Sets/${list}.json`)
     console.log("Fetched set from server! See below:")
     console.log(list);
 
     // Create the chances list.
-        // TODO: Pull down the user's saved chances from the server and use those if they exist.
+        // Download saved progress from the server.
+    let existing_data = {};
+    if (login_token != -1) {
+        existing_data = (await postJSON(`${pageURL}/Post_Modules/GetProgress.js&cache=false`, {
+            "login_token": login_token,
+            "set": listNumber
+        })).Chances
+    }
+
+        // Create filler data.
     for (let i = 0; i < list.Set.length; i++) {
         list.Set[i].chance = DEFAULT_CHANCE;
     }
+        // Overwrite the filler data with what progress there is.
+    for (let characterData in existing_data) {
+        characterData = existing_data[characterData]
+        for (let i = 0; i < list.Set.length; i++) {
+            let listParts = Object.keys(list.Set[i])
+            if (listParts[0] == characterData.Character)
+                list.Set[i].chance = characterData.Chance
+        }
+    }
+
+    console.log("Final composited set:")
+    console.log(list.Set)
         
     // Swap over to the game screen, also prepare prompt and answer texts.
     answerText = "The {at} was {a}"; promptText = "What is this {c}?"
@@ -96,6 +160,43 @@ async function LoadSetAndStart() {
 
     // Start the game!
     startGame();
+
+    // Start the loop that checks if there's data that needs to be sent and sends it, but only if we're logged on.
+    if (login_token != -1)
+        SendChangesToTheServer();
+}
+
+let ChangeCache = [], gameEndedSinceLastLoop;
+async function SendChangesToTheServer() {
+    // Push data to the server once every two seconds.
+    setTimeout(() => {
+        // Only push data if there's data to be pushed.
+            if (ChangeCache.length > 0) {
+                // Reforge the ChangeCache into the form that we need to send to the server.
+            let t1 = [];
+            ChangeCache.forEach(change => {
+                let keys = Object.keys(change);
+                t1.push({
+                    "Character": keys[0],
+                    "Chance": change.chance
+                });
+            });
+
+            let changes = {
+                "login_token": login_token,
+                "set": listNumber,
+                "changes": t1
+            }
+
+            // Send the data to the server.
+            postJSON(`${pageURL}/Post_Modules/UpdateProgress.js&cache=false`, changes);
+            ChangeCache = [];
+        }
+        
+        // Stop the loop if the game has ended.
+        if (!gameEndedSinceLastLoop)
+            SendChangesToTheServer();
+    }, 2000)
 }
 
 // Start up the game loop by selecting a character to use. 
@@ -113,6 +214,7 @@ function GetChance() {
 
 function DecrementChance(ammount) {
     part.chance -= ammount;
+    ChangeCache.push(part);
 }
 
 function IncrementChance(ammount) {
@@ -206,10 +308,66 @@ function SelectCharacter() {
 }
 
 function ToggleScreen() {
-    document.getElementById("ListSelection").hidden = !document.getElementById("ListSelection").hidden;
-    document.getElementById("game").hidden = !document.getElementById("game").hidden
+    let ListSelection, game;
+
+    // Ascertain whether we're ending the game or not, and feed that into the loop that sends info to the server.
+        // (Basically, just stop the loop if we're leaving, since it saves resources.)
+    let leavingGame = !document.getElementById("game").hidden;
+    gameEndedSinceLastLoop = leavingGame;
+
+    (ListSelection = document.getElementById("ListSelection")).hidden = !document.getElementById("ListSelection").hidden;
+    ListSelection.style.removeProperty("display");
+    (game = document.getElementById("game")).hidden = leavingGame;
+    game.style.removeProperty("display");
 }
+
 
 async function fetchJSON(URL) {
     return fetch(URL).then((r) => (r.json()));
+}
+
+async function postJSON(URL, data) {
+    return fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((res) => res.json());
+}
+
+const loginPrompt = "Logged in as {X}!"
+async function updateLoginPane(IsPasswordCorrect) {
+    // Make sure that the login pane is visible, but hide the normal login display and show the "Logged in as {X}!" one.
+    console.log("Login token: " + login_token);
+    document.getElementById("Login").style.display = "block";
+    document.getElementById("NotLoggedInPane").style.display = "none"
+    let loginPane; 
+    (loginPane = document.getElementById("LoggedInPane")).style.display = "block";
+
+    if (IsPasswordCorrect)
+        loginPane.innerHTML = loginPrompt.replace("{X}", Login_Username)
+    else {
+        loginPane.innerHTML = "Incorrect password!"
+        setTimeout(() => {
+            loginPane.style.display = "none";
+            document.getElementById("NotLoggedInPane").style.display = "block"
+        }, 500)
+    }
+}
+
+async function LoginAs(username, password) {
+    // Get a login token from the server.
+    let data = {
+        "username": username,
+        "password": password
+    }
+    let token = (await postJSON(`${pageURL}/Post_Modules/GetLoginToken.js&cache=false`, data)).token;
+    
+    // Check if the token was valid and take the correct actions if it was, tell the user they were wrong, otherwise.
+    if (token != -1) {
+        login_token = token;
+        Login_Username = data.username;
+        updateLoginPane(true);
+    } else {
+        updateLoginPane(false);
+    }
 }
