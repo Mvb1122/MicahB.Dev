@@ -163,3 +163,20 @@ div.Login > input[left] {
     margin-inline-end: 0px;
     font-weight: bold;
 }
+
+/* I only did a little yoinky sploinky (take code) for this animation to work... */
+.Spin {
+    animation-name: spin;
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

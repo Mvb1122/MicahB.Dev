@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <meta charset="utf-8">
-
     <head>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <script src="./index.js"></script>
         <link rel="stylesheet" href="index.css">
@@ -46,7 +45,7 @@
 
         <div id="Login">
             <div id="NotLoggedInPane" class="Login">
-                <input type="text" id="username" placeholder="Username" style="width: 200px" left><input type="text" id="password" placeholder="Password" style="width: 200px" right>
+                <input type="text" id="username" placeholder="Username" style="width: 200px" left><input type="password" id="password" placeholder="Password" style="width: 200px" right>
                 <br>
                 <button onclick="LoginAs(document.getElementById(`username`).value, document.getElementById(`password`).value)" class="SmoothButton" left style="width: 200px">Login</button><button onclick="GoToSignUp()" class="SmoothButton" right style="width: 200px">Need to sign up?</button>
             </div>
@@ -69,8 +68,8 @@
                     <button id="StartButton" class="SubmitButton" onclick="load(document.getElementById(`Selection`).value)">Start</button>
                 </div>
 
-                <div id="CreateASetButton" style="display: flex; justify-content: flex-end">
-                    <button class="SmoothButton" style="right: 7px;">Create A Set</button>
+                <div id="CreateASetButton" style="display: flex;; justify-content: flex-end">
+                    <button class="SmoothButton" style="right: 7px;" onclick="ToggleSetDisplay()">Create A Set</button>
                 </div>
 
                 <div id="sets">
@@ -81,10 +80,13 @@
                                     <h1>Name</h1>
                                     <h2>Length</h2>
                                 </th>
+                                <th><h2>Author: {a}</h2></th>
                                 <th><img src="./Practice Button.svg" alt="Click this to start practicing {x}" class="PracticeButton" onclick="load({s})"></th>
                             </tr>
                         </table>
                     </div>
+
+                    <img src="../FTP/Site_Media/Logo/Logo_Square.svg" alt="" style="height: 4em" class="Spin">
                 </div>
             </div>
 
@@ -100,7 +102,8 @@
             </div>
 
             <div id="SignUpPane" class="game" style="display: none;"></div>
-            <div id="SetCreationPane" class="game" style="display: none"></div>
         </div>
+
+        <div id="SetCreationPane" class="HCenter" hidden></div>
     </body>
 </html>

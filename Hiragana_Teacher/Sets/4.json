@@ -2,6 +2,7 @@
     "Name": "US States and Capitals (Temp)",
     "ObjectName": "state's capital",
     "AnswerName": "capital",
+    "Author": "976",
     "Set": [
         {"Alabama": "Montgomery"},
         {"Alaska": "Juneau"},

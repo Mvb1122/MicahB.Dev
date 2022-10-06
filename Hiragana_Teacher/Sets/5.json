@@ -2,6 +2,7 @@
     "Name": "Katakana/カタカナ",
     "ObjectName": "character",
     "AnswerName": "syllable",
+    "Author": "976",
     "Set": [
         {"ア": "a"},
         {"イ": "i"},

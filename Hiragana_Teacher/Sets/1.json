@@ -2,6 +2,7 @@
     "Name": "Hiragana/ひらがな",
     "ObjectName": "character",
     "AnswerName": "syllable",
+    "Author": "976",
     "Set": [
         {"あ": "a"},
         {"い": "i"},

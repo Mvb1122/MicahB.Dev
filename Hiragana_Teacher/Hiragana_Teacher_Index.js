@@ -36,6 +36,7 @@ function TokenToUserID(token) {
 }
 
 function InvalidateToken(token) {
+    console.log(`Invalidated token ${token}.`)
     _Tokens[token.toString()] = null;
 }
 

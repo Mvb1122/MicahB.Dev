@@ -42,13 +42,17 @@ async function loadAdditional() {
     
     // Get list of character sets from the server and offer it to the user.
     fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
-        .then((response) => {
+        .then(async (response) => {
             let example = document.getElementById("Set_Example").outerHTML.replace("hidden", "").toString();
             
             // Simultaineously set up the desktop and mobile UI.
                 // TODO: make it so it only does one :/
             let all, text = all = "";
-            response.lists.forEach((element) => {
+
+            for (let i = 0; i < response.lists.length; i++) {
+                let element = response.lists[i];
+                let authorName = await authorIDToName(element.author)
+                    
                 text += `<option value="${element.ID}">${element.Name}</option>`
 
                 // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
@@ -56,15 +60,19 @@ async function loadAdditional() {
                     element.ObjectName = element.ObjectName.replace("'s", "");
 
                 // Assemble the string around it.
-                all = all + example.replace("Name", element.Name).replace("Length", element.length + " " + element.ObjectName + "s")
-                    .replace("{s}", element.ID);
-            });
-            
+                all = all + example
+                    .replace("Name", element.Name)
+                    .replace("Length", element.length + " " + element.ObjectName + "s")
+                    .replace("{s}", element.ID)
+                    .replace("{a}", authorName);
+            }
+
             document.getElementById("Selection").innerHTML = text;
             document.getElementById("sets").innerHTML = all;
             if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
             else document.getElementById("MobileSelection").style.visibility = "visible";
         })
+    
 
     // Make it so that, when the user presses enter on the text box, it goes onto the next question.
     let inputBox = document.getElementById("AnswerInput");
@@ -73,6 +81,11 @@ async function loadAdditional() {
         if (key.key == "Enter")
             EvaluateAnswer();
     })
+
+    // Make it so that the user's login token is invalidated when they leave the page.
+    window.onbeforeunload = (event) => {
+        postJSON(`${pageURL}/Post_Modules/InvalidateToken.js&cache=false`, { token: login_token });
+    };
 
     return true;
 }
@@ -87,8 +100,36 @@ async function GoToSignUp() {
     document.getElementById("ListSelection").style.display = "none"
     document.getElementById("game").style.display = "none"
 
-    // Hide the existing login pane.
+    // Hide the existing login pane. 
     document.getElementById("Login").style.display = "none";
+}
+
+let authorNameCache = { test: null };
+async function authorIDToName(id) {
+    if (AuthorIsInCache(id))
+        return authorNameCache[id];
+
+    if (authorNameCache[id] == null) {
+        await AddAuthorToCache(id);
+    }
+    return authorNameCache[id];
+}
+
+async function AddAuthorToCache(id) {
+    console.log(`Adding ${id} to cache!`)
+    authorNameCache[id] = (await fetchJSON(`${pageURL}/Modules/GetAuthorName.js&author=${id}`)).name
+    console.log(`${id} is ${authorNameCache[id]}!`)
+    return authorNameCache[id];
+}
+
+function AuthorIsInCache(id) {
+    let cache = Object.keys(authorNameCache);
+    for (let author in cache) {
+        if (cache[author] == id)
+            return true;
+    }
+
+    return false;
 }
 
 function LeaveSignUp() {
@@ -217,9 +258,7 @@ function DecrementChance(ammount) {
     ChangeCache.push(part);
 }
 
-function IncrementChance(ammount) {
-    return DecrementChance(-ammount);
-}
+function IncrementChance(ammount) { return DecrementChance(-ammount); }
 
 function GetMaxChanceIndex()
 {
@@ -370,4 +409,16 @@ async function LoginAs(username, password) {
     } else {
         updateLoginPane(false);
     }
+}
+
+function ToggleSetDisplay() {
+    // If the set display is empty, download the content that should be in there and load it. 
+    if (document.getElementById("SetCreationPane").innerHTML.length == 0) {
+        loadToInnerHTML("./CreateSet.html", "SetCreationPane")
+            .then(() => loadScriptToChildOf("SetCreationPane", "./CreateSet.js"));
+    }
+
+    // Toggle the set display.
+    document.getElementById("Home").hidden = !document.getElementById("Home").hidden;
+    document.getElementById("SetCreationPane").hidden = !document.getElementById("SetCreationPane").hidden;
 }

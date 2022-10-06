@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="Free scans of the American Journey that I made and you can download!">
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../topnav.css">
+        <title>The American Journey Third Edition PDFs</title>
+
+        <script>
+            async function getChapters() {
+                // Request a list of chapters from the server.
+                let list = await (fetch("./Modules/GetAmericanJourneyChapters.js&cache=false").then(res => {return res.json()}));
+
+                // Create add links to each of them to the page.
+                content = "";
+                list.files.forEach(link => {
+                    content += `<a href="../FTP/${link}">${link.replaceAll("_", " ")}</a><br>`
+                });
+                document.getElementById("ChapterList").innerHTML = content;
+                console.log(content);
+            }
+        </script>
+    </head>
+    <body onload="getChapters()">
+        <div class="topnav">
+            <a href="../index.html">Home</a>
+            <a class="active" href="Projects.html">Projects</a>
+            <a href="https://micahb.dev/down">Down Detector</a>
+            <a href="http://lchsminecraft.tk:81/">HTagger (May be Down)</a>
+        </div>
+
+        <div id="main" scrolling="no">
+            <div class="main">
+                <h1>Free scans of the American Journey, Third Edition here!</h1>
+                <h2>I got bored and scanned a bunch of chapters from the textbook, since I needed a PDF for school.</h2>
+                You can download them here, I guess.
+                <div id="ChapterList">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
