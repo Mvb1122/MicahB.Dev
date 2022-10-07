@@ -1,0 +1,38 @@
+{
+    "Name": "Times (o'clock) 1-10",
+    "ObjectName": "time",
+    "AnswerName": "translation",
+    "Set": [
+        {
+            "いちじ": "1 o'clock/1/one o'clock/one"
+        },
+        {
+            "にじ": "2 o'clock/2/two o'clock/two"
+        },
+        {
+            "さんじ": "3 o'clock/3/three o'clock/three"
+        },
+        {
+            "よじ": "4 o'clock/4/four o'clock/four"
+        },
+        {
+            "ごじ": "5 o'clock/5/five o'clock/five"
+        },
+        {
+            "ろくじ": "6 o'clock/6/six o'clock/six"
+        },
+        {
+            "しちじ": "7 o'clock/7/seven o'clock/seven"
+        },
+        {
+            "はちじ": "8 o'clock/8/eight o'clock/eight"
+        },
+        {
+            "くじ": "9 o'clock/9/nine o'clock/nine"
+        },
+        {
+            "じゅうじ": "10 o'clock/10/ten o'clock/ten"
+        }
+    ],
+    "Author": "976"
+}

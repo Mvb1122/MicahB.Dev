@@ -9,6 +9,8 @@ const fs = require('fs');
         "Set": [
             {"various entries": "various answers"}
         ]
+
+        "Author": ADDED IN POST FROM LOGIN_TOKEN
     }
 }
 */
@@ -39,7 +41,7 @@ let response = {
 }
 
 // Add the author's name to the set.
-GivenData.author = userID;
+GivenData.Set.Author = userID;
 
 fs.writeFile(`${setPath}/${setNumber}.json`, JSON.stringify(GivenData.Set), (err) => {
     if (err) response.sucessful = err;

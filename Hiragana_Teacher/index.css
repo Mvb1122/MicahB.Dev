@@ -24,9 +24,9 @@ HoverBox:hover {
     color: azure;
 }
 
-.small {
+.InlineImage {
     width: auto;
-    height: 30px;
+    height: 1em;
 }
 
 .medium {

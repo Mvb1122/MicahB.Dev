@@ -38,43 +38,45 @@
     }
 </style>
 <script src="./CreateSet.js"></script>
-<div class="HCenter" style="padding-top: 3%;">
-    <div class="game">
-        <div id="SetMaker" class="Login_Center">
-            <h2>Enter the name of your set:</h2>
-            <input id="SetName" type="text" placeholder="Hiragana">
-            <br><br>
-            <table CreateSet>
-                <thead>
-                    <tr>
-                        <th>The <input id="ObjectName" type="text" placeholder="Character"><br>(What you want to call what you're matching.)</th>
-                        <th>The <input type="text" id="AnswerName" placeholder="Syllable"><br>(What you call the answers.)</th>
-                    </tr>
-                </thead>
-                <tbody id="Links">
-                    <tr id="line_0">
-                        <td><input type="text" id="input_0" placeholder="あ"></td>
-                        <td><input type="text" id="answer_0" placeholder="a"></td>
-                        <td><img src="./Remove Button.svg" alt="Hitting this button removes the line." style="height: 1em; vertical-align: middle;" onclick="Remove_Line(`line_0`)"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <img src="./Plus Button.svg" style="height: 2em;" onclick="Add_Line()">
-            <br>
-            <button onclick="SubmitSet()" class="SmoothButton">Submit!</button>
-        </div>
+<div style="padding-top: 3%;">
+    <div class="HCenter">
+        <div class="game">
+            <div id="SetMaker" class="Login_Center">
+                <h2>Enter the name of your set:</h2>
+                <input id="SetName" type="text" placeholder="Hiragana">
+                <br><br>
+                <table CreateSet>
+                    <thead>
+                        <tr>
+                            <th>The <input id="ObjectName" type="text" placeholder="Character"><br>(What you want to call what you're matching.)</th>
+                            <th>The <input type="text" id="AnswerName" placeholder="Syllable"><br>(What you call the answers.)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Links">
+                        <tr id="line_0">
+                            <td><input type="text" id="input_0" placeholder="あ"></td>
+                            <td><input type="text" id="answer_0" placeholder="a"></td>
+                            <td><img src="./Remove Button.svg" alt="Hitting this button removes the line." style="height: 1em; vertical-align: middle;" onclick="Remove_Line(`line_0`)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <img src="./Plus Button.svg" style="height: 2em;" onclick="Add_Line()">
+                <br>
+                <button onclick="SubmitSet()" class="SmoothButton">Submit!</button>
+            </div>
+        
+            <div id="SetLoadingScreen" class="Center" hidden>
+                <img src="../FTP/Site_Media/Logo/Logo_Square.svg" alt="Your set is processing..." style="height: 4em;" class="Spin">
+                <br>
+                Processing...
+            </div>
     
-        <div id="SetLoadingScreen" class="Center" hidden>
-            <img src="../FTP/Site_Media/Logo/Logo_Square.svg" alt="Your set is processing..." style="height: 4em;" class="Spin">
-            <br>
-            Processing...
+            <div id="SetLoadedScreen" class="Center" hidden>
+                <h1>Set uploaded! It should be visible now.</h1>
+            </div>
+    
+            <button onclick="ToggleSetDisplay()" class="SmoothButton">Back</button>
         </div>
-
-        <div id="SetLoadedScreen" class="Center" hidden>
-            <h1>Set uploaded! It should be visible now.</h1>
-        </div>
-
-        <button onclick="ToggleSetDisplay()" class="SmoothButton">Back</button>
     </div>
 </div>
 

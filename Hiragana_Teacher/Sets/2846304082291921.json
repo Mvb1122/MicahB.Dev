@@ -1,0 +1,38 @@
+{
+    "Name": "Numbers 1-10",
+    "ObjectName": "number",
+    "AnswerName": "translation",
+    "Author": "976",
+    "Set": [
+        {
+            "いち": "1/one"
+        },
+        {
+            "に": "2/two"
+        },
+        {
+            "さん": "3/three"
+        },
+        {
+            "よん": "4/four"
+        },
+        {
+            "ご": "5/five"
+        },
+        {
+            "ろく": "6/six"
+        },
+        {
+            "なな": "7/seven"
+        },
+        {
+            "はち": "8/eight"
+        },
+        {
+            "きゅう": "9/nine"
+        },
+        {
+            "じゅう": "10/ten"
+        }
+    ]
+}
