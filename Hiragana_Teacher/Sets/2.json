@@ -3,6 +3,7 @@
     "ObjectName": "word",
     "AnswerName": "translation",
     "Author": "976",
+    "Visibility": "public",
     "Set": [
         {"え": "picture"},
         {"おかし": "confectionary"},

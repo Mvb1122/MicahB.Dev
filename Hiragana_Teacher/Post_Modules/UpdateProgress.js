@@ -18,7 +18,6 @@ const fs = require('fs')
 
 // Get the user's info and figure out where to write changes.
 let postInfo = JSON.parse(data);
-console.log(data);
 let userID = await TokenToUserID(postInfo.login_token);
 console.log(`Token: ${postInfo.login_token} userID: ${userID}`);
 if (userID != undefined) {

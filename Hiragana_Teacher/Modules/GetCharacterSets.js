@@ -4,7 +4,8 @@ const SetsDir = "Hiragana_Teacher/Sets/";
 let lists = [];
 fs.readdirSync(SetsDir).forEach((file) => {
     fileJSON = JSON.parse(fs.readFileSync(SetsDir + file));
-    lists.push({ "Name": fileJSON.Name, "ID": file.substring(0, file.length - 5), "length": fileJSON.Set.length, "ObjectName": fileJSON.ObjectName, "author": fileJSON.Author});
+    if (fileJSON.Visibility == "public")
+        lists.push({ "Name": fileJSON.Name, "ID": file.substring(0, file.length - 5), "length": fileJSON.Set.length, "ObjectName": fileJSON.ObjectName, "author": fileJSON.Author});
 })
 
 res.statusCode = 200;

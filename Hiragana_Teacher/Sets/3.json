@@ -3,6 +3,7 @@
     "ObjectName": "word",
     "AnswerName": "translation",
     "Author": "976",
+    "Visibility": "public",
     "Set": [
         {"アジアけんきゅう": "Asian Studies"},
         {"アメリカ": "America/the United States"},

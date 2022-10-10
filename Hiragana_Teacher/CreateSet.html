@@ -44,6 +44,10 @@
             <div id="SetMaker" class="Login_Center">
                 <h2>Enter the name of your set:</h2>
                 <input id="SetName" type="text" placeholder="Hiragana">
+                <select id="PublicPrivateSelector">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
                 <br><br>
                 <table CreateSet>
                     <thead>
@@ -56,13 +60,15 @@
                         <tr id="line_0">
                             <td><input type="text" id="input_0" placeholder="あ"></td>
                             <td><input type="text" id="answer_0" placeholder="a"></td>
-                            <td><img src="./Remove Button.svg" alt="Hitting this button removes the line." style="height: 1em; vertical-align: middle;" onclick="Remove_Line(`line_0`)"></td>
+                            <td><img id="remove_0" src="./Remove Button.svg" alt="Hitting this button removes the line." style="height: 1em; vertical-align: middle;" onclick="Remove_Line(`line_0`)"></td>
                         </tr>
                     </tbody>
                 </table>
                 <img src="./Plus Button.svg" style="height: 2em;" onclick="Add_Line()">
                 <br>
-                <button onclick="SubmitSet()" class="SmoothButton">Submit!</button>
+                <button id="CreateSetButton" onclick="SubmitSet()" class="SmoothButton">Submit!</button>
+                <br>
+                <button id="DeleteSetButton" onclick="DeleteSet()" class="SmoothButton" hidden>Delete this set!</button>
             </div>
         
             <div id="SetLoadingScreen" class="Center" hidden>

@@ -3,6 +3,7 @@
     "ObjectName": "number",
     "AnswerName": "translation",
     "Author": "976",
+    "Visibility": "public",
     "Set": [
         {
             "いち": "1/one"

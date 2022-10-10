@@ -1,6 +1,9 @@
-let rows = {};
+let rows = {}, SetCreationMode = "Create";
 rows["line_0"] = document.getElementById("line_0");
 let template_innerHTML = document.getElementById("line_0").innerHTML;
+console.log("Set Creation Loaded!")
+
+let EditSetID = -1;
 
 function Add_Line() {
     // Figure out what row number this is, by incrementing the number at the end of the last one's ID.
@@ -19,21 +22,45 @@ function Add_Line() {
     rows[template.id] = template;
     template.parentNode = document.getElementById("Links");
     document.getElementById("Links").appendChild(template)
+
+    return name;
+}
+
+function ClearRows() {
+    // Go through each row and remove it.
+    for (let row in rows) {
+        let rowNum = row.substring(row.indexOf("_") + 1);
+        document.getElementById(`remove_${rowNum}`).onclick();
+    }
+}
+
+// Creats a line and sets its value.
+function Add_Line_With_Values(object, answer) {
+    let lineNum = Add_Line();
+    lineNum = lineNum.substring(lineNum.indexOf('_') + 1)
+
+    document.getElementById(`input_${lineNum}`).value = object;
+    document.getElementById(`answer_${lineNum}`).value = answer;
 }
 
 function Remove_Line(line) {
-    // If this isn't the only row, remove it.
-    if (Object.keys(rows).length == 1) return;
-    document.getElementById("Links").removeChild(rows[line])
+    // If this is the only row, wipe its inputs, otherwise, just delete it.
+    if (Object.keys(rows).length == 1) {
+        let lineNum = line.substring(line.indexOf('_') + 1)
+        document.getElementById(`input_${lineNum}`).value = "";
+        document.getElementById(`answer_${lineNum}`).value = "";
+    } else {
+        document.getElementById("Links").removeChild(rows[line])
 
-    // Remove the row from the rows array.
-    for (const row in rows) {
-        console.log(row)
-        if (rows[row].id == line)
-            {
-                delete rows[row];
-                break;
-            }
+        // Remove the row from the rows array.
+        for (const row in rows) {
+            console.log(row)
+            if (rows[row].id == line)
+                {
+                    delete rows[row];
+                    break;
+                }
+        }
     }
 }
 
@@ -47,22 +74,28 @@ async function SubmitSet() {
         "Name": document.getElementById("SetName").value,
         "ObjectName": document.getElementById("ObjectName").value,
         "AnswerName": document.getElementById("AnswerName").value,
-        "Set": getSetData()
+        "Set": getSetData(),
+        "Visibility": document.getElementById("PublicPrivateSelector").value
     }
 
     let data = {
         "login_token": login_token,
         "Set": setData
     }
+
+    if (SetCreationMode != "Create")
+        setData.ID = EditSetID;
     
 
     // Send it to the server, but only if we're logged in.
-    if (login_token != -1)
-        postJSON("./Post_Modules/CreateList.js", data)
-        .then(() => {
-            document.getElementById("SetLoadingScreen").hidden = true;
-            document.getElementById("SetLoadedScreen").hidden = false;
-        });
+    if (login_token != -1) {
+        let CreationMode = SetCreationMode == "Create" ? "CreateList.js": "UpdateList.js";
+        postJSON(`./Post_Modules/${CreationMode}`, data)
+            .then(() => {
+                document.getElementById("SetLoadingScreen").hidden = true;
+                document.getElementById("SetLoadedScreen").hidden = false;
+            });
+    }
 }
 
 function getSetData() {
@@ -71,10 +104,21 @@ function getSetData() {
     Object.keys(rows).forEach(row => {
         let rowNum = row.split("_")
         rowNum = Number.parseInt(rowNum[rowNum.length - 1]);
-        console.log(rowNum);
         let rowData = {};
         rowData[document.getElementById(`input_${rowNum}`).value] = document.getElementById(`answer_${rowNum}`).value
         data.push(rowData);
     });
     return data;
+}
+
+function DeleteSet() {
+    if (SetCreationMode != "Create" && EditSetID != -1) {
+        // Delete the set and return back to the main menu.
+        postJSON("./Post_Modules/DeleteList.js", {
+            "token": login_token,
+            "Set": EditSetID
+        });
+        ToggleSetDisplay();
+        ClearRows();
+    }
 }

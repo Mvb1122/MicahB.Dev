@@ -3,6 +3,7 @@
     "ObjectName": "character",
     "AnswerName": "syllable",
     "Author": "976",
+    "Visibility": "public",
     "Set": [
         {"ア": "a"},
         {"イ": "i"},

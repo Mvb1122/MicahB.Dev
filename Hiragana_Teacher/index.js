@@ -2,7 +2,7 @@ const pageURL = "https://micahb.dev/Hiragana_Teacher/"
 let promptText = "";
 let answerText = "";
 
-let list, listNumber, part, character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "";
+let list, listNumber, part, character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "", SetInformation, exampleSetDisplay;
 async function loadAdditional() {
     console.log("Starting initial load!");
     // Determine if the user is using a mobile device.
@@ -41,37 +41,8 @@ async function loadAdditional() {
     currentPage = "ListSelection";
     
     // Get list of character sets from the server and offer it to the user.
-    fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
-        .then(async (response) => {
-            let example = document.getElementById("Set_Example").outerHTML.replace("hidden", "").toString();
-            
-            // Simultaineously set up the desktop and mobile UI.
-                // TODO: make it so it only does one :/
-            let all, text = all = "";
-
-            for (let i = 0; i < response.lists.length; i++) {
-                let element = response.lists[i];
-                let authorName = await authorIDToName(element.author)
-                    
-                text += `<option value="${element.ID}">${element.Name}</option>`
-
-                // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
-                if (element.ObjectName.includes("'s"))
-                    element.ObjectName = element.ObjectName.replace("'s", "");
-
-                // Assemble the string around it.
-                all = all + example
-                    .replace("Name", element.Name)
-                    .replace("Length", element.length + " " + element.ObjectName + "s")
-                    .replace("{s}", element.ID)
-                    .replace("{a}", authorName);
-            }
-
-            document.getElementById("Selection").innerHTML = text;
-            document.getElementById("sets").innerHTML = all;
-            if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
-            else document.getElementById("MobileSelection").style.visibility = "visible";
-        })
+    AddPublicSets();
+    exampleSetDisplay = document.getElementById("Set_Example").outerHTML.replace("hidden", "").toString();
     
 
     // Make it so that, when the user presses enter on the text box, it goes onto the next question.
@@ -382,9 +353,11 @@ async function updateLoginPane(IsPasswordCorrect) {
     let loginPane; 
     (loginPane = document.getElementById("LoggedInPane")).style.display = "block";
 
-    if (IsPasswordCorrect)
+    if (IsPasswordCorrect) {
+        // Update the username and set displays if the password was right.
         loginPane.innerHTML = loginPrompt.replace("{X}", Login_Username)
-    else {
+        UpdateVisibleSets();
+    } else {
         loginPane.innerHTML = "Incorrect password!"
         setTimeout(() => {
             loginPane.style.display = "none";
@@ -393,13 +366,108 @@ async function updateLoginPane(IsPasswordCorrect) {
     }
 }
 
+async function UpdateVisibleSets() {
+    await AddPublicSets();
+    await AddPrivateSets();
+    ShowEditableSets()
+}
+
+async function AddPublicSets() {
+    fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
+        .then(async (response) => {
+            SetInformation = response.lists;
+            
+            // Set up the desktop and mobile UI.
+            let all, text = all = "";
+
+            for (let i = 0; i < response.lists.length; i++) {
+                let element = response.lists[i];
+
+                // If the user's on a mobile device, only process the stuff for their dropdown.
+                if (userIsMobile) {
+                    text += `<option value="${element.ID}">${element.Name}</option>`
+                    continue;
+                }
+
+                let authorName = await authorIDToName(element.author)
+
+                // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
+                if (element.ObjectName.includes("'s"))
+                    element.ObjectName = element.ObjectName.replace("'s", "");
+
+                // Assemble the string around it.
+                all = all + exampleSetDisplay
+                    .replace("Name", element.Name)
+                    .replace("Length", element.length + " " + element.ObjectName + "s")
+                    .replaceAll("{s}", element.ID)
+                    .replace("Set_Example", `Set_${element.ID}`)
+                    .replace("{a}", authorName);
+            }
+
+            document.getElementById("Selection").innerHTML = text;
+            document.getElementById("sets").innerHTML = all;
+            if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
+            else document.getElementById("MobileSelection").style.visibility = "visible";
+        })
+}
+
+async function AddPrivateSets() {
+    return new Promise((res) => {
+        // Get list of character sets from the server and offer it to the user, but only in the desktop sort of way.
+        postJSON(pageURL + "Post_Modules/GetPrivateSets.js&cache=false", { token: login_token })
+            .then(async (response) => {
+                // Set up the desktop UI.
+                let all = "";
+
+                for (let i = 0; i < response.sets.length; i++) {
+                    let element = response.sets[i];
+
+                    // Append this response to the SetInformation.
+                    SetInformation.push(element);
+
+                    let authorName = await authorIDToName(element.author)
+
+                    // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
+                    if (element.ObjectName.includes("'s"))
+                        element.ObjectName = element.ObjectName.replace("'s", "");
+
+                    // Assemble the string around it.
+                    all = all + exampleSetDisplay
+                        .replace("Name", element.Name)
+                        .replace("Length", element.length + " " + element.ObjectName + "s")
+                        .replaceAll("{s}", element.ID)
+                        .replace("Set_Example", `Set_${element.ID}`)
+                        .replace("{a}", authorName);
+                }
+
+                document.getElementById("sets").innerHTML = all + document.getElementById("sets").innerHTML;
+                if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
+                else document.getElementById("MobileSelection").style.visibility = "visible";
+                res(true);
+            })
+        })
+}
+
+function ShowEditableSets() {
+    // Using saved set information, decide which sets should be shown.
+    SetInformation.forEach(element => {
+        if (Login_Username != null) {
+            let authorName = document.getElementById(`Author_${element.ID}`).innerHTML;
+            authorName = authorName.substring(authorName.indexOf(":") + 1).trim();
+            if (authorName == Login_Username) {
+                document.getElementById(`EditButton_${element.ID}`).hidden = false;
+            }
+        } else document.getElementById(`EditButton_${element.ID}`).hidden = true;
+    });
+}
+
 async function LoginAs(username, password) {
     // Get a login token from the server.
     let data = {
         "username": username,
         "password": password
     }
-    let token = (await postJSON(`${pageURL}/Post_Modules/GetLoginToken.js&cache=false`, data)).token;
+    let token = (await postJSON(`${pageURL}Post_Modules/GetLoginToken.js&cache=false`, data)).token;
     
     // Check if the token was valid and take the correct actions if it was, tell the user they were wrong, otherwise.
     if (token != -1) {
@@ -411,14 +479,54 @@ async function LoginAs(username, password) {
     }
 }
 
-function ToggleSetDisplay() {
-    // If the set display is empty, download the content that should be in there and load it. 
-    if (document.getElementById("SetCreationPane").innerHTML.length == 0) {
-        loadToInnerHTML("./CreateSet.html", "SetCreationPane")
-            .then(() => loadScriptToChildOf("SetCreationPane", "./CreateSet.js"));
-    }
+async function ToggleSetDisplay() {
+    return new Promise((res) => {
+        // If the set display is empty, download the content that should be in there and load it. 
+        if (document.getElementById("SetCreationPane").innerHTML.length == 0) {
+            loadToInnerHTML("./CreateSet.html", "SetCreationPane")
+                .then(() => loadScriptToChildOf("SetCreationPane", "./CreateSet.js"))
+                .then(() => res(true));
+        } else res(true);
 
-    // Toggle the set display.
-    document.getElementById("Home").hidden = !document.getElementById("Home").hidden;
-    document.getElementById("SetCreationPane").hidden = !document.getElementById("SetCreationPane").hidden;
+        // Toggle the set display.
+        document.getElementById("Home").hidden = !document.getElementById("Home").hidden;
+        document.getElementById("SetCreationPane").hidden = !document.getElementById("SetCreationPane").hidden;
+
+        SetCreationMode = "Create";
+        document.getElementById("CreateSetButton").innerText = "Submit!";
+    })
+}
+
+async function edit(set_id) {
+    // Go to the set display.
+    await ToggleSetDisplay();
+
+    // Wait until the stuff is loaded...
+    while (typeof Add_Line_With_Values === 'undefined')
+        await new Promise((res) => setTimeout(() => {res()}, 30))
+
+    // Download set information from the server.
+    let set = await fetchJSON(`${pageURL}Sets/${set_id}.json`);
+    document.getElementById("SetName").value = set.Name;
+    document.getElementById("ObjectName").value = set.ObjectName;
+    document.getElementById("AnswerName").value = set.AnswerName;
+
+    // Clear the rows and then put in the new ones.
+    ClearRows();
+    set.Set.forEach(AnswerPair => {
+        let question = Object.keys(AnswerPair)[0];
+        Add_Line_With_Values(question, AnswerPair[question]);
+    })
+
+    // Remove the first row, since it contains the default value.
+        // This is a hacky solution... but it works.
+    let FirstRowNum = Object.keys(rows)[0];
+    FirstRowNum = FirstRowNum.substring(FirstRowNum.indexOf('_') + 1);
+    document.getElementById(`remove_${FirstRowNum}`).onclick();
+    
+    // Set the creation mode to Edit, so it will edit sets rather than just make a new one. 
+    SetCreationMode = "Edit";
+    document.getElementById("CreateSetButton").innerHTML = "Submit Edits!";
+    EditSetID = set_id;
+    document.getElementById("DeleteSetButton").hidden = false;
 }

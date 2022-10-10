@@ -6,6 +6,7 @@ const fs = require('fs');
         "Name": "Hiragana/ひらがな",
         "ObjectName": "character",
         "AnswerName": "syllable",
+        "Visibility": EITHER "public" OR "private"
         "Set": [
             {"various entries": "various answers"}
         ]
@@ -42,6 +43,8 @@ let response = {
 
 // Add the author's name to the set.
 GivenData.Set.Author = userID;
+if (GivenData.Set.ID != undefined)
+    delete GivenData.Set.ID;
 
 fs.writeFile(`${setPath}/${setNumber}.json`, JSON.stringify(GivenData.Set), (err) => {
     if (err) response.sucessful = err;

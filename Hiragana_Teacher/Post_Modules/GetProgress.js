@@ -11,7 +11,6 @@ res.statusCode = 200;
 res.setHeader("Content-Type", "application/json");
 let postData = JSON.parse(data)
 let userID = await TokenToUserID(postData.login_token);
-console.log(postData);
 console.log(`Token: ${postData.login_token} userID: ${userID}`);
 if (userID != undefined) {
     let PathToUsersFiles = `Hiragana_Teacher/Users/${userID}/`

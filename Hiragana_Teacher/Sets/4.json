@@ -3,6 +3,7 @@
     "ObjectName": "state's capital",
     "AnswerName": "capital",
     "Author": "976",
+    "Visibility": "public",
     "Set": [
         {"Alabama": "Montgomery"},
         {"Alaska": "Juneau"},
