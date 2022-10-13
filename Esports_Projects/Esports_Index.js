@@ -191,9 +191,13 @@ client.on("messageCreate", async (message) => {
         
         if (c.startsWith("/here")) {
             // Find event cache.
-            let NewPlayer = c.split(" ")[1];
-            global.EventCache[eventNumber].Attending.push(GetPlayerIDFromDiscordID(NewPlayer));
-            message.reply(`Player attached: ${NewPlayer}!`);
+            let newPlayers = c.split(" ");
+            let PlayersAttached = "";
+            newPlayers.forEach(NewPlayer => {
+                global.EventCache[eventNumber].Attending.push(GetPlayerIDFromDiscordID(NewPlayer));
+                PlayersAttached += NewPlayer;
+            });
+            message.reply(`Player${newPlayers.length > 1 ? "s" : ""} attached: ${PlayersAttached}!`);
             console.log(JSON.stringify(global.EventCache[eventNumber]));
         }
 

@@ -357,6 +357,9 @@ async function updateLoginPane(IsPasswordCorrect) {
         // Update the username and set displays if the password was right.
         loginPane.innerHTML = loginPrompt.replace("{X}", Login_Username)
         UpdateVisibleSets();
+
+        // Show the "Create a Set Button"
+        document.getElementById("CreateASetButton").hidden = false;
     } else {
         loginPane.innerHTML = "Incorrect password!"
         setTimeout(() => {
@@ -373,42 +376,45 @@ async function UpdateVisibleSets() {
 }
 
 async function AddPublicSets() {
-    fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
-        .then(async (response) => {
-            SetInformation = response.lists;
-            
-            // Set up the desktop and mobile UI.
-            let all, text = all = "";
+    return new Promise((res) => {
+        fetchJSON(pageURL + "Modules/GetCharacterSets.js&cache=false")
+            .then(async (response) => {
+                SetInformation = response.lists;
+                
+                // Set up the desktop and mobile UI.
+                let all, text = all = "";
 
-            for (let i = 0; i < response.lists.length; i++) {
-                let element = response.lists[i];
+                for (let i = 0; i < response.lists.length; i++) {
+                    let element = response.lists[i];
 
-                // If the user's on a mobile device, only process the stuff for their dropdown.
-                if (userIsMobile) {
-                    text += `<option value="${element.ID}">${element.Name}</option>`
-                    continue;
+                    // If the user's on a mobile device, only process the stuff for their dropdown.
+                    if (userIsMobile) {
+                        text += `<option value="${element.ID}">${element.Name}</option>`
+                        continue;
+                    }
+
+                    let authorName = await authorIDToName(element.author)
+
+                    // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
+                    if (element.ObjectName.includes("'s"))
+                        element.ObjectName = element.ObjectName.replace("'s", "");
+
+                    // Assemble the string around it.
+                    all = all + exampleSetDisplay
+                        .replace("Name", element.Name)
+                        .replace("Length", element.length + " " + element.ObjectName + "s")
+                        .replaceAll("{s}", element.ID)
+                        .replace("Set_Example", `Set_${element.ID}`)
+                        .replace("{a}", authorName);
                 }
 
-                let authorName = await authorIDToName(element.author)
-
-                // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
-                if (element.ObjectName.includes("'s"))
-                    element.ObjectName = element.ObjectName.replace("'s", "");
-
-                // Assemble the string around it.
-                all = all + exampleSetDisplay
-                    .replace("Name", element.Name)
-                    .replace("Length", element.length + " " + element.ObjectName + "s")
-                    .replaceAll("{s}", element.ID)
-                    .replace("Set_Example", `Set_${element.ID}`)
-                    .replace("{a}", authorName);
-            }
-
-            document.getElementById("Selection").innerHTML = text;
-            document.getElementById("sets").innerHTML = all;
-            if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
-            else document.getElementById("MobileSelection").style.visibility = "visible";
-        })
+                document.getElementById("Selection").innerHTML = text;
+                document.getElementById("sets").innerHTML = all;
+                if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
+                else document.getElementById("MobileSelection").style.visibility = "visible";
+                res(true);
+            })
+    })
 }
 
 async function AddPrivateSets() {
@@ -480,20 +486,25 @@ async function LoginAs(username, password) {
 }
 
 async function ToggleSetDisplay() {
-    return new Promise((res) => {
+    return new Promise(async (res) => {
         // If the set display is empty, download the content that should be in there and load it. 
-        if (document.getElementById("SetCreationPane").innerHTML.length == 0) {
+        let SetCreationPaneLoaded = !document.getElementById("SetCreationPane").innerHTML.length == 0
+        if (!SetCreationPaneLoaded) {
             loadToInnerHTML("./CreateSet.html", "SetCreationPane")
                 .then(() => loadScriptToChildOf("SetCreationPane", "./CreateSet.js"))
                 .then(() => res(true));
-        } else res(true);
+        }
 
         // Toggle the set display.
         document.getElementById("Home").hidden = !document.getElementById("Home").hidden;
         document.getElementById("SetCreationPane").hidden = !document.getElementById("SetCreationPane").hidden;
 
+        while (document.getElementById("CreateSetButton") == null)
+            await new Promise((r2) => setTimeout(() => {r2()}, 30))
+
         SetCreationMode = "Create";
         document.getElementById("CreateSetButton").innerText = "Submit!";
+        if (SetCreationPaneLoaded) res(true)
     })
 }
 
@@ -510,6 +521,16 @@ async function edit(set_id) {
     document.getElementById("SetName").value = set.Name;
     document.getElementById("ObjectName").value = set.ObjectName;
     document.getElementById("AnswerName").value = set.AnswerName;
+
+    // Make the visibility drop down select the right option.
+    let VisibilitySelector;
+    (VisibilitySelector = document.getElementById("PublicPrivateSelector")).value = set.Visibility;
+    for (var i = 0; i < VisibilitySelector.options.length; i++) {
+        if (VisibilitySelector.options[i].text === set.Visibility) {
+            VisibilitySelector.selectedIndex = i;
+            break;
+        }
+    }
 
     // Clear the rows and then put in the new ones.
     ClearRows();

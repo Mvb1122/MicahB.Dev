@@ -54,8 +54,7 @@
     
         <div id="Home" class="HCenter">
             <br>
-            <h1>Hiragana Teacher <img src="../FTP/alpha_McD.webp" alt="alpha" class="InlineImage"> v2.1</h1>
-            <h2 style="color: #575757">(Working Title)</h2>
+            <h1>Hiragana Teacher <img src="../FTP/alpha_McD.webp" alt="alpha" class="InlineImage"> v2.3</h1>
 
             <div id="ListSelection">
                 <h2 id="instructions">Please choose a set to practice below and hit the green button to start it.</h2>
@@ -68,8 +67,8 @@
                     <button id="StartButton" class="SubmitButton" onclick="load(document.getElementById(`Selection`).value)">Start</button>
                 </div>
 
-                <div id="CreateASetButton" style="display: flex;; justify-content: flex-end">
-                    <button class="SmoothButton" style="right: 7px;" onclick="ToggleSetDisplay()">Create A Set</button>
+                <div style="display: flex; justify-content: flex-end">
+                    <button id="CreateASetButton" class="SmoothButton" style="right: 7px;" onclick="ToggleSetDisplay()" hidden>Create A Set</button>
                 </div>
 
                 <div id="sets">

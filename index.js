@@ -43,6 +43,13 @@ const requestListener = function (req, res) {
     console.log("\n\nRequest Recieved: " + req.url);
     console.log(req.method);
     let localURL; 
+    if (req.url.indexOf(".") == -1 && !req.url.includes("&") && !req.url.endsWith("/")) 
+    {
+        // If this is a malformed index.html request, forward the user to the actual page.
+        res.setHeader("Location", req.url + '/');
+        res.writeHead(301);
+        return res.end();
+    }
     if (req.url.startsWith('/'))
         localURL = '.' + req.url;
     else
@@ -148,8 +155,9 @@ const requestListener = function (req, res) {
         } else if (req.url.includes("/Modules/")) {
             console.log("Modules request for:" + localURL)
             // Run the specified file, if it exists and isn't a directory.
+                // Modules should always be cached to reduce disk wear and decrease latency!
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
-                let script = fs.readFileSync(localURL).toString();
+                let script = GetFileFromCache(localURL).toString();
                 eval(script)
             } else {
                 res.statusCode = 404;
@@ -219,7 +227,8 @@ const requestListener = function (req, res) {
             {    
                 req.on('end', () => {
                     // Because stuff can sometimes get a bit funky, allow post modules to use async/await.
-                    eval("async function f() {" + fs.readFileSync(localURL).toString() + "} f();");
+                        // Also cache them to make stuff go faster.
+                    eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
                 })
             }
             else {
