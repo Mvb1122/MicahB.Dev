@@ -29,7 +29,7 @@ if (!check) {
     return res.end(JSON.stringify({"sucessful": false}))
 }
 
-// Write the data.
+// Find the path.
 let setPath = `Hiragana_Teacher/Sets/${GivenData.Set.ID}.json`;
     
 // Actually write the data.
@@ -42,6 +42,9 @@ GivenData.Set.Author = userID;
 delete GivenData.Set.ID;
 
 fs.writeFile(setPath, JSON.stringify(GivenData.Set), (err) => {
-    if (err) response.sucessful = err;
+    if (err)  {
+        response.sucessful = err;
+        console.log(err);
+    }
     return res.end(JSON.stringify(response));
 });

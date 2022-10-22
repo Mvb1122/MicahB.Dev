@@ -1,7 +1,9 @@
 const fs = require('fs');
 const http = require('http');
+const { fileURLToPath } = require('url');
 const host = require('os').hostname();;
 const port = 80;
+const DEBUG = false;
 
 const mimeTypes = {
     "txt": "text/plain",
@@ -28,10 +30,10 @@ const getMime = (s) => {
     return getMime("txt");
 }
 
-// Implement a simple cache for index.html files, which should recieve more traffic than other files.
+// Implement a simple cache for files, which should recieve more traffic than other files.
 let File_Cache = [];
 function GetFileFromCache(url) {
-    if (File_Cache[url])
+    if (!DEBUG && File_Cache[url])
         return File_Cache[url]
     
     File_Cache[url] = fs.readFileSync(url)
@@ -39,9 +41,14 @@ function GetFileFromCache(url) {
     return File_Cache[url];
 }
 
+// Returns the size of a file in Megabytes.
+function GetFileSizeInMegabytes(url) {
+    return fs.statSync(url).size / (1024*1024);
+}
+
 const requestListener = function (req, res) {
-    console.log("\n\nRequest Recieved: " + req.url);
-    console.log(req.method);
+    if (DEBUG) console.log("\n\nRequest Recieved: " + req.url);
+    if (DEBUG) console.log(req.method);
     let localURL; 
     if (req.url.indexOf(".") == -1 && !req.url.includes("&") && !req.url.endsWith("/")) 
     {
@@ -70,7 +77,7 @@ const requestListener = function (req, res) {
     if (req.method === "GET") {
         if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
             url = './mDB/' + req.url.slice("/json/".length - 1);
-            console.log(`Processed URL: ${url}`);
+            if (DEBUG) console.log(`Processed URL: ${url}`);
             let output = "";
             try {
                 res.setHeader("Content-Type", "application/json");
@@ -120,7 +127,7 @@ const requestListener = function (req, res) {
         } else if (req.url.startsWith("/seriesImages/")) {
             let fileName = req.url.split("/");
             let localURL = './seriesImages/' + fileName[fileName.length - 1];
-            console.log(localURL);
+            if (DEBUG) console.log(localURL);
             if (fs.existsSync(localURL)) {
                 try {
                     let s = fs.createReadStream(localURL);
@@ -153,7 +160,7 @@ const requestListener = function (req, res) {
 
         // Handle module requests.
         } else if (req.url.includes("/Modules/")) {
-            console.log("Modules request for:" + localURL)
+            if (DEBUG) console.log("Modules request for:" + localURL)
             // Run the specified file, if it exists and isn't a directory.
                 // Modules should always be cached to reduce disk wear and decrease latency!
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
@@ -169,13 +176,20 @@ const requestListener = function (req, res) {
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 try {
                     let mime = getMime(localURL);
-                    let s = fs.createReadStream(localURL);
                     res.setHeader("Content-Type", mime);
 
-                    s.on('open', function () {
-                        res.setHeader('Content-Type', mime);
-                        s.pipe(res);
-                    });
+                    // Use a readstream if the file is an index-adjacent file, otherwise, read and send.
+                        // GetFileSizeInMegabytes(localURL) < 10 || 
+                    if (localURL.includes("index")) {
+                        res.end(GetFileFromCache(localURL));
+                    } else {
+                        let s = fs.createReadStream(localURL);
+
+                        s.on('open', function () {
+                            res.setHeader('Content-Type', mime);
+                            s.pipe(res);
+                        });
+                    }
                 } catch (error) {
                     res.setHeader("Content-Type", "text/plain");
                     res.statusCode = 404;
@@ -190,11 +204,11 @@ const requestListener = function (req, res) {
 
         // POSTING:
     } else if (req.method === "POST") {
-        // Asyncrounously download data and process the request at the same time.
-        let data = "";
-            // This runs asynchronously... probably.
-        req.on('data', chunk => {
-            data += chunk;
+        // Asyncrounously download data.
+        var binary_data = [];
+            // This runs asynchronously... 
+        req.on('data', function(chunk) {
+            binary_data.push(chunk);
         });
 
         // Archaic Strigoi code... No good.
@@ -213,7 +227,7 @@ const requestListener = function (req, res) {
                         fs.mkdirSync(inputPath);
                     }
                 }   
-                console.log(inputPath);
+                if (DEBUG) console.log(inputPath);
             
                 // Write data:
                 fs.writeFile(`./${inputURL}`, data.replace("\\n", "\\\n"), (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
@@ -222,13 +236,25 @@ const requestListener = function (req, res) {
 
         // Ascertain a modules request and process it the better way.
         if (req.url.toLowerCase().includes("post_modules")) {
-            console.log(`Post_Modules request for ${localURL}`);
+            if (DEBUG) console.log(`Post_Modules request for ${localURL}`);
             if (fs.existsSync(localURL))
             {    
                 req.on('end', () => {
+                    let data; 
+                    if (!req.url.includes("Upload.js")) {
+                        data = Buffer.concat(binary_data).toString();
+                        if (DEBUG) console.log("Input: `" + data + "`");
+                    } else {
+                        data = Buffer.concat(binary_data);
+                    }
+
                     // Because stuff can sometimes get a bit funky, allow post modules to use async/await.
                         // Also cache them to make stuff go faster.
-                    eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
+                    try {
+                        eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
+                    } catch (err) {
+                        if (DEBUG) console.log(err);
+                    }
                 })
             }
             else {

@@ -30,7 +30,7 @@ function GetPlayerIDFromDiscordID(DiscordID) {
     let output = -1;
     fs.readdirSync(PlayersPath).forEach((file) => {
         let data = JSON.parse(fs.readFileSync(`${PlayersPath}/${file}`));
-        console.log(`\tData: ${data}\n\tID: ${DiscordID}\n\tCheck: ${data.Discord_id == DiscordID.toString()}`);
+        // console.log(`\tData: ${data}\n\tID: ${DiscordID}\n\tCheck: ${data.Discord_id == DiscordID.toString()}`);
         if (data.Discord_id == DiscordID.toString())
             output = file.toString().split(".")[0];
     })
@@ -191,13 +191,34 @@ client.on("messageCreate", async (message) => {
         
         if (c.startsWith("/here")) {
             // Find event cache.
+                // Asertain command args.
             let newPlayers = c.split(" ");
+                // Remove the command.
+            newPlayers.shift();
+
             let PlayersAttached = "";
+            let errors = "\n\n";
             newPlayers.forEach(NewPlayer => {
-                global.EventCache[eventNumber].Attending.push(GetPlayerIDFromDiscordID(NewPlayer));
-                PlayersAttached += NewPlayer;
+                let trimPlayer = NewPlayer.trim();
+                if (trimPlayer != "" || trimPlayer != "/here") {
+                    let playerID = GetPlayerIDFromDiscordID(NewPlayer);
+                    if (playerID != -1) {
+                        global.EventCache[eventNumber].Attending.push(playerID);
+                        PlayersAttached += `, ${NewPlayer}`;
+                    } else {
+                        errors += `${NewPlayer} is not registered!\n`;
+                    }
+                }
+                
             });
-            message.reply(`Player${newPlayers.length > 1 ? "s" : ""} attached: ${PlayersAttached}!`);
+
+            if (errors != "\n\n") errors += `\nPlease have the unregistered player${newPlayers.length > 1 ? "s" : ""} register at https://micahb.dev/ESports_Projects/Attendance_Make_Player.html\nand then you can add them via /here.`
+            let msgStart = "";
+
+            if (PlayersAttached != "") msgStart = `Player${newPlayers.length > 1 ? "s" : ""} attached: ${PlayersAttached.substring(1).trim()}!`
+            else msgStart = "No players attached!";
+
+            message.reply(`${msgStart}${errors != "\n\n" ? errors : ""}`);
             console.log(JSON.stringify(global.EventCache[eventNumber]));
         }
 

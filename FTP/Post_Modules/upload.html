@@ -25,80 +25,32 @@
         <meta name="description" content="A list of the files I've shared publically.">
 
         <script>
-            const mimeTypes = {
-                "txt": "text/plain",
-                "html": "text/html",
-                "gif": "image/gif",
-                "ico": "image/x-icon",
-                "json": "application/json",
-                "mp3": "audio/mpeg",
-                "mp4": "video/mp4",
-                "jpeg": "image/jpeg",
-                "jpg": "image/jpeg",
-                "pdf": "application/pdf",
-                "svg": "image/svg+xml",
-                "wav": "audio/wav",
-                "css": "text/css",
-                "php": "text/html"
-            } 
-
             async function postData() {
+                // Prepare the request
                 let data = document.getElementById("file-selector").files[0];
-                let type = getTypeFromNameFileType(data);
-                let name = escape(document.getElementById("name-selector").value.replace(".", "$$DOT$$"));
+                const actualData = data.arrayBuffer();
+                let name = document.getElementById("name-selector").value.replaceAll(" ", "_");
                 document.getElementById("main").innerHTML = "<h1>Processing</h1>";
-                /*
-                fetch("Upload.js&target=" + name + "." + type, {method: "POST", body: await data.arrayBuffer(), headers: {
-                    'Content-Type': data.type
-                }})
-                    .then(async (res) => {
-                        let response = `https://micahb.dev/${(await res.json()).upload}`;
-                        console.log(response);
-                        document.getElementById("main").innerHTML = "<h1>Upload Complete</h1>";
-                        document.getElementById("link-display").hidden = false;
-                        document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
-                    }, (rej) => {
-                        document.getElementById("main").innerHTML = "<h1>Error:</h1><br>" + rej;
-                    });
-                */
-                var url = "Upload.js&target=" + name + "." + type;
+                var url = "Upload.js&target=" + name;
 
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url);
-
                 xhr.setRequestHeader("Content-Type", data.type);
 
                 xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    console.log(xhr.status);
-                    console.log(xhr.responseText);
+                    if (xhr.readyState === 4) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
 
-                    let response = `https://micahb.dev/${JSON.parse(xhr.responseText).upload}`;
-                    document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
-                    document.getElementById("link-display").hidden = false;
-                    document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
-                }};
+                        let response = `https://micahb.dev/${JSON.parse(xhr.responseText).upload}`;
+                        document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
+                        document.getElementById("link-display").hidden = false;
+                        document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
+                    }
+                };
 
-                const binaryData = await data.arrayBuffer();
-                console.log(binaryData);
-                xhr.send(binaryData)
-            }
-
-            function getTypeFromNameFileType(file) {
-                for (const type in mimeTypes)
-                    if (mimeTypes[type] == file.type) return type;
-                
-                return "txt";
-            }
-
-            async function ReadFile(e) {
-                const reader = new FileReader();
-                reader.addEventListener("load", () => {
-                    // convert image file to base64 string
-                    return reader.result;
-                }, false);
-                reader.readAsBinaryString(e);
-                return reader.result
+                // Read and send the file.
+                xhr.send(await actualData);
             }
         </script>
     </head>
@@ -112,6 +64,7 @@
         </div>
 
         <div id="main" scrolling="no">
+            <h3>Please make sure to include the file extension!</h3>
             <label for="name-selector">Name the file:</label>
             <input id="name-selector" type="text">
             <br>

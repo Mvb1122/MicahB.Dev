@@ -165,9 +165,10 @@ async function LoadSetAndStart() {
     console.log(list.Set)
         
     // Swap over to the game screen, also prepare prompt and answer texts.
-    answerText = "The {at} was {a}"; promptText = "What is this {c}?"
+    answerText = "{q} is {a}."; promptText = "What {c} is this?"
     document.getElementById("prompt").innerText = promptText.replace("{c}", list.ObjectName)
-    answerText = answerText.replace("{at}", list.ObjectName)
+    answerText = answerText.replace("{at}", list.AnswerName);
+    document.getElementById("AnswerInput").placeholder = list.AnswerName;
     ToggleScreen()
 
     // Start the game!
@@ -291,7 +292,7 @@ function EvaluateAnswer() {
         HRAnswer = HRAnswer.substring(0, HRAnswer.lastIndexOf(", ")) + " or " + HRAnswer.substring(HRAnswer.lastIndexOf(", ") + 1);
     }
 
-    let text = `You were ${right ? "right" : "wrong"}!<br>${answerText.replace("{a}", HRAnswer)}`;
+    let text = `You were ${right ? "right" : "wrong"}!<br>${answerText.replace("{a}", HRAnswer).replace("{q}", character)}`;
     document.getElementById("PHAnswerShower").innerHTML = text;
     document.getElementById("AnswerInput").value = "";
 
