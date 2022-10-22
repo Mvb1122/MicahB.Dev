@@ -47,16 +47,9 @@ Esports_Projects/token.json
 Esports_Projects/Events/*.json
 Esports_Projects/Games/*.json
 Esports_Projects/Players/*.json
-FTP/Shipping_9-6-2021a-20220819T140738Z-001.zip
-FTP/Shipping_9-4-2021a-20220819T140741Z-001.zip
-FTP/Shipping_9-4-2021-20220819T140744Z-001.zip
-FTP/drive-download-20220819T140856Z-002.zip
-FTP/2022-08-09_07-58-15-C.mp4
-FTP/2022-08-09_08-12-00-C.mp4
-FTP/2022-08-11_19-43-23-C.mp4
-FTP/TheLostWoods.zip
-FTP/Thumbs.db
-FTP/Site_Media/Logo/Asset 1.png
 Hiragana_Teacher/Users/*/*.json
-FTP/plugins.zip
-FTP/Server.zip
+FTP/AI/Stable Diffusion/*.png
+FTP/AI/Waifu Diffusion/*.png
+FTP/AI/Stable Diffusion/*.zip
+FTP/AI/Waifu Diffusion/*.zip
+FTP/*
