@@ -48,8 +48,6 @@ Esports_Projects/Events/*.json
 Esports_Projects/Games/*.json
 Esports_Projects/Players/*.json
 Hiragana_Teacher/Users/*/*.json
-FTP/AI/Stable Diffusion/*.png
-FTP/AI/Waifu Diffusion/*.png
-FTP/AI/Stable Diffusion/*.zip
-FTP/AI/Waifu Diffusion/*.zip
 FTP/*
+FTP/AI/*/*
+Hiragana_Teacher/Users/*/*
