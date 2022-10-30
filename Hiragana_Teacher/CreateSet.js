@@ -87,13 +87,16 @@ async function SubmitSet() {
         setData.ID = EditSetID;
     
 
-    // Send it to the server, but only if we're logged in.
+    // Send it to the server, but only if we're logged in, as a precaution.
     if (login_token != -1) {
         let CreationMode = SetCreationMode == "Create" ? "CreateList.js": "UpdateList.js";
         postJSON(`./Post_Modules/${CreationMode}`, data)
             .then(() => {
                 document.getElementById("SetLoadingScreen").hidden = true;
                 document.getElementById("SetLoadedScreen").hidden = false;
+
+                // Update the set listings. 
+                UpdateVisibleSets();
             });
     }
 }
@@ -118,7 +121,8 @@ function DeleteSet() {
             "token": login_token,
             "Set": EditSetID
         });
-        ToggleSetDisplay();
+        UpdateVisibleSets();
         ClearRows();
+        ToggleSetDisplay();
     }
 }

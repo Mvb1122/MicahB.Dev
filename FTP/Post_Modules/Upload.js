@@ -1,6 +1,5 @@
 if (args.target != null) {
     const fs = require('fs');
-
     // Remove header stuff and write.
     if (data.includes("0D0A0D0A89504E47", 0, "hex")){
         console.log("Editing data to start properly.");
