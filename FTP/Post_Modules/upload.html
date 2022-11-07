@@ -45,7 +45,7 @@
                         let response = `https://micahb.dev/${JSON.parse(xhr.responseText).upload}`;
                         document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
                         document.getElementById("link-display").hidden = false;
-                        document.getElementById("link-display").innerHTML = `<a href=${response}>${response}</a>`;
+                        document.getElementById("link-display").innerHTML = `<a href="${response}">${response}</a>`;
                     }
                 };
 

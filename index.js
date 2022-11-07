@@ -15,6 +15,7 @@ const mimeTypes = {
     "mp4": "video/mp4",
     "jpeg": "image/jpeg",
     "jpg": "image/jpeg",
+    "png": "image/png",
     "pdf": "application/pdf",
     "svg": "image/svg+xml",
     "wav": "audio/wav",
@@ -177,6 +178,11 @@ const requestListener = function (req, res) {
                 try {
                     let mime = getMime(localURL);
                     res.setHeader("Content-Type", mime);
+
+                    // If this is an AI image file, tell the user's device to cache it; those images don't usually change very often.
+                        // (Cache for 1 week.)
+                    if (mime.includes("image") && localURL.includes("AI"))
+                        res.setHeader("Cache-Control", "max-age=604800")
 
                     // Use a readstream if the file is an index-adjacent file, otherwise, read and send.
                         // GetFileSizeInMegabytes(localURL) < 10 || 

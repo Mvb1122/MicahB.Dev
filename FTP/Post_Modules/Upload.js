@@ -11,16 +11,45 @@ if (args.target != null) {
     }
 
     // If this is binary data, write it properly.
+    // If this file already exists, add a tag to its name.
     let location = `FTP/${unescape(args.target.replaceAll("$$DOT$$", ".").replaceAll("$$SLASH$$", "/"))}`;
+    if (fs.existsSync(location)) {
+        // Check that this isn't the second or more-th time that this file has been uploaded.
+        let parts = location.split(".");
+        let name = parts[parts.length - 2];
+
+        // Attempt to figure out which upload number this is.
+        let uploadNum = 1;
+
+        numLoop:
+        while (true) {
+            let fullPath = "";
+            let uploadTag = " (" + uploadNum + ")";
+
+            fullPath = location.replace(name, name + uploadTag)
+
+            if (fs.existsSync(fullPath))
+                uploadNum++;
+            else {
+                location = fullPath;
+                break numLoop;
+            }
+        }
+    }
+    
+    let respose = { upload: location.toString() };
+    if (DEBUG) console.log(`Uploading a file to: ${location}`)
     fs.writeFile(location, data, (err) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        let respose = { upload: location };
+
         if (err) {
             respose.upload = err;
             console.log(err);
             return res.end(JSON.stringify(respose));
         }
+
+        res.sucessful = true;
         res.end(JSON.stringify(respose));
     });
 } else {

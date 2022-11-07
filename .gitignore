@@ -48,6 +48,13 @@ Esports_Projects/Events/*.json
 Esports_Projects/Games/*.json
 Esports_Projects/Players/*.json
 Hiragana_Teacher/Users/*/*.json
-FTP/*
-FTP/AI/*/*.png
 Hiragana_Teacher/Users/*/*
+FTP/*.mp4
+FTP/Site_Media/*.mp4
+FTP/*.pdf
+FTP/*.zip
+FTP/*.png
+FTP/AI/*/*.png
+FTP/AI/*/*.zip
+*.db
+*.mp4

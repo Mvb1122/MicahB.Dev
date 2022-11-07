@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .main {
+                border: 5px outset red;
+                text-align: center;
+                align-items: center;
+                overflow: hidden;
+            }
+
+            strong {
+                color: red;
+            }
+
+            p > select {
+                width: 100%;
+            }
+
+            .FullSizeImage {
+                width: 512px;
+                height: 512px;
+            }
+        </style>
+        <link rel="stylesheet" href="../../index.css">
+        <link rel="stylesheet" href="../../topnav.css">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135" crossorigin="anonymous"></script>
+
+        <title>AI generated images that a Colab I made made.</title>
+        <meta name="description" content="This page lets you view AI generated art.">
+    </head>
+
+    <body>
+        <div class="topnav">
+            <a href="../../index.html">Home</a>
+            <a class="active" href="../../projects/Projects.html">Projects</a>
+            <a href="https://micahb.dev/down">Down Detector</a>
+            <a href="http://lchsminecraft.tk:81/">HTagger (May be Down)</a>
+        </div>
+
+        <div id="main" scrolling="no" style="align-content: center;">
+            <h2>A while ago, I made <a href="../../projects/AI_Colabs.html">a pair of AI Colabs</a> which post images to this page. You can see each image here, now.</h2>
+            <p>I also have a Colab which runs NovelAI's leaked AI. Contact me if you want to use it.</p>
+            <label for="AISelector">Select an AI's images to view:</label>
+            <select name="AISelector" id="AISelector">
+                <option value="WD">Waifu Diffusion</option>
+                <option value="SD">Stable Diffusion</option>
+                <option value="NovelAI">NovelAI's leaked AI</option>
+            </select>
+            <button onclick="loadAIImages(document.getElementById(`AISelector`).value)">Load prompts!</button>
+            <p id="PromptList" hidden>
+                <select name="PromptSelector" id="PromptSelector">
+                    <option value="LOADING">Please wait for this to load.</option>
+                </select>
+                <button onclick="loadImagesFromPrompt(document.getElementById(`AISelector`).value, document.getElementById(`PromptSelector`).value)">Load Images!</button>
+            </p>
+
+            <p id="ImageList" hidden>
+                
+            </p>
+        </div>
+
+        <script>
+            let prompts = [];
+
+            async function loadAIImages(AI) {
+                prompts = [];
+
+                // Get a list of prompts.
+                fetch(`./Modules/Get${AI}Files.js&cache=false`).then(res => res.json()).then(json => {
+                    // Find common prompts.
+                    json.files.forEach(file => {
+                        let indexOfFinalUnderscore = file.lastIndexOf('_');
+                        let prompt = file.substring(0, indexOfFinalUnderscore);
+                        let ID = file.substring(indexOfFinalUnderscore + 1, file.length - 4);
+                    
+                        promptLoop:
+                        for (let i = 0; i < prompts.length; i++) {
+                            let selectedPrompt = prompts[i];
+                            if (selectedPrompt.promptName == prompt) {
+                                selectedPrompt.images.push(ID);
+                                return;
+                            }
+                        };
+
+                        // If the selected file hasn't been matched, add its prompt.
+                        prompts.push({
+                            promptName: prompt,
+                            images: [ID]
+                        });
+                    });
+
+                    // Fill the PromptSelector, show it.
+                    let options = "";
+                    for (let i = 0; i < prompts.length; i++) {
+                        let prompt = prompts[i];
+                        options += `<option value="${i}">${prompt.promptName}</option>`;
+                    }
+                    
+                    document.getElementById("PromptSelector").innerHTML = options;
+                    document.getElementById("PromptList").hidden = false;
+                })
+            }
+
+            async function loadImagesFromPrompt(AI, Prompt) {
+                console.log(`AI: ${AI}\nPrompt: ${prompts[Prompt].promptName}`);
+                document.getElementById("ImageList").innerHTML = "";
+                Prompt = prompts[Prompt];
+                
+                let num = 0;
+                Prompt.images.forEach(image => {
+                    let im = document.createElement("img");
+                    im.alt = `${Prompt.promptName}`
+                    im.src = `./${AI}/${Prompt.promptName}_${image}.png`;
+                    if (AI == "NovelAI")
+                        im.style.height = "auto";
+                        
+                    if (num < 3) {
+                        im.loading = "eager";
+                        num++;
+                    } else {
+                        im.loading = "lazy";
+                    }
+
+                    im.className = "FullSizeImage";
+                    document.getElementById("ImageList").appendChild(im);
+                })
+                
+                document.getElementById("ImageList").hidden = false;
+            }
+        </script>
+    </body>
+</html>
