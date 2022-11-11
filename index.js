@@ -49,7 +49,16 @@ function GetFileSizeInMegabytes(url) {
 const requestListener = async function (req, res) {
     if (DEBUG) console.log("\n\nRequest Recieved: " + req.url);
     if (DEBUG) console.log(req.method);
-    let localURL; 
+    
+    // If this request isn't for the main micahb.dev site, change the localURL to target that site's folder, but only if it exists.
+    let host = req.headers.host.toString().replace("www", "");
+    let localURL = ""; 
+    if (!host.includes("micahb.dev")) {
+        let hostPath = `./${host}/`;
+        if (fs.existsSync(hostPath))
+            localURL = hostPath;
+    };
+
     if (req.url.indexOf(".") == -1 && !req.url.includes("&") && !req.url.endsWith("/")) 
     {
         // If this is a malformed index.html request, forward the user to the actual page.
@@ -58,9 +67,10 @@ const requestListener = async function (req, res) {
         return res.end();
     }
     if (req.url.startsWith('/'))
-        localURL = '.' + req.url;
+        localURL += '.' + req.url;
     else
-        localURL = "./" + req.url;
+        localURL += "./" + req.url;
+
     localURL = unescape(localURL);
 
     // Split off arguments, if they exist.
@@ -72,6 +82,7 @@ const requestListener = async function (req, res) {
 
     // Also, set the CORS policy so the www domain can also access stuff.
     res.setHeader("Access-Control-Allow-Origin", "*");
+    if (DEBUG) console.log("Request for LocalURL at " + localURL)
         
         // GETTING:
     if (req.method === "GET") {
@@ -97,20 +108,6 @@ const requestListener = async function (req, res) {
             if (args.cache == "false") output = fs.readFileSync(localURL + "index.html");
             else output = GetFileFromCache(localURL + "index.html");
             res.end(output);
-        } else if (req.url === "/favicon.ico") {
-            res.setHeader("Content-Type", "image/x-icon");
-            let s = fs.createReadStream('./favicon.ico');
-            s.on('open', function () {
-                res.setHeader('Content-Type', "image/x-icon");
-                s.pipe(res);
-            });
-        } else if (req.url === "/logo_small_inverted.png") {
-            res.setHeader("Content-Type", "image/png");
-            let s = fs.createReadStream('./logo_small_inverted.png');
-            s.on('open', function () {
-                res.setHeader('Content-Type', "image/png");
-                s.pipe(res);
-            });
         } else if (req.url.startsWith("/users/")) {
             try {
                 res.setHeader("Content-Type", "application/json");
@@ -185,7 +182,7 @@ const requestListener = async function (req, res) {
 
                     // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
                         // || GetFileSizeInMegabytes(localURL) < 10
-                    if (localURL.includes("index")) {
+                    if (localURL.includes("index") || localURL.includes("favicon")) {
                         res.end(GetFileFromCache(localURL));
                     } else {
                         let s = fs.createReadStream(localURL);
@@ -232,10 +229,13 @@ const requestListener = async function (req, res) {
                         fs.mkdirSync(inputPath);
                     }
                 }   
+
                 if (DEBUG) console.log(inputPath);
             
                 // Write data:
-                fs.writeFile(`./${inputURL}`, data.replace("\\n", "\\\n"), (e) => {res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);});
+                fs.writeFile(`./${inputURL}`, data.replace("\\n", "\\\n"), (e) => {
+                    res.end("Complete: " + data + "\nURL: " + req.url + "\n Error: " + e);
+                });
             })
         }
 
@@ -271,8 +271,7 @@ const requestListener = async function (req, res) {
                         if (DEBUG) console.log(err);
                     }
                 })
-            }
-            else {
+            } else {
                 res.statusCode = 404;
                 res.setHeader("Content-Type", "text/plain");
                 res.end("Module Not Found!");
