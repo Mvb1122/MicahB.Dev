@@ -75,7 +75,7 @@ async function GoToSignUp() {
     document.getElementById("Login").style.display = "none";
 }
 
-let authorNameCache = { test: null };
+let authorNameCache = { };
 async function authorIDToName(id) {
     if (AuthorIsInCache(id))
         return authorNameCache[id];
@@ -338,11 +338,16 @@ async function fetchJSON(URL) {
 }
 
 async function postJSON(URL, data) {
-    return fetch(URL, {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-        .then((res) => res.json());
+    try {
+        let request = fetch(URL, {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+            
+        return request.then((res) => res.json());
+    } catch (error) {
+        throw error;
+    }
 }
 
 const loginPrompt = "Logged in as {X}!"
@@ -468,22 +473,35 @@ function ShowEditableSets() {
     });
 }
 
-async function LoginAs(username, password) {
-    // Get a login token from the server.
-    let data = {
-        "username": username,
-        "password": password
-    }
-    let token = (await postJSON(`${pageURL}Post_Modules/GetLoginToken.js&cache=false`, data)).token;
-    
-    // Check if the token was valid and take the correct actions if it was, tell the user they were wrong, otherwise.
-    if (token != -1) {
-        login_token = token;
-        Login_Username = data.username;
-        updateLoginPane(true);
-    } else {
-        updateLoginPane(false);
-    }
+let LoginData = {}
+
+// Relogs the user, using saved information.
+async function ReLog() {
+    if (Object.keys(LoginData).length > 1)
+        return LoginAs(LoginData.username, LoginData.password, true);
+    else return null;
+}
+async function LoginAs(username, password, forceResetToken = false) {
+    return new Promise(async res => {
+        // Get a login token from the server.
+        LoginData = {
+            "username": username,
+            "password": password
+        }
+
+        let token = (await postJSON(`${pageURL}Post_Modules/GetLoginToken.js&cache=false`, LoginData)).token;
+        
+        // Check if the token was valid and take the correct actions if it was, tell the user they were wrong, otherwise.
+        if (token != -1 || forceResetToken) {
+            login_token = token;
+            Login_Username = LoginData.username;
+            updateLoginPane(true);
+            res(true)
+        } else {
+            updateLoginPane(false);
+            res(false)
+        }
+    })
 }
 
 async function ToggleSetDisplay() {
@@ -505,6 +523,7 @@ async function ToggleSetDisplay() {
 
         SetCreationMode = "Create";
         document.getElementById("CreateSetButton").innerText = "Submit!";
+        document.getElementById("SetMaker").style.display = "block";
         if (SetCreationPaneLoaded) res(true)
     })
 }

@@ -30,6 +30,7 @@
                 let data = document.getElementById("file-selector").files[0];
                 const actualData = data.arrayBuffer();
                 let name = document.getElementById("name-selector").value.replaceAll(" ", "_");
+                let oldInner = document.getElementById("main").innerHTML
                 document.getElementById("main").innerHTML = "<h1>Processing</h1>";
                 var url = "Upload.js&target=" + name;
 
@@ -41,11 +42,18 @@
                     if (xhr.readyState === 4) {
                         console.log(xhr.status);
                         console.log(xhr.responseText);
+                        let JSONData = JSON.parse(xhr.responseText);
 
-                        let response = `https://micahb.dev/${JSON.parse(xhr.responseText).upload}`;
-                        document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
-                        document.getElementById("link-display").hidden = false;
-                        document.getElementById("link-display").innerHTML = `<a href="${response}">${response}</a>`;
+                        if (JSONData.upload != null) {
+                            let response = `https://micahb.dev/${JSONData.upload}`;
+                            document.getElementById("main").innerHTML = "<h1>Uploaded.</h1>";
+                            document.getElementById("link-display").hidden = false;
+                            document.getElementById("link-display").innerHTML = `<a href="${response}">${response}</a>`;
+                        } else {
+                            document.getElementById("link-display").hidden = true;
+                            document.getElementById("main").innerHTML = oldInner;
+                            alert(JSONData.reason)
+                        }
                     }
                 };
 

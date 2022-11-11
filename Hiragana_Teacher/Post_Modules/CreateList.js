@@ -18,14 +18,14 @@ const fs = require('fs');
 
 // First, authenticate the user's data.
 let GivenData = JSON.parse(data);
-let userID;
-let check = (userID = TokenToUserID(GivenData.login_token)) != -1
+let userID = TokenToUserID(GivenData.login_token);
+let check = userID != -1
 
 // If the user didn't have a valid token, end the request by telling them that...
 res.setHeader("Content-Type", "application/json");
 if (!check) {
-    res.statusCode = 504;
-    return res.end(JSON.stringify({"sucessful": false}))
+    res.statusCode = 403;
+    return res.end(JSON.stringify({"sucessful": false, "reason": "Token is invalid."}))
 }
 
 // Write the data.

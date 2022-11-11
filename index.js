@@ -1,7 +1,6 @@
 const fs = require('fs');
 const http = require('http');
-const { fileURLToPath } = require('url');
-const host = require('os').hostname();;
+const host = require('os').hostname();
 const port = 80;
 const DEBUG = false;
 
@@ -47,7 +46,7 @@ function GetFileSizeInMegabytes(url) {
     return fs.statSync(url).size / (1024*1024);
 }
 
-const requestListener = function (req, res) {
+const requestListener = async function (req, res) {
     if (DEBUG) console.log("\n\nRequest Recieved: " + req.url);
     if (DEBUG) console.log(req.method);
     let localURL; 
@@ -184,8 +183,8 @@ const requestListener = function (req, res) {
                     if (mime.includes("image") && localURL.includes("AI"))
                         res.setHeader("Cache-Control", "max-age=604800")
 
-                    // Use a readstream if the file is an index-adjacent file, otherwise, read and send.
-                        // GetFileSizeInMegabytes(localURL) < 10 || 
+                    // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
+                        // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index")) {
                         res.end(GetFileFromCache(localURL));
                     } else {
@@ -241,6 +240,7 @@ const requestListener = function (req, res) {
         }
 
         // Ascertain a modules request and process it the better way.
+            // Only run this if the file is a .js file and in a post_modules directory.
         if (req.url.toLowerCase().includes("post_modules")) {
             if (DEBUG) console.log(`Post_Modules request for ${localURL}`);
             if (fs.existsSync(localURL))
@@ -257,7 +257,16 @@ const requestListener = function (req, res) {
                     // Because stuff can sometimes get a bit funky, allow post modules to use async/await.
                         // Also cache them to make stuff go faster.
                     try {
-                        eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
+                        if (localURL.endsWith(".js"))
+                            eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
+                        else {
+                            res.statusCode = 403;
+                            res.setHeader("Content-Type", "application/json");
+                            return res.end(JSON.stringify({
+                                sucessful: false,
+                                reason: "You are not authorized to write to this location."
+                            }));
+                        }
                     } catch (err) {
                         if (DEBUG) console.log(err);
                     }

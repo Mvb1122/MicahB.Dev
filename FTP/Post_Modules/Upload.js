@@ -1,4 +1,4 @@
-if (args.target != null) {
+if (args.target != null && !args.target.includes("post_modules")) {
     const fs = require('fs');
     // Remove header stuff and write.
     if (data.includes("0D0A0D0A89504E47", 0, "hex")){
@@ -53,7 +53,7 @@ if (args.target != null) {
         res.end(JSON.stringify(respose));
     });
 } else {
-    res.statusCode = 400;
+    res.statusCode = 403;
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({sucessful: false}));
+    res.end(JSON.stringify({sucessful: false, reason: args.target == null ? "No location provided." : "You are not authorized to write to this location."}));
 }

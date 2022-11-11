@@ -90,14 +90,26 @@ async function SubmitSet() {
     // Send it to the server, but only if we're logged in, as a precaution.
     if (login_token != -1) {
         let CreationMode = SetCreationMode == "Create" ? "CreateList.js": "UpdateList.js";
-        postJSON(`./Post_Modules/${CreationMode}`, data)
-            .then(() => {
-                document.getElementById("SetLoadingScreen").hidden = true;
-                document.getElementById("SetLoadedScreen").hidden = false;
 
-                // Update the set listings. 
-                UpdateVisibleSets();
-            });
+        function postSet() {
+            postJSON(`./Post_Modules/${CreationMode}`, data)
+                .then(async (resp) => {
+                    // If something went wrong, relog and try again.
+                    if (!resp.sucessful) {
+                        await ReLog();
+                        data.login_token = login_token;
+                        postSet();
+                    } else {
+                        document.getElementById("SetLoadingScreen").hidden = true;
+                        document.getElementById("SetLoadedScreen").hidden = false;
+
+                        // Update the set listings. 
+                        UpdateVisibleSets();
+                    }
+                });
+        }
+
+        postSet();
     }
 }
 
