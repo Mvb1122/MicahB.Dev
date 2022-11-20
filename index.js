@@ -51,7 +51,8 @@ const requestListener = async function (req, res) {
     if (DEBUG) console.log(req.method);
     
     // If this request isn't for the main micahb.dev site, change the localURL to target that site's folder, but only if it exists.
-    let host = req.headers.host.toString().replace("www", "");
+    let host = "";
+    if (req.headers.host != null) host = req.headers.host.toString().replace("www", "")
     let localURL = ""; 
     if (!host.includes("micahb.dev")) {
         let hostPath = `./${host}/`;
@@ -301,9 +302,18 @@ function parseQuery(queryString) {
     return query;
 }
 
+// Load persistant information.
+const global = fs.existsSync("./Global.json") ? JSON.parse(fs.readFileSync("./Global.json")) : {};
+
 // Run ESports setup stuff.
-const global = {};
 eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
 
 // Run Hiragana Teacher stuff.
 eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
+
+// Save the global cache when the program is shut down.
+process.on('SIGINT', function() {
+    fs.writeFileSync("./Global.json", JSON.stringify(global));
+
+    process.exit();
+});

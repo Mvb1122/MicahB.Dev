@@ -1,7 +1,21 @@
 const fs = require('fs');
-const { Client, GatewayIntentBits, DiscordAPIError, } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 
-global.playerCache = [];
+// LoginTokens should be invalidated on restart; thus, they are not persisted in global.
+let LoginTokens = [];
+function GetValidToken() {
+    let newToken = Math.floor(Math.random() * 1000);
+    LoginTokens.push(newToken)
+    return newToken;
+}
+
+function IsESportsLoginTokenValid(token) {
+    LoginTokens.forEach(tokenInList => {
+        if (token == tokenInList) return true;
+    })
+
+    return false;
+}
 
 // This is used by web modules.
 function AddPlayerToCache(player) {
@@ -18,6 +32,8 @@ function AddPlayerToCache(player) {
     return playerID.toString();
 }
 
+
+
 const PlayersPath = "Esports_Projects/Players";
 
 /// Returns -1 if no player is found, otherwise, the player ID.
@@ -29,12 +45,38 @@ function GetPlayerIDFromDiscordID(DiscordID) {
     // Go through each player file and find the one that has it.
     let output = -1;
     fs.readdirSync(PlayersPath).forEach((file) => {
-        let data = JSON.parse(fs.readFileSync(`${PlayersPath}/${file}`));
+        let data = JSON.parse(GetFileFromCache(`${PlayersPath}/${file}`));
         // console.log(`\tData: ${data}\n\tID: ${DiscordID}\n\tCheck: ${data.Discord_id == DiscordID.toString()}`);
         if (data.Discord_id == DiscordID.toString())
             output = file.toString().split(".")[0];
     })
     return output;
+}
+
+function GetMaxMatches(game) {
+    // Get a list of games.
+    let games = fs.readdirSync("Esports_Projects/Games/");
+    // Group games by players.
+    let NumGamesByPlayer = [];
+    games.forEach(game => {
+        let data = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${game}`));
+        [data.Players, data.Enemies].forEach(player => {
+            if (NumGamesByPlayer[player] == null)
+                NumGamesByPlayer[player] = 0;
+            
+            NumGamesByPlayer[player]++;
+        })
+    })
+
+    // Determine who has the most matches.
+    let maxMatches = -1, playerWithMostMatches = -1;
+    Object.keys(NumGamesByPlayer).forEach(player => {
+        if (NumGamesByPlayer[player] > maxMatches) {
+            playerWithMostMatches = player; maxMatches = NumGamesByPlayer[player];
+        }
+    })
+
+    return { "player": playerWithMostMatches, "numMatches": maxMatches }
 }
 
 // Start the Discord bot.
@@ -138,7 +180,8 @@ client.on("messageCreate", async (message) => {
     } else if (c.startsWith("/createEvent"))
         message.reply("You can't create events in a thread!");
 
-    // Handle logging games.
+    // Allow Discord users to log games.
+    /*
     let logGamePrefix = "/logGame";
     if (c.startsWith(logGamePrefix)) {
         let args = c.substring(logGamePrefix.length).trim().split(", ");
@@ -172,9 +215,10 @@ client.on("messageCreate", async (message) => {
         // Tell the user that the match should be visible now.
         message.reply("Game registered! It should be visible on the website now.");
     }
+    */
 
     // Handle commands which only run in a thread.
-    if (message.channel.isThread()) {
+    else if (message.channel.isThread()) {
         let eventNumber = -1;
         try {
             // Extract event number.
@@ -253,9 +297,12 @@ client.on("messageCreate", async (message) => {
         }
     }
 });
+
 const GamesPath = "Esports_Projects/Games"
 const EventPath = "Esports_Projects/Events"
 const ThreadPrefix = "Event Thread ";
-global.ThreadCache = [];
-global.EventCache = [];
+
+if (global.playerCache == null) global.playerCache = {};
+if (global.ThreadCache == null) global.ThreadCache = {};
+if (global.EventCache == null) global.EventCache = {};
 client.login(botInfo.token);

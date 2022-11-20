@@ -8,13 +8,13 @@ let game = unescape(args.game).trim();
 // Go through each player and determine the games.
 let games = { players: [] };
 players.forEach(p => {
-    let player = JSON.parse(GetFileFromCache(PlayerPath + "/" + p));
-    player.PlayedGames.forEach(gameInList => {
-        if (gameInList.trim() == game) 
+    let file = PlayerPath + "/" + p;
+    let player = JSON.parse(GetFileFromCache(file));
+    player.PlayedGames.forEach(element => {
+        if (element.trim() == game) 
             games.players.push({
                 Name: player.Name,
-                Discord_id: player.Discord_id,
-                Student_id: player.Student_id
+                "file": p
             })
     });
 });

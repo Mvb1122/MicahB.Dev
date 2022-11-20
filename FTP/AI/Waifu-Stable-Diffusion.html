@@ -21,6 +21,7 @@
             }
 
             .FullSizeImage {
+                max-width: 100%;
                 width: 512px;
                 height: 512px;
             }
@@ -56,8 +57,10 @@
                     <option value="LOADING">Please wait for this to load.</option>
                 </select>
                 <button onclick="loadImagesFromPrompt(document.getElementById(`AISelector`).value, document.getElementById(`PromptSelector`).value)">Load Images!</button>
-                or, search for tags: <br> 
+                Alternatively, you can search for tags: <br> 
                 <input id="searchBox" type="text" placeholder="Tags to search for"> <button id="SearchButton" onclick="loadImagesFromPrompt(document.getElementById(`AISelector`).value, `_` + document.getElementById(`searchBox`).value)">Search</button>
+
+                <label for="NSFW" id="NSFWSwitchLabel" style="user-select: none;">Try to filter NSFW in search?</label> <input type="checkbox" name="NSFW" id="NSFWSwitch">
             </p>
 
             <p id="ImageList" hidden>
