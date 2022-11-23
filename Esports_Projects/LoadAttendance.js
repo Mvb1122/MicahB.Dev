@@ -33,13 +33,13 @@ async function LoadAttendance() {
     // Tally up Additional Days
     let sel = document.getElementById("player-names");
     let PlayerFirstName = sel.options[sel.selectedIndex].text;
+    PlayerFirstName = PlayerFirstName.substring(0, PlayerFirstName.indexOf(" "));
 
     output += `<br><h1>Additionally, ${PlayerFirstName} was there for another ${additionalDaysAttended.length} days, outside of their games' specified days.</h1>`
     additionalDaysAttended.forEach(day => {
         output += `<p class="greenText">${day.Date}: Attending</p>`
     });
 
-    PlayerFirstName = PlayerFirstName.substring(0, PlayerFirstName.indexOf(" "));
     document.getElementById("Attendance Display Title").innerText = 
     `${PlayerFirstName} was there ${numberOfDaysThere} days out of ${daysAttended.length} total days. (${(numberOfDaysThere / daysAttended.length) * 100}%)`
 

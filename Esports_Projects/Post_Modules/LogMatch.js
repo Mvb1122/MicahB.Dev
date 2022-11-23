@@ -12,12 +12,13 @@ const fs = require('fs');
 
 // First, authenticate the user's data.
 let GivenData = JSON.parse(data);
+res.setHeader("Content-Type", "application/json");
+if (!IsESportsLoginTokenValid(GivenData.token))
+    return res.end(JSON.stringify({"sucessful": false, "reason": "Invalid Token!"}));
 
 // If the user didn't have valid users, tell them that.
-res.setHeader("Content-Type", "application/json");
-
 // Determine if there are any invalid players
-let check = true && IsESportsLoginTokenValid(GivenData.token);
+let check = true;
 [GivenData.Winners, GivenData.Losers].forEach(team => team.forEach(player => {
     if (check)
         check = fs.existsSync(`./Esports_Projects/Players/${player}.json`)

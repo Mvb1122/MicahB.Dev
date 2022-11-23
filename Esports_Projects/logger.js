@@ -49,13 +49,19 @@ async function loadSelectedGame() {
 }
 
 async function SubmitSSBUMatch() {
-    let top = GetValueOfSelect("PTopSelect");
-    let bot = GetValueOfSelect("PBotSelect");
+    let winners, losers;
+    if (GetValueOfSelect("CompSelector") == "beat") {
+        winners = GetValueOfSelect("PTopSelect");
+        losers = GetValueOfSelect("PBotSelect");
+    } else {
+        winners = GetValueOfSelect("PBotSelect");
+        losers = GetValueOfSelect("PTopSelect");
+    }
 
     let MatchData = {
         "token": token,
-        "Winners": [ top ],
-        "Losers": [ bot ],
+        "Winners": [ winners ],
+        "Losers": [ losers ],
         "Options": {
             "TeamName": null
         }

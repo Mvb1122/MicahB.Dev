@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { Client, GatewayIntentBits } = require('discord.js');
+const { ContextMenuCommandInteraction } = require('discord.js');
 
 // LoginTokens should be invalidated on restart; thus, they are not persisted in global.
 let LoginTokens = [];
@@ -10,10 +11,13 @@ function GetValidToken() {
 }
 
 function IsESportsLoginTokenValid(token) {
-    LoginTokens.forEach(tokenInList => {
+    token = Number.parseInt(token);
+    for (let i = 0; i < LoginTokens.length; i++) {
+        let tokenInList = LoginTokens[i];
+        console.log(`Checking: ${token} against ${tokenInList}`);
         if (token == tokenInList) return true;
-    })
-
+    }
+    
     return false;
 }
 
@@ -78,6 +82,97 @@ function GetMaxMatches(game) {
 
     return { "player": playerWithMostMatches, "numMatches": maxMatches }
 }
+
+function ArrayContains(array, val) {
+    for (let i = 0; i < array.length; i++)
+        if (array[i] == val) return true; 
+    return false;
+}
+
+function GetMatches(player) {
+    player = player.toString().toLowerCase().trim()
+    // Get a list of games.
+    let games = fs.readdirSync("Esports_Projects/Games/");
+    // Group games by players.
+    let playersGames = [];
+
+    for (let i = 0; i < games.length; i++) {
+        let game = games[i];
+        let data = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${game}`));
+        [data.Players, data.Enemies].forEach(PlayerInGame => {
+            if (player == PlayerInGame) {
+                data.Game = game;
+                playersGames.push(data);
+            }
+        })
+    }
+
+    return playersGames;
+}
+
+function GetWinrate(player) {
+    let matches = GetMatches(player);
+    let wins = 0;
+    matches.forEach(match => {
+        if (match.Players != null && ArrayContains(match.Players, player)) // (match.TeamName != null && match.Result == "Win") || ( 
+            wins++;
+    })
+
+    let winrate = wins / matches.length;
+    return winrate == null ? 0 : winrate;
+}
+
+function GetAttendance(player) {
+    let PlayerFilePath = `${PlayersPath}/${player}.json`;
+    let DaysAttended = [], AdditionalDaysAttended = [];
+    if (fs.existsSync(PlayerFilePath)) {
+        let PlayerInfo = JSON.parse(GetFileFromCache(PlayerFilePath));
+
+        fs.readdirSync(EventPath).forEach((e) => {
+            let event = JSON.parse(GetFileFromCache(`${EventPath}/${e}`));
+
+            // If the event contains one of the players' games, include it in the normal list. Else, move onto the next loop.
+            let IsPlayerGame = false;
+            event.Games.forEach((game) => {
+                for (let i = 0; i < PlayerInfo.PlayedGames.length; i++)
+                    if (PlayerInfo.PlayedGames[i] == game) {
+                        IsPlayerGame = true;
+                        break;
+                    }
+            })
+            
+            let attending = false;
+            for (let i = 0; i < event.Attending.length; i++) {
+                let AttendingPlayer = event.Attending[i];
+                // If they were there, append them being there to the list of days that they were there.
+                if (AttendingPlayer == player) {
+                    attending = true;
+                    break;
+                }
+            }
+
+            if (IsPlayerGame) {
+                DaysAttended.unshift({
+                    Date: event.Date,
+                    Attending: attending
+                });
+            } else if (attending) {
+                AdditionalDaysAttended.unshift({
+                    Date: event.Date,
+                    Attending: attending
+                })
+            }
+        })
+    }
+
+    return { Days: DaysAttended, AdditionalDays: AdditionalDaysAttended};
+}
+
+function GetReliability(player) {
+
+}
+
+console.log(GetWinrate(306894))
 
 // Start the Discord bot.
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());
