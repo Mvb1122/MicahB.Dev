@@ -70,11 +70,11 @@ async function SubmitSSBUMatch() {
     // Go to Processing Screen while sending the data.
     let response = postJSON("https://micahb.dev/Esports_Projects/Post_Modules/LogMatch.js&cache=false", MatchData);
     document.getElementById("ProcessingMenu").style.display = "block";
+    document.getElementById("LeaveProcessingScreenButton").style.display = "block";
     document.getElementById("SSBUMenu").style.display = "none";
     response.then((resp) => {
         if (resp.sucessful) {
             document.getElementById("ProcessingText").outerHTML = "<h1>Match Submitted!</h1>";
-            document.getElementById("LeaveProcessingScreenButton").style.display = "block";
         } else {
             document.getElementById("ProcessingMenu").innerHTML = "<h1>Something went wrong, please reload the page!</h1>";
         }
@@ -83,7 +83,6 @@ async function SubmitSSBUMatch() {
 
 // Return to the user's previous screen.
 function LeaveProcessingScreen() {
-    document.getElementById("LeaveProcessingScreenButton").style.display = "none";
     document.getElementById("ProcessingMenu").style.display = "none";
     loadSelectedGame();
 }

@@ -1,22 +1,8 @@
-const fs = require('fs');
-const PlayerPath = "Esports_Projects/Players";
 res.statusCode = 200;
 res.setHeader("Content-Type", "application/json");
-let players = fs.readdirSync(PlayerPath);
 let game = unescape(args.game).trim();
 
 // Go through each player and determine the games.
-let games = { players: [] };
-players.forEach(p => {
-    let player = JSON.parse(GetFileFromCache(PlayerPath + "/" + p));
-    player.PlayedGames.forEach(gameInList => {
-        if (gameInList.trim() == game) 
-            games.players.push({
-                Name: player.Name,
-                Discord_id: player.Discord_id,
-                Student_id: player.Student_id
-            })
-    });
-});
+let games = { players: GetPlayersWhoPlayGame(game) };
 
 res.end(JSON.stringify(games));

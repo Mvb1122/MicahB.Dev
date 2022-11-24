@@ -15,7 +15,8 @@ async function LoadPlayers() {
         fetch(playerURL)
             .then((response) => response.json())
             .then((d) => {
-                list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>${d.Student_id}</td>` + "</tr>";
+                // d.Student_id
+                list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>${"Function Disabled"}</td>` + "</tr>";
                 NumberLoading--;
             });
     });

@@ -2,6 +2,9 @@ const fs = require('fs');
 const { Client, GatewayIntentBits } = require('discord.js');
 const { ContextMenuCommandInteraction } = require('discord.js');
 
+const GamesPath = "Esports_Projects/Games"
+const EventPath = "Esports_Projects/Events"
+
 // LoginTokens should be invalidated on restart; thus, they are not persisted in global.
 let LoginTokens = [];
 function GetValidToken() {
@@ -167,12 +170,69 @@ function GetAttendance(player) {
 
     return { Days: DaysAttended, AdditionalDays: AdditionalDaysAttended};
 }
+const PlayerPath = "Esports_Projects/Players"
+function GetPlayersWhoPlayGame(game) {
+    let players = fs.readdirSync(PlayerPath);
+    game = game.trim();
 
-function GetReliability(player) {
+    // Go through each player and determine the games.
+    let games = [];
+    players.forEach(p => {
+        let player = JSON.parse(GetFileFromCache(PlayerPath + "/" + p));
+        player.PlayedGames.forEach(gameInList => {
+            if (gameInList.trim() == game) 
+                games.push({
+                    Name: player.Name,
+                    Discord_id: player.Discord_id,
+                    Student_id: player.Student_id,
+                    PlayerID: p.substring(0, p.indexOf('.'))
+                })
+        });
+    });
 
+    return games;
 }
 
-console.log(GetWinrate(306894))
+function GetMaxMatchesInGame(game) {
+    // Obtain a list of all of the players who play a game.
+    let players = GetPlayersWhoPlayGame(game);
+
+    // Go through each player and determine who has the most matches.
+    let maxIndex = -1, maxMatches = -1;
+    for (let i = 0; i < players.length; i++) {
+        let player = GetMatches(players[i].PlayerID);
+        if (maxMatches < player.length) {
+            maxIndex = i;
+            maxMatches = player.length;       
+        }
+    }
+
+    return { player: players[maxIndex], numMatches: maxMatches };
+}
+
+console.log(GetMaxMatchesInGame("Super Smash Bros. Ultimate"))
+
+function GetReliability(player) {
+    // Get player information.
+    let playerInfo = JSON.parse(GetFileFromCache(`${PlayerPath}/${player}.json`));
+    // Determine the game to be played (just whatever their first one is.)
+    let game = playerInfo.PlayedGames[0];
+
+    // Obtain the Game-based reliability score.
+    let PlayersGames = GetMatches(player).length;
+    let maxMatches = GetMaxMatchesInGame(game).numMatches;
+    let oldReliability = PlayersGames / maxMatches;
+    // Obtain the Attendance-based reliability score.
+    let attendedEvents = GetAttendance(player);
+    let attending = 0;
+    [attendedEvents.Days, attendedEvents.AdditionalDays].forEach(set => set.forEach(day => {
+        if (day.Attending) attending++;
+    }))
+    let AttendanceReliability = attending / (attendedEvents.Days.length + attendedEvents.AdditionalDays.length)
+
+    // Average the two scores.
+    return ((oldReliability + AttendanceReliability) / 2)
+} 
 
 // Start the Discord bot.
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());
@@ -187,8 +247,6 @@ const client = new Client({
 client.once('ready', () => {
 	console.log('Discord bot online.');
 });
-
-const PlayerPath = "Esports_Projects/Players"
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return false; 
@@ -393,8 +451,6 @@ client.on("messageCreate", async (message) => {
     }
 });
 
-const GamesPath = "Esports_Projects/Games"
-const EventPath = "Esports_Projects/Events"
 const ThreadPrefix = "Event Thread ";
 
 if (global.playerCache == null) global.playerCache = {};
