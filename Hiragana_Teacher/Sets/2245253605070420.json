@@ -1,0 +1,54 @@
+{
+    "Name": "Nakama 1a Chapter 3 Verbs and Question Words",
+    "ObjectName": "verb",
+    "AnswerName": "translation",
+    "Set": [
+        {
+            "あります": "to be held/to have"
+        },
+        {
+            "いきます": "to go"
+        },
+        {
+            "かえります": "to return/to go home"
+        },
+        {
+            "のみます": "to drink"
+        },
+        {
+            "はいります": "to enter/to take/to take a bath"
+        },
+        {
+            "よみます": "to read"
+        },
+        {
+            "あびます": "to take/to take a shower"
+        },
+        {
+            "おきます": "to get up/to wake up"
+        },
+        {
+            "たべます": "to eat"
+        },
+        {
+            "ねます": "to go to bed"
+        },
+        {
+            "みます": "to see/to watch"
+        },
+        {
+            "どご": "where"
+        },
+        {
+            "どちら": "where/where (polite)/which way"
+        },
+        {
+            "なに or なん": "what"
+        },
+        {
+            "いつ": "when"
+        }
+    ],
+    "Visibility": "public",
+    "Author": "976"
+}
