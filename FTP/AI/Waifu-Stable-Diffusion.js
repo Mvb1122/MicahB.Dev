@@ -79,13 +79,14 @@ async function loadImagesFromPrompt(AI, Prompt) {
             // Only process a prompt if it has less than the maximum number of tags.
             if (prompt.tags.length < MaxTagLength)
                 tagsWhichMustBeIncluded.forEach(mustBeIncludedTag => {
-                    mustBeIncludedTag = mustBeIncludedTag.toLowerCase().trim();
+                    mustBeIncludedTag = mustBeIncludedTag.toLowerCase().trim().replace(/_/g, " ");
                     prompt.tags.forEach(tagInPossiblePrompt => {
-                        if (tagInPossiblePrompt.toString().toLowerCase().includes(mustBeIncludedTag))
+                        if (tagInPossiblePrompt.toString().toLowerCase().trim().replace(/_/g, " ").includes(mustBeIncludedTag))
                             tagsWhichMatch++;
                     });
                 })
-            if (tagsWhichMatch >= tagsWhichMustBeIncluded.length) applicablePrompts.push(prompt);
+            if (tagsWhichMatch >= tagsWhichMustBeIncluded.length) 
+                applicablePrompts.push(prompt);
         };
         // console.log("Applicable Prompts: " + applicablePrompts.toString())
         Prompt = applicablePrompts;

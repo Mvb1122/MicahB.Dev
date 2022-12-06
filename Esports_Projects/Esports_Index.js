@@ -210,8 +210,6 @@ function GetMaxMatchesInGame(game) {
     return { player: players[maxIndex], numMatches: maxMatches };
 }
 
-console.log(GetMaxMatchesInGame("Super Smash Bros. Ultimate"))
-
 function GetReliability(player) {
     // Get player information.
     let playerInfo = JSON.parse(GetFileFromCache(`${PlayerPath}/${player}.json`));
@@ -232,7 +230,7 @@ function GetReliability(player) {
 
     // Average the two scores.
     return ((oldReliability + AttendanceReliability) / 2)
-} 
+}
 
 // Start the Discord bot.
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());

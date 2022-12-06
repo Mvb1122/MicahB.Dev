@@ -20,7 +20,7 @@ const fs = require('fs')
 let postInfo = JSON.parse(data);
 let userID = await TokenToUserID(postInfo.login_token);
 console.log(`Token: ${postInfo.login_token} userID: ${userID}`);
-if (userID != undefined) {
+if (userID != undefined && userID != -1) {
     let PathToUsersFiles = `Hiragana_Teacher/Users/${userID}/`
     let setLocation = `${PathToUsersFiles}${postInfo.set}.json`;
 

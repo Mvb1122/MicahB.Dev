@@ -1,4 +1,4 @@
-const pageURL = "https://micahb.dev/Hiragana_Teacher/"
+const pageURL = "./" // Use for redirecting backend usage.
 let promptText = "";
 let answerText = "";
 
@@ -301,21 +301,28 @@ function EvaluateAnswer() {
 }
 
 // Chooses a character to test the user on.
+let LastSelectedChoice = -1;
 function SelectCharacter() {
-    // Flip a coin, and if it's heads, choose the one with the max number of times wrong. Else, choose a random one.
-    let random = { 
-        Next(int) {
-            return Math.floor(Math.random() * int)
-        }
-    }
-    let rand = random.Next(3);
-    let choice = (rand == 0);
+    let RandomCharacter = () => { return Math.floor(Math.random() * list.Set.length); }
 
-    if (choice) {
-        let choice = GetMaxChanceIndex();
-        return list.Set[choice];
-    } else
-        return list.Set[Math.floor(Math.random() * list.Set.length)];
+    // Flip a coin, and if it's heads, choose the one with the max number of times wrong. Else, choose a random one.
+    let rand = Math.floor(Math.random() * 3);
+    let DontChooseRandomly = (rand == 0);
+    let choice = -1;
+
+    if (DontChooseRandomly)
+        choice = GetMaxChanceIndex();
+    else
+        choice = RandomCharacter();
+
+    // Prevent the same one from being chosen twice in a row, but only if the set's long enough to let that happen.
+    if (choice == LastSelectedChoice && list.Set.length >= 2) 
+        do 
+            choice = RandomCharacter()
+        while (choice == LastSelectedChoice)
+    
+    LastSelectedChoice = choice;
+    return list.Set[choice];
 }
 
 function ToggleScreen() {

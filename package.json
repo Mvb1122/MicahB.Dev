@@ -16,8 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
+    "compression": "^1.7.4",
     "discord.js": "^14.1.2",
     "http": "0.0.1-security",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "zlib": "^1.0.5"
   }
 }

@@ -120,7 +120,7 @@ async function LoadPlayerFromDropDown() {
         let text = `This game was between ${TeamMembers} and ${Enemies}. `
         
         // Determine whether the specified player was on the winning team or not.
-        if (DidPlayerWin)
+        if (!DidPlayerWin)
             text += `Unfortunately, ${PlayerFirstName} lost this game.`
         else text += `${PlayerFirstName} won this game.`
 

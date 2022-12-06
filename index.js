@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const host = require('os').hostname();
+const zlib = require('zlib');
 const port = 80;
 const DEBUG = false;
 
@@ -84,6 +85,29 @@ const requestListener = async function (req, res) {
     // Also, set the CORS policy so the www domain can also access stuff.
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (DEBUG) console.log("Request for LocalURL at " + localURL)
+
+    // Set compression on all non-image/video requests.
+    // if (req.headers["accept-encoding"] != null) {
+    res.EndWithCompression = (buffer) => {
+        let acceptEncodingHeader = req.headers["accept-encoding"];
+        if (acceptEncodingHeader.includes("gzip") || acceptEncodingHeader.includes("x-gzip")) {
+            res.setHeader("Content-Encoding", "gzip"); 
+            try {
+                // Compress with GZip and then Gunzip
+                let oldLength = buffer.length
+                zlib.gzip(buffer, (err, buffer) => {
+                    console.log(`Compressed from ${buffer.length} to ${oldLength}!`);
+                    res.end(buffer)
+                });
+            } catch (e) {
+                console.log(e);
+                res.end(buffer);
+            }
+        } else {
+            res.end(buffer);
+        }
+    }
+        
         
         // GETTING:
     if (req.method === "GET") {
@@ -185,6 +209,8 @@ const requestListener = async function (req, res) {
                         // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index") || localURL.includes("favicon")) {
                         res.end(GetFileFromCache(localURL));
+                    } else if (args.compress) {
+                        res.EndWithCompression(GetFileFromCache(localURL));
                     } else {
                         let s = fs.createReadStream(localURL);
 
@@ -310,6 +336,9 @@ eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
 
 // Run Hiragana Teacher stuff.
 eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
+
+// Run the AI Index stuff.
+eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
 // Save the global cache when the program is shut down.
 process.on('SIGINT', function() {
