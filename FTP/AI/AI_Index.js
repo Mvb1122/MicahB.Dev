@@ -3,27 +3,30 @@ let ComponentCache = [];
 
 function GetComponents(fileToRead) {
     if (ComponentCache[fileToRead] != null) return ComponentCache[fileToRead];
-    else if (fileToRead != null && fs.existsSync(fileToRead) && fileToRead.includes("NovelAI")) {
+    else if (fileToRead != null && fs.existsSync(fileToRead) && fileToRead.includes("AI")) {
         // Obtain the data from the file.
         let OGdata = fs.readFileSync(fileToRead).toString();
+        if (DEBUG) console.log("Read file for components parsing!")
         let data = OGdata;
         let start = data.indexOf("tEXt") + 4, end = data.indexOf(", Model hash: ");
         let promptText = data.substring(start, end);
         
         // Split the data into parts.
-        let parts = promptText.replace("\x00", ": ").replace("\x00", ": ").replace("\u00001", ": ").split('\n');
+        let parts = promptText.replace("\x00", ": ").replace("\x0A", ": ").replace("\u00001", ": ").split('\n');
 
         // Process each part into its own parts. (Part name and content.)
         let partsParts = [[]];
-        for (let i = 0; i < parts.length - 1; i++)
+        for (let i = 0; i < parts.length - 1; i++) {
             partsParts[i] = parts[i].split(": ");
+            if (DEBUG) console.log(`Part: ${parts[i]}`);
+        }
 
         // Split the last part into its parts.
-        let compoundPart = parts[2].split(", ");
+        let compoundPart = parts[parts.length - 1].split(", ");
         for (let i = 0; i < compoundPart.length; i++)
             partsParts.push(compoundPart[i].split(": "));
 
-        // Code each part onto a JS object.
+        // Copy each part onto a JS object.
         let response = {};
         partsParts.forEach(part => {
             response[part[0].replace(" ", "")] = part[1];
@@ -34,11 +37,14 @@ function GetComponents(fileToRead) {
         let parameters = data.substring(data.indexOf("tEXtparameters") + 15, data.indexOf("Negative"));
         response.parameters = parameters.trim();
         */
+        if (DEBUG) console.log(`Response: \n${response}`);
         
         // Cache the response, so that the next call can be sped up, then return it. 
         ComponentCache[fileToRead] = response;
         return response;
     }
+
+    return {sucessful: false, reason: "File not Found!"};
 }
 
 async function PreloadPrompts(AI) {

@@ -13,6 +13,7 @@ try {
     response.sucessful = true;
 } catch (e) {
     response.err = e.toString();
+    console.log(e);
 } finally {
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify(response));
