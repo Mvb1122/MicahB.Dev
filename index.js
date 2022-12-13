@@ -184,7 +184,7 @@ const requestListener = async function (req, res) {
         } else if (req.url.includes("/Modules/")) {
             if (DEBUG) console.log("Modules request for:" + localURL)
             // Run the specified file, if it exists and isn't a directory.
-                // Modules should always be cached to reduce disk wear and decrease latency!
+                // Modules should always be cached to reduce disk wear and decrease latency.
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 let script = GetFileFromCache(localURL).toString();
                 eval(script)
