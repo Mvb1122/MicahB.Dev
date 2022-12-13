@@ -5,6 +5,19 @@ const { ContextMenuCommandInteraction } = require('discord.js');
 const GamesPath = "Esports_Projects/Games"
 const EventPath = "Esports_Projects/Events"
 
+// Uncomment this section of code if you need to add a game tag to any games without one.
+/*
+let Games = fs.readdirSync(GamesPath)
+Games.forEach(Game => {
+    // Load the file.
+    let data = JSON.parse(GetFileFromCache(GamesPath + `/${Game}`));
+    if (data.Game == null) data.Game = "Super Smash Bros. Ultimate"
+
+    // Write it.
+    fs.writeFile(GamesPath + `/${Game}`, JSON.stringify(data), () => {});
+})
+*/
+
 // LoginTokens should be invalidated on restart; thus, they are not persisted in global.
 let LoginTokens = [];
 function GetValidToken() {
@@ -96,18 +109,19 @@ function GetMatches(player) {
     player = player.toString().toLowerCase().trim()
     // Get a list of games.
     let games = fs.readdirSync("Esports_Projects/Games/");
-    // Group games by players.
     let playersGames = [];
-
+    
     for (let i = 0; i < games.length; i++) {
         let game = games[i];
+        
+        // Read each file in and determine if it has the player.
         let data = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${game}`));
-        [data.Players, data.Enemies].forEach(PlayerInGame => {
+        [data.Players, data.Enemies].forEach(side => side.forEach(PlayerInGame => {
             if (player == PlayerInGame) {
                 data.Game = game;
                 playersGames.push(data);
             }
-        })
+        }));
     }
 
     return playersGames;
@@ -170,6 +184,7 @@ function GetAttendance(player) {
 
     return { Days: DaysAttended, AdditionalDays: AdditionalDaysAttended};
 }
+
 const PlayerPath = "Esports_Projects/Players"
 function GetPlayersWhoPlayGame(game) {
     let players = fs.readdirSync(PlayerPath);
@@ -220,16 +235,21 @@ function GetReliability(player) {
     let PlayersGames = GetMatches(player).length;
     let maxMatches = GetMaxMatchesInGame(game).numMatches;
     let oldReliability = PlayersGames / maxMatches;
+    
     // Obtain the Attendance-based reliability score.
+        // Get a list of days that were/were not attended.
     let attendedEvents = GetAttendance(player);
+
     let attending = 0;
+        // Count up the number of days attended.
     [attendedEvents.Days, attendedEvents.AdditionalDays].forEach(set => set.forEach(day => {
         if (day.Attending) attending++;
     }))
-    let AttendanceReliability = attending / (attendedEvents.Days.length + attendedEvents.AdditionalDays.length)
+
+    let AttendanceReliability = attending / (attendedEvents.Days.length)
 
     // Average the two scores.
-    return ((oldReliability + AttendanceReliability) / 2)
+    return (oldReliability + AttendanceReliability) / 2;
 }
 
 // Start the Discord bot.

@@ -1,6 +1,7 @@
 async function loadPlayers(game) {
     // Get a list of players from the server.
     let data = await (fetch("https://micahb.dev/Esports_Projects/Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
+
     // Add both players to both lists.
     let insides = [];
 
@@ -29,23 +30,99 @@ async function loadGames() {
     })
 }
 
+let selectedGame = "";
+let SourceScreen = "";
 async function loadSelectedGame() {
-    let selectedGame = GetValueOfSelect("GameSeletor");
+    selectedGame = GetValueOfSelect("GameSeletor");
 
-    if (selectedGame == "Super Smash Bros. Ultimate") {
-        let insides = await loadPlayers(selectedGame);
-        [ document.getElementById("PTopSelect"), document.getElementById("PBotSelect") ].forEach(select => {
-            insides.forEach(row => 
-                select.append(row.cloneNode(true))
-            );
-        })
+    let rows = [];
+    switch (selectedGame) {
+        case "Super Smash Bros. Ultimate":
+            rows = [ document.getElementById("PTopSelect"), document.getElementById("PBotSelect") ];
+            await LoadRows(selectedGame, rows);
+            document.getElementById("SSBUMenu").style.display = "flex"
+            SourceScreen = "SSBUMenu"
+            break;
 
-        document.getElementById("SSBUMenu").style.display = "flex"
-    } else {
-        document.getElementById("ProcessingMenu").style.display = "block";
-        document.getElementById("ProcessingText").outerHTML = "<h1>Game Not Implemented!</h1>"
+        case "Mario Kart":
+            await LoadMarioKartSplatoonPanel(selectedGame);
+            break;
+
+        case "Splatoon":
+            await LoadMarioKartSplatoonPanel(selectedGame);
+            break;
+
+        default:
+            document.getElementById("ProcessingMenu").style.display = "block";
+            document.getElementById("ProcessingText").outerHTML = "<h1>Game Not Implemented!</h1>"
+            break;
     }
+
     document.getElementById("LoadGame").style.display = "none"
+}
+
+async function LoadMarioKartSplatoonPanel(selectedGame) {
+    let rows = GetSplatoonAndMarioKartSelects();
+    await LoadRows(selectedGame, rows);
+    document.getElementById("SplatMKMenu").style.display = "block";
+    SourceScreen = "SplatMKMenu";
+}
+
+function GetSplatoonAndMarioKartSelects() {
+    let top = GetSelectsByNumberAndPrefix(4, "PTopSelect");
+    let bottom = GetSelectsByNumberAndPrefix(4, "PBotSelect");
+    return top.concat(bottom);
+}
+
+function GetSelectsByNumberAndPrefix(num, side) {
+    let rows = [];
+    for (let i = 0; i < num; i++) {
+        let select = `${side}${i}`;
+        rows.push(document.getElementById(select));
+    }
+    return rows;
+}
+
+async function LoadRows(selectedGame, rows) {
+    let insides = await loadPlayers(selectedGame);
+    rows.forEach(select => {
+        insides.forEach(row => 
+            select.append(row.cloneNode(true))
+        );
+    });
+}
+
+function GetValueOfSelectArray(array) {
+    let output = [];
+    array.forEach(select => output.push(GetValueOfSelect(select.id)))
+    return output;
+}
+
+async function SubmitSplatMKMatch() {
+    let winners, losers;
+    if (GetValueOfSelect("CompSelector") == "beat") {
+        winners = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PTopSelect"));
+        losers = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PBotSelect"));
+    } else {
+        winners = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PBotSelect"));
+        losers = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PTopSelect"));
+    }
+
+    // Fetch the map input.
+    let map = GetValueOfSelect("MapInput");
+
+    let MatchData = {
+        "token": token,
+        "Winners": winners,
+        "Losers": losers,
+        "Options": {
+            "TeamName": null,
+            "Game": selectedGame,
+            "Map": map == null ? null : map
+        }
+    }
+
+    SubmitMatch(MatchData);
 }
 
 async function SubmitSSBUMatch() {
@@ -63,15 +140,20 @@ async function SubmitSSBUMatch() {
         "Winners": [ winners ],
         "Losers": [ losers ],
         "Options": {
-            "TeamName": null
+            "TeamName": null,
+            "Game": "Super Smash Bros. Ultimate"
         }
     }
 
+    SubmitMatch(MatchData);
+}
+
+async function SubmitMatch(MatchData) {
     // Go to Processing Screen while sending the data.
     let response = postJSON("https://micahb.dev/Esports_Projects/Post_Modules/LogMatch.js&cache=false", MatchData);
     document.getElementById("ProcessingMenu").style.display = "block";
     document.getElementById("LeaveProcessingScreenButton").style.display = "block";
-    document.getElementById("SSBUMenu").style.display = "none";
+    document.getElementById(SourceScreen).style.display = "none";
     response.then((resp) => {
         if (resp.sucessful) {
             document.getElementById("ProcessingText").outerHTML = "<h1>Match Submitted!</h1>";

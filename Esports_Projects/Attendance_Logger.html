@@ -66,6 +66,27 @@
                     </select><br>
                     <button onclick="SubmitSSBUMatch()">Submit Match!</button>
                 </div>
+                <div id="SplatMKMenu" style="display:none">
+                    <select name="PlayerTopSelect0" id="PTopSelect0"></select><br>
+                    <select name="PlayerTopSelect1" id="PTopSelect1"></select><br>
+                    <select name="PlayerTopSelect2" id="PTopSelect2"></select><br>
+                    <select name="PlayerTopSelect3" id="PTopSelect3"></select><br>
+                    <br>
+                    <select name="CompSelector" id="CompSelector">
+                        <option value="beat">won against</option>
+                        <option value="lost">lost to</option>
+                    </select>
+                    <br><br>
+                    <select name="PlayerBotSelect0" id="PBotSelect0"></select><br>
+                    <select name="PlayerBotSelect1" id="PBotSelect1"></select><br>
+                    <select name="PlayerBotSelect2" id="PBotSelect2"></select><br>
+                    <select name="PlayerBotSelect3" id="PBotSelect3"></select>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="Map (Can be empty)" id="MapInput">
+                    <br>
+                    <button onclick="SubmitSplatMKMatch()">Submit Match!</button>
+                </div>
                 <div id="ProcessingMenu" style="display: none;">
                     <h2 id="ProcessingText" style="margin-left: 50%; margin-right: 50%;">Processing...</h2>
                     <button id="LeaveProcessingScreenButton" onclick="LeaveProcessingScreen()" style="display: none; margin-left: 50%; margin-right: 50%;">Back!</button>

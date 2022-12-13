@@ -1,6 +1,3 @@
-const fs = require('fs');
-const EventPath = "Esports_Projects/Games/";
-
 // Loop through all of the days, determine which days the player was present on, and which they were not.
 let player = args.player;
 let MatchesAttended = player != null ? GetMatches(player) : [];

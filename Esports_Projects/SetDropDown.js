@@ -40,6 +40,19 @@ function ArrayContains(array, val) {
     return false;
 }
 
+function TurnArrayIntoListOfNames(array) {
+    let text = "";
+    if (array.length >= 2) {
+        for (let i = 0; i < array.length - 1; i++) {
+            text += array[i]
+            if (i != array.length - 2) text += ", "
+        }
+        
+        text += " and " + array[array.length - 1];
+        return text;
+    } else return array[0];
+}
+
 async function LoadPlayerFromDropDown() {
     // Get the specified player's information from the server.
     const player = document.getElementById("player-names").value;
@@ -65,6 +78,8 @@ async function LoadPlayerFromDropDown() {
     document.getElementById("Loading_Text").hidden = false; 
     document.getElementById("Loading_Text").innerText = "Loading Matches: 0%"; 
     document.getElementById("Selection_Helpers").hidden = true;
+    document.getElementById("ResetWinratePageButton").hidden = false;
+
 
     // Load the player's matches.
     let GameData = data.Games
@@ -85,44 +100,65 @@ async function LoadPlayerFromDropDown() {
     let output = `Winrate: ${winrate}%`;
     let MatchNumber = 0;
     GameData.forEach(async Game => {
-        // Make the Text Green if they won and red if they lost.
+        // Make the Text Green if they won and red if they lost, or yellow if they tied.
         let textClass;
-        let DidPlayerWin = ArrayContains(Game.Players, playerID)
-        if (DidPlayerWin) 
+
+        // Figure out if the player won or lost.
+        let winningSide = Game.result == "Win" ? Game.Players : Game.Enemies;
+        let DidPlayerWin = ArrayContains(winningSide, playerID)
+
+        let GameResult = "Tie";
+
+        if (Game.Result == "Tie")
+            textClass = "yellowText"
+        else if (DidPlayerWin) {
             textClass = "greenText"
-        else
+            GameResult = "Win"
+        } else if (!DidPlayerWin) {
             textClass = "redText"
+            GameResult = "Loss"
+        }
 
-        let heading = `<h2 class="${textClass}">Match #${++MatchNumber}: ${DidPlayerWin ? "Win" : "Loss"}</h2>`;
+        console.log(Game.Result);
 
-        let TeamMembers = "";
+        let heading = `<h2 class="${textClass}">Match #${++MatchNumber}: ${GameResult}</h2>`;
+
+        let TeamMembers = [];
         let NumberProcessing = Game.Players.length + Game.Enemies.length;
         Game.Players.forEach(async player => {
             let playerInfo = await GetFromPlayerCache(`${player}.json`)
-            TeamMembers += playerInfo.Name + ", "
+            TeamMembers.push((await playerInfo).Name);
             NumberProcessing--;
         })
         
-        let Enemies = "";
+        let Enemies = [];
         Game.Enemies.forEach(async player => {
             let playerInfo = GetFromPlayerCache(`${player}.json`)
-            Enemies += (await playerInfo).Name + ", "
+            Enemies.push((await playerInfo).Name);
             NumberProcessing--;
         })
 
         do {
-            console.log(NumberProcessing);
             await new Promise(resolve => setTimeout(resolve, 50))
         } while (NumberProcessing != 0)
 
-        TeamMembers = TeamMembers.substring(0, TeamMembers.length - 2);
-        Enemies = Enemies.substring(0, Enemies.length - 2);
-        let text = `This game was between ${TeamMembers} and ${Enemies}. `
+        TeamMembers = TurnArrayIntoListOfNames(TeamMembers);
+        Enemies = TurnArrayIntoListOfNames(Enemies);
+        let part1 = "This was a game ";
+        if (Game.PlayedGame != null)  
+            part1 += `of ${Game.PlayedGame} `;
+
+        let text = part1 + `between ${TeamMembers} and ${Enemies}. `
         
         // Determine whether the specified player was on the winning team or not.
-        if (!DidPlayerWin)
+        if (GameResult == "Tie")
+            text += "This game was a tie.";
+        else if (!DidPlayerWin)
             text += `Unfortunately, ${PlayerFirstName} lost this game.`
         else text += `${PlayerFirstName} won this game.`
+
+        if (Game.Map != null)
+            text += ` This game was played on ${Game.Map}.`
 
         output += heading + text;
         document.getElementById("Match Display").innerHTML = output;
@@ -134,4 +170,8 @@ function ResetWinratePage() {
     document.getElementById("Loading_Text").innerText = ""; 
     document.getElementById("Selection_Helpers").hidden = false;
     document.getElementById("MatchDisplay").hidden = true;
+    document.getElementById("ResetWinratePageButton").hidden = true;
+
+    document.getElementById("Match Display Title").innerText = "";
+    document.getElementById("Match Display").innerText = "";
 }

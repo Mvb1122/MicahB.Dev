@@ -4,8 +4,10 @@ const fs = require('fs');
     "token": 1445,
     "Winners": [ 1234 ],
     "Losers": [ 12345 ],
-    "Options": {
-        "TeamName": TeamName
+    "Options": { // All values under Options should be considered as nullable, although you really should include a game.
+        "TeamName": TeamName,
+        "Game": "Super Smash Bros. Ultimate" || "Mario Kart" || "Splatoon" ...
+        "Map": "Final Destination"
     }
 }
 */
@@ -40,8 +42,15 @@ let writeData = {
     "DateOfMatch": today
 }
 
+// Include any optional information shared.
 if (GivenData.Options.TeamName != null)
     writeData.TeamName = GivenData.Options.TeamName;
+
+if (GivenData.Options.Game != null)
+    writeData.Game = GivenData.Options.Game;
+
+if (GivenData.Options.Map != null && GivenData.Options.Map != "")
+    writeData.Map = GivenData.Options.Map;
 
 let num = 0, path = "";
 do {

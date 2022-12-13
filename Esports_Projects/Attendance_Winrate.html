@@ -35,13 +35,13 @@
                 <button type="button" onclick="LoadPlayerFromDropDown()" id="LoadPlayerButton">Load Player</button>
             </div>
 
-            <div id="MatchDisplay" hidden="true">
+            <div id="MatchDisplay" hidden="true" style="display: contents;">
                 <br>
                 <div class="centerTop">
-                    <button type="button" onclick="ResetWinratePage()">Go Back</button>
+                    <button type="button" hidden="true" onclick="ResetWinratePage()" id="ResetWinratePageButton">Select Another Player</button>
                 </div>
                 <h1 id="Match Display Title"></h1>
-                <div id="Match Display"></div>
+                <div id="Match Display" style="max-width: 50%;"></div>
             </div>
         </main>
     </body>
