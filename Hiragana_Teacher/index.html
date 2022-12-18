@@ -54,7 +54,7 @@
     
         <div id="Home" class="HCenter">
             <br>
-            <h1>Hiragana Teacher <img src="../FTP/alpha_McD.webp" alt="alpha" class="InlineImage"> v2.3</h1>
+            <h1>Hiragana Teacher <img src="../FTP/alpha_McD.webp" alt="alpha" class="InlineImage"> v2.4a</h1>
 
             <div id="ListSelection">
                 <h2 id="instructions">Please choose a set to practice below and hit the green button to start it.</h2>
@@ -80,8 +80,9 @@
                                     <h2>Length</h2>
                                 </th>
                                 <th><h2 id="Author_{s}">Author: {a}</h2></th>
-                                <th style="width:1in"><img src="./Practice Button.svg" alt="Click this to start practicing {x}" class="PracticeButton" onclick="load({s})"></th>
+                                <th style="width:1in"><img id="CardButton_{s}" src="./Cards Button.svg" alt='Click this button to launch "Flip Cards" Mode' class="PracticeButton" onclick="LoadCards({s})" hidden></th>
                                 <th style="width:1in"><img id="EditButton_{s}" src="./Edit Button.svg" alt="Click this button to edit this set." class="PracticeButton" onclick="edit({s})" hidden></th>
+                                <th style="width:1in"><img src="./Practice Button.svg" alt="Click this to start practicing {x}" class="PracticeButton" onclick="load({s})"></th>
                             </tr>
                         </table>
                     </div>
@@ -102,6 +103,8 @@
             </div>
 
             <div id="SignUpPane" class="game" style="display: none;"></div>
+
+            <div id="CardPane" class="game" hidden style="height: fit-content;"></div>
             
             <h1>Watch the video <a href="https://youtu.be/spb3u-z-DrA">here</a>!</h1>
         </div>

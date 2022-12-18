@@ -2,8 +2,13 @@ async function loadPlayers(game) {
     // Get a list of players from the server.
     let data = await (fetch("https://micahb.dev/Esports_Projects/Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
 
-    // Add both players to both lists.
-    let insides = [];
+    // Add players to a list, which we can use to put them on the dropdowns.
+        // Also, include the "null" player here, so that we can include matches with missing people.
+    let NullOption = document.createElement("option");
+    NullOption.value = "NULL";
+    NullOption.text = "Empty Slot";
+
+    let insides = [NullOption];
 
     data.players.forEach(player => {
         let option = document.createElement("option");
@@ -83,12 +88,14 @@ function GetSelectsByNumberAndPrefix(num, side) {
     return rows;
 }
 
+// Only loads rows if they aren't already filled.
 async function LoadRows(selectedGame, rows) {
     let insides = await loadPlayers(selectedGame);
     rows.forEach(select => {
-        insides.forEach(row => 
-            select.append(row.cloneNode(true))
-        );
+        if (select.options.length == 0)
+            insides.forEach(row => 
+                select.append(row.cloneNode(true))
+            );
     });
 }
 
@@ -149,6 +156,26 @@ async function SubmitSSBUMatch() {
 }
 
 async function SubmitMatch(MatchData) {
+    // Remove the null option from either part.
+    let winners = [];
+    MatchData.Winners.forEach(winner => {
+        if (winner != "NULL")
+            winners.push(winner);
+    })
+
+    let losers = [];
+    MatchData.Losers.forEach(loser => {
+        if (loser != "NULL")
+            losers.push(loser)
+    })
+
+    MatchData.Losers = losers;
+    MatchData.Winners = winners;
+
+    // Make sure that both sides have at least one person before continuing.
+    if (MatchData.Losers.length == 0 || MatchData.Winners.length == 0)
+        return alert("You need more players! One of your sides is entirely empty.");
+
     // Go to Processing Screen while sending the data.
     let response = postJSON("https://micahb.dev/Esports_Projects/Post_Modules/LogMatch.js&cache=false", MatchData);
     document.getElementById("ProcessingMenu").style.display = "block";

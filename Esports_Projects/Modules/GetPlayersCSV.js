@@ -1,3 +1,5 @@
+// ARGS: game = ["Super Smash Bros. Ultimate", "Splatoon" ...] : By default, SSBU.
+
 const fs = require('fs');
 // Process games into players by winrate.
     // Setup data structure.
@@ -28,22 +30,26 @@ function PutMatchIn(index, wasItAWin) {
 
 // Aggregate information from files.
 let gamesPath = './Esports_Projects/Games/';
+let gameToBeLogging = args.game == null ? "Super Smash Bros. Ultimate" : args.game;
 let files = fs.readdirSync(gamesPath);
 files.forEach(file => {
     let WasitAWin = true;
     let data = JSON.parse(GetFileFromCache(gamesPath + file));
     
-    if (data.Result != "Win") WasitAWin = false;
+    // Only include games that are of the game we're requesting.
+    if (data.Game == gameToBeLogging) {
+        if (data.Result != "Win") WasitAWin = false;
 
-    // Put in the person's game as a win or a loss.
-    data.Players.forEach(player => {
-        PutMatchIn(GetPlayerIndex(player), WasitAWin)
-    });
-
-    // Put the game in for the loser as well.
-    data.Enemies.forEach(player => {
-        PutMatchIn(GetPlayerIndex(player), !WasitAWin)
-    });
+        // Put in the person's game as a win or a loss.
+        data.Players.forEach(player => {
+            PutMatchIn(GetPlayerIndex(player), WasitAWin)
+        });
+    
+        // Put the game in for the loser as well.
+        data.Enemies.forEach(player => {
+            PutMatchIn(GetPlayerIndex(player), !WasitAWin)
+        });
+    }
 })
 
 // Turn the data into CSV.

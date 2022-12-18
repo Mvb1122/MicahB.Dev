@@ -80,7 +80,7 @@ Display {
 }
 
 .SetDisplay {
-    height: 1in;
+    height: auto;
     background-color: antiquewhite;
     border-radius: 7px;
     margin-top: 7px;

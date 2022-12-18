@@ -5,13 +5,14 @@ const { ContextMenuCommandInteraction } = require('discord.js');
 const GamesPath = "Esports_Projects/Games"
 const EventPath = "Esports_Projects/Events"
 
-// Uncomment this section of code if you need to add a game tag to any games without one.
+// Correct games with a PlayedGameTag:
 /*
 let Games = fs.readdirSync(GamesPath)
 Games.forEach(Game => {
     // Load the file.
     let data = JSON.parse(GetFileFromCache(GamesPath + `/${Game}`));
-    if (data.Game == null) data.Game = "Super Smash Bros. Ultimate"
+    if (data.Game == null && data.PlayedGame != null) data.Game = data.PlayedGame;
+    delete data.PlayedGame;
 
     // Write it.
     fs.writeFile(GamesPath + `/${Game}`, JSON.stringify(data), () => {});

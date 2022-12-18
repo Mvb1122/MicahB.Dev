@@ -5,12 +5,17 @@
     /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover. */
     .flip-card {
         background-color: transparent;
-        max-width: 800px;
-        width: 100%;
-        max-height: 300px;
+        max-height: 3in;
         min-height: 3em;
-        height: 20%;
+        max-width: 5in;
+        width: 100%;
+        height: 80vh;
         perspective: 1000px;
+        
+        margin-top: 4em;
+        margin-bottom: 0%;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .flip-card-inner {
@@ -37,23 +42,28 @@
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
 
-        background-color: #bbb;
+        background-color: white;
         color: black;
     }
 
     .flip-card-back {
+        color: white;
         transform: rotateX(180deg); 
     }
 
     .centered {
+        display: flex;
         align-items: center;
+        justify-content: center;
+
         width: 100%;
+        height: 100%;
         font-size: max(20%, 2em);
     }
 
-    .back-button, .next-button {
-        width: 50%;
-        max-width: 400px;
+    .back-button, .next-button, .return-button {
+        width: 40%;
+        max-width: 2.5in;
         border-color: grey;
         border-radius: 7px;
 
@@ -68,41 +78,29 @@
     .next-button {
         background-color: forestgreen;
     }
+
+    .return-button {
+        width: 80%; 
+        max-width: 5in;
+        background-color: lightblue;
+        color: black;
+    }
 </style>
-<div class="flip-card">
-    <div class="flip-card-inner">
-        <div class="flip-card-front">
-            <div class="centered" id="card_front">
-                Text Here
+<div style="display: flex; flex-direction: column;">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="centered" id="card_front" style="background-color: white;">
+                </div>
             </div>
-        </div>
-        <div class="flip-card-back">
-            <div class="centered" id="card_back">John Doe</div>
+            <div class="flip-card-back">
+                <div class="centered" id="card_back" style="background-color: dimgray;">
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <br>
 <button class="back-button" onclick="back()">Back</button><button class="next-button" onclick="foward()">Next</button>
-<script>
-    let listOfWords = [
-        {front: "Water", back: "水 or みず"},
-        {front: "I", back: "私 or わたし"},
-        {front: "Language", back: "語 or ご"}
-    ]
-    let index = 0;
-
-    let back = () => move(-1);
-    let foward = () => move(1);
-
-    function move(dist) {
-        // Move the index back by one, loop it to the start if it passes by the end or to the end from the beginning.
-        index = (index + dist) % listOfWords.length;
-        if (index < 0) index = listOfWords.length - 1;
-        
-        document.getElementById("card_front").innerText = listOfWords[index].front;
-        document.getElementById("card_back").innerText = listOfWords[index].back
-    }
-
-    // Set first card on load.
-    move(0);
-</script>
+<br>
+<button class="return-button" onclick="leaveCardScreen()">Go Back to the Selection Screen</button>

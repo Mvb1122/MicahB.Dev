@@ -373,6 +373,8 @@ async function updateLoginPane(IsPasswordCorrect) {
 
         // Show the "Create a Set Button"
         document.getElementById("CreateASetButton").hidden = false;
+
+        
     } else {
         loginPane.innerHTML = "Incorrect password!"
         setTimeout(() => {
@@ -385,7 +387,20 @@ async function updateLoginPane(IsPasswordCorrect) {
 async function UpdateVisibleSets() {
     await AddPublicSets();
     await AddPrivateSets();
+
+    // Also show the cards buttons here.
+    ShowCardsButtons();
     ShowEditableSets()
+}
+
+// Loops through all Flash Card buttons and shows them.
+function ShowCardsButtons() {
+    // If the user's logged in, show all the buttons. 
+    if (Login_Username != null) {
+        SetInformation.forEach(element =>
+            document.getElementById(`CardButton_${element.ID}`).hidden = false
+        );
+    } 
 }
 
 async function AddPublicSets() {
@@ -402,7 +417,7 @@ async function AddPublicSets() {
 
                     // If the user's on a mobile device, only process the stuff for their dropdown.
                     if (userIsMobile) {
-                        text += `<option value="${element.ID}">${element.Name}</option>`
+                        text += `<option value="${element.ID}">${element.Name.replace("<br>", " ")}</option>`
                         continue;
                     }
 
@@ -577,4 +592,54 @@ async function edit(set_id) {
     document.getElementById("CreateSetButton").innerHTML = "Submit Edits!";
     EditSetID = set_id;
     document.getElementById("DeleteSetButton").hidden = false;
+}
+
+async function LoadCards(set) {
+    // Save information about the set.
+    currentPage = "cards";
+    list = set;
+    
+    // Load the set.
+    listNumber = list;
+    list = await fetchJSON(`${pageURL}Sets/${list}.json`);
+
+    // Convert that information into the form that the cards system expects.
+    let ListOfWordsInNewFormat = []
+    list.Set.forEach(set => {
+        let setInOtherFormat = {
+            front: Object.keys(set)[0],
+        };
+        setInOtherFormat.back = set[setInOtherFormat.front];
+        ListOfWordsInNewFormat.push(setInOtherFormat);
+    })
+
+    // Start the cardviewer.
+    StartCards(ListOfWordsInNewFormat);
+}
+
+let IsCardPaneLoaded = false;
+let listOfWords = [];
+async function StartCards(list) {
+    // Hide the other panes, Load the cards pane, if it's not already loaded.
+    if (!IsCardPaneLoaded) {
+        await loadToInnerHTML('./FlipCard.html', "CardPane");
+        await loadScriptToChildOf("CardPane", "./FlipCard.js");
+        IsCardPaneLoaded = true;
+    }
+
+    // Wait until the stuff is loaded...
+    while (typeof move === 'undefined')
+        await new Promise((res) => setTimeout(() => {res(console.log("Waiting!"))}, 30))
+
+    listOfWords = list;
+    index = 0;
+    move(0);
+
+    document.getElementById("ListSelection").hidden = true;
+    document.getElementById("CardPane").hidden = false;
+}
+
+function leaveCardScreen() {
+    document.getElementById("ListSelection").hidden = false;
+    document.getElementById("CardPane").hidden = true;
 }

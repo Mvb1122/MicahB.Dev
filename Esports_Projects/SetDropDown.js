@@ -100,14 +100,15 @@ async function LoadPlayerFromDropDown() {
     let output = `Winrate: ${winrate}%`;
     let MatchNumber = 0;
     GameData.forEach(async Game => {
-        // Make the Text Green if they won and red if they lost, or yellow if they tied.
-        let textClass;
-
         // Figure out if the player won or lost.
-        let winningSide = Game.result == "Win" ? Game.Players : Game.Enemies;
+        let winningSide = [];
+        if (Game.Result == "Win") winningSide = Game.Players 
+        else winningSide = Game.Enemies;
+
         let DidPlayerWin = ArrayContains(winningSide, playerID)
 
-        let GameResult = "Tie";
+        // Make the Text Green if they won and red if they lost, or yellow if they tied. Also, write down the result, from the player's perspective.
+        let textClass, GameResult = "Tie";
 
         if (Game.Result == "Tie")
             textClass = "yellowText"
@@ -117,7 +118,7 @@ async function LoadPlayerFromDropDown() {
         } else if (!DidPlayerWin) {
             textClass = "redText"
             GameResult = "Loss"
-        }
+        } 
 
         console.log(Game.Result);
 
