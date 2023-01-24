@@ -76,7 +76,12 @@ const requestListener = async function (req, res) {
     localURL = unescape(localURL);
 
     // Split off arguments, if they exist.
-    let args = { cache: "true" };
+    let args = { };
+    if (localURL.includes('?')) {
+        args = parseQuery(localURL.substring(localURL.indexOf("?")));
+        localURL = localURL.substring(0, localURL.indexOf("?"))
+    }
+
     if (localURL.includes('&')) {
         args = parseQuery(localURL.substring(localURL.indexOf("&")));
         localURL = localURL.substring(0, localURL.indexOf("&"))

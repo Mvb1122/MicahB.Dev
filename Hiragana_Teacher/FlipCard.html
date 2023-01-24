@@ -1,8 +1,4 @@
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-</head>
-<style>
-    /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover. */
+<style id="Flip_Card_CSS">
     .flip-card {
         background-color: transparent;
         max-height: 3in;
@@ -85,8 +81,48 @@
         background-color: lightblue;
         color: black;
     }
+
+    .PrintFront, .PrintBack {
+        height: 50%;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .CardWrapper {
+        display: inline-block;
+        page-break-inside: avoid;
+
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+
+        margin-left: 0.125in;
+        margin-top: 0.125in;
+
+        width: 1.875in;
+        height: 2.5in;
+        break-inside: avoid;
+    }
+
+    .PrintFront {
+        background-color: white;
+        color: black;
+    }
+
+    .PrintBack {
+        background-color: dimgray;
+        color: black;
+        text-align: -webkit-center;
+    }
+
+    #MultiCardDisplay {
+        display: box; border: 3px black;
+    }
 </style>
-<div style="display: flex; flex-direction: column;">
+<div style="display: flex; flex-direction: column;" id="SingleCardDisplay">
     <div class="flip-card">
         <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -100,7 +136,16 @@
         </div>
     </div>
 </div>
+
+<div id="MultiCardDisplay" hidden="true">
+    <div class="CardWrapper">
+        <div class="PrintFront">FrontText</div>
+        <div class="PrintBack">BackText</div>
+    </div>
+</div>
+
 <br>
 <button class="back-button" onclick="back()">Back</button><button class="next-button" onclick="foward()">Next</button>
 <br>
 <button class="return-button" onclick="leaveCardScreen()">Go Back to the Selection Screen</button>
+<button class="return-button" onclick="Print()">Print This Card Set</button>

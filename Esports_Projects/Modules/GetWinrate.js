@@ -4,7 +4,7 @@ let player = args.player;
 res.setHeader("Content-Type", "application/json");
 if (args.player) {
     res.statusCode = 200;
-    let data = { winrate: GetWinrate(player)};
+    let data = { winrate: GetWinrate(player), sucessful: true};
     data.sucessful = true;
     res.end(JSON.stringify(data));
 } else {

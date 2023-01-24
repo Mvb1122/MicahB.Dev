@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Have you ever gone to subway and been confused on what to get? No longer do you have to face that problem. Now, you can simply use this web app to come up with a sandwich.">
+        <title>Random Subway Sandwich Generator</title>
+        <link rel="stylesheet" href="./Sandwich.css">
+
+        <script async src="./Sandwich.js"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1 style="font-size: 5vh;">Random Sanwich Generator v0.2 <img src="../FTP/alpha_McD.webp" style="display:inline-block; height: 5vh;"></h1>
+        <p><i>Now with extra lettuce!</i></p>
+        <br>
+        <div>
+            <div id="GenerateScreen">
+                <br>
+                <h2>Hit the below button to generate a sandwich.</h2>
+                <input id="MeatBox" type="checkbox" checked="true"> <label for="MeatBox">Roll For Meat?</label><br>
+                <input id="WildMagicBox" type="checkbox"> <label for="WildMagicBox">Wild Magic? (Any meat on any sandwich + Other toppings)</label><br>
+                <input id="VegetableBox" type="number" max="3", min="0", value="2"> <label for="VegetableBox">Number of vegetables to add?</label><br>
+                <input id="SauceBox" type="number" min="0", value="1"> <label for="SauceBox">Number of Sauces?</label><br>
+                <br>
+                <button onclick="Generate()">Gimme a goddamn sandwich.</button>
+            </div>
+            <div id="LoadingScreen" style="display:none">
+                <h2>Loading...</h2>
+                <img src="../FTP/Subway_Sandwich.png" alt="A sandwich spinning." class="SpinningImage">
+            </div>
+            <div id="SandwichScreen" style="display: none;">
+                <h1 id="SandwichDisplay">Your Sandwich:</h1>
+                <button onclick="ReturnToGenerateScreen()">Another!</button>
+            </div>
+        </div>
+    </body>
+</html>

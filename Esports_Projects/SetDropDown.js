@@ -96,8 +96,12 @@ async function LoadPlayerFromDropDown() {
     let winrate = await fetch(`${WebsiteURL}Modules/GetWinrate.js&player=${playerID}`).then(res => res.json());
     winrate = Math.floor(winrate.winrate * 10000) / 100
 
+    // Fetch reliability information.
+    let reliability = await fetch(`${WebsiteURL}Modules/GetReliability.js&player=${playerID}`).then(res => res.json());
+    reliability = Math.floor(reliability.reliability * 100);
+
     // Make the text to show on screen.
-    let output = `Winrate: ${winrate}%`;
+    let output = `Winrate: ${winrate}%<br>Reliability: ${reliability}% (Can be more than 100%)`;
     let MatchNumber = 0;
     GameData.forEach(async Game => {
         // Figure out if the player won or lost.
