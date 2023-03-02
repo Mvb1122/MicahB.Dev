@@ -105,6 +105,15 @@ async function SubmitSet() {
 
                         // Update the set listings. 
                         UpdateVisibleSets();
+
+                        // Make sure that the set uploaded text shows correctly.
+                        document.getElementById("SetLoadedText").innerText = SetCreationMode == "Edit" ? "Edits saved! They should be visible now." : "Set created! It should be visible now."
+                        
+                        // Swap the mode to Editing, set the edit ID correctly, if it's not already set.
+                        if (SetCreationMode != "Edit") {
+                            SetCreationMode = "Edit"
+                            EditSetID = resp.ID;
+                        }
                     }
                 });
         }

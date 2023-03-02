@@ -4,7 +4,7 @@ let prefix = "https://micahb.dev/";
 let filePrefix = "D:/mDB/";
 let list = "";
 function checkDir(dir) {
-    console.log(`Checking ${dir}`);
+    // console.log(`Checking ${dir}`);
     let files = fs.readdirSync(dir);
 
     files.forEach(file => {
@@ -13,7 +13,7 @@ function checkDir(dir) {
             // console.log(`File: ${fullPath}`);
             
             if (fullPath.endsWith("html") || fullPath.endsWith("php")) {
-                console.log(`File: ${file}`)
+                // console.log(`File: ${file}`)
                 list += `${prefix}${fullPath.substring(filePrefix.length)}\n`;
             } else if (fs.statSync(fullPath).isDirectory())
                 checkDir(fullPath);

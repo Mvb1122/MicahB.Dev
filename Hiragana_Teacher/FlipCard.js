@@ -37,6 +37,7 @@ function Print() {
     });
 
     // Print page.
+    alert("Make sure to set your page margins to none! You can also set the page scale to 80% to fit 25 cards on one sheet, as well.")
     window.print();
 
     // Return things to normal.

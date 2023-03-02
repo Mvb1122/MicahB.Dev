@@ -38,7 +38,7 @@ do {
     
 // Actually write the data.
 let response = {
-    "sucessful": true
+    "sucessful": true,
 }
 
 // Add the author's name to the set.
@@ -48,5 +48,6 @@ if (GivenData.Set.ID != undefined)
 
 fs.writeFile(`${setPath}/${setNumber}.json`, JSON.stringify(GivenData.Set), (err) => {
     if (err) response.sucessful = err;
+    response.ID = setNumber;
     return res.end(JSON.stringify(response));
 });

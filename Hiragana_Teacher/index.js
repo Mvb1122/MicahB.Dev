@@ -16,8 +16,8 @@ async function loadAdditional() {
         mobileSelection.visibility = "visible";
         mobileSelection.height = "100%";
 
-        // Make the buttons and inputs big so their fingies can get at them.
-        const smallStuff = [ document.getElementById("Selection"), document.getElementById("SubmitButton"), document.getElementById("StartButton"), document.getElementById("BackButton"), document.getElementById("AnswerInput")]
+        // Make the buttons and inputs big so their fingers can get at them.
+        const smallStuff = [ document.getElementById("Selection"), document.getElementById("SubmitButton"), document.getElementById("VocabButton"), document.getElementById("StartButton"), document.getElementById("BackButton"), document.getElementById("AnswerInput")]
         smallStuff.forEach(element => {
             element.style.fontSize = "150%"
             element.style.width = "100%"
@@ -29,10 +29,14 @@ async function loadAdditional() {
         // Make the instructions change.
         document.getElementById("instructions").innerText = "Please use the dropdown below to select a set and then click the button to start."
 
-        // Hide the Login pane.
-        const loginPane = document.getElementById("Login").style;
-        loginPane.display = "none"
-        loginPane.height = "0px";
+        // Alter the Login Pane.
+        const LoginItems = [ document.getElementById("Login").style, document.getElementById("NotLoggedInPane").style, document.getElementById("LoggedInPane") ];
+        LoginItems.forEach(item => {
+            item.display = "block";
+            item.position = "relative";
+            item.transform = "scale(0.9)"
+        })
+        
 
         // Hide the "Create a Set" button
         document.getElementById("CreateASetButton").style.visibility = "hidden";
@@ -257,6 +261,15 @@ function SelectAndDisplayACharacter() {
     document.getElementById("Display").innerText = character;
 }
 
+function SyllableToList(syllable) {
+    let HRAnswer = syllable;
+    if (syllable.indexOf("/") != -1) {
+        HRAnswer = syllable.replaceAll("/", ", ");
+        HRAnswer = HRAnswer.substring(0, HRAnswer.lastIndexOf(", ")) + " or " + HRAnswer.substring(HRAnswer.lastIndexOf(", ") + 1);
+    }
+    return HRAnswer;
+}
+
 function EvaluateAnswer() {
     // Tell the user if their answer was right or wrong.
     let UserAnswer = (document.getElementById("AnswerInput").value + "").trim().toLowerCase();
@@ -286,11 +299,7 @@ function EvaluateAnswer() {
     // Create a human-readable answer by replacing all the slashes with ","
         // And the last one with "or"
         // But only do this if there's more than one answer...
-    let HRAnswer = syllable;
-    if (syllable.indexOf("/") != -1) {
-        HRAnswer = syllable.replaceAll("/", ", ");
-        HRAnswer = HRAnswer.substring(0, HRAnswer.lastIndexOf(", ")) + " or " + HRAnswer.substring(HRAnswer.lastIndexOf(", ") + 1);
-    }
+    let HRAnswer = SyllableToList(syllable);
 
     let text = `You were ${right ? "right" : "wrong"}!<br>${answerText.replace("{a}", HRAnswer).replace("{q}", character)}`;
     document.getElementById("PHAnswerShower").innerHTML = text;
@@ -395,12 +404,24 @@ async function UpdateVisibleSets() {
 
 // Loops through all Flash Card buttons and shows them.
 function ShowCardsButtons() {
-    // If the user's logged in, show all the buttons. 
-    if (Login_Username != null) {
+    // If the user's logged in, show all the buttons. (If they're on mobile, show the button instead.)
+    if (Login_Username != null && !userIsMobile) {
         SetInformation.forEach(element =>
             document.getElementById(`CardButton_${element.ID}`).hidden = false
         );
-    } 
+    } else if (Login_Username != null)
+        document.getElementById("VocabButton").hidden = false;
+}
+
+// Makes a word into its plural version.
+function Pluralify(word) {
+    // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
+    if (word.endsWith("'s"))
+        word = word.replace("'s", "");
+
+    if (word.endsWith("i"))
+        return word + "i";
+    else return word + "s";
 }
 
 async function AddPublicSets() {
@@ -423,14 +444,10 @@ async function AddPublicSets() {
 
                     let authorName = await authorIDToName(element.author)
 
-                    // Do some processing stuff to the ObjectName if it's referring to something using `'s`...
-                    if (element.ObjectName.includes("'s"))
-                        element.ObjectName = element.ObjectName.replace("'s", "");
-
                     // Assemble the string around it.
                     all = all + exampleSetDisplay
                         .replace("Name", element.Name)
-                        .replace("Length", element.length + " " + element.ObjectName + "s")
+                        .replace("Length", element.length + " " + Pluralify(element.ObjectName))
                         .replaceAll("{s}", element.ID)
                         .replace("Set_Example", `Set_${element.ID}`)
                         .replace("{a}", authorName);
@@ -609,7 +626,9 @@ async function LoadCards(set) {
         let setInOtherFormat = {
             front: Object.keys(set)[0],
         };
-        setInOtherFormat.back = set[setInOtherFormat.front];
+
+        // Turn the answer into a human-readable list, and use that for the rear.
+        setInOtherFormat.back = SyllableToList(set[setInOtherFormat.front]);
         ListOfWordsInNewFormat.push(setInOtherFormat);
     })
 
