@@ -2,6 +2,45 @@ const pageURL = "./" // Use for redirecting backend usage.
 let promptText = "";
 let answerText = "";
 
+function parseQuery(queryString) {
+    var query = { 
+        has(value) {
+            return this[value] != null;
+        },   
+        get(value) {
+            return this[value].toString();
+        }
+    };
+
+    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    }
+
+    return query;
+}
+
+let URLValues = {};
+function UpdatePageParams(Values) {
+    // Overwrite values in pre-existing URLValues object.
+    Object.keys(Values).forEach(value => {
+        URLValues[value] = Values[value];
+    });
+
+    console.log(URLValues);
+
+    // Put all the values into the url.
+    let queryString = "";
+    Object.keys(URLValues).forEach(value => {
+        queryString += `&${value}=${URLValues[value]}`;
+    })
+
+    let newUrl = `${window.origin}/Hiragana_Teacher/?${queryString}`;
+    console.log(`Changed page url to ${newUrl}!`);
+    window.history.pushState({}, null, newUrl);
+}
+
 let list, listNumber, part, character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "", SetInformation, exampleSetDisplay;
 async function loadAdditional() {
     console.log("Starting initial load!");
@@ -61,6 +100,12 @@ async function loadAdditional() {
     window.onbeforeunload = (event) => {
         postJSON(`${pageURL}/Post_Modules/InvalidateToken.js&cache=false`, { token: login_token });
     };
+
+    // If there's a set specified in the URL, load it immediately.
+    const params = parseQuery(location.href.substring(location.href.indexOf("?")));
+    if (params.has("set")) {
+        load(params.get("set"));
+    }
 
     return true;
 }
@@ -128,6 +173,8 @@ async function loadToInnerHTML(url, elementId) {
 }
 
 function load(setID) {
+    // Put the setID in the URL. 
+    UpdatePageParams({"set": setID})
     currentPage = "game"
     list = setID;
     LoadSetAndStart();
@@ -173,6 +220,11 @@ async function LoadSetAndStart() {
     document.getElementById("prompt").innerText = promptText.replace("{c}", list.ObjectName)
     answerText = answerText.replace("{at}", list.AnswerName);
     document.getElementById("AnswerInput").placeholder = list.AnswerName;
+
+    // Prepare notes section and author name display.
+    document.getElementById("AuthorNameDisplay").innerHTML = `Set By ${await authorIDToName(list.Author)}`;
+    document.getElementById("NotesDisplay").innerHTML = list.Notes == undefined ? "" : list.Notes;
+
     ToggleScreen()
 
     // Start the game!
@@ -270,13 +322,19 @@ function SyllableToList(syllable) {
     return HRAnswer;
 }
 
+function ArrayContains(array, item) {
+    for (let i = 0; i < array.length; i++) if (array[i] == item) return true;
+    return false;
+}
+
 function EvaluateAnswer() {
     // Tell the user if their answer was right or wrong.
-    let UserAnswer = (document.getElementById("AnswerInput").value + "").trim().toLowerCase();
+        // Ignore capitalization and punctuation.
+    let UserAnswer = (document.getElementById("AnswerInput").value + "").trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "");
     
     // Check if the user's answer matches any of the supplied ones.
     let right = false;
-    let answers = syllable.trim().toLowerCase().split("/");
+    let answers = syllable.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").split("/");
     answers.forEach(a => {
         // Save performance by only checking if the answer is correct if a previous answer wasn't correct.
             // JS won't let me break from this loop, so this is how I'm doing it.
@@ -300,8 +358,12 @@ function EvaluateAnswer() {
         // And the last one with "or"
         // But only do this if there's more than one answer...
     let HRAnswer = SyllableToList(syllable);
+    HRAnswer = answerText.replace("{a}", HRAnswer).replace("{q}", character).toString();
 
-    let text = `You were ${right ? "right" : "wrong"}!<br>${answerText.replace("{a}", HRAnswer).replace("{q}", character)}`;
+    // If the last two characters in HRAnswer are punctuation, remove the extra punctuation.
+    if (ArrayContains(".?!".split(''), HRAnswer.charAt(HRAnswer.length - 1))) HRAnswer = HRAnswer.slice(0, -1);
+
+    let text = `You were ${right ? "right" : "wrong"}!<br>${HRAnswer}`;
     document.getElementById("PHAnswerShower").innerHTML = text;
     document.getElementById("AnswerInput").value = "";
 
@@ -535,6 +597,9 @@ async function LoginAs(username, password, forceResetToken = false) {
             login_token = token;
             Login_Username = LoginData.username;
             updateLoginPane(true);
+
+            // If the game is currently running, start sending data to the server.
+            if (currentPage == "game") SendChangesToTheServer()
             res(true)
         } else {
             updateLoginPane(false);
@@ -580,6 +645,11 @@ async function edit(set_id) {
     document.getElementById("SetName").value = set.Name;
     document.getElementById("ObjectName").value = set.ObjectName;
     document.getElementById("AnswerName").value = set.AnswerName;
+
+    // Load the notes in.
+    if (set.Notes != undefined)
+        document.getElementById("NotesInput").value = set.Notes;
+    else document.getElementById("NotesInput").value = "";
 
     // Make the visibility drop down select the right option.
     let VisibilitySelector;

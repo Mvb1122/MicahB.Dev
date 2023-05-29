@@ -1,0 +1,39 @@
+{
+    "Name": "Chapter 5 Kanji (Readings)",
+    "ObjectName": "Kanji",
+    "AnswerName": "Reading",
+    "Set": [
+        {
+            "山": "やま/yama/サン/san/ザン/zan"
+        },
+        {
+            "川": "かわ/kawa/がわ/gawa/セン/sen"
+        },
+        {
+            "田": "た/ta/デン/den"
+        },
+        {
+            "人": "ひと/hito/ジン/jin/ニン/nin"
+        },
+        {
+            "上": "うえ/ue/ジョウ/jou/カミ/kami"
+        },
+        {
+            "中": "なか/naka/チュウ/chuu"
+        },
+        {
+            "下": "した/shita/くだ（さい）/kuda/kuda(sai)/カ/ka/ゲ/ge"
+        },
+        {
+            "小": "ちい（さい）/chii/chii(sai)/ショウ/shou"
+        },
+        {
+            "日": "ひ/hi/び/bi/ニチ/nichi/ニ/ni/ジッ/ji/カ/ka"
+        },
+        {
+            "本": "もと/moto/ホン/hon/ボン/bon/ポン/pon"
+        }
+    ],
+    "Visibility": "public",
+    "Author": "976"
+}

@@ -36,6 +36,8 @@ if (args.target != null && !args.target.includes("post_modules")) {
             }
         }
     }
+
+    // TODO: If this is an AI file, attempt to rename it to use the standard naming scheme.
     
     let respose = { upload: location.toString() };
     if (DEBUG) console.log(`Uploading a file to: ${location}`)

@@ -15,13 +15,15 @@
   "author": "Mvb1122",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/rest": "^1.0.1",
+    "@discordjs/rest": "^1.7.1",
     "compression": "^1.7.4",
-    "discord.js": "^14.1.2",
+    "discord.js": "^14.11.0",
+    "events": "^3.3.0",
     "http": "0.0.1-security",
     "nodemon": "^2.0.19",
     "package.json": "^0.0.0",
-    "undici": "^5.13.0",
+    "undici": "^5.22.1",
+    "update": "^0.7.4",
     "zlib": "^1.0.5"
   }
 }

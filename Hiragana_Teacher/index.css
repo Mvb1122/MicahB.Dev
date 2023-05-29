@@ -100,6 +100,21 @@ Display {
     align-items: flex-end;
 }
 
+.AuthorNameDisplay {
+    text-align: right;
+    position: relative;
+    top: 7px;
+    right: 7px;
+}
+
+.NotesDisplay {
+    text-align: left;
+    position: relative;
+    padding: 3%;
+    top: 0%;
+    align-self: baseline;
+}
+
 table {
     table-layout: fixed;
     width: 100%;

@@ -103,3 +103,50 @@ async function PreloadPrompts(AI) {
 
 // Create a cache for the response from the GetPrompts.js module.
 global.GetPromptsCache = [];
+
+// On boot, rename any oddly-named files under the Stable Diffusion WebUI AIs (AbyssOrange, AnythingVn, NovelAI)
+const fs = require('fs');
+const path = require('path');
+function RenameToPrompt(folder) {
+    // Get a list of the images in that folder.
+    let files = fs.readdirSync(folder);
+    files.forEach(file => { 
+        try {
+            if (file != "Thumbs.db") {
+                // If the file is oddly named (eg, consists of two blocks of numbers), rename it.
+                let nameParts = file.split("_");
+                if (nameParts.length > 2 || nameParts.length == 0) return;
+                nameParts[1] = nameParts[1].substring(0, nameParts[1].length - 4);
+                // console.log(`${file}: ${Number.isInteger(+nameParts[0])} ${Number.isInteger(+nameParts[1])}`)
+                if (Number.isInteger(+nameParts[0]) && Number.isInteger(+nameParts[1])) {
+                    let ActualDetails = GetComponents(`${folder}/${file}`);
+                    // console.log(`Details of ${file}: ` + ActualDetails);
+                    // Find the actual whole path.
+                    let oldPath = path.resolve(`${folder}/${file}`);
+                    let baseLength = oldPath.length - file.length;
+    
+                    /* 200 is relatively safe, probably */
+                    let AddableCharacters = 200 - baseLength - `${ActualDetails.Seed}`.length;
+    
+                    // Create the new path.
+                    let newPath = `./${folder}/${ActualDetails.parameters.substring(0, AddableCharacters)}_${ActualDetails.Seed}.png`;
+                    let ForbiddenCharacters = `<>:"|?*`.split('');
+                    ForbiddenCharacters.forEach(character => {
+                        newPath = newPath.replaceAll(character, "");
+                    });
+    
+                    console.log(`Renaming ${file} to ${newPath}!`);
+                    fs.rename(oldPath, newPath, (e) => {if (e) {
+                        console.log(e)
+                    }})
+                }
+            }
+        } catch (e) {
+            // Do nothing.
+        }
+    });
+}
+
+RenameToPrompt('./FTP/AI/AnythingV4.5/');
+RenameToPrompt('./FTP/AI/AnythingV3/');
+RenameToPrompt('./FTP/AI/NovelAI/');

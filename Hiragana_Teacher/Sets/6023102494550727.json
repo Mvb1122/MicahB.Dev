@@ -1,0 +1,310 @@
+{
+    "Name": "100 Common Kanji (WIP)<br>(from https://www.thoughtco.com/the-most-frequently-used-kanji-2028155)",
+    "ObjectName": "kanji",
+    "AnswerName": "meaning",
+    "Set": [
+        {
+            "日": "sun/day"
+        },
+        {
+            "一": "one/1"
+        },
+        {
+            "大": "big"
+        },
+        {
+            "年": "year"
+        },
+        {
+            "中": "middle/inside/center"
+        },
+        {
+            "会": "meeting"
+        },
+        {
+            "人": "human being/people/person"
+        },
+        {
+            "本": "book"
+        },
+        {
+            "月": "moon/month"
+        },
+        {
+            "長": "long"
+        },
+        {
+            "国": "country"
+        },
+        {
+            "出": "to go out"
+        },
+        {
+            "上": "up/top/on/over/above"
+        },
+        {
+            "十": "10/ten"
+        },
+        {
+            "生": "life/genuine/birth"
+        },
+        {
+            "子": "child"
+        },
+        {
+            "分": "minute"
+        },
+        {
+            "東": "east"
+        },
+        {
+            "三": "three/3"
+        },
+        {
+            "行": "to go"
+        },
+        {
+            "同": "same"
+        },
+        {
+            "今": "now"
+        },
+        {
+            "高": "high/expensive"
+        },
+        {
+            "金": "money/gold/metal"
+        },
+        {
+            "時": "time"
+        },
+        {
+            "手": "hand"
+        },
+        {
+            "見": "to see/to look"
+        },
+        {
+            "市": "city"
+        },
+        {
+            "力": "power"
+        },
+        {
+            "米": "rice/uncooked rice"
+        },
+        {
+            "自": "oneself"
+        },
+        {
+            "前": "before"
+        },
+        {
+            "円": "yen/yen (Japanese currency)"
+        },
+        {
+            "合": "to combine"
+        },
+        {
+            "立": "to stand"
+        },
+        {
+            "内": "inside"
+        },
+        {
+            "二": "two/2"
+        },
+        {
+            "事": "affair/matter"
+        },
+        {
+            "社": "company/society"
+        },
+        {
+            "者": "person"
+        },
+        {
+            "地": "ground/place"
+        },
+        {
+            "京": "capital"
+        },
+        {
+            "間": "interval/between"
+        },
+        {
+            "田": "rice field"
+        },
+        {
+            "体": "body"
+        },
+        {
+            "学": "to study"
+        },
+        {
+            "下": "down/under"
+        },
+        {
+            "目": "eye"
+        },
+        {
+            "五": "five"
+        },
+        {
+            "後": "after"
+        },
+        {
+            "新": "new"
+        },
+        {
+            "明": "bright/clear"
+        },
+        {
+            "方": "direction"
+        },
+        {
+            "部": "section"
+        },
+        {
+            "女": "woman"
+        },
+        {
+            "八": "eight/8"
+        },
+        {
+            "心": "heart"
+        },
+        {
+            "四": "four/4"
+        },
+        {
+            "民": "people/nation"
+        },
+        {
+            "対": "opposite"
+        },
+        {
+            "主": "main/master"
+        },
+        {
+            "正": "right/correct"
+        },
+        {
+            "代": "to substitute/generation"
+        },
+        {
+            "言": "to say"
+        },
+        {
+            "九": "nine/9"
+        },
+        {
+            "小": "small"
+        },
+        {
+            "思": "to think"
+        },
+        {
+            "七": "seven/7"
+        },
+        {
+            "山": "mountain"
+        },
+        {
+            "実": "real"
+        },
+        {
+            "入": "to enter"
+        },
+        {
+            "回": "to turn around/time"
+        },
+        {
+            "場": "place"
+        },
+        {
+            "野": "field"
+        },
+        {
+            "開": "to open"
+        },
+        {
+            "万": "10,000/ten thousand"
+        },
+        {
+            "全": "whole"
+        },
+        {
+            "定": "to fix"
+        },
+        {
+            "家": "house"
+        },
+        {
+            "北": "north"
+        },
+        {
+            "六": "six/6"
+        },
+        {
+            "問": "question"
+        },
+        {
+            "話": "to speak"
+        },
+        {
+            "文": "letter/writings"
+        },
+        {
+            "動": "to move"
+        },
+        {
+            "度": "degree/time"
+        },
+        {
+            "県": "prefecture"
+        },
+        {
+            "水": "water"
+        },
+        {
+            "安": "inexpensive/peaceful"
+        },
+        {
+            "氏": "courtesy name/Mr./Mrs."
+        },
+        {
+            "和": "harmonious/peace"
+        },
+        {
+            "政": "government/politics"
+        },
+        {
+            "保": "to maintain/to keep"
+        },
+        {
+            "表": "to express/surface"
+        },
+        {
+            "道": "way"
+        },
+        {
+            "相": "phase/mutual"
+        },
+        {
+            "意": "mind/meaning"
+        },
+        {
+            "発": "to start/to emit"
+        },
+        {
+            "不": "not/un-/in-"
+        },
+        {
+            "党": "political party"
+        }
+    ],
+    "Visibility": "public",
+    "Notes": "At the moment, this set does not have the pronunciations in it. I'll add them shortly after the school year completes, if I remember.",
+    "Author": "976"
+}

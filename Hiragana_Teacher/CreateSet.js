@@ -75,7 +75,8 @@ async function SubmitSet() {
         "ObjectName": document.getElementById("ObjectName").value,
         "AnswerName": document.getElementById("AnswerName").value,
         "Set": getSetData(),
-        "Visibility": document.getElementById("PublicPrivateSelector").value
+        "Visibility": document.getElementById("PublicPrivateSelector").value,
+        "Notes": document.getElementById("NotesInput").value
     }
 
     let data = {
@@ -114,6 +115,11 @@ async function SubmitSet() {
                             SetCreationMode = "Edit"
                             EditSetID = resp.ID;
                         }
+
+                        // After like 10 seconds, change the text to be a reminder to save edits before exiting. 
+                        setTimeout(() =>
+                            document.getElementById("SetLoadedText").innerText = "Make sure to save your edits before leaving!"
+                        , 10000);
                     }
                 });
         }

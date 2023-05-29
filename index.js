@@ -1,8 +1,6 @@
 const fs = require('fs');
 const http = require('http');
-const host = require('os').hostname();
 const zlib = require('zlib');
-const port = 80;
 const DEBUG = false;
 
 const mimeTypes = {
@@ -316,6 +314,9 @@ const requestListener = async function (req, res) {
         }
     }
 };
+
+const host = '192.168.1.3' // require('os').hostname();
+const port = 80;
 
 const server = http.createServer(requestListener);
 server.listen(port, host, () => {

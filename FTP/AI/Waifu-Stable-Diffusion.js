@@ -6,6 +6,7 @@ async function loadAIImages(AI) {
         prompts = [];
 
         // Get a list of prompts.
+        /* Generate prompts locally: */
         fetch(`./Modules/Get${AI}Files.js&cache=false`).then(res => res.json()).then(json => {
             // Find common prompts.
             json.files.forEach(file => {
