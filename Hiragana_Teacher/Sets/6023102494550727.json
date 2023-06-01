@@ -1,5 +1,5 @@
 {
-    "Name": "100 Common Kanji (WIP)<br>(from https://www.thoughtco.com/the-most-frequently-used-kanji-2028155)",
+    "Name": "100 Common Kanji (Meanings)<br>(from https://www.thoughtco.com/the-most-frequently-used-kanji-2028155)",
     "ObjectName": "kanji",
     "AnswerName": "meaning",
     "Set": [
@@ -115,22 +115,22 @@
             "二": "two/2"
         },
         {
-            "事": "affair/matter"
+            "事": "affair/matter/thing/fact"
         },
         {
-            "社": "company/society"
+            "社": "company/society/shrine"
         },
         {
             "者": "person"
         },
         {
-            "地": "ground/place"
+            "地": "ground/place/earth"
         },
         {
             "京": "capital"
         },
         {
-            "間": "interval/between"
+            "間": "interval/between/space"
         },
         {
             "田": "rice field"
@@ -139,19 +139,19 @@
             "体": "body"
         },
         {
-            "学": "to study"
+            "学": "study/learning/science"
         },
         {
             "下": "down/under"
         },
         {
-            "目": "eye"
+            "目": "eye/class/insight"
         },
         {
             "五": "five"
         },
         {
-            "後": "after"
+            "後": "beind/back/later/after"
         },
         {
             "新": "new"
@@ -160,7 +160,7 @@
             "明": "bright/clear"
         },
         {
-            "方": "direction"
+            "方": "direction/person"
         },
         {
             "部": "section"
@@ -172,25 +172,25 @@
             "八": "eight/8"
         },
         {
-            "心": "heart"
+            "心": "heart/mind/spirit"
         },
         {
             "四": "four/4"
         },
         {
-            "民": "people/nation"
+            "民": "people/nation/subjects"
         },
         {
             "対": "opposite"
         },
         {
-            "主": "main/master"
+            "主": "main/main thing/master/chief/principal"
         },
         {
-            "正": "right/correct"
+            "正": "right/correct/justice"
         },
         {
-            "代": "to substitute/generation"
+            "代": "to suceed/to relieve/to replace/generation"
         },
         {
             "言": "to say"
@@ -259,7 +259,7 @@
             "動": "to move"
         },
         {
-            "度": "degree/time"
+            "度": "degree/times/counter for occurrences"
         },
         {
             "県": "prefecture"
@@ -305,6 +305,6 @@
         }
     ],
     "Visibility": "public",
-    "Notes": "At the moment, this set does not have the pronunciations in it. I'll add them shortly after the school year completes, if I remember.",
+    "Notes": "Tip: You print this set out as cards by making an account and then hitting the purple card icon! Also, these are roughly ordered by how common these kanji are in Newspapers, eg; 日 is the most used, and 一 is number two.\nAlso, there are other sets which have just pronunciations and which have both pronunciations and meanings.",
     "Author": "976"
 }

@@ -22,8 +22,9 @@ function Print() {
     // Clear the screen.
     document.getElementById("body").innerHTML = ""; // document.getElementById("MultiCardDisplay").innerHTML;
     document.getElementById("body").style.backgroundColor = "white";
-    document.getElementById("body").style.display = "table";
-    // document.getElementById("body").style.flexWrap = "wrap";
+    document.getElementById("body").style.display = "grid";
+    document.getElementById("body").style.gridTemplateColumns = "repeat(auto-fill, 186px)";
+    document.getElementById("body").style.alignItems = "start"
 
     // Reapply the CSS.
     let css = document.createElement("style");

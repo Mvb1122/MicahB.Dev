@@ -309,8 +309,11 @@ function SelectAndDisplayACharacter() {
     let parts = JSON.stringify(part).split('"');
     character = parts[1], syllable = parts[3];
 
-    // Display the parts.
-    document.getElementById("Display").innerText = character;
+    // Display the parts. (If the user's logged in, put a Jisho link instead.)
+    if (LoginData == {})
+        document.getElementById("Display").innerText = character;
+    else 
+        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}">${character}</a>`
 }
 
 function SyllableToList(syllable) {
