@@ -45,3 +45,34 @@ function Print() {
     document.getElementById("body").innerHTML = startingText;
     document.getElementById("body").style = startingStyle;
 }
+
+let IdleModeOn = true;
+function ToggleIdleMode() {
+    IdleModeOn = !IdleModeOn;
+
+    // Set the text of the idle button based off of whether or not it's enabled.
+    document.getElementById("ToggleIdleFlipButton").innerText = "Enable Idle Mode (Flips every Five seconds)".replace("Enable", IdleModeOn ? "Disable" : "Enable");
+
+    FlipLoop();
+}
+ToggleIdleMode();
+
+async function FlipLoop() {
+    if (IdleModeOn) {
+        // Wait for five seconds, "flip" the card by swapping front/back contents.
+        await (new Promise(resolve => setTimeout(resolve, 5000)));
+        document.getElementById("card_front").innerText = document.getElementById("card_back").innerText;
+        if (!IdleModeOn) return;
+
+        // Wait for another five seconds, go to the next card.
+        await (new Promise(resolve => setTimeout(resolve, 5000)));
+        foward();
+        if (!IdleModeOn) return;
+
+        // Loop.
+        FlipLoop();
+    } else {
+        // When leaving idle mode, return card to normal.
+        move(0);
+    }
+}
