@@ -1,6 +1,6 @@
 // Load sets to be merged:
 const fs = require('fs')
-let sets = ['./6023102494550727.json', './6023102494550728.json'];
+let sets = ['1.json', '5.json'];
 for (let i = 0; i < sets.length; i++) {
     // Load set data.
     sets[i] = JSON.parse(fs.readFileSync("./Sets/" + sets[i]));

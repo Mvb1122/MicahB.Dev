@@ -1,1 +1,319 @@
-{"Name":"JLPT N5 Kanji","ObjectName":"Kanji","AnswerName":"translation or pronunciation","Set":[{"安":"安/an/yasu(i)/peace/cheap/safety"},{"一":"一/ichi/itsu/hito(tsu)/hito-/one"},{"飲":"飲/in/no(mu)/to drink"},{"右":"右/u/yuu/migi/right"},{"雨":"雨/u/ame/rain"},{"駅":"駅/eki/station"},{"円":"円/en/maru(i)/circle/yen/round"},{"火":"火/ka/hi/fire"},{"花":"花/ka/hana/flower/blossom"},{"下":"下/ka/ge/shimo/sa(geru)/o(rosu)/ku(daru)/below/down"},{"何":"何/ka/nani/what/how many/which"},{"会":"会/kai/e/a(u)/to meet/to come together/society"},{"外":"外/gai/ge/soto/hoka/hazu(reru)/hazu(su)/outside/other/disconnect"},{"学":"学/gaku/mana(bu)/school/science/learning"},{"間":"間/kan/ken/aida/time/time span"},{"気":"気/ki/ke/soul/spirit"},{"九":"九/kyuu/ku/kokono(tsu)/kokono-/nine"},{"休":"休/kyuu/yasu(mu)/to rest"},{"魚":"魚/gyo/sakana/uo/fish"},{"金":"金/kin/kon/kane/gold/metal/money"},{"空":"空/kuu/sora/a(keru)/kara/sky/to become free/empty"},{"月":"月/getsu/gatsu/tsuki/month/moon"},{"見":"見/ken/mi(ru)/mi(eru)/mi(seru)/to see/to be visible/to show"},{"言":"言/gen/gon/i(u)/word/to talk"},{"古":"古/ko/furu(i)/old/used"},{"五":"五/go/itsu(tsu)/itsu-/five"},{"後":"後/go/kou/ato/oku(reru)/nochi/after/later/back/to stay behind"},{"午":"午/go/noon"},{"語":"語/go/kata(ru)/kata(rau)/word/to talk"},{"校":"校/kou/school"},{"口":"口/kou/ku/kuchi/mouth"},{"行":"行/kou/i(ku)/yu(ku)/okona(u)/to walk. to go/to do/to carry out"},{"高":"高/kou/taka(i)/taka(maru)/taka(meru)/high/expensive/increase/quantity"},{"国":"国/koku/kuni/country"},{"今":"今/kon/kin/ima/now"},{"左":"左/sa/hidari/left"},{"三":"三/san/mit(tsu)/mi-/three"},{"山":"山/san/yama/mountain"},{"四":"四/shi/yo(ttsu)/yu(tsu)/yo-/yon-/four"},{"子":"子/shi/su/ko/child"},{"耳":"耳/ji/mimi/ear"},{"時":"時/ji/toki/time/hour"},{"七":"七/shichi/nana(tsu)/nana-/nano-/seven"},{"車":"車/sha/kuruma/car/wheel"},{"社":"社/sha/yashiro/shinto shrine/society"},{"手":"手/shu/te/hand"},{"週":"週/shuu/week"},{"十":"十/juu/ji/too/to-/ten/cross"},{"出":"出/shutsu/da(su)/de(ru)/to leave/to get out. to take out"},{"書":"書/sho/ka(ku)/to write"},{"女":"女/jo/nyo/onna/me/woman/female"},{"小":"小/shou/chii(sai)/ko-/o-/small"},{"少":"少/shou/suko(shi)/suku(nai)/a little"},{"上":"上/shou/jou/ue/kami/a(geru)/a(garu)/above/upper"},{"食":"食/shoku/ta(beru)/ku(ru)/ku(rau)/to eat"},{"新":"新/shin/atara(shii)/ara(ta)/nii-/new"},{"人":"人/jin/nin/hito/person"},{"水":"水/sui/mizu/water"},{"生":"生/sei/shou/i(kiru)/u(mu)/ha(yasu)/nama/ki/to live/to grow/to be born/raw"},{"西":"西/sei/sai/nishi/west"},{"川":"川/sen/kawa/river"},{"千":"千/sen/chi/thousand"},{"先":"先/sen/saki/before/in future"},{"前":"前/zen/mae/before"},{"足":"足/soku/ashi/ta(riru)/ta(su)/foot/to be sufficient/to add"},{"多":"多/ta/oo(i)/many"},{"大":"大/dai/tai/ou(kii)/oo(i)/big/a lot"},{"男":"男/dan/nan/otoko/man/male"},{"中":"中/chuu/naka/inner/center/between"},{"長":"長/chou/naga(i)/long/leader"},{"天":"天/ten/ame/ama/sky"},{"店":"店/ten/mise/shop"},{"電":"電/den/electricity"},{"土":"土/do/to/tsuchi/earth/ground"},{"東":"東/tou/higashi/east"},{"道":"道/dou/michi/street/path"},{"読":"読/doku/yo(mu)/to read"},{"南":"南/nan/minami/south"},{"ニ":"ニ/ni/futa(tsu)/futa-/two"},{"日":"日/nichi/jitsu/hi/-ka/day/sun"},{"入":"入/nyuu/hai(ru)/i(ru)/i(reru)/to enter/to insert"},{"年":"年/nen/toshi/year"},{"買":"買/bai/ka(u)/to buy"},{"白":"白/haku/byaku/shiro(i)/shiro/white"},{"八":"八/hachi/yat(tsu)/ya(tsu)/ya-/you-/eight"},{"半":"半/han/naka(ba)/half/middle/semi-"},{"百":"百/hyaku/hundred"},{"父":"父/fu/chichi/father"},{"分":"分/bun/bu/fun/wa(keru)/wa(kareru)/wa(karu)/part/minute/to divide/to understand"},{"聞":"聞/bun/mon/ki(ku)/ki(koeru)/to hear/to listen/to ask"},{"母":"母/bo/haha/mother"},{"北":"北/hoku/kita/north"},{"木":"木/boku/moku/ki/ko/tree/wood"},{"本":"本/hon/moto/book/source/main-"},{"毎":"毎/mai/each/every"},{"万":"万/man/ban/ten thousand/all/many"},{"名":"名/mei/myou/na/name/reputation"},{"目":"目/moku/me/eye"},{"友":"友/yuu/tomo/friend"},{"来":"来/rai/ku(ru)/kita(ru)/kita(su)/to come"},{"立":"立/ritsu/ta(tsu)/ta(teru)/to stand/to establish"},{"六":"六/roku/mutt(su)/mu(tsu)/mu/mui/six"},{"話":"話/wa/hanashi/hana(su)/speech/to talk/story/conversation"}],"Notes":"This set was generated automatically from <a href=\"https://nihongoichiban.com/2011/04/10/complete-list-of-kanji-for-jlpt-n5/\">Nihongoichiban.com</a>","Visibility":"public","Author":"2252"}
+{
+    "Name": "JLPT N5 Kanji",
+    "ObjectName": "Kanji",
+    "AnswerName": "translation or pronunciation",
+    "Set": [
+        {
+            "安": "安/an/yasu(i)/peace/cheap/safety"
+        },
+        {
+            "一": "一/ichi/itsu/hito(tsu)/hito-/one"
+        },
+        {
+            "飲": "飲/in/no(mu)/to drink"
+        },
+        {
+            "右": "右/u/yuu/migi/right"
+        },
+        {
+            "雨": "雨/u/ame/rain"
+        },
+        {
+            "駅": "駅/eki/station"
+        },
+        {
+            "円": "円/en/maru(i)/circle/yen/round"
+        },
+        {
+            "火": "火/ka/hi/fire"
+        },
+        {
+            "花": "花/ka/hana/flower/blossom"
+        },
+        {
+            "下": "下/ka/ge/shimo/sa(geru)/o(rosu)/ku(daru)/below/down"
+        },
+        {
+            "何": "何/ka/nani/what/how many/which"
+        },
+        {
+            "会": "会/kai/e/a(u)/to meet/to come together/society"
+        },
+        {
+            "外": "外/gai/ge/soto/hoka/hazu(reru)/hazu(su)/outside/other/disconnect"
+        },
+        {
+            "学": "学/gaku/mana(bu)/school/science/learning"
+        },
+        {
+            "間": "間/kan/ken/aida/time/time span"
+        },
+        {
+            "気": "気/ki/ke/soul/spirit"
+        },
+        {
+            "九": "九/kyuu/ku/kokono(tsu)/kokono-/nine"
+        },
+        {
+            "休": "休/kyuu/yasu(mu)/to rest"
+        },
+        {
+            "魚": "魚/gyo/sakana/uo/fish"
+        },
+        {
+            "金": "金/kin/kon/kane/gold/metal/money"
+        },
+        {
+            "空": "空/kuu/sora/a(keru)/kara/sky/to become free/empty"
+        },
+        {
+            "月": "月/getsu/gatsu/tsuki/month/moon"
+        },
+        {
+            "見": "見/ken/mi(ru)/mi(eru)/mi(seru)/to see/to be visible/to show"
+        },
+        {
+            "言": "言/gen/gon/i(u)/word/to talk"
+        },
+        {
+            "古": "古/ko/furu(i)/old/used"
+        },
+        {
+            "五": "五/go/itsu(tsu)/itsu-/five"
+        },
+        {
+            "後": "後/go/kou/ato/oku(reru)/nochi/after/later/back/to stay behind"
+        },
+        {
+            "午": "午/go/noon"
+        },
+        {
+            "語": "語/go/kata(ru)/kata(rau)/word/to talk"
+        },
+        {
+            "校": "校/kou/school"
+        },
+        {
+            "口": "口/kou/ku/kuchi/mouth"
+        },
+        {
+            "行": "行/kou/i(ku)/yu(ku)/okona(u)/to walk/to go/to do/to carry out"
+        },
+        {
+            "高": "高/kou/taka(i)/taka(maru)/taka(meru)/high/expensive/increase/quantity"
+        },
+        {
+            "国": "国/koku/kuni/country"
+        },
+        {
+            "今": "今/kon/kin/ima/now"
+        },
+        {
+            "左": "左/sa/hidari/left"
+        },
+        {
+            "三": "三/san/mit(tsu)/mi-/three"
+        },
+        {
+            "山": "山/san/yama/mountain"
+        },
+        {
+            "四": "四/shi/yo(ttsu)/yu(tsu)/yo-/yon-/four"
+        },
+        {
+            "子": "子/shi/su/ko/child"
+        },
+        {
+            "耳": "耳/ji/mimi/ear"
+        },
+        {
+            "時": "時/ji/toki/time/hour"
+        },
+        {
+            "七": "七/shichi/nana(tsu)/nana-/nano-/seven"
+        },
+        {
+            "車": "車/sha/kuruma/car/wheel"
+        },
+        {
+            "社": "社/sha/yashiro/shinto shrine/society"
+        },
+        {
+            "手": "手/shu/te/hand"
+        },
+        {
+            "週": "週/shuu/week"
+        },
+        {
+            "十": "十/juu/ji/too/to-/ten/cross"
+        },
+        {
+            "出": "出/shutsu/da(su)/de(ru)/to leave/to get out/to take out"
+        },
+        {
+            "書": "書/sho/ka(ku)/to write"
+        },
+        {
+            "女": "女/jo/nyo/onna/me/woman/female"
+        },
+        {
+            "小": "小/shou/chii(sai)/ko-/o-/small"
+        },
+        {
+            "少": "少/shou/suko(shi)/suku(nai)/a little"
+        },
+        {
+            "上": "上/shou/jou/ue/kami/a(geru)/a(garu)/above/upper"
+        },
+        {
+            "食": "食/shoku/ta(beru)/ku(ru)/ku(rau)/to eat"
+        },
+        {
+            "新": "新/shin/atara(shii)/ara(ta)/nii-/new"
+        },
+        {
+            "人": "人/jin/nin/hito/person"
+        },
+        {
+            "水": "水/sui/mizu/water"
+        },
+        {
+            "生": "生/sei/shou/i(kiru)/u(mu)/ha(yasu)/nama/ki/to live/to grow/to be born/raw"
+        },
+        {
+            "西": "西/sei/sai/nishi/west"
+        },
+        {
+            "川": "川/sen/kawa/river"
+        },
+        {
+            "千": "千/sen/chi/thousand"
+        },
+        {
+            "先": "先/sen/saki/before/in future"
+        },
+        {
+            "前": "前/zen/mae/before"
+        },
+        {
+            "足": "足/soku/ashi/ta(riru)/ta(su)/foot/to be sufficient/to add"
+        },
+        {
+            "多": "多/ta/oo(i)/many"
+        },
+        {
+            "大": "大/dai/tai/ou(kii)/oo(i)/big/a lot"
+        },
+        {
+            "男": "男/dan/nan/otoko/man/male"
+        },
+        {
+            "中": "中/chuu/naka/inner/center/between"
+        },
+        {
+            "長": "長/chou/naga(i)/long/leader"
+        },
+        {
+            "天": "天/ten/ame/ama/sky"
+        },
+        {
+            "店": "店/ten/mise/shop"
+        },
+        {
+            "電": "電/den/electricity"
+        },
+        {
+            "土": "土/do/to/tsuchi/earth/ground"
+        },
+        {
+            "東": "東/tou/higashi/east"
+        },
+        {
+            "道": "道/dou/michi/street/path"
+        },
+        {
+            "読": "読/doku/yo(mu)/to read"
+        },
+        {
+            "南": "南/nan/minami/south"
+        },
+        {
+            "ニ": "ニ/ni/futa(tsu)/futa-/two"
+        },
+        {
+            "日": "日/nichi/jitsu/hi/-ka/day/sun"
+        },
+        {
+            "入": "入/nyuu/hai(ru)/i(ru)/i(reru)/to enter/to insert"
+        },
+        {
+            "年": "年/nen/toshi/year"
+        },
+        {
+            "買": "買/bai/ka(u)/to buy"
+        },
+        {
+            "白": "白/haku/byaku/shiro(i)/shiro/white"
+        },
+        {
+            "八": "八/hachi/yat(tsu)/ya(tsu)/ya-/you-/eight"
+        },
+        {
+            "半": "半/han/naka(ba)/half/middle/semi-"
+        },
+        {
+            "百": "百/hyaku/hundred"
+        },
+        {
+            "父": "父/fu/chichi/father"
+        },
+        {
+            "分": "分/bun/bu/fun/wa(keru)/wa(kareru)/wa(karu)/part/minute/to divide/to understand"
+        },
+        {
+            "聞": "聞/bun/mon/ki(ku)/ki(koeru)/to hear/to listen/to ask"
+        },
+        {
+            "母": "母/bo/haha/mother"
+        },
+        {
+            "北": "北/hoku/kita/north"
+        },
+        {
+            "木": "木/boku/moku/ki/ko/tree/wood"
+        },
+        {
+            "本": "本/hon/moto/book/source/main-"
+        },
+        {
+            "毎": "毎/mai/each/every"
+        },
+        {
+            "万": "万/man/ban/ten thousand/all/many"
+        },
+        {
+            "名": "名/mei/myou/na/name/reputation"
+        },
+        {
+            "目": "目/moku/me/eye"
+        },
+        {
+            "友": "友/yuu/tomo/friend"
+        },
+        {
+            "来": "来/rai/ku(ru)/kita(ru)/kita(su)/to come"
+        },
+        {
+            "立": "立/ritsu/ta(tsu)/ta(teru)/to stand/to establish"
+        },
+        {
+            "六": "六/roku/mutt(su)/mu(tsu)/mu/mui/six"
+        },
+        {
+            "話": "話/wa/hanashi/hana(su)/speech/to talk/story/conversation"
+        }
+    ],
+    "Notes": "This set was generated automatically from <a href=\"https://nihongoichiban.com/2011/04/10/complete-list-of-kanji-for-jlpt-n5/\">Nihongoichiban.com</a>",
+    "Visibility": "public",
+    "Author": "2252"
+}
