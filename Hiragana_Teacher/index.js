@@ -222,7 +222,7 @@ async function LoadSetAndStart() {
     document.getElementById("AnswerInput").placeholder = list.AnswerName;
 
     // Prepare notes section and author name display.
-    document.getElementById("AuthorNameDisplay").innerHTML = `Set By ${await authorIDToName(list.Author)}`;
+    document.getElementById("AuthorNameDisplay").innerHTML = `Set by ${await authorIDToName(list.Author)}`;
     document.getElementById("NotesDisplay").innerHTML = list.Notes == undefined ? "" : list.Notes;
 
     ToggleScreen()
@@ -310,10 +310,11 @@ function SelectAndDisplayACharacter() {
     character = parts[1], syllable = parts[3];
 
     // Display the parts. (If the user's logged in, put a Jisho link instead.)
-    if (LoginData == {})
+    if (login_token == -1)
         document.getElementById("Display").innerText = character;
-    else 
-        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}">${character}</a>`
+    else {
+        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${character}</a>`;
+    }
 }
 
 function SyllableToList(syllable) {
