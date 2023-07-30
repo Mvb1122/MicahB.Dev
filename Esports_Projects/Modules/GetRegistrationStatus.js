@@ -10,7 +10,7 @@ let token = args.token;
 
 let status;
 if (global.playerCache[token]) status = "Waiting";
-else if (fs.existsSync(`${PlayersPath}/${token}.json`))
+else if (fs.existsSync(`${PlayersPath}/${token}.json`) || global.playerCache[token] == undefined)
 {
     status = "Registered";
 } else status = "Error";

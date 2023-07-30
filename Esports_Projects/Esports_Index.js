@@ -327,12 +327,19 @@ client.on("messageCreate", async (message) => {
             "Student_id": playerInfo.Id,
             "Grade": playerInfo.Grade
         }
-            // Saves data to player database.
+            // Save data to player database.
+                // If the player is already registered, update their existing profile.
+        let ReplyStart = "Registration suceeded!"
+        if (GetPlayerIDFromDiscordID(message.author.id) != -1) {
+            global.playerCache[link_code] = undefined;
+            link_code = GetPlayerIDFromDiscordID(message.author.id);
+            ReplyStart = "Profile Updated!";
+        }
         fs.writeFileSync(`${PlayerPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
 
         // Invalidate cached version of the player.
         global.playerCache[link_code] = undefined;
-        message.reply("Registration suceeded! Check the website to make sure it went through.");
+        message.reply(`${ReplyStart} Check the website to make sure it went through.`);
 
         // Rename the user to have their name as their username.
         message.member.setNickname(playerInfo.Player, "Changed user's nickname to match their registered name.")
@@ -381,7 +388,6 @@ client.on("messageCreate", async (message) => {
 
         // Add the current user to be attending, if they're registered.
         let userID = GetPlayerIDFromDiscordID(message.author.id);
-        console.log(userID);
         if (userID != -1)
             global.EventCache[ThreadID].Attending.push(userID);
         else 
