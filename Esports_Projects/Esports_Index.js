@@ -253,6 +253,34 @@ function GetReliability(player) {
     return (oldReliability + AttendanceReliability) / 2;
 }
 
+function GetPlayerSkill(PlayerID) {
+    let Skill = 1;
+    const PlayerFile = `./Esports_Projects/Players/${PlayerID}.json`;
+    if (fs.existsSync(PlayerFile)) {
+        let Player = JSON.parse(fs.readFileSync(PlayerFile));
+        if (Player.Smash_Skill != null) {
+            Skill = Player.Smash_Skill;
+        }
+    }
+    return Skill;
+}
+
+function SetPlayerSkill(PlayerID, Skill) {
+    const PlayerFile = `./Esports_Projects/Players/${PlayerID}.json`;
+    if (fs.existsSync(PlayerFile)) {
+        let Player = JSON.parse(fs.readFileSync(PlayerFile));
+        Player.Smash_Skill = Skill;
+        const data = JSON.stringify(Player);
+        fs.writeFile(PlayerFile, data, (e) => {
+            if (e)
+                console.log("Error: " + e);
+        })
+        
+        // Update the cache.
+        File_Cache[PlayerFile] = data;
+    }
+}
+
 // Start the Discord bot.
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());
 const client = new Client({

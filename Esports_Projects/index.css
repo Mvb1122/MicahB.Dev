@@ -11,6 +11,7 @@ main {
     border-radius: 30px;
     border: solid 5px #495ABF;
     flex-direction: column;
+    padding: 30px;
 }
 
 .center {

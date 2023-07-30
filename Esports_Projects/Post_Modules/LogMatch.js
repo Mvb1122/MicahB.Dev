@@ -31,6 +31,26 @@ if (!check) {
     return res.end(JSON.stringify({"sucessful": check, "reason": "Invalid Players!"}))
 }
 
+// Special Sauce for Smash Matches.
+if (GivenData.Options.Game == "Super Smash Bros. Ultimate") {
+    // Get players' Skill level.
+    let WinnerSkill = GetPlayerSkill(GivenData.Winners[0]);
+    let LoserSkill = GetPlayerSkill(GivenData.Losers[0]);
+
+    // Calculate changes.
+    LoserSkill += (Math.abs(WinnerSkill - LoserSkill) + 1) / 6
+    if (WinnerSkill > LoserSkill)
+        WinnerSkill += 1/6;
+    else 
+        WinnerSkill += (Math.abs(WinnerSkill - LoserSkill) + 1) / 4
+
+    // Update their Player files. 
+    SetPlayerSkill(GivenData.Winners[0], WinnerSkill);
+    SetPlayerSkill(GivenData.Losers[0], LoserSkill);
+
+    console.log(`Player skills: ${WinnerSkill}, ${LoserSkill}`);
+}
+
 // Write the data.
 let date = new Date();
 let today = date.toISOString().slice(0, 10).replaceAll("-", "/");
