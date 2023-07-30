@@ -4,17 +4,30 @@ let token;
 async function FinishStep0() {
     // Collate grabbed information into an object so it's easier to send.
     let newPlayerInfo = {
-        Name: document.getElementById("name").value.trim(),
-        Games: document.getElementById("game").value,
-        ID: document.getElementById("StudentID").value
+        player: document.getElementById("name").value.trim(),
+        games: document.getElementById("game").value.split(", "),
+        id: document.getElementById("StudentID").value,
+        grade: document.getElementById("grade").value
     }
+    /*
     let query = `&name=${escape(newPlayerInfo.Name)}&games=${escape(newPlayerInfo.Games)}&id=${escape(newPlayerInfo.ID)}`
-
-    // Send that to the server.
     await fetch(`${WebsiteURL}Modules/CollatePlayerAndGetLinkToken.js${query}`)
         .then((response) => response.json())
         .then((data) => token = data.Token);
+    */
 
+    // Send that to the server.
+    const url = 'https://micahb.dev/Esports_Projects/Post_Modules/CollatePlayerAndGetLinkToken.js';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPlayerInfo),
+    });
+
+    token = (await response.json()).Token;
+    
     // Move to the next step where we wait for confirmation of link from Discord.
     document.getElementById("Step0").hidden = true;
     document.getElementById("Step1").hidden = false;

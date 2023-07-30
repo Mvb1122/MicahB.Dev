@@ -287,7 +287,8 @@ client.on("messageCreate", async (message) => {
             "Name": playerInfo.Player,
             "PlayedGames": playerInfo.Games,
             "Discord_id": message.author.id,
-            "Student_id": playerInfo.Id
+            "Student_id": playerInfo.Id,
+            "Grade": playerInfo.Grade
         }
             // Saves data to player database.
         fs.writeFileSync(`${PlayerPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
