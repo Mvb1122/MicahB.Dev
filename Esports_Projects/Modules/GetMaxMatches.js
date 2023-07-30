@@ -1,5 +1,4 @@
 // Requires a "game" arg.
-console.log("reached");
 let response = { sucessful: false };
 res.statusCode = 403;
 if (args.game != null) {

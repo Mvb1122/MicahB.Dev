@@ -200,6 +200,7 @@ function GetValueOfSelect(dropdownID) {
     return document.getElementById(dropdownID).value;
 }
 
+// Click the selector text 20 times for a special surprise...
 let ClickCounter = 0;
 function IncreaseLogMatchCounter() {
     ClickCounter++;
