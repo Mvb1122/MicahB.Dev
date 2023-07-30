@@ -53,8 +53,6 @@ function AddPlayerToCache(player) {
     return playerID.toString();
 }
 
-
-
 const PlayersPath = "Esports_Projects/Players";
 
 /// Returns -1 if no player is found, otherwise, the player ID.
@@ -149,7 +147,7 @@ function GetAttendance(player) {
         fs.readdirSync(EventPath).forEach((e) => {
             let event = JSON.parse(GetFileFromCache(`${EventPath}/${e}`));
 
-            // If the event contains one of the players' games, include it in the normal list. Else, move onto the next loop.
+            // If the event contains one of the players' games, include it in the normal list. Else, put it in the extra days list.
             let IsPlayerGame = false;
             event.Games.forEach((game) => {
                 for (let i = 0; i < PlayerInfo.PlayedGames.length; i++)
@@ -159,22 +157,33 @@ function GetAttendance(player) {
                     }
             })
             
-            let attending = false;
+            let attending = "false";
             for (let i = 0; i < event.Attending.length; i++) {
                 let AttendingPlayer = event.Attending[i];
                 // If they were there, append them being there to the list of days that they were there.
                 if (AttendingPlayer == player) {
-                    attending = true;
+                    attending = "true";
                     break;
                 }
             }
+
+            // If they weren't attending, check if they were excused.
+            if (attending == "false" && event.Excused != undefined) 
+                for (let i = 0; i < event.Excused.length; i++) {
+                    let ExcusedPlayer = event.Excused[i];
+                    if (ExcusedPlayer.player == player)
+                    {
+                        attending = { state: "excused", excuse: ExcusedPlayer.excuse };
+                        break;
+                    }
+                }
 
             if (IsPlayerGame) {
                 DaysAttended.unshift({
                     Date: event.Date,
                     Attending: attending
                 });
-            } else if (attending) {
+            } else {
                 AdditionalDaysAttended.unshift({
                     Date: event.Date,
                     Attending: attending
@@ -364,6 +373,7 @@ client.on("messageCreate", async (message) => {
         while (minutes.length < 2) minutes = "0" + minutes;
         global.EventCache[ThreadID] = {
             "Attending": [],
+            "Excused": [],
             "Date": today,
             "StartTime": `${hours}:${minutes}`,
             "Games": []
@@ -427,7 +437,8 @@ client.on("messageCreate", async (message) => {
             eventNumber = eventNumber[eventNumber.length - 1];
 
             // If the eventNumber isn't a valid event, return since this isn't an event thread.
-            if (!global.EventCache[eventNumber] && c.startsWith("/")) return message.reply("This isn't an event thread, you can't use /here, here.");
+            if (!global.EventCache[eventNumber] && c.startsWith("/")) 
+                return message.reply("This isn't an event thread, you can't use event commands here!");
             // console.log("The event number in this thread is " + eventNumber);
         } catch (error) {
             // This is not an event thread.
@@ -466,9 +477,29 @@ client.on("messageCreate", async (message) => {
             message.reply(`${msgStart}${errors != "\n\n" ? errors : ""}`);
             console.log(JSON.stringify(global.EventCache[eventNumber]));
         }
+        
+        else if (c.startsWith("/excuse")) {
+            // Find event cache.
+                // Asertain command args.
+            let newPlayers = c.split(" ");
+                // Remove the command.
+            newPlayers.shift();
 
+            // Add the player and their excuse.
+            let Player = GetPlayerIDFromDiscordID(newPlayers[0]);
+            let Excuse = newPlayers.length > 2 ? c.substring(c.indexOf(newPlayers[0]) + newPlayers[0].length).trim() : "did not provide an excuse but was excused by the person taking attendance.";
+
+            // Add the player-excuse object to the event.
+            if (Player != -1)
+                global.EventCache[eventNumber].Excused.push({ "player": Player, "excuse": Excuse });
+            else 
+                return message.reply(`Please have the unregistered player register at https://micahb.dev/ESports_Projects/Attendance_Make_Player.html\nand then you can add them via /excuse.`);
+
+            message.reply(`Player excused!`);
+            // console.log(JSON.stringify(global.EventCache[eventNumber]));
+        }
         // Handle finishing events.
-        if (c.startsWith("/complete")) {
+        else if (c.startsWith("/complete")) {
             let data = global.EventCache[eventNumber];
 
             // Add the ending time.
@@ -491,7 +522,7 @@ client.on("messageCreate", async (message) => {
             setTimeout(() => {message.channel.setArchived(true)}, 2000)
         }
 
-        if (c.startsWith("/addGame")) {
+        else if (c.startsWith("/addGame")) {
             let Game = c.substring(c.indexOf(" ") + 1);
             global.EventCache[eventNumber].Games.push(Game);
             message.reply(`Game attached: ${Game}!`);

@@ -21,12 +21,17 @@ async function LoadAttendance() {
     let output = ""; let numberOfDaysThere = 0;
     daysAttended.forEach(day => {
         let startTag = `<p class="redText">`, endTag = `</p>`;
-        if (day.Attending) {
+        let attending = "Not Attending";
+        if (day.Attending == "true") {
             startTag = `<p class="greenText">`;
+            attending = "Attending";
+            numberOfDaysThere++;
+        } else if (day.Attending.state == "excused") {
+            startTag = `<p class="yellowText">`
+            attending = "Was excused " + day.Attending.excuse;
             numberOfDaysThere++;
         }
 
-        let attending = day.Attending ? "Attending" : "Not Attending";
         output += `${startTag}${day.Date}: ${attending}${endTag}`
     });
     

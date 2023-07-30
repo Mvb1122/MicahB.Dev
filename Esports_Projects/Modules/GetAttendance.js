@@ -1,5 +1,3 @@
-const fs = require('fs')
-const PlayerPath = "Esports_Projects/Players/";
 let player = args.player;
 
 // Send the data back to the client.
