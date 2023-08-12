@@ -123,8 +123,14 @@ async function SubmitSet() {
                     }
                 });
         }
+        // Before the set has been uploaded, show the delete button.
+        if (SetCreationMode == "Create")
+        {
+            document.getElementById("DeleteSetButton").hidden = false;
+        }
 
         postSet();
+
     }
 }
 
@@ -142,7 +148,8 @@ function getSetData() {
 }
 
 function DeleteSet() {
-    if (SetCreationMode != "Create" && EditSetID != -1) {
+    let UserClickedYes = confirm("Do you really want to delete this set?");
+    if (SetCreationMode != "Create" && EditSetID != -1 && UserClickedYes) {
         // Delete the set and return back to the main menu.
         postJSON("./Post_Modules/DeleteList.js", {
             "token": login_token,
