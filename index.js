@@ -121,6 +121,7 @@ const requestListener = async function (req, res) {
             try {
                 res.setHeader("Content-Type", "application/json");
                 output = fs.readFileSync(url);
+                res.setHeader("Content-Length", Buffer.byteLength(output, 'utf8'))
                 res.writeHead(200);
                 res.end(output);
             } catch (e) {
@@ -131,16 +132,18 @@ const requestListener = async function (req, res) {
         } else if (localURL.endsWith("/") && fs.existsSync(localURL + "index.html")) {
             // Handle reading index.html files if there's just a slash at the end.
             res.setHeader("Content-Type", "text/html");
-            res.writeHead(200);
             let output;
             if (args.cache == "false") output = fs.readFileSync(localURL + "index.html");
             else output = GetFileFromCache(localURL + "index.html");
+            res.setHeader("Content-Length", Buffer.byteLength(output, 'utf8'))
+            res.writeHead(200);
             res.end(output);
         } else if (req.url.startsWith("/users/")) {
             try {
                 res.setHeader("Content-Type", "application/json");
                 output = fs.readFileSync("." + req.url);
                 res.writeHead(200);
+                res.setHeader("Content-Length", Buffer.byteLength(output, 'utf8'))
                 res.end(output);
             } catch (e) {
                 res.setHeader("Content-Type", "text/plain");
@@ -211,12 +214,20 @@ const requestListener = async function (req, res) {
                     // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
                         // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index") || localURL.includes("favicon")) {
+                        var stats = fs.statSync(localURL)
+                        var fileSizeInBytes = stats.size;
+                        res.setHeader("Content-Length", fileSizeInBytes)
                         res.end(GetFileFromCache(localURL));
                     } else if (args.compress) {
+                        var stats = fs.statSync(localURL)
+                        var fileSizeInBytes = stats.size;
+                        res.setHeader("Content-Length", fileSizeInBytes)
                         res.EndWithCompression(GetFileFromCache(localURL));
                     } else {
                         let s = fs.createReadStream(localURL);
-
+                        var stats = fs.statSync(localURL)
+                        var fileSizeInBytes = stats.size;
+                        res.setHeader("Content-Length", fileSizeInBytes)
                         s.on('open', function () {
                             res.setHeader('Content-Type', mime);
                             s.pipe(res);
