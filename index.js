@@ -18,7 +18,8 @@ const mimeTypes = {
     "svg": "image/svg+xml",
     "wav": "audio/wav",
     "css": "text/css",
-    "php": "text/html"
+    "php": "text/html",
+    "avif": "image/avif"
 } 
 
 // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
@@ -339,8 +340,15 @@ function parseQuery(queryString) {
     var query = {};
     var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
     for (var i = 0; i < pairs.length; i++) {
-        var pair = pairs[i].split('=');
-        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+        try {
+            var pair = pairs[i].split('=');
+            query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+        } catch (error) {
+            if (DEBUG) {
+                console.log("Pair: [" + pair[0] + "," + pair[1] + "]")
+                console.log(error)
+            }
+        }
     }
     return query;
 }
