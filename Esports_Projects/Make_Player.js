@@ -7,7 +7,8 @@ async function FinishStep0() {
         player: document.getElementById("name").value.trim(),
         games: document.getElementById("game").value.split(", "),
         id: document.getElementById("StudentID").value,
-        grade: document.getElementById("grade").value
+        grade: document.getElementById("grade").value,
+        ranks: document.getElementById("Ranks").value.split(", ")
     }
     /*
     let query = `&name=${escape(newPlayerInfo.Name)}&games=${escape(newPlayerInfo.Games)}&id=${escape(newPlayerInfo.ID)}`
