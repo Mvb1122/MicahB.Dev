@@ -311,9 +311,9 @@ function SelectAndDisplayACharacter() {
 
     // Display the parts. (If the user's logged in, put a Jisho link instead.)
     if (login_token == -1)
-        document.getElementById("Display").innerText = character;
+        document.getElementById("Display").innerHTML = character.replaceAll("・", "<br>");
     else {
-        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${character}</a>`;
+        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${character.replaceAll("・", "<br>")}</a>`;
     }
 }
 
