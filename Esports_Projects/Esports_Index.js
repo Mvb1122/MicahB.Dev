@@ -325,7 +325,8 @@ client.on("messageCreate", async (message) => {
             "PlayedGames": playerInfo.Games,
             "Discord_id": message.author.id,
             "Student_id": playerInfo.Id,
-            "Grade": playerInfo.Grade
+            "Grade": playerInfo.Grade,
+            "Ranks": playerInfo.Ranks
         }
             // Save data to player database.
                 // If the player is already registered, update their existing profile.
@@ -344,7 +345,7 @@ client.on("messageCreate", async (message) => {
         // Rename the user to have their name as their username.
         message.member.setNickname(playerInfo.Player, "Changed user's nickname to match their registered name.")
             // Send them a message if it failed.
-            .catch(error => 
+            .catch(() => 
                 message.channel.send(`I tried to rename you but I can't because I don't have permission; If you could please rename yourself to \`${Full_Player_Information.Name}\`, That'd be great.`)
             );
     }
