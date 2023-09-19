@@ -304,9 +304,79 @@ const client = new Client({
     ],
   });
 
+module.exports = {
+    GetValidToken, IsESportsLoginTokenValid, AddPlayerToCache, GetPlayerIDFromDiscordID,
+    GetMaxMatches, GetMatches, GetWinrate, GetAttendance, GetPlayersWhoPlayGame, GetMaxMatchesInGame,
+    GetReliability, GetPlayerSkill, SetPlayerSkill
+}
+
+let SlashCommands = []
 client.once('ready', () => {
 	console.log('Discord bot online.');
-});
+    let commands = ["./Slash_Commands/CreateEvent.js", "./Slash_Commands/link.js"]; // File paths here.
+    //#region Command handler stuff.
+    let CommandJSON = [];
+    commands.forEach(command => {
+        // console.log(fs.readFileSync(command).toString())
+        const Module = require(command);
+        if ('data' in Module && 'execute' in Module) {
+            SlashCommands.push(Module);
+            CommandJSON.push(Module.data.toJSON());
+        } else {
+            console.log(`[WARNING] The command at ${command} is missing a required "data" or "execute" property.`);
+        }
+    });
+
+    const rest = new Discord.REST().setToken(botInfo.token);
+    const DiscordClientId = "1002343965695164427"
+    const guildId = "762867801575784448"
+    // Refresh commands:
+    const UpdateCommands = async () => {
+        try {
+        console.log(`Started refreshing application commands.`);
+
+        // The put method is used to fully refresh all commands in the guild with the current set
+        const data = await rest.put(
+            Discord.Routes.applicationCommands(DiscordClientId /*, guildId */ ), // use with ApplicationGuildCommands for testing.
+            { body: CommandJSON },
+        ); 
+
+        // Clear support server commands.
+        await rest.put(
+            Discord.Routes.applicationGuildCommands(DiscordClientId, guildId),
+            { body: {} },
+        );
+
+        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+        } catch (error) {
+        // And of course, make sure you catch and log any errors!
+        console.error(error);
+        }
+    };
+    UpdateCommands(); 
+    //#endregion
+}); 
+
+//#region Interaction handling
+client.on("interactionCreate",
+  /**
+   * @param {Discord.CommandInteraction} int 
+   */
+  async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
+    // Find command by name.
+    const name = interaction.commandName;
+    for (let i = 0; i < SlashCommands.length; i++) {
+      const module = SlashCommands[i];
+      /** @type {Discord.SlashCommandBuilder} */
+      let data = module.data;
+      if (data.name == name) {
+        module.execute(interaction);
+      }
+    }
+})
+
 module.exports = {
     GetWinrate,
     GetAttendance,
