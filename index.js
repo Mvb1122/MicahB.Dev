@@ -22,7 +22,6 @@ const mimeTypes = {
     "avif": "image/avif"
 } 
 
-// Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
 const getMime = (s) => {
     for (const p in mimeTypes) {
         if (s.endsWith(p)) return mimeTypes[p];
@@ -97,9 +96,10 @@ const requestListener = async function (req, res) {
         if (acceptEncodingHeader.includes("gzip") || acceptEncodingHeader.includes("x-gzip")) {
             res.setHeader("Content-Encoding", "gzip"); 
             try {
-                // Compress with GZip and then Gunzip
+                // Compress with GZip
                 let oldLength = buffer.length
                 zlib.gzip(buffer, (err, buffer) => {
+                    if (err) console.log(err);
                     console.log(`Compressed from ${buffer.length} to ${oldLength}!`);
                     res.end(buffer)
                 });
@@ -355,14 +355,17 @@ function parseQuery(queryString) {
 
 // Load persistant information.
 const global = fs.existsSync("./Global.json") ? JSON.parse(fs.readFileSync("./Global.json")) : {};
-
+module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime }
 // Run ESports setup stuff.
-eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
+require("./Esports_Projects/Esports_Index.js")
+// eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
 
 // Run Hiragana Teacher stuff.
+// require("./Hiragana_Teacher/Hiragana_Teacher_Index.js")
 eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
 
 // Run the AI Index stuff.
+// require("./FTP/AI/AI_Index.js")
 eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
 // Save the global cache when the program is shut down.
