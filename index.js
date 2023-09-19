@@ -18,7 +18,7 @@ const mimeTypes = {
     "svg": "image/svg+xml",
     "wav": "audio/wav",
     "css": "text/css",
-    "php": "text/html",
+    "php": "text/html", // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
     "avif": "image/avif"
 } 
 
@@ -248,7 +248,7 @@ const requestListener = async function (req, res) {
 
         // POSTING:
     } else if (req.method === "POST") {
-        // Asyncrounously download data.
+        // Asynchronously download data.
         var binary_data = [];
             // This runs asynchronously... 
         req.on('data', function(chunk) {
