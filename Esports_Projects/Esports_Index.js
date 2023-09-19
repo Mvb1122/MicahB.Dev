@@ -1,6 +1,10 @@
 const fs = require('fs');
 const { Client, GatewayIntentBits } = require('discord.js');
 const { ContextMenuCommandInteraction } = require('discord.js');
+const Discord = require('discord.js');
+const index = require('../index.js')
+let GetFileFromCache = index.GetFileFromCache;
+let global = index.global;
 
 const GamesPath = "Esports_Projects/Games"
 const EventPath = "Esports_Projects/Events"
@@ -303,6 +307,14 @@ const client = new Client({
 client.once('ready', () => {
 	console.log('Discord bot online.');
 });
+module.exports = {
+    GetWinrate,
+    GetAttendance,
+    GetMatches,
+    GetMaxMatches,
+    GetPlayerIDFromDiscordID,
+    GetReliability,
+}
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return false; 

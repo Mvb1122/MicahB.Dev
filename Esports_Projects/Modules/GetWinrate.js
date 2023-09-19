@@ -1,4 +1,5 @@
 let player = args.player;
+const { GetWinrate } = require("./Esports_Projects/Esports_Index.js")
 
 // Send the data back to the client.
 res.setHeader("Content-Type", "application/json");
