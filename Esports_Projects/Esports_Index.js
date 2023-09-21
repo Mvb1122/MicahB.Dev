@@ -6,6 +6,10 @@ const index = require('../index.js')
 let GetFileFromCache = index.GetFileFromCache;
 let global = index.global;
 
+if (global.esports == undefined)
+    global.esports = {};
+global.esports.GetValidToken = GetValidToken;
+
 const GamesPath = "Esports_Projects/Games"
 const EventPath = "Esports_Projects/Events"
 
@@ -305,7 +309,7 @@ const client = new Client({
   });
 
 module.exports = {
-    GetValidToken, IsESportsLoginTokenValid, AddPlayerToCache, GetPlayerIDFromDiscordID,
+    "GetValidToken": GetValidToken, IsESportsLoginTokenValid, AddPlayerToCache, GetPlayerIDFromDiscordID,
     GetMaxMatches, GetMatches, GetWinrate, GetAttendance, GetPlayersWhoPlayGame, GetMaxMatchesInGame,
     GetReliability, GetPlayerSkill, SetPlayerSkill
 }
