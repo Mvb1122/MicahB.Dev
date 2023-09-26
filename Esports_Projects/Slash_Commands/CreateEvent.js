@@ -17,6 +17,7 @@ module.exports = {
      * @param {CommandInteraction} interaction 
      */
     async execute(message) {
+        await message.deferReply();
         let { global, GetFileFromCache } = require('../../index.js');
         if (!message.channel.isThread()) {
             // Use the spawner's ID as the index in the event thread cache.
@@ -38,7 +39,7 @@ module.exports = {
                 .catch(console.error);
 
             // Tell the user to enter the thread to begin logging attendance.
-            message.reply("Enter the above thread in order to begin tracking attendance.")
+            message.editReply("Enter the above thread in order to begin tracking attendance.")
 
             // Create event in cache.
             let date = new Date();
@@ -63,6 +64,6 @@ module.exports = {
 
             console.log(`Created a new event: ${thread.name}.`);
         } else if (c.startsWith("/createEvent"))
-            message.reply("You can't create events in a thread!");
+            message.editReply("You can't create events in a thread!");
     },
 };
