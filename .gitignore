@@ -60,6 +60,7 @@ FTP/AI/*/*.zip
 *.mp4
 Esports_Projects/Post_Modules/CheckPasscode.js
 Global.json
+node_modules/
 node_modules/accepts/HISTORY.md
 node_modules/accepts/index.js
 node_modules/accepts/LICENSE
