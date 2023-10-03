@@ -36,7 +36,7 @@ async function loadAIImages(AI) {
             let options = "";
             for (let i = 0; i < prompts.length; i++) {
                 let prompt = prompts[i];
-                options += `<option value="${i}">${prompt.promptName.replace("\\", "")}</option>`;
+                options += `<option value="${i}">${prompt.promptName.replaceAll("\\", "")}</option>`;
             }
             
             document.getElementById("PromptSelector").innerHTML = options;
