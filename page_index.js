@@ -5,7 +5,7 @@ async function run() {
       // Do Nothing.
     } else {
       let url = "https://micahb.dev/json/" + StrigoiNum + "/" + SpiritNum + "/1.json";
-      document.getElementById('information').innerHTML = "loading: " + url;
+      document.getElementById('information').innerText = "loading: " + url;
       let panelOne = await fetch(url).then(response => response.json());
       // let json1 = panelOne.json();
       let parsedResponse = "";

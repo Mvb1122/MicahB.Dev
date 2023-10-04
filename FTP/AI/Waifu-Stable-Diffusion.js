@@ -36,7 +36,7 @@ async function loadAIImages(AI) {
             let options = "";
             for (let i = 0; i < prompts.length; i++) {
                 let prompt = prompts[i];
-                options += `<option value="${i}">${prompt.promptName.replace("\\", "")}</option>`;
+                options += `<option value="${i}">${prompt.promptName.replaceAll("\\", "")}</option>`;
             }
             
             document.getElementById("PromptSelector").innerHTML = options;
@@ -140,6 +140,7 @@ async function loadImagesFromPrompt(AI, Prompt) {
                 im.style.height = "auto";
             })
 
+            // The data here is controlled by the server pretty much
             im.src = `./${AI}/${IncludedPrompt.promptName}_${image}.png`;
 
             if (num < 3) {
