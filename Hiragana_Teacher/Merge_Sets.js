@@ -9,10 +9,10 @@ for (let i = 0; i < sets.length; i++) {
 function GetOtherSetsX(X, SpliceChar) {
     let otherValues = "";
     for (let j = 1; j < sets.length; j++) {
-        let SetOther = eval(`sets[${j}].${X}`);
+        let SetOther = sets[j][X];
 
         // If this value doesn't match a previous value and isn't empty, incldue it.
-        if (SetOther != "" && !(otherValues + eval(`sets[0].${X}`)).includes(SetOther)) otherValues += SpliceChar + SetOther.toString().trim();
+        if (SetOther != "" && !(otherValues + sets[0][X]).includes(SetOther)) otherValues += SpliceChar + SetOther.toString().trim();
     }
     return otherValues
 }

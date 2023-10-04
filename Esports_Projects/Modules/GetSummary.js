@@ -21,11 +21,6 @@ files.forEach(async (file) => {
     numProcessing--;
 })
 
-// Wait until all files are done processing.
-do {
-    setTimeout(() => {console.log(`Number Processing ${numProcessing}`)}, 100);
-} while (numProcessing != 0)
-
 res.statusCode = 200;
 res.setHeader("Content-Type", "text/plain");
 res.end(summary);
