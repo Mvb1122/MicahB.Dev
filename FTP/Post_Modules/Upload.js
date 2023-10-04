@@ -10,9 +10,27 @@ if (args.target != null && !args.target.includes("post_modules")) {
         data = data.subarray(start)
     }
 
-    // If this is binary data, write it properly.
-    // If this file already exists, add a tag to its name.
     let location = `FTP/${unescape(args.target.replaceAll("$$DOT$$", ".").replaceAll("$$SLASH$$", "/"))}`;
+
+    // If this is an AI file, attempt to rename it to use the standard naming scheme.
+    if (location.includes("AI")) {
+        // Get AI tools. 
+        const AITools = require('./FTP/AI/PromptWorker.js');
+        if (data.toString().includes("tEXt")) {
+            // ! The below assumes that the file is a PNG!
+            const components = await AITools.GetComponentsFromBuffer(data);
+            try {
+                const Path = location.substring(0, location.lastIndexOf("/") + 1);
+                const parameters = components.parameters;
+                const maxLength = 200 - Path.length;
+                let endIndex = Math.min(maxLength, parameters.length);
+                location = `${Path}${parameters.substring(0, endIndex)}_${components.Seed}.png`;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
     if (fs.existsSync(location)) {
         // Check that this isn't the second or more-th time that this file has been uploaded.
         let parts = location.split(".");
@@ -21,6 +39,7 @@ if (args.target != null && !args.target.includes("post_modules")) {
         // Attempt to figure out which upload number this is.
         let uploadNum = 1;
 
+        // If this file already exists, add a tag to its name.
         numLoop:
         while (true) {
             let fullPath = "";
@@ -37,8 +56,6 @@ if (args.target != null && !args.target.includes("post_modules")) {
         }
     }
 
-    // TODO: If this is an AI file, attempt to rename it to use the standard naming scheme.
-    
     let respose = { upload: location.toString() };
     if (DEBUG) console.log(`Uploading a file to: ${location}`)
     fs.writeFile(location, data, (err) => {
