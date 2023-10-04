@@ -367,8 +367,10 @@ function EvaluateAnswer() {
     // If the last two characters in HRAnswer are punctuation, remove the extra punctuation.
     if (ArrayContains(".?!".split(''), HRAnswer.charAt(HRAnswer.length - 1))) HRAnswer = HRAnswer.slice(0, -1);
 
-    let text = `You were ${right ? "right" : "wrong"}!<br>${HRAnswer}`;
+    // The below has been altered to limit user input to text.
+    let text = `You were ${right ? "right" : "wrong"}!<br><p id="PHAnswer"></p>`;
     document.getElementById("PHAnswerShower").innerHTML = text;
+    document.getElementById("PHAnswer").innerText = HRAnswer
     document.getElementById("AnswerInput").value = "";
 
     // Get another character.
