@@ -17,7 +17,7 @@
   "dependencies": {
     "@discordjs/rest": "^1.7.1",
     "compression": "^1.7.4",
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.13.0",
     "events": "^3.3.0",
     "http": "0.0.1-security",
     "nodemon": "^2.0.19",
