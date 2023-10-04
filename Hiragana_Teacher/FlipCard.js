@@ -10,6 +10,13 @@ function move(dist) {
     
     document.getElementById("card_front").innerHTML = listOfWords[index].front;
     document.getElementById("card_back").innerHTML = listOfWords[index].back;
+
+    // Whenever we move, make sure that the user has the right example sentence display, I guess.
+    if (login_token != -1) {
+        document.getElementById("MustSignInToGetExampleSentence").hidden = true;
+        document.getElementById("GetExampleSentenceButton").hidden = false;
+        document.getElementById("ExampleSentence").hidden = true;
+    }
 }
 
 function Print() {
@@ -75,4 +82,26 @@ async function FlipLoop() {
         // When leaving idle mode, return card to normal.
         move(0);
     }
+}
+
+async function GetExampleSentence() {
+    const currentWord = listOfWords[index].front;
+
+    // Send the request to the server..
+    const data = {
+        "Set": listNumber,
+        "Word": currentWord,
+        "ForceNew": false,
+        "login_token": login_token
+    }
+    postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
+        .then(e => {
+            // Hide the button.
+            document.getElementById("GetExampleSentenceButton").hidden = true;
+            const ExampleSentenceDisplay = document.getElementById("ExampleSentence");
+
+            // The below code is safe. All content is controlled.
+            ExampleSentenceDisplay.innerHTML = e.Example + `<br><a href="https://jisho.org/search/${e.Example}">Jisho Link</a>`;
+            ExampleSentenceDisplay.hidden = false;
+        })
 }
