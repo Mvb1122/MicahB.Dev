@@ -146,7 +146,21 @@
 
 <br>
 <button class="back-button" onclick="back()">Back</button><button class="next-button" onclick="foward()">Next</button>
-<br><br><br>
+<br>
+<div>
+    <div id="MustSignInToGetExampleSentence">
+        Want an example sentence? 
+        You have to be signed in to get it.
+    </div>
+    <div id="GetExampleSentenceButton" hidden>
+        <button class="return-button" onclick="GetExampleSentence()">Get an example for the selected word!</button>
+    </div>
+    <br>
+    <div id="ExampleSentence" hidden>
+
+    </div>
+</div>
+<br><br>
 <button class="return-button" onclick="leaveCardScreen()">Go Back to the Selection Screen</button>
 <button class="return-button" onclick="Print()">Print This Card Set</button>
 <button class="return-button" id="ToggleIdleFlipButton" onclick="ToggleIdleMode()">LOADING...</button>

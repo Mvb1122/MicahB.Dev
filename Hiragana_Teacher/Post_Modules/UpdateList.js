@@ -1,4 +1,3 @@
-const fs = require('fs');
 /* Example Data:
 {
     "login_token": 123456,
@@ -7,7 +6,7 @@ const fs = require('fs');
         "ObjectName": "character",
         "AnswerName": "syllable",
         "Visibility": EITHER "public" OR "private",
-        "ID": "The old ID that this set used to be located under-- 123456",
+        "ID": "The ID that this set is located under-- 123456",
         "Set": [
             {"various entries": "various answers"}
         ]
@@ -41,7 +40,13 @@ let response = {
 GivenData.Set.Author = userID;
 delete GivenData.Set.ID;
 
-fs.writeFile(setPath, JSON.stringify(GivenData.Set), (err) => {
+// Bring forward the old data and overlay the new data.
+let finished = JSON.parse(fs.readFileSync(setPath));
+Object.keys(GivenData.Set).forEach(key => {
+    finished[key] = GivenData.Set[key]
+})
+
+fs.writeFile(setPath, JSON.stringify(finished), (err) => {
     if (err)  {
         response.sucessful = err;
         console.log(err);
