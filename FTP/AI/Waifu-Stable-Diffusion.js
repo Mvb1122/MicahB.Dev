@@ -140,6 +140,7 @@ async function loadImagesFromPrompt(AI, Prompt) {
                 im.style.height = "auto";
             })
 
+            // The data here is controlled by the server pretty much
             im.src = `./${AI}/${IncludedPrompt.promptName}_${image}.png`;
 
             if (num < 3) {
