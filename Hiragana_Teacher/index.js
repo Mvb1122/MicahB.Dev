@@ -448,7 +448,7 @@ async function updateLoginPane(IsPasswordCorrect) {
 
     if (IsPasswordCorrect) {
         // Update the username and set displays if the password was right.
-        loginPane.innerHTML = loginPrompt.replace("{X}", Login_Username)
+        loginPane.innerText = loginPrompt.replace("{X}", Login_Username)
         UpdateVisibleSets();
 
         // Show the "Create a Set Button"
@@ -456,7 +456,7 @@ async function updateLoginPane(IsPasswordCorrect) {
 
         
     } else {
-        loginPane.innerHTML = "Incorrect password!"
+        loginPane.innerText = "Incorrect password!"
         setTimeout(() => {
             loginPane.style.display = "none";
             document.getElementById("NotLoggedInPane").style.display = "block"
