@@ -5,10 +5,7 @@ const _Tokens = [];
 async function GetLoginToken(user) {
     // First, check if the user's information is correct.
     let userFile = await GetUserFile(user.username);
-    user.password = await ObfuscatePassword(user.username, user.password)
-
-    console.log("userfile: " + JSON.stringify(userFile))
-    console.log("user: " + JSON.stringify(user));
+    user.password = await ObfuscatePassword(user.username, user.password);
 
     let check = userFile != -1 ? await CheckPassword(userFile, user) : false;
     console.log("Is the user's password correct: " + check)
@@ -71,8 +68,6 @@ function GetUserID(username) {
 function CheckPassword(userFile, submitted) {
     userFile.password = userFile.password.toString().split("_");
     submitted.password = submitted.password.toString().split("_");
-
-    console.log(`User's actual password: ${userFile.password}\nSubmitted password: ${submitted.password}`);
 
     // Compare passwords and return whether or not they match.
     if (userFile.password.length == submitted.password.length) {
