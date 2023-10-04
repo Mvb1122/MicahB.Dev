@@ -370,7 +370,7 @@ function EvaluateAnswer() {
     // If the last two characters in HRAnswer are punctuation, remove the extra punctuation.
     if (ArrayContains(".?!".split(''), HRAnswer.charAt(HRAnswer.length - 1))) HRAnswer = HRAnswer.slice(0, -1);
 
-    // The below has been altered to limit user input to text.
+    // The below has been altered to limit user input to text. Without real effort, this error will continue to exist.
     let text = `You were ${right ? "right" : "wrong"}!<br><p id="PHAnswer"></p>`;
     document.getElementById("PHAnswerShower").innerHTML = text;
     document.getElementById("PHAnswer").innerText = HRAnswer
