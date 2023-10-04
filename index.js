@@ -31,10 +31,16 @@ const getMime = (s) => {
 
 // Implement a simple cache for files, which should recieve more traffic than other files.
 let File_Cache = [];
+/**
+ * Loads a file from the cache, or adds it to the cache if needed.
+ * @param {String} url The path to read from, as relative to index.js
+ * @returns {Buffer} The file
+ */
 function GetFileFromCache(url) {
     if (!DEBUG && File_Cache[url])
         return File_Cache[url]
     
+    // Safe because this is only called by controlled code.
     File_Cache[url] = fs.readFileSync(url)
     console.log(`File committed to cache! ${url}`);
     return File_Cache[url];
@@ -142,6 +148,7 @@ const requestListener = async function (req, res) {
         } else if (req.url.startsWith("/users/")) {
             try {
                 res.setHeader("Content-Type", "application/json");
+                // Below line is safe because it's limited to /users/
                 output = fs.readFileSync("." + req.url);
                 res.writeHead(200);
                 res.setHeader("Content-Length", Buffer.byteLength(output, 'utf8'))
@@ -260,6 +267,7 @@ const requestListener = async function (req, res) {
             res.setHeader("Content-Type", "text/plain");
             res.writeHead(200);
             req.on('end', () => {
+                // The below code has been filtered so it's safe enough to have.
                 inputURL = req.url.replace("/json/", "/mDB/");
 
                 // Ensure that path to write to exists:

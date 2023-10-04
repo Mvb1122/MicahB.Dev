@@ -223,7 +223,10 @@ async function LoadSetAndStart() {
 
     // Prepare notes section and author name display.
     document.getElementById("AuthorNameDisplay").innerHTML = `Set by ${await authorIDToName(list.Author)}`;
-    document.getElementById("NotesDisplay").innerHTML = list.Notes == undefined ? "" : list.Notes;
+
+    // Even though the server will also filter this out-- just in case, also filter out scripts here.
+    const Notes = (list.Notes == undefined ? "" : list.Notes).replaceAll("script", "a");
+    document.getElementById("NotesDisplay").innerHTML = Notes;
 
     ToggleScreen()
 
@@ -367,8 +370,10 @@ function EvaluateAnswer() {
     // If the last two characters in HRAnswer are punctuation, remove the extra punctuation.
     if (ArrayContains(".?!".split(''), HRAnswer.charAt(HRAnswer.length - 1))) HRAnswer = HRAnswer.slice(0, -1);
 
-    let text = `You were ${right ? "right" : "wrong"}!<br>${HRAnswer}`;
+    // The below has been altered to limit user input to text. Without real effort, this error will continue to exist.
+    let text = `You were ${right ? "right" : "wrong"}!<br><p id="PHAnswer"></p>`;
     document.getElementById("PHAnswerShower").innerHTML = text;
+    document.getElementById("PHAnswer").innerText = HRAnswer
     document.getElementById("AnswerInput").value = "";
 
     // Get another character.
@@ -443,7 +448,7 @@ async function updateLoginPane(IsPasswordCorrect) {
 
     if (IsPasswordCorrect) {
         // Update the username and set displays if the password was right.
-        loginPane.innerHTML = loginPrompt.replace("{X}", Login_Username)
+        loginPane.innerText = loginPrompt.replace("{X}", Login_Username)
         UpdateVisibleSets();
 
         // Show the "Create a Set Button"
@@ -451,7 +456,7 @@ async function updateLoginPane(IsPasswordCorrect) {
 
         
     } else {
-        loginPane.innerHTML = "Incorrect password!"
+        loginPane.innerText = "Incorrect password!"
         setTimeout(() => {
             loginPane.style.display = "none";
             document.getElementById("NotLoggedInPane").style.display = "block"

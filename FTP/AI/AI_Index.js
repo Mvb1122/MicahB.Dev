@@ -12,7 +12,7 @@ function GetComponents(fileToRead) {
         let promptText = data.substring(start, end);
         
         // Split the data into parts.
-        let parts = promptText.replace("\x00", ": ").replace("\x0A", ": ").replace("\u00001", ": ").split('\n');
+        let parts = promptText.replaceAll("\x00", ": ").replaceAll("\x0A", ": ").replaceAll("\u00001", ": ").split('\n');
 
         // Process each part into its own parts. (Part name and content.)
         let partsParts = [[]];

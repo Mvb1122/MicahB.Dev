@@ -612,7 +612,9 @@ client.on("messageCreate", async (message) => {
             // Tell the user that the event was closed, then archive the channel.
                 // Note that I use setTimeout() here because there was an issue where the bot would send in an already-archived thread, just due to netstuff.
             message.reply("Event closed, you should now be able to see it on the website.")
-            setTimeout(() => {message.channel.setArchived(true)}, 2000)
+                .then(() => {
+                    message.channel.setArchived(true)
+                });
         }
 
         else if (c.startsWith("/addGame")) {
