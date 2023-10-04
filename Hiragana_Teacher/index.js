@@ -223,7 +223,10 @@ async function LoadSetAndStart() {
 
     // Prepare notes section and author name display.
     document.getElementById("AuthorNameDisplay").innerHTML = `Set by ${await authorIDToName(list.Author)}`;
-    document.getElementById("NotesDisplay").innerHTML = list.Notes == undefined ? "" : list.Notes;
+
+    // Even though the server will also filter this out-- just in case, also filter out scripts here.
+    const Notes = (list.Notes == undefined ? "" : list.Notes).replaceAll("script", "a");
+    document.getElementById("NotesDisplay").innerHTML = Notes;
 
     ToggleScreen()
 
