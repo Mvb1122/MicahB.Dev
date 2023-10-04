@@ -424,6 +424,12 @@ async function fetchJSON(URL) {
     return fetch(URL).then((r) => (r.json()));
 }
 
+/**
+ * Posts the data to the given URL.
+ * @param {String} URL The URL to post to.
+ * @param {{*}} data The JSON for the server. DO NOT STRINGIFY BEFOREHAND!
+ * @returns {Promise<{*}>} The JSON back from the server.
+ */
 async function postJSON(URL, data) {
     try {
         let request = fetch(URL, {
@@ -591,6 +597,7 @@ async function ReLog() {
         return LoginAs(LoginData.username, LoginData.password, true);
     else return null;
 }
+
 async function LoginAs(username, password, forceResetToken = false) {
     return new Promise(async res => {
         // Get a login token from the server.
