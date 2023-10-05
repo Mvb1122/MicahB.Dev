@@ -31,6 +31,11 @@
                     document.getElementById("Loading").hidden = false;
 
                     // TODO: Sign up.
+
+                    // Show first game.
+                    document.getElementById("Loading").hidden = true;
+                    document.getElementById("GameOne").hidden = false;
+                    SetGameOneText();
                 }
             }
 
@@ -91,7 +96,7 @@
             </div>
             <div id="Loading" hidden><h1>Loading...</h1></div>
 
-            <div id="GameOne">
+            <div id="GameOne" hidden>
                 <h1 id="GameOneText" onload="SetGameOneText()">
                     Colored Word Here
                 </h1>
