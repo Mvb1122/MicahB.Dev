@@ -25,6 +25,35 @@
                 // First, check that there's a username in the box.
                 if (document.getElementById("UserName").value.trim() == "")
                     return alert("Please enter a username in the box.");
+                else {
+                    // Display loading stuff.
+                    document.getElementById("SignUp").hidden = true;
+                    document.getElementById("Loading").hidden = false;
+
+                    // TODO: Sign up.
+                }
+            }
+
+            const colors = "Red,Orange,Yellow,Green,Blue".split(",");
+            let lastColor = ""
+            function GetRandomColor() {
+                // Select a different color from the last one chosen.
+                let color = ""
+                do {
+                    color = colors[Math.floor(Math.random() * colors.length)]
+                } while (color == lastColor)
+                lastColor = color;
+                return color;
+            };
+            function SetGameOneText() {
+                // Get colors.
+                const TextColor = GetRandomColor()
+                const TextText = GetRandomColor();
+
+                // Set text.
+                const text = document.getElementById("GameOneText")
+                text.innerText = TextText;
+                text.style = "color: " + TextColor;
             }
 
             const Stages = [StageOne, EnsureSignedUp]
@@ -59,6 +88,15 @@
                 </p>
 
                 <button onclick="DoStage(1)">Click here to move onto the next step!</button>
+            </div>
+            <div id="Loading" hidden><h1>Loading...</h1></div>
+
+            <div id="GameOne">
+                <h1 id="GameOneText" onload="SetGameOneText()">
+                    Colored Word Here
+                </h1>
+                <input type="text" id="GameOneInput" placeholder="TODO">
+                <button onclick="SetGameOneText()">Refresh</button>
             </div>
         </div>
     </body>
