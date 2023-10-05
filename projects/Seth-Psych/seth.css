@@ -1,0 +1,97 @@
+body {
+    display: block;
+    background-color: wheat;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+    font-size: medium;
+}
+
+p {
+    display: block;
+}
+
+a {
+    width: 97%;
+}
+
+.red {
+    color:red;
+}
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    padding-left: 1in;
+    padding-right: 1in;
+    padding-bottom: 3%;
+    background-color: blanchedalmond;
+    align-items: flex-start;
+    border-radius: 0.3cm;
+}
+
+.title {
+    display: block;
+    padding: 10px;
+    font-size: large;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    align-self: center;
+}
+
+.left {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    padding-top: 1em;
+    padding-left: 3%;
+}
+
+.right {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    padding-top: 1em;
+    padding-right: 3%;
+}
+
+.center {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    align-self: center;
+    align-content: center;
+}
+
+.FitImage {
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    height: min(30vw, 5in);
+}
+
+button {
+    align-self: center;
+    outline-color: black;
+    height: 3em;
+    border-radius: 10px;
+    border-color: black;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex-wrap: wrap;
+}
+
+/* Hide hidden stuff. */
+[hidden] {
+    display: none !important;
+}

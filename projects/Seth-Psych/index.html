@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Seth's Statistical Exstravaganza!!!</title>
+        <meta name="description" content="Produced for Seth Chavez by Micah Bushman, this webpage does stats stuff, I guess.">
+        <link rel="stylesheet" href="seth.css">
+        <script>
+            /** @type {String} */
+            let username, 
+            /** @type {Number} */
+            pseudopassword; // Not an actual password!
+            function StageOne() {
+                // First, hide the starting panel and go to the signup panel.
+                document.getElementById("Base").hidden = true;
+                document.getElementById("SignUp").hidden = false;
+
+                // Generate a password.
+                pseudopassword = Math.floor(Math.random() * 100000);
+                document.getElementById("Password").innerText = pseudopassword;
+            }
+
+            function EnsureSignedUp() {
+                // First, check that there's a username in the box.
+                if (document.getElementById("UserName").value.trim() == "")
+                    return alert("Please enter a username in the box.");
+            }
+
+            const Stages = [StageOne, EnsureSignedUp]
+            /** @param StageNum {Number}*/
+            async function DoStage(StageNum) {
+                await Stages[StageNum]();
+            }
+        </script>
+    </head>
+    <body>
+        <a href="../../index.html" class="left"><img src="../../FTP/Site_Media/Logo/Logo_Square.svg" alt="MicahB.Dev Logo" style="height: 1em;"></a>
+        <h class="right">Seth Chavez and Micah Bushman</h>
+        <br><br>
+
+        <div class="container"> 
+            <br>
+            <div id="Base">
+                <h class="title">Seth's Statistical Ex<b>Stravaganza</b>!!!</h>
+                <br>
+                <button onclick="DoStage(0)">Click here to start!</button>
+            </div>
+            <div id="SignUp" hidden>
+                <p>First, we need you to sign up, so we can track your information:</p>
+
+                <label for="UserName">Please enter your desired username here.</label>
+                <input type="text" name="UserName" id="UserName" placeholder="Your Username">
+
+                <p>
+                    For future reference, this is your password: <b id="Password">Password</b>
+                    <br>
+                    Please keep it safe if you plan to return at any point in the test.
+                </p>
+
+                <button onclick="DoStage(1)">Click here to move onto the next step!</button>
+            </div>
+        </div>
+    </body>
+</html>
