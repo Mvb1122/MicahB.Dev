@@ -94,6 +94,7 @@
                 // First, show the countdown.
                 document.getElementById("GameOneDescription").hidden = true;
                 document.getElementById("GameOneCountDown").hidden = false;
+                document.getElementById("GameOneEndSceen").hidden = true;
 
                 for (let i = 3; i >= 0; i--) {
                     await new Promise((r) => {
@@ -181,7 +182,7 @@
                     if (GameOneCurrentRoundNumber != 0)
                         GameOneNumCorrect++;
 
-                    text.innerText = "Correct!" + GameOneCurrentRoundNumber;
+                    text.innerText = "Correct!";
                     GameOneCurrentRoundNumber++; 
                 } else if (!IsDisplayingCorrectText) {
                     text.innerText = "Incorrect :("
@@ -246,6 +247,7 @@
                 </div>
                 <div id="GameOneEndSceen" hidden>
                     <p id="GameOneEndScreenTextStart"></p>
+                    <button onclick="StartGameOne()">Play it again!</button>
                 </div>
             </div>
         </div>
