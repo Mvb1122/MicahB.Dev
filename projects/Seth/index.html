@@ -1,0 +1,253 @@
+<!DOCTYPE html> 
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Seth's Statistical Exstravaganza!!!</title>
+        <meta name="description" content="Produced for Seth Chavez by Micah Bushman, this webpage does stats stuff, I guess.">
+        <link rel="stylesheet" href="seth.css">
+        <script>
+            /** @type {String} */
+            let username, 
+            /** @type {Number} */
+            pseudopassword; // Not an actual password!
+            function StageOne() {
+                // First, hide the starting panel and go to the signup panel.
+                document.getElementById("Base").hidden = true;
+                document.getElementById("SignUp").hidden = false;
+
+                // Generate a password.
+                pseudopassword = Math.floor(Math.random() * 100000);
+                document.getElementById("Password").innerText = pseudopassword;
+            }
+
+            async function PostToModule(Module, data) {
+                const url = `./Post_Modules/${Module}`; 
+
+                return (await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: data,
+                })).json();
+            }
+
+            async function EnsureSignedUp() {
+                // First, check that there's a username in the box.
+                username = document.getElementById("UserName").value;
+                if (username.trim() == "")
+                    return alert("Please enter a username in the box.");
+                else {
+                    // Display loading stuff.
+                    document.getElementById("SignUp").hidden = true;
+                    document.getElementById("Loading").hidden = false;
+
+                    // Sign up.
+                    const data = JSON.stringify({
+                        username: username,
+                        pseudopassword: pseudopassword
+                    });
+                    const response = await PostToModule("SethSignup.js", data)
+
+                    if (response.sucessful == false) {
+                        alert("That user already exists! Please come up with a more original usename and try again.");
+                        return DoStage(0);
+                    }
+
+                    // Show first game.
+                    document.getElementById("Loading").hidden = true;
+                    document.getElementById("GameOne").hidden = false;
+                    SetGameOneText();
+                }
+            }
+
+            const colors = "Red,Orange,Yellow,Green,Blue,Pink".split(",");
+            let lastColor = ""
+            function GetRandomColor() {
+                // Select a different color from the last one chosen.
+                let color = ""
+                do {
+                    color = colors[Math.floor(Math.random() * colors.length)]
+                } while (color == lastColor)
+                lastColor = color;
+                return color;
+            };
+            function SetGameOneText() {
+                // Get colors.
+                const TextColor = GetRandomColor()
+                const TextText = GetRandomColor();
+
+                // Set text.
+                const text = document.getElementById("GameOneText")
+                text.innerText = TextText;
+                text.style = "color: " + TextColor;
+
+                return TextColor;
+            }
+
+            let GameOneCurrentTextColor = "", GameOneCurrentRoundNumber;
+            let GameOneNumCorrect = 0, 
+            /** @type {Promise} */
+            GameOneCurrentRound;
+            async function StartGameOne() {
+                // First, show the countdown.
+                document.getElementById("GameOneDescription").hidden = true;
+                document.getElementById("GameOneCountDown").hidden = false;
+
+                for (let i = 3; i >= 0; i--) {
+                    await new Promise((r) => {
+                        document.getElementById("GameOneCountDown").innerHTML = i == 0 ? "<b>Gooo!!!</b>" : i;
+                        setTimeout(() => {
+                            r();
+                        }, 1000);
+                    })
+                }
+
+                // After the countdown, go to the game.
+                document.getElementById("GameOneCountDown").hidden = true;
+                document.getElementById("GameOneGame").hidden = false;
+
+                // Now that we're in the game, setup the record loop.
+                for (let i = 0; i < 11; i++) {
+                    GameOneCurrentTextColor = SetGameOneText();
+                    GameOneCurrentRoundNumber = i;
+                    GameOneCurrentRound = new Promise((r) => {
+                        // After the practice round, start changing the text.
+                        if (i >= 1) {
+                            document.getElementById("GameOneRoundNumber").innerHTML = "Round <b>" + (i - 1) + "</b> Number correct: <b>" + GameOneNumCorrect + "</b>";
+                        }
+                        
+                        // Wait for 2.25 seconds.
+                        setTimeout(() => {
+                            // After the 2.25 seconds, move on. 
+                                // If they haven't answered, mark them as wrong.
+                            if (GameOneCurrentRoundNumber == i)
+                                EndGameOneRoundWithColor("");
+
+                            // Resolve to move onto the next round.
+                            r();    
+                        }, 2250);
+                    });
+                    await GameOneCurrentRound;
+                }
+
+                // Now that we have the data, submit it.
+                PostToModule("SethPostGame.js", JSON.stringify({
+                    username: username,
+                    pseudopassword: pseudopassword,
+                    round: {
+                        game: 1,
+                        stats: GameOneNumCorrect.toString()
+                    }
+                }))
+
+                // Update the text on the GameOneEndScreen
+                let Compliment = ""
+                switch (GameOneNumCorrect) {
+                    case GameOneNumCorrect < 3: 
+                        Compliment = "Nice try!"
+                        break;
+                    
+                    case GameOneNumCorrect < 5:
+                        Compliment = "Good Job!";
+                        break;
+                    
+                    case GameOneNumCorrect < 9:
+                        Compliment = "So close!"
+                    
+                    default:
+                        Compliment = "Perfect!"
+                }
+
+                document.getElementById("GameOneEndScreenTextStart").innerHTML = `${Compliment} You got <b>${GameOneNumCorrect}</b> right out of ten!`;
+
+                // Now, go to the Game One End screen.
+                document.getElementById("GameOneGame").hidden = true;
+                document.getElementById("GameOneEndSceen").hidden = false;
+
+                // Clean up so that they can replay it if they want.
+                GameOneCurrentRoundNumber = GameOneNumCorrect = 0;
+            }
+
+            function EndGameOneRoundWithColor(color) {
+                const text = document.getElementById("GameOneText");
+                text.style = "";
+
+                // Check that the answer is correct and use the text containing correct/incorrect to see if it should be counted.
+                const IsDisplayingCorrectText = document.getElementById("GameOneText").innerText.includes("orrect");
+                if (GameOneCurrentTextColor.trim().toLowerCase() == color.trim().toLowerCase() && !IsDisplayingCorrectText) {
+                    // Ignore the practice round.
+                    if (GameOneCurrentRoundNumber != 0)
+                        GameOneNumCorrect++;
+
+                    text.innerText = "Correct!" + GameOneCurrentRoundNumber;
+                    GameOneCurrentRoundNumber++; 
+                } else if (!IsDisplayingCorrectText) {
+                    text.innerText = "Incorrect :("
+                    GameOneCurrentRoundNumber++; 
+                }
+            }
+
+            const Stages = [StageOne, EnsureSignedUp]
+            /** @param StageNum {Number}*/
+            async function DoStage(StageNum) {
+                await Stages[StageNum]();
+            }
+        </script>
+    </head>
+    <body>
+        <a href="../../index.html" class="left"><img src="../../FTP/Site_Media/Logo/Logo_Square.svg" alt="MicahB.Dev Logo" style="height: 1em;"></a>
+        <h class="right">Seth Chavez and Micah Bushman</h>
+        <br><br>
+
+        <div class="container"> 
+            <br>
+            <div id="Base">
+                <h class="title">Seth's Statistical Ex<b>Stravaganza</b>!!!</h>
+                <br>
+                <button onclick="DoStage(0)">Click here to start!</button>
+            </div>
+            <div id="SignUp" hidden>
+                <p>First, we need you to sign up, so we can track your information:</p>
+
+                <label for="UserName">Please enter your desired username here.</label>
+                <input type="text" name="UserName" id="UserName" placeholder="Your Username">
+
+                <p>
+                    For future reference, this is your password: <b id="Password">Password</b>
+                    <br>
+                    Please keep it safe if you plan to return at any point in the test.
+                </p>
+
+                <button onclick="DoStage(1)">Click here to move onto the next step!</button>
+            </div>
+            <div id="Loading" hidden><h1>Loading...</h1></div>
+
+            <div id="GameOne" hidden>
+                <div id="GameOneDescription">
+                    <h1>Part one: Stroop Attention Game</h1>
+                    <p>
+                        For this test, you'll be given a word, and then you will enter the <b>name of the word!</b> (not the color!)<br><br>
+                        You will get 2.25 seconds to respond to each round, where there's one practice round and ten real ones. After you have completed the tenth round, your stats will be saved automatically.
+                    </p>
+                    <button onclick="StartGameOne()">Once you're ready to get started, click here!</button>
+                </div>
+                <h1 id="GameOneCountDown" hidden>CountDown</h1>
+                <div id="GameOneGame" hidden>
+                    <p id="GameOneRoundNumber">Practice Round</p>
+                    <h1 id="GameOneText">
+                        Colored Word Here
+                    </h1>
+                    <div style="display: block;">
+                        <button onclick="EndGameOneRoundWithColor('Red');">Red</button><button onclick="EndGameOneRoundWithColor('Orange');">Orange</button><button onclick="EndGameOneRoundWithColor('Yellow');">Yellow</button><br>
+                        <button onclick="EndGameOneRoundWithColor('Green');">Green</button><button onclick="EndGameOneRoundWithColor('Blue');">Blue</button><button onclick="EndGameOneRoundWithColor('Pink');">Pink</button><br>
+                    </div>
+                </div>
+                <div id="GameOneEndSceen" hidden>
+                    <p id="GameOneEndScreenTextStart"></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

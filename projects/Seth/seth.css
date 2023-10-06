@@ -91,6 +91,10 @@ div {
     flex-wrap: wrap;
 }
 
+h1 {
+    align-self: center;
+}
+
 /* Hide hidden stuff. */
 [hidden] {
     display: none !important;
