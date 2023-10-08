@@ -102,8 +102,13 @@ h1 {
 
 memoryBlock {
     display: block;
-    width: 5vh;
-    height: 5vh; /* Make it square */
+    width: 10vh;
+    height: 10vh; /* Make it square */
     background-color: black;
-    box-shadow: 0.1vh 0.1vh 0.3vh grey;
+    box-shadow: 0.5vh 0.5vh 1.5vh grey;
+
+    margin-right: 3vh;
+    margin-bottom: 3vh;
+
+    border-radius: 2vh;
 }

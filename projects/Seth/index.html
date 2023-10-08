@@ -192,52 +192,160 @@
                 }
             }
 
-            function StartGameTwo() {
-                // First make a grid of 3*3.
-                MakeGameTwoGrid(3);
+
+            let GameTwoReportMisclick = () => {
+
             }
+            async function StartGameTwo() {
+                // Setup the misclick thing.
+                let lives = 3;
+                GameTwoReportMisclick = () => {
+                    lives--;
 
-            let CorrectSolutions, ClickedBoxes, GameTwoBoxes = [];
-            function MakeGameTwoGrid(Count) {
-                // Make a default memoryBlock.
-                const DefaultBox = document.createElement("memoryBlock")
-                    DefaultBox.style = "background-color: black";
-
-                // Make the grid.
-                let grid = document.createElement("div");
-                grid.style = "display: block";
-                // Clear grids.
-                GameTwoBoxes = CorrectSolutions = ClickedBoxes = [];
-                boxes = []
-                for (let i = 0; i < Count; i++) {
-                    // Make up a div for each row.
-                    let div = document.createElement("div");
-                    div.style = "display: block;"
-                    ClickedBoxes[i] = [];
-                    boxes[i] = [];
-                    for (let j = 0; j < Count; j++) {
-                        let box = DefaultBox.cloneNode();
-                        box.addEventListener('onclick', () => {
-                            let boxIsBlack = box.style.toString().includes("black")
-                            console.log(`Box[${i}][${j}] clicked. Is Black ${boxIsBlack}`);
-                            if (boxIsBlack) {
-                                box.style = "background-color: white"
-                            } else {
-                                box.style.toString().includes("black")
-                            }
-
-                            // Toggle the box on the grid.
-                            ClickedBoxes[i][j] = boxIsBlack;
-                        })
-                        boxes[i][j] = box;
-                        div.appendChild(box);
-                    }
-                    grid.appendChild(div);
-                    grid.appendChild(document.createElement("br"));
+                    // TODO: Make something real here.
+                    alert("Misclick! Lives " + lives);
                 }
 
-                // Put the grid on screen. 
-                document.getElementById("GameTwoGrid").appendChild(grid);
+                async function GameTwoRound(RoundNum) {
+                    // Calculate Grid size.
+                    const GridSize = Math.floor(RoundNum / 3) + 3;
+
+                    // First setup the grid.
+                    await MakeGameTwoGrid(GridSize, RoundNum + 2);
+
+                    // After 1 second, clear the board and await inputs.
+                    ClickedBoxes = [];
+                    await new Promise((r) => setTimeout(r, 1000))
+                    for (let i = 0; i < GameTwoBoxes.length; i++) {
+                        const row = GameTwoBoxes[i]
+                        ClickedBoxes[i] = [];
+                        for (let j = 0; j < GameTwoBoxes[i].length; j++)
+                        {
+                            const box = row[j];
+                            ClickedBoxes[i][j] = false;
+                            box.style.backgroundColor = "black"
+                            box.clickable = true;
+                        }
+                    }
+
+                    // Now, let them click, I guess. (Check every 100ms to see if they've got it right.)
+                    do {
+                        await new Promise((resolve, reject) => {
+                            setTimeout(resolve, 100);
+                        })
+
+                        // Check to see if the clicked boxes match the unclicked ones.
+                        let AllCorrect = true;
+                        for (let i = 0; i < GridSize; i++) for (let j = 0; j < GridSize; j++)
+                            if (ClickedBoxes[i][j] != (GameTwoBoxes[i][j].correct == true)) {
+                                AllCorrect = false;
+                            }
+                        
+                        if (AllCorrect) {
+                            alert("You got them all right! Moving on!");
+                            return;
+                        }
+                    } while (lives > 0)
+                }
+
+                let RoundNum = 1;
+                do {
+                    await GameTwoRound(RoundNum);
+                    RoundNum++;
+                } while (lives > 0);
+
+                alert("Final round num: " + RoundNum);
+            }
+
+            /** @type {[[Node]]} */ let ClickedBoxes, 
+            /** @type {[[Node]]} */ GameTwoBoxes = [];
+            function MakeGameTwoGrid(Count, NumTurnedOn) {
+                return new Promise(async (resolve, reject) => {
+                    // First, wipe any blocks that were there before. 
+                    document.getElementById("GameTwoGrid").innerHTML = "";
+    
+                    // Make a default memoryBlock.
+                    const DefaultBox = document.createElement("memoryBlock")
+                        DefaultBox.style = "background-color: black";
+    
+                    // Make the grid.
+                    let grid = document.createElement("div");
+                    grid.style = "display: block;";
+    
+                    // Clear grids.
+                    GameTwoBoxes = ClickedBoxes = [];
+                    for (let i = 0; i < Count; i++) {
+                        // Make up a div for each row.
+                        let div = document.createElement("div");
+                        div.style = "display: flex; flex-direction: row;"
+                        GameTwoBoxes[i] = [];
+                        ClickedBoxes[i] = [];
+                        for (let j = 0; j < Count; j++) {
+                            let box = DefaultBox.cloneNode();
+                            if (j == Count - 1) {
+                                box.style = "background-color: black; margin-right: 0px;"
+                            }
+    
+                            const toggleColor = () => {
+                                return new Promise((resolve, reject) => {
+                                    // Only change colors if we're clickable.
+                                    if (box.clickable && box.correct) {
+                                        let boxIsBlack = box.style.backgroundColor == "black";
+                                        console.log(`Box[${i}][${j}] clicked. Is Black ${boxIsBlack}. BackgroundColor: ${box.style.backgroundColor}`);
+                                        if (boxIsBlack) {
+                                            box.style.backgroundColor = "white";
+                                        } else {
+                                            box.style.backgroundColor = "black";
+                                        }
+            
+                                        // Toggle the box on the grid.
+                                        if (ClickedBoxes[i] == undefined) ClickedBoxes[i] = [];
+        
+                                        ClickedBoxes[i][j] = boxIsBlack;
+                                    } else if (box.clickable) {
+                                        GameTwoReportMisclick()
+                                    }
+
+                                    resolve();
+                                })
+                            }
+                            box.addEventListener('click', toggleColor);
+                            box.click = toggleColor;
+                            GameTwoBoxes[i][j] = box;
+                            div.appendChild(box);
+                        }
+                        grid.appendChild(div);
+                    }
+    
+                    // Put the grid on screen. 
+                    document.getElementById("GameTwoGrid").appendChild(grid);
+    
+                    // Now, select a few random boxes and turn their colors on.
+                    for (let i = 0; i < NumTurnedOn; i++) {
+                        let x, y;
+                        x = Math.floor(Math.random() * Count), y = Math.floor(Math.random() * Count);
+    
+                        // Mark the box as correct.
+                        let box = GameTwoBoxes[x][y];
+
+                        // If this box was already marked as correct, retry.
+                        if (box.correct) {
+                            i--;
+                            continue;
+                        }
+
+                        box.correct = true;
+    
+                        // To be lazy, temporarily make the box clickable, then click it to change its color.
+                        box.clickable = true;
+                        await box.click();
+                        box.clickable = false;
+    
+                        GameTwoBoxes[x][y] = box;
+                    }
+
+                    resolve();
+                })
             }
 
             const Stages = [StageOne, EnsureSignedUp]
@@ -310,8 +418,8 @@
                 </p>
             </div>
 
-            <div>
-                <button onclick="MakeGameTwoGrid(3)">MakeGameTwoGrid</button>
+            <div id="GameTwoGame">
+                <button onclick="StartGameTwo()">Start Game Two</button>
                 <div id="GameTwoGrid" style="display:block">
 
                 </div>
