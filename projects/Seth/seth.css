@@ -99,3 +99,11 @@ h1 {
 [hidden] {
     display: none !important;
 }
+
+memoryBlock {
+    display: block;
+    width: 5vh;
+    height: 5vh; /* Make it square */
+    background-color: black;
+    box-shadow: 0.1vh 0.1vh 0.3vh grey;
+}
