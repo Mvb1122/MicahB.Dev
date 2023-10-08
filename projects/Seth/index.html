@@ -192,6 +192,54 @@
                 }
             }
 
+            function StartGameTwo() {
+                // First make a grid of 3*3.
+                MakeGameTwoGrid(3);
+            }
+
+            let CorrectSolutions, ClickedBoxes, GameTwoBoxes = [];
+            function MakeGameTwoGrid(Count) {
+                // Make a default memoryBlock.
+                const DefaultBox = document.createElement("memoryBlock")
+                    DefaultBox.style = "background-color: black";
+
+                // Make the grid.
+                let grid = document.createElement("div");
+                grid.style = "display: block";
+                // Clear grids.
+                GameTwoBoxes = CorrectSolutions = ClickedBoxes = [];
+                boxes = []
+                for (let i = 0; i < Count; i++) {
+                    // Make up a div for each row.
+                    let div = document.createElement("div");
+                    div.style = "display: block;"
+                    ClickedBoxes[i] = [];
+                    boxes[i] = [];
+                    for (let j = 0; j < Count; j++) {
+                        let box = DefaultBox.cloneNode();
+                        box.addEventListener('onclick', () => {
+                            let boxIsBlack = box.style.toString().includes("black")
+                            console.log(`Box[${i}][${j}] clicked. Is Black ${boxIsBlack}`);
+                            if (boxIsBlack) {
+                                box.style = "background-color: white"
+                            } else {
+                                box.style.toString().includes("black")
+                            }
+
+                            // Toggle the box on the grid.
+                            ClickedBoxes[i][j] = boxIsBlack;
+                        })
+                        boxes[i][j] = box;
+                        div.appendChild(box);
+                    }
+                    grid.appendChild(div);
+                    grid.appendChild(document.createElement("br"));
+                }
+
+                // Put the grid on screen. 
+                document.getElementById("GameTwoGrid").appendChild(grid);
+            }
+
             const Stages = [StageOne, EnsureSignedUp]
             /** @param StageNum {Number}*/
             async function DoStage(StageNum) {
@@ -254,6 +302,20 @@
             </div>
         </div>
 
-        <memoryBlock></memoryBlock>
+        <div id="GameTwo">
+            <div id="GameTwoDescription">
+                <h1>Part two: Visual Memory Test</h1>
+                <p>
+                    Now, you'll be given a grid of squares, where part of them light up. After 1 seconds, they will turn black and and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid will turn white, but after each round, one more square will light up. After every third round, the size of the grid will increase by 1. 
+                </p>
+            </div>
+
+            <div>
+                <button onclick="MakeGameTwoGrid(3)">MakeGameTwoGrid</button>
+                <div id="GameTwoGrid" style="display:block">
+
+                </div>
+            </div>
+        </div>
     </body>
 </html>
