@@ -112,3 +112,7 @@ memoryBlock {
 
     border-radius: 2vh;
 }
+
+.LifeIcon {
+    width: 3vh; height: 3vh;
+}
