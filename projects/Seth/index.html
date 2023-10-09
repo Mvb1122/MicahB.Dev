@@ -288,6 +288,9 @@
                 // Close the grid up.
                 document.getElementById("GameTwoGrid").innerHTML = "";
                 
+                // Put the text on the end screen.
+                document.getElementById("GameTwoEndScreenTextStart").innerHTML = "Good job! You got <b>" + RoundNum + "</b> rounds correct!";
+
                 // Show the end scren for the game.
                 document.getElementById("GameTwoEndScreen").hidden = false;
                 document.getElementById("GameTwoGame").hidden = true;
