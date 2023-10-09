@@ -119,6 +119,8 @@
                         // After the practice round, start changing the text.
                         if (i >= 1) {
                             document.getElementById("GameOneRoundNumber").innerHTML = "Round <b>" + (i - 1) + "</b> Number correct: <b>" + GameOneNumCorrect + "</b>";
+                        } else {
+                            document.getElementById("GameOneRoundNumber").innerHTML = "Practice Round";
                         }
                         
                         // Wait for 2.25 seconds.
