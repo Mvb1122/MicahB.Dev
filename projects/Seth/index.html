@@ -35,7 +35,7 @@
                 })).json();
             }
 
-            async function EnsureSignedUp() {
+            async function EnsureSignedUpAndShowGameOne() {
                 // First, check that there's a username in the box.
                 username = document.getElementById("UserName").value;
                 if (username.trim() == "")
@@ -192,69 +192,125 @@
                 }
             }
 
+            async function ShowGameTwoHideGameOne() {
+                document.getElementById("GameTwo").hidden = false;
+                document.getElementById("GameOne").hidden = true;
+            }
 
             let GameTwoReportMisclick = () => {
 
             }
             async function StartGameTwo() {
+                // Show the div on screen and hide the intro and postgame divs.
+                document.getElementById("GameTwoGame").hidden = false;
+                document.getElementById("GameTwoDescription").hidden = true;
+                document.getElementById("GameTwoEndScreen").hidden = true;
+
                 // Setup the misclick thing.
                 let lives = 3;
                 GameTwoReportMisclick = () => {
                     lives--;
 
-                    // TODO: Make something real here.
-                    alert("Misclick! Lives " + lives);
+                    SetGameTwoLives(lives);
                 }
 
+                // At the start, set the lives to 3.
+                SetGameTwoLives(3);
+
                 async function GameTwoRound(RoundNum) {
-                    // Calculate Grid size.
-                    const GridSize = Math.floor(RoundNum / 3) + 3;
-
-                    // First setup the grid.
-                    await MakeGameTwoGrid(GridSize, RoundNum + 2);
-
-                    // After 1 second, clear the board and await inputs.
-                    ClickedBoxes = [];
-                    await new Promise((r) => setTimeout(r, 1000))
-                    for (let i = 0; i < GameTwoBoxes.length; i++) {
-                        const row = GameTwoBoxes[i]
-                        ClickedBoxes[i] = [];
-                        for (let j = 0; j < GameTwoBoxes[i].length; j++)
-                        {
-                            const box = row[j];
-                            ClickedBoxes[i][j] = false;
-                            box.style.backgroundColor = "black"
-                            box.clickable = true;
-                        }
-                    }
-
-                    // Now, let them click, I guess. (Check every 100ms to see if they've got it right.)
-                    do {
-                        await new Promise((resolve, reject) => {
-                            setTimeout(resolve, 100);
-                        })
-
-                        // Check to see if the clicked boxes match the unclicked ones.
-                        let AllCorrect = true;
-                        for (let i = 0; i < GridSize; i++) for (let j = 0; j < GridSize; j++)
-                            if (ClickedBoxes[i][j] != (GameTwoBoxes[i][j].correct == true)) {
-                                AllCorrect = false;
+                    return new Promise(async (EndRound) => {
+                        // Calculate Grid size.
+                        const GridSize = Math.floor(RoundNum / 3) + 3;
+    
+                        // First setup the grid.
+                        await MakeGameTwoGrid(GridSize, RoundNum + 2);
+    
+                        // Make the text.
+                        document.getElementById("GameTwoText").innerHTML = `<b>Round:</b> ${RoundNum}, <b>Grid Size:</b> ${GridSize}`; 
+    
+                        // After 1 second, clear the board and await inputs.
+                        ClickedBoxes = [];
+                        await new Promise((r) => setTimeout(r, 1000))
+                        for (let i = 0; i < GameTwoBoxes.length; i++) {
+                            const row = GameTwoBoxes[i]
+                            ClickedBoxes[i] = [];
+                            for (let j = 0; j < GameTwoBoxes[i].length; j++)
+                            {
+                                const box = row[j];
+                                ClickedBoxes[i][j] = false;
+                                box.style.backgroundColor = "black"
+                                box.clickable = true;
                             }
-                        
-                        if (AllCorrect) {
-                            alert("You got them all right! Moving on!");
-                            return;
                         }
-                    } while (lives > 0)
+    
+                        // Now, let them click, I guess. (Check every 100ms to see if they've got it right.)
+                        do {
+                            await new Promise((resolve, reject) => {
+                                setTimeout(resolve, 100);
+                            })
+    
+                            // Check to see if the clicked boxes match the unclicked ones.
+                            let AllCorrect = true;
+                            for (let i = 0; i < GridSize; i++) for (let j = 0; j < GridSize; j++)
+                                if (ClickedBoxes[i][j] != (GameTwoBoxes[i][j].correct == true)) {
+                                    AllCorrect = false;
+                                }
+                            
+                            if (AllCorrect) {
+                                // Set the text to tell them that they got it.
+                                document.getElementById("GameTwoText").innerHTML = "<b>Good job! You got them all right. Moving on.</b>"
+
+                                // After one second, move on.
+                                setTimeout(() => {
+                                    EndRound(true);
+                                }, 1000);
+
+                                // Also stop the loop.
+                                break;
+                            }
+                        } while (lives > 0)
+
+                        if (lives == 0)
+                            // Getting here means that the player died.
+                            EndRound(false);
+                    })
                 }
 
                 let RoundNum = 1;
                 do {
-                    await GameTwoRound(RoundNum);
-                    RoundNum++;
+                    if (await GameTwoRound(RoundNum)) {
+                        RoundNum++;
+                    }
                 } while (lives > 0);
 
-                alert("Final round num: " + RoundNum);
+                // Close the grid up.
+                document.getElementById("GameTwoGrid").innerHTML = "";
+                
+                // Show the end scren for the game.
+                document.getElementById("GameTwoEndScreen").hidden = false;
+                document.getElementById("GameTwoGame").hidden = true;
+
+                // Send the data. 
+                PostToModule("SethPostGame.js", JSON.stringify({
+                    username: username,
+                    pseudopassword: pseudopassword,
+                    round: {
+                        game: 2,
+                        stats: RoundNum.toString()
+                    }
+                }))
+            }
+
+            function SetGameTwoLives(lives) {
+                // Set the lives counter.
+                let LifeIcon = document.createElement("img");
+                LifeIcon.className = "LifeIcon"; LifeIcon.src = "./Test_Images/Pixel_Heart@5x.png";
+
+                const LivesDisplay = document.getElementById("GameTwoLives");
+                // Wipe anything inside it already.
+                LivesDisplay.innerHTML = "";
+                for (let i = 0; i < lives; i++)
+                    LivesDisplay.appendChild(LifeIcon.cloneNode());
             }
 
             /** @type {[[Node]]} */ let ClickedBoxes, 
@@ -348,7 +404,7 @@
                 })
             }
 
-            const Stages = [StageOne, EnsureSignedUp]
+            const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
             /** @param StageNum {Number}*/
             async function DoStage(StageNum) {
                 await Stages[StageNum]();
@@ -406,21 +462,34 @@
                 <div id="GameOneEndSceen" hidden>
                     <p id="GameOneEndScreenTextStart"></p>
                     <button onclick="StartGameOne()">Play it again!</button>
+                    <button onclick="DoStage(2)">Go On!</button>
                 </div>
             </div>
-            <div id="GameTwo">
+            <button onclick="document.getElementById(`GameTwo`).hidden = false;" hidden>Show game two</button>
+            <div id="GameTwo" hidden>
                 <div id="GameTwoDescription">
                     <h1>Part two: Visual Memory Test</h1>
                     <p>
-                        Now, you'll be given a grid of squares, where part of them light up. After 1 seconds, they will turn black and and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid will turn white, but after each round, one more square will light up. After every third round, the size of the grid will increase by 1. 
+                        Now, you'll be given a grid of squares, where part of them light up. After 1 second, they will turn black and and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid will turn white, but after each round, one more square will light up. After every third round, the size of the grid will increase by 1. 
                     </p>
+                    <button onclick="StartGameTwo()">When you're ready to start, click here!</button>
                 </div>
     
-                <div id="GameTwoGame">
-                    <button onclick="StartGameTwo()">Start Game Two</button>
+                <div id="GameTwoGame" hidden>
+                    <div>
+                        <div id="GameTwoText" style="display: block;">GAME TWO INFO</div>
+                        <img id="GameTwoLife" src="./Test_Images/Pixel_Heart@5x.png" alt="A heart indicating you have one life." class="LifeIcon" hidden>
+                        <div id="GameTwoLives" style="display: flex; flex-direction: row;">GameTwoLives</div>
+                    </div>
                     <div id="GameTwoGrid" style="display:block">
     
                     </div>
+                </div>
+
+                <div id="GameTwoEndScreen" hidden>
+                    <p id="GameTwoEndScreenTextStart"></p>
+                    <p>Now, are you ready to go on? Or do you want to play again?</p>
+                    <button onclick="StartGameTwo()">Play again</button><button onclick="alert('Not Implemented yet! Jeez, look at you being all excited to see what\'s next and all that!')">Move on!</button>
                 </div>
             </div>
         </div>
