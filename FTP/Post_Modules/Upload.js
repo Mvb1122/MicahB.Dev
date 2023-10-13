@@ -17,16 +17,16 @@ if (args.target != null && !args.target.includes("post_modules")) {
         // Get AI tools. 
         const AITools = require('./FTP/AI/PromptWorker.js');
         if (data.toString().includes("tEXt")) {
-            // ! The below assumes that the file is a PNG!
-            const components = await AITools.GetComponentsFromBuffer(data);
             try {
+                // ! The below assumes that the file is a PNG!
+                const components = await AITools.GetComponentsFromBuffer(data);
                 const Path = location.substring(0, location.lastIndexOf("/") + 1);
                 const parameters = components.parameters;
                 const maxLength = 200 - Path.length;
                 let endIndex = Math.min(maxLength, parameters.length);
                 location = `${Path}${parameters.substring(0, endIndex)}_${components.Seed}.png`;
             } catch (e) {
-                console.log(e);
+                // Do nothing, since that means that the image was malformatted and we just have to trust that the client named it correctly.
             }
         }
     }
