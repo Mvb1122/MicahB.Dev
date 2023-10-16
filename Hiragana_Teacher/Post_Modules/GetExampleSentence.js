@@ -34,21 +34,23 @@ if (!check) {
 const setPath = `Hiragana_Teacher/Sets/${submitted.Set}.json`;
 const set = JSON.parse(fs.readFileSync(setPath));
 
-// TODO: Fix this.
-/* First of all, check that the set actually contains that word.
+// First of all, check that the set actually contains that word.
 let contains = false;
 for (let i = 0; i < set.Set.length; i++) {
-    console.log(Object.keys(set.Set[i])[0])
-    if (Object.keys(set.Set[i])[0].toString().trim() == submitted.Word.toString().trim()) contains = true;
+    const front = Object.keys(set.Set[i])[0];
+    if (front.toString().trim() == submitted.Word.toString().trim()) {
+        contains = true;
+        break;
+    }
 }
-if (contains) {
+
+if (!contains) {
     return res.end(JSON.stringify({
         successful: false,
         reason: "Word is not in set.",
         set: set.Set
     }))
 }
-*/
 
 const ShouldGenerate = !(set.examples != undefined && set.examples[submitted.Word] != undefined) || submitted.ForceNew;
 
