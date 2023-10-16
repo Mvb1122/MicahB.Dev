@@ -18,7 +18,6 @@
     "@discordjs/rest": "^1.7.1",
     "compression": "^1.7.4",
     "discord.js": "^14.13.0",
-    "eslint": "^8.51.0",
     "events": "^3.3.0",
     "http": "0.0.1-security",
     "nodemon": "^2.0.19",
@@ -27,5 +26,10 @@
     "undici": "^5.22.1",
     "update": "^0.7.4",
     "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0"
   }
 }
