@@ -37,12 +37,13 @@ jobs:
         with:
           eslint: true
           prettier: true
-            
-  spellcheck:
-    name: Spellcheck
-    runs-on: ubuntu-latest
-    steps:
-    # The checkout step
-    - uses: actions/checkout@v3
-    - uses: rojopolis/spellcheck-github-actions@0.34.0
-      name: Spellcheck
+          
+  check-spelling:
+    # You may pin to the exact commit or the version.
+    # uses: check-spelling/check-spelling@00c989c97749eb0cb2d256bdc55ac61b0096c6d3
+    uses: check-spelling/check-spelling@main
+    with:
+      # The GITHUB_TOKEN secret
+      GITHUB_TOKEN: ${{ github.token }}
+      # Cache dictionaries
+      cache-dictionaries: 1
