@@ -18,7 +18,7 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
@@ -37,7 +37,3 @@ jobs:
         with:
           eslint: true
           prettier: true
-      # The GITHUB_TOKEN secret
-      GITHUB_TOKEN: ${{ github.token }}
-      # Cache dictionaries
-      cache-dictionaries: 1
