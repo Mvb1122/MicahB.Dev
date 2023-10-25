@@ -70,6 +70,10 @@
 
                 <div style="display: flex; justify-content: flex-end">
                     <button id="CreateASetButton" class="SmoothButton" style="right: 7px;" onclick="ToggleSetDisplay()" hidden>Create A Set</button>
+                    <div id="Search">
+                        <input type="text" id="SearchBox" placeholder="Search Query">
+                        <button class="SmoothButton" onclick="ScrollToSearch(document.getElementById('SearchBox').value)">Search!</button>
+                    </div>
                 </div>
 
                 <div id="sets">

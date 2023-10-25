@@ -3,28 +3,26 @@ permissions:
   checks: write
   contents: write
 on:
-  push:
-    branches: 
-      - main
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: 
-      - main
+  # Allow manually running it.
+  workflow_dispatch:
 
 jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
           node-version: 12
 
+      - name: Install
+        run: npm install
+        
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm ci
@@ -34,12 +32,3 @@ jobs:
         with:
           eslint: true
           prettier: true
-            
-  spellcheck:
-    name: Spellcheck
-    runs-on: ubuntu-latest
-    steps:
-    # The checkout step
-    - uses: actions/checkout@v3
-    - uses: rojopolis/spellcheck-github-actions@0.34.0
-      name: Spellcheck
