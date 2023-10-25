@@ -765,7 +765,7 @@ function leaveCardScreen() {
  */
 async function ScrollToSearch(query) {
     // Look through all titles and scroll to the one which has the most word matches.
-    let MaxWordMatches = -1, Element;
+    let MaxWordMatches = 0, Element;
     // Split query into words.
     query = query.toLowerCase().split(" ")
     const Children = document.getElementById("sets").children;
@@ -793,7 +793,10 @@ async function ScrollToSearch(query) {
     }
 
     // Once we have the most-matching element, scroll to it.
-    Element.scrollIntoView({ behavior: 'smooth' });
+    if (Element != undefined)
+        Element.scrollIntoView({ behavior: 'smooth' });
+    else
+        alert("No results found!")
     
     // Highlight the text in the set.
     return new Promise(async (resolve) => {
