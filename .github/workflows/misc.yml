@@ -3,14 +3,6 @@ permissions:
   checks: write
   contents: write
 on:
-  push:
-    branches: 
-      - main
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: 
-      - main
-
   # Allow manually running it.
   workflow_dispatch:
 
