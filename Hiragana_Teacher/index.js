@@ -77,8 +77,9 @@ async function loadAdditional() {
         })
         
 
-        // Hide the "Create a Set" button
+        // Hide the "Create a Set" button and search box.
         document.getElementById("CreateASetButton").style.visibility = "hidden";
+        document.getElementById("Search").style.visibility = "hidden";
     }
 
     currentPage = "ListSelection";
@@ -94,6 +95,14 @@ async function loadAdditional() {
         // Check if it's the enter key.
         if (key.key == "Enter")
             EvaluateAnswer();
+    })
+
+    // Make is to that the Search box works on enter too.
+    let SearchBox = document.getElementById("SearchBox");
+    SearchBox.addEventListener("keydown", (key) => {
+        // Check if it's the enter key.
+        if (key.key == "Enter")
+            ScrollToSearch(document.getElementById('SearchBox').value)
     })
 
     // Make it so that the user's login token is invalidated when they leave the page.
@@ -747,4 +756,55 @@ async function StartCards(list) {
 function leaveCardScreen() {
     document.getElementById("ListSelection").hidden = false;
     document.getElementById("CardPane").hidden = true;
+}
+
+// Search thing.
+/**
+ * Searches for something in the set list and then scrolls to it.
+ * @param {String} query What to search for.
+ */
+async function ScrollToSearch(query) {
+    // Look through all titles and scroll to the one which has the most word matches.
+    let MaxWordMatches = -1, Element;
+    // Split query into words.
+    query = query.toLowerCase().split(" ")
+    const Children = document.getElementById("sets").children;
+
+    for (let i = 0; i < Children.length; i++) {
+        // Get the words.
+        const words = Children[i].innerText.toLowerCase();
+
+        // See how many matches it has.
+        let matches = 0; 
+        wordLoop:
+        for (let j = 0; j < words.length; j++) {
+            for (let p = 0; p < query.length; p++)
+                if (words.includes(query[p].trim()))
+                    {
+                        matches++;
+                        continue wordLoop;
+                    }
+        }
+
+        if (matches > MaxWordMatches) {
+            MaxWordMatches = matches; 
+            Element = Children[i];
+        }
+    }
+
+    // Once we have the most-matching element, scroll to it.
+    Element.scrollIntoView({ behavior: 'smooth' });
+    
+    // Highlight the text in the set.
+    return new Promise(async (resolve) => {
+        for (let i = 0; i < 4; i++) {
+            let color = i % 2 == 0 ? "yellow" : "antiquewhite"
+            Element.style = "background: " + color + ";"
+            await new Promise(r => setTimeout(() => {
+                r()
+            }, 1000))
+        }
+
+        Element.style = "";
+    })
 }
