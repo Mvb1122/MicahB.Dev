@@ -22,7 +22,7 @@ async function loadPlayers(game) {
 
 async function loadGames() {
     let data = fetch("./Modules/GetGames.js")
-    let GameSelector = document.getElementById("GameSeletor");
+    let GameSelector = document.getElementById("GameSelector");
     document.getElementById("main").style.display = "flex";
     data.then(res => res.json()).then(data => {
         data.games = Object.keys(data.games);
@@ -38,7 +38,7 @@ async function loadGames() {
 let selectedGame = "";
 let SourceScreen = "";
 async function loadSelectedGame() {
-    selectedGame = GetValueOfSelect("GameSeletor");
+    selectedGame = GetValueOfSelect("GameSelector");
 
     let rows = [];
     switch (selectedGame) {
@@ -275,5 +275,5 @@ function IncreaseLogMatchCounter() {
 
 function ReturnToGameSelect(OldMenuId) {
     document.getElementById(OldMenuId).hidden = true;
-    document.getElementById("GameSeletor").hidden = false;
+    document.getElementById("GameSelector").hidden = false;
 }
