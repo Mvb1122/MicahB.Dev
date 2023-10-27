@@ -1,6 +1,6 @@
 async function loadPlayers(game) {
     // Get a list of players from the server.
-    let data = await (fetch("https://micahb.dev/Esports_Projects/Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
+    let data = await (fetch("./Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
 
     // Add players to a list, which we can use to put them on the dropdowns.
         // Also, include the "null" player here, so that we can include matches with missing people.
@@ -21,8 +21,8 @@ async function loadPlayers(game) {
 }
 
 async function loadGames() {
-    let data = fetch("https://micahb.dev/Esports_Projects/Modules/GetGames.js")
-    let GameSelector = document.getElementById("GameSeletor");
+    let data = fetch("./Modules/GetGames.js")
+    let GameSelector = document.getElementById("GameSelector");
     document.getElementById("main").style.display = "flex";
     data.then(res => res.json()).then(data => {
         data.games = Object.keys(data.games);
@@ -38,7 +38,7 @@ async function loadGames() {
 let selectedGame = "";
 let SourceScreen = "";
 async function loadSelectedGame() {
-    selectedGame = GetValueOfSelect("GameSeletor");
+    selectedGame = GetValueOfSelect("GameSelector");
 
     let rows = [];
     switch (selectedGame) {
@@ -66,11 +66,69 @@ async function loadSelectedGame() {
     document.getElementById("LoadGame").style.display = "none"
 }
 
+function GetWinrateUseCache(id) {
+    return new Promise(async res => {
+        // See if we have the player's winrate in cache.
+        if (WinrateCache[id] != undefined) res({sucessful: true, winrate: WinrateCache[id]});
+        else res(await fetch("./Modules/GetWinrate.js&player=" + id));
+    })
+        .then(value => {
+            if (value.json != undefined) return value.json();
+            else return value;
+        })
+}
+
+/**
+ * Organized so ID = Winrate
+ */
+let WinrateCache = []; 
 async function LoadMarioKartSplatoonPanel(selectedGame) {
     let rows = GetSplatoonAndMarioKartSelects();
     await LoadRows(selectedGame, rows);
     document.getElementById("SplatMKMenu").style.display = "block";
     SourceScreen = "SplatMKMenu";
+
+    // Attach listeners to the player slots.
+    ["Top", "Bot"].forEach(half => {
+        for (let i = 0; i < 4; i++) {
+            const select = `P${half}Select${i}`, WinrateDisplay = `Player${half}Winrate${i}`;
+            document.getElementById(select).addEventListener("change", (ev) => {
+                // Set the respective players' winrate.
+                const selectedUserId = ev.target.value;
+                return GetWinrateUseCache(selectedUserId)
+                    .then(json => {
+                        if (json.sucessful && json.winrate != null) {
+                            const winrate = (json.winrate * 100).toPrecision(3)
+                            // Put their winrate in the cache.
+                            WinrateCache[selectedUserId] = json.winrate;
+                            document.getElementById(WinrateDisplay).innerText = winrate + "%"
+                        } else {
+                            document.getElementById(WinrateDisplay).innerText = "";
+                        }
+
+                        // Update team winrate.
+                        let teamMembers = [];
+                        for (let p = 0; p < 4; p++) {
+                            let TeamMemberId = document.getElementById(`P${half}Select${p}`).value;
+                            teamMembers.push(GetWinrateUseCache(TeamMemberId));
+                        }
+                        
+                        Promise.allSettled(teamMembers).then(async () => {
+                            for (let i = 0; i < teamMembers.length; i++) teamMembers[i] = await teamMembers[i];
+                            // Average them all.
+                            let average = 0;
+                            teamMembers.forEach(member => {
+                                    average += member.winrate;
+                            })
+                            average /= 4.0;
+
+                            document.getElementById(half + "Avg").innerText = (average * 100).toPrecision(3) + "%";
+                            console.log(teamMembers);
+                        })
+                    })
+            })
+        }
+    })
 }
 
 function GetSplatoonAndMarioKartSelects() {
@@ -177,7 +235,7 @@ async function SubmitMatch(MatchData) {
         return alert("You need more players! One of your sides is entirely empty.");
 
     // Go to Processing Screen while sending the data.
-    let response = postJSON("https://micahb.dev/Esports_Projects/Post_Modules/LogMatch.js&cache=false", MatchData);
+    let response = postJSON("./Post_Modules/LogMatch.js&cache=false", MatchData);
     document.getElementById("ProcessingMenu").style.display = "block";
     document.getElementById("LeaveProcessingScreenButton").style.display = "block";
     document.getElementById(SourceScreen).style.display = "none";
@@ -188,6 +246,9 @@ async function SubmitMatch(MatchData) {
             document.getElementById("ProcessingMenu").innerHTML = "<h1>Something went wrong, please reload the page!</h1>";
         }
     })
+
+    // After submitting a match, clear the winrate cache.
+    WinrateCache = [];
 }
 
 // Return to the user's previous screen.
@@ -210,4 +271,9 @@ function IncreaseLogMatchCounter() {
         selector.innerHTML = selector.innerHTML.replace("won against", "absolutely demolished the goobers on the enemy team so thoroughly, they do not care where they are from, they will look them up and fuck their mothers, they have won against")
             .replace("lost to", "has absolutely failed their team and this club, they have gotten demolished by the other team and now am a goober. By tradition they shall fuck my mother. I have lost against");
     }
+}
+
+function ReturnToGameSelect(OldMenuId) {
+    document.getElementById(OldMenuId).hidden = true;
+    document.getElementById("GameSelector").hidden = false;
 }
