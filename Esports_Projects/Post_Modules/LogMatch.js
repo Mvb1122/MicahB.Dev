@@ -1,4 +1,5 @@
 const fs = require('fs');
+const IsESportsLoginTokenValid = global.esports.IsESportsLoginTokenValid;
 /* Example Data:
 {
     "token": 1445,
