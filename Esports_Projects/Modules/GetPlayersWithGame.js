@@ -1,7 +1,7 @@
 res.statusCode = 200;
 res.setHeader("Content-Type", "application/json");
 let game = unescape(args.game).trim();
-const { GetPlayersWhoPlayGame } = require("./Esports_Projects/Esports_Index.js")
+const GetPlayersWhoPlayGame = global.GetPlayersWhoPlayGame;
 
 // Go through each player and determine the games.
 let games = { players: GetPlayersWhoPlayGame(game) };

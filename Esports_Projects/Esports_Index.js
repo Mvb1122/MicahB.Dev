@@ -226,6 +226,9 @@ function GetPlayersWhoPlayGame(game) {
     return games;
 }
 
+// Use Global for this because it's weird.
+global.GetPlayersWhoPlayGame = GetPlayersWhoPlayGame
+
 function GetMaxMatchesInGame(game) {
     // Obtain a list of all of the players who play a game.
     let players = GetPlayersWhoPlayGame(game);

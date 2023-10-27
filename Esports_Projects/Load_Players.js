@@ -14,6 +14,7 @@ async function LoadPlayers() {
         let playerURL = `https://micahb.dev/Esports_Projects/Players/${player}`;
         GetPlayer(playerURL)
             .then((d) => {
+                // ${player.Student_id}
                 list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>Function Disabled!</td>` + "</tr>";
                 NumberLoading--;
             });
@@ -72,7 +73,7 @@ async function LoadPlayersFromGame() {
     players.players.forEach(player => {
         // Add each player to the table.
         // ${d.Student_id}
-        list += "<tr>" + `<td><a href="https://discord.com/users/${player.Discord_id}">${player.Name}</a></td><td>${player.Student_id}</td>` + "</tr>";
+        list += "<tr>" + `<td><a href="https://discord.com/users/${player.Discord_id}">${player.Name}</a></td><td>Function Disabled!</td>` + "</tr>";
     });
 
     document.getElementById("Loading_Text").innerHTML = `Registered Players:`; 
