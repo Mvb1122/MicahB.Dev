@@ -147,6 +147,8 @@ function RenameToPrompt(folder) {
     });
 }
 
+/* We no longer need to run this on boot because it does it on upload now.
 RenameToPrompt('./FTP/AI/AnythingV4.5/');
 RenameToPrompt('./FTP/AI/AnythingV3/');
 RenameToPrompt('./FTP/AI/NovelAI/');
+*/
