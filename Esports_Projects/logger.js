@@ -1,6 +1,6 @@
 async function loadPlayers(game) {
     // Get a list of players from the server.
-    let data = await (fetch("https://micahb.dev/Esports_Projects/Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
+    let data = await (fetch("./Modules/GetPlayersWithGameByNameAndFile.js&game=" + escape(game)).then(res => res.json()))
 
     // Add players to a list, which we can use to put them on the dropdowns.
         // Also, include the "null" player here, so that we can include matches with missing people.
@@ -21,7 +21,7 @@ async function loadPlayers(game) {
 }
 
 async function loadGames() {
-    let data = fetch("https://micahb.dev/Esports_Projects/Modules/GetGames.js")
+    let data = fetch("./Modules/GetGames.js")
     let GameSelector = document.getElementById("GameSeletor");
     document.getElementById("main").style.display = "flex";
     data.then(res => res.json()).then(data => {
@@ -177,7 +177,7 @@ async function SubmitMatch(MatchData) {
         return alert("You need more players! One of your sides is entirely empty.");
 
     // Go to Processing Screen while sending the data.
-    let response = postJSON("https://micahb.dev/Esports_Projects/Post_Modules/LogMatch.js&cache=false", MatchData);
+    let response = postJSON("./Post_Modules/LogMatch.js&cache=false", MatchData);
     document.getElementById("ProcessingMenu").style.display = "block";
     document.getElementById("LeaveProcessingScreenButton").style.display = "block";
     document.getElementById(SourceScreen).style.display = "none";
