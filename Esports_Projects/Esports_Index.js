@@ -45,6 +45,7 @@ function IsESportsLoginTokenValid(token) {
     
     return false;
 }
+global.esports.IsESportsLoginTokenValid = IsESportsLoginTokenValid;
 
 // This is used by web modules.
 function AddPlayerToCache(player) {

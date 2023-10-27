@@ -8,6 +8,7 @@
     
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="topnav.css">
+        <link rel="stylesheet" href="logger.css">
         <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135" crossorigin="anonymous"></script>
     </head>
@@ -51,7 +52,7 @@
             </script>
             <div id="MainContent" style="display: none;">
                 <div id="LoadGame">
-                    <select name="GameSeletor" id="GameSeletor"></select>
+                    <select name="GameSelector" id="GameSelector"></select>
                     <br>
                     <button onclick="loadSelectedGame()">Load Selected Game!</button>
                 </div>
@@ -65,27 +66,41 @@
                     <select name="PlayerBotSelect" id="PBotSelect">
                     </select><br>
                     <button onclick="SubmitSSBUMatch()">Submit Match!</button>
+                    <button onclick="ReturnToGameSelect('SSBUMenu')">Go back to game selection!</button>
                 </div>
                 <div id="SplatMKMenu" style="display:none">
-                    <select name="PlayerTopSelect0" id="PTopSelect0"></select><br>
-                    <select name="PlayerTopSelect1" id="PTopSelect1"></select><br>
-                    <select name="PlayerTopSelect2" id="PTopSelect2"></select><br>
-                    <select name="PlayerTopSelect3" id="PTopSelect3"></select><br>
+                    <div id="TeamTop">
+                        <div>
+                            <select name="PlayerTopSelect0" id="PTopSelect0"></select><p style="display: inline;" id="PlayerTopWinrate0">Winrate%</p><br>
+                            <select name="PlayerTopSelect1" id="PTopSelect1"></select><p style="display: inline;" id="PlayerTopWinrate1">Winrate%</p><br>
+                            <select name="PlayerTopSelect2" id="PTopSelect2"></select><p style="display: inline;" id="PlayerTopWinrate2">Winrate%</p><br>
+                            <select name="PlayerTopSelect3" id="PTopSelect3"></select><p style="display: inline;" id="PlayerTopWinrate3">Winrate%</p><br>
+                        </div>
+                        <img src="Esports Website MKSplat Team Bracket.svg" alt="A bracket highlighting all teams." style="height: 76pt;">
+                        <div id="TopAvg"></div>
+                        </div>
                     <br>
                     <select name="CompSelector" id="CompSelector">
                         <option value="beat">won against</option>
                         <option value="lost">lost to</option>
                     </select>
                     <br><br>
-                    <select name="PlayerBotSelect0" id="PBotSelect0"></select><br>
-                    <select name="PlayerBotSelect1" id="PBotSelect1"></select><br>
-                    <select name="PlayerBotSelect2" id="PBotSelect2"></select><br>
-                    <select name="PlayerBotSelect3" id="PBotSelect3"></select>
+                    <div id="TeamBottom">
+                        <div>
+                            <select name="PlayerBotSelect0" id="PBotSelect0"></select><p style="display: inline;" id="PlayerBotWinrate0">Winrate%</p><br>
+                            <select name="PlayerBotSelect1" id="PBotSelect1"></select><p style="display: inline;" id="PlayerBotWinrate1">Winrate%</p><br>
+                            <select name="PlayerBotSelect2" id="PBotSelect2"></select><p style="display: inline;" id="PlayerBotWinrate2">Winrate%</p><br>
+                            <select name="PlayerBotSelect3" id="PBotSelect3"></select><p style="display: inline;" id="PlayerBotWinrate3">Winrate%</p>
+                        </div>
+                        <img src="Esports Website MKSplat Team Bracket.svg" alt="A bracket highlighting all teams." style="height: 76pt;">
+                        <div id="BotAvg"></div>
+                    </div>
                     <br>
                     <br>
                     <input type="text" placeholder="Map (Can be empty)" id="MapInput">
                     <br>
                     <button onclick="SubmitSplatMKMatch()">Submit Match!</button>
+                    <button onclick="ReturnToGameSelect('SplatMKMenu')">Go back to game selection!</button>
                 </div>
                 <div id="ProcessingMenu" style="display: none;">
                     <h2 id="ProcessingText" style="margin-left: 50%; margin-right: 50%;">Processing...</h2>
