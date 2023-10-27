@@ -765,49 +765,61 @@ function leaveCardScreen() {
  */
 async function ScrollToSearch(query) {
     // Look through all titles and scroll to the one which has the most word matches.
-    let MaxWordMatches = 0, Element;
+    let MaxWordMatches = 1, Element;
     // Split query into words.
-    query = query.toLowerCase().split(" ")
-    const Children = document.getElementById("sets").children;
+    query = query.toLowerCase().trim().split(" ")
 
+    // Use word matching if the query is only one word long.
+    if (query.length == 1) 
+        query[0] = `${query[0]} `
+
+    const Children = document.getElementById("sets").children;
+    
+    
     for (let i = 0; i < Children.length; i++) {
-        // Get the words.
-        const words = Children[i].innerText.toLowerCase();
+        // Get the words. Add a space after if we're dealing with a single query.
+        let words = Children[i].innerText.toLowerCase();
+        
+        if (query.length == 1) 
+            words = `${words} `
 
         // See how many matches it has.
         let matches = 0; 
-        wordLoop:
-        for (let j = 0; j < words.length; j++) {
-            for (let p = 0; p < query.length; p++)
-                if (words.includes(query[p].trim()))
-                    {
-                        matches++;
-                        continue wordLoop;
-                    }
+        
+        // Check to see if the text of the thing contains any query words.
+        for (let p = 0; p < query.length; p++) {
+            let keyword = query[p];
+
+            if (words.includes(keyword))
+                {
+                    matches++;
+                    continue;
+                }
         }
 
-        if (matches > MaxWordMatches) {
+        if (matches >= MaxWordMatches) {
             MaxWordMatches = matches; 
             Element = Children[i];
         }
     }
 
     // Once we have the most-matching element, scroll to it.
-    if (Element != undefined)
+    if (Element != undefined) {
         Element.scrollIntoView({ behavior: 'smooth' });
+
+        // Highlight the text in the set.
+        return new Promise(async (resolve) => {
+            for (let i = 0; i < 4; i++) {
+                let color = i % 2 == 0 ? "yellow" : "antiquewhite"
+                Element.style = "background: " + color + ";"
+                await new Promise(r => setTimeout(() => {
+                    r()
+                }, 1000))
+            }
+
+            Element.style = "";
+        })
+    }
     else
         alert("No results found!")
-    
-    // Highlight the text in the set.
-    return new Promise(async (resolve) => {
-        for (let i = 0; i < 4; i++) {
-            let color = i % 2 == 0 ? "yellow" : "antiquewhite"
-            Element.style = "background: " + color + ";"
-            await new Promise(r => setTimeout(() => {
-                r()
-            }, 1000))
-        }
-
-        Element.style = "";
-    })
 }
