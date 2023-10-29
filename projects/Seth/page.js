@@ -418,7 +418,7 @@ async function StartGameThree() {
         // Update the text.
         document.getElementById("Game3Progress").innerText = `${i}/${max}`;
 
-        // Wait for a total of 15 seconds while updating the timer incrememntally. 
+        // Wait for a total of 15 seconds while updating the timer incrementally. 
         for (let j = 0; j <= 15; j++) {
             let timeLeft = (15 - j).toString();
             if (timeLeft.length == 1) timeLeft = "0" + timeLeft
