@@ -14,6 +14,10 @@ function StageOne() {
     document.getElementById("Password").innerText = pseudopassword;
 }
 
+function Wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, 1000))
+}
+
 async function PostToModule(Module, data) {
     const url = `./Post_Modules/${Module}`; 
 
@@ -190,9 +194,11 @@ async function ShowGameTwoHideGameOne() {
     document.getElementById("GameOne").hidden = true;
 }
 
+// Function reassigned later on.
 let GameTwoReportMisclick = () => {
 
 }
+
 async function StartGameTwo() {
     // Show the div on screen and hide the intro and postgame divs.
     document.getElementById("GameTwoGame").hidden = false;
@@ -238,9 +244,7 @@ async function StartGameTwo() {
 
             // Now, let them click, I guess. (Check every 100ms to see if they've got it right.)
             do {
-                await new Promise((resolve, reject) => {
-                    setTimeout(resolve, 100);
-                })
+                await Wait(100);
 
                 // Check to see if the clicked boxes match the unclicked ones.
                 let AllCorrect = true;
@@ -398,6 +402,75 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
 
         resolve();
     })
+}
+
+async function StartGameThree() {
+    // Select a question based off of time.
+        // For the moment, let's just do whatever and assume 1~12 works.
+    let min, max;
+
+    min = 1, max = 12;
+
+    for (let i = min; i <= max; i++) {
+        // Load the question and its answers.
+        const answerNumber = LoadGame3Images(i);
+
+        // Update the text.
+        document.getElementById("Game3Progress").innerText = `${i}/${max}`;
+
+        // Wait for a total of 15 seconds while updating the timer incrememntally. 
+        for (let j = 0; j <= 15; j++) {
+            let timeLeft = (15 - j).toString();
+            if (timeLeft.length == 1) timeLeft = "0" + timeLeft
+            document.getElementById("Game3Time").innerText = `0:${timeLeft}`;
+            await Wait(1000);
+        }
+
+        // TODO: Do correct stuff or whatever. Make sure to use OverText. 
+    }
+}
+
+/**
+ * Shuffles an array, modifying the original.
+ * @param {[*]} array 
+ */
+function ShuffleArray(array) {
+    let lastSwap = -1, lastSource = -1;
+    for (let i = 0; i < array.length; i++) {
+        let source = lastSource, swap = lastSwap;
+
+        // Generate random swaps that aren't the same as the last ones.
+        do {
+            source = Math.floor(Math.random() * array.length)
+        } while (source == lastSource)
+        
+        do {
+            swap = Math.floor(Math.random() * array.length)
+        } while (swap == lastSwap)
+        
+        let temp = array[source];
+        array[source] = array[swap];
+        array[swap] = temp;
+    }
+    return array;
+}
+
+/**
+ * Loads the images randomly and returns the id of the box the answer is under.
+ * @param {Number} QuestionNumber The question index on server.
+ */
+function LoadGame3Images(QuestionNumber) {
+    let dir = `./Test_Images/Part_3_Images/Q${QuestionNumber}/`;
+    const Game3Q = document.getElementById("Game3Question");
+    Game3Q.src = `${dir}question.png`
+
+    let imageIndex = ShuffleArray([1, 2, 3, 4]);
+    for (let i = 1; i <= 4; i++) {
+        let id = `Game3Answer${i}`;
+        document.getElementById(id).src = `${dir}${imageIndex[i - 1]}.png`
+    }
+
+    return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
 const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]

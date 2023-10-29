@@ -116,3 +116,18 @@ memoryBlock {
 .LifeIcon {
     width: 3vh; height: 3vh;
 }
+
+#Game3Question {
+    width: 48vh;
+}
+
+.Game3Image {
+    width: 10vh;
+    padding-right: 1vh;
+    padding-left: 1vh;
+}
+
+#OverQuestion {
+    position: absolute;
+    justify-self: center;
+}
