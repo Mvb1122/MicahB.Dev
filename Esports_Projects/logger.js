@@ -274,6 +274,6 @@ function IncreaseLogMatchCounter() {
 }
 
 function ReturnToGameSelect(OldMenuId) {
-    document.getElementById(OldMenuId).hidden = true;
-    document.getElementById("GameSelector").hidden = false;
+    document.getElementById(OldMenuId).style = "display: none";
+    document.getElementById("LoadGame").style = "display: block";
 }
