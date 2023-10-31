@@ -157,27 +157,28 @@ function GetAttendance(player) {
             let event = JSON.parse(GetFileFromCache(`${EventPath}/${e}`));
 
             // If the event contains one of the players' games, include it in the normal list. Else, put it in the extra days list.
-            let IsPlayerGame = false;
+            let IsEventRequired = false;
+                // To clarify, this chunk of code looks at the games and determines if this is a required or a non-required day.
             event.Games.forEach((game) => {
                 for (let i = 0; i < PlayerInfo.PlayedGames.length; i++)
                     if (PlayerInfo.PlayedGames[i] == game) {
-                        IsPlayerGame = true;
+                        IsEventRequired = true;
                         break;
                     }
             })
             
-            let attending = "false";
+            let attending = false;
             for (let i = 0; i < event.Attending.length; i++) {
                 let AttendingPlayer = event.Attending[i];
                 // If they were there, append them being there to the list of days that they were there.
                 if (AttendingPlayer == player) {
-                    attending = "true";
+                    attending = true;
                     break;
                 }
             }
 
             // If they weren't attending, check if they were excused.
-            if (attending == "false" && event.Excused != undefined) 
+            if (attending == false && event.Excused != undefined) {
                 for (let i = 0; i < event.Excused.length; i++) {
                     let ExcusedPlayer = event.Excused[i];
                     if (ExcusedPlayer.player == player)
@@ -186,16 +187,19 @@ function GetAttendance(player) {
                         break;
                     }
                 }
+            }
 
-            if (IsPlayerGame) {
+            if (IsEventRequired) {
                 DaysAttended.unshift({
                     Date: event.Date,
-                    Attending: attending
+                    Attending: attending,
+                    EventId: e
                 });
-            } else {
+            } else if (attending == true) {
                 AdditionalDaysAttended.unshift({
                     Date: event.Date,
-                    Attending: attending
+                    Attending: attending,
+                    EventId: e
                 })
             }
         })
@@ -257,7 +261,9 @@ function GetReliability(player) {
     let PlayersGames = GetMatches(player).length;
     let maxMatches = GetMaxMatchesInGame(game).numMatches;
     let oldReliability = PlayersGames / maxMatches;
-    
+    if (global.DEBUG)
+        console.log(`${playerInfo.Name}'s matches: ${PlayersGames}, Max: ${maxMatches}, OldReliability: ${oldReliability}`);
+
     // Obtain the Attendance-based reliability score.
         // Get a list of days that were/were not attended.
     let attendedEvents = GetAttendance(player);
@@ -268,7 +274,10 @@ function GetReliability(player) {
         if (day.Attending) attending++;
     }))
 
-    let AttendanceReliability = attending / (attendedEvents.Days.length)
+    const RequiredDays = attendedEvents.Days.length == 0 ? 1 : attendedEvents.Days.length;
+    let AttendanceReliability = attending / (RequiredDays)
+    if (global.DEBUG)
+        console.log(`${playerInfo.Name}'s attendance: ${attending}, Max: ${RequiredDays}+${attendedEvents.AdditionalDays.length}, AttendanceReliability: ${AttendanceReliability}`)
 
     // Average the two scores.
     return (oldReliability + AttendanceReliability) / 2;
