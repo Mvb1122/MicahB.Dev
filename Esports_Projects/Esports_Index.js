@@ -42,7 +42,7 @@ function IsESportsLoginTokenValid(token) {
         console.log(`Checking: ${token} against ${tokenInList}`);
         if (token == tokenInList) return true;
     }
-    
+
     return false;
 }
 global.esports.IsESportsLoginTokenValid = IsESportsLoginTokenValid;
@@ -91,7 +91,7 @@ function GetMaxMatches(game) {
         [data.Players, data.Enemies].forEach(player => {
             if (NumGamesByPlayer[player] == null)
                 NumGamesByPlayer[player] = 0;
-            
+
             NumGamesByPlayer[player]++;
         })
     })
@@ -109,7 +109,7 @@ function GetMaxMatches(game) {
 
 function ArrayContains(array, val) {
     for (let i = 0; i < array.length; i++)
-        if (array[i] == val) return true; 
+        if (array[i] == val) return true;
     return false;
 }
 
@@ -118,10 +118,10 @@ function GetMatches(player) {
     // Get a list of games.
     let games = fs.readdirSync("Esports_Projects/Games/");
     let playersGames = [];
-    
+
     for (let i = 0; i < games.length; i++) {
         let game = games[i];
-        
+
         // Read each file in and determine if it has the player.
         let data = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${game}`));
         [data.Players, data.Enemies].forEach(side => side.forEach(PlayerInGame => {
@@ -158,7 +158,7 @@ function GetAttendance(player) {
 
             // If the event contains one of the players' games, include it in the normal list. Else, put it in the extra days list.
             let IsEventRequired = false;
-                // To clarify, this chunk of code looks at the games and determines if this is a required or a non-required day.
+            // To clarify, this chunk of code looks at the games and determines if this is a required or a non-required day.
             event.Games.forEach((game) => {
                 for (let i = 0; i < PlayerInfo.PlayedGames.length; i++)
                     if (PlayerInfo.PlayedGames[i] == game) {
@@ -166,7 +166,7 @@ function GetAttendance(player) {
                         break;
                     }
             })
-            
+
             let attending = false;
             for (let i = 0; i < event.Attending.length; i++) {
                 let AttendingPlayer = event.Attending[i];
@@ -181,8 +181,7 @@ function GetAttendance(player) {
             if (attending == false && event.Excused != undefined) {
                 for (let i = 0; i < event.Excused.length; i++) {
                     let ExcusedPlayer = event.Excused[i];
-                    if (ExcusedPlayer.player == player)
-                    {
+                    if (ExcusedPlayer.player == player) {
                         attending = { state: "excused", excuse: ExcusedPlayer.excuse };
                         break;
                     }
@@ -205,7 +204,7 @@ function GetAttendance(player) {
         })
     }
 
-    return { Days: DaysAttended, AdditionalDays: AdditionalDaysAttended};
+    return { Days: DaysAttended, AdditionalDays: AdditionalDaysAttended };
 }
 
 const PlayerPath = "Esports_Projects/Players"
@@ -218,7 +217,7 @@ function GetPlayersWhoPlayGame(game) {
     players.forEach(p => {
         let player = JSON.parse(GetFileFromCache(PlayerPath + "/" + p));
         player.PlayedGames.forEach(gameInList => {
-            if (gameInList.trim() == game) 
+            if (gameInList.trim() == game)
                 games.push({
                     Name: player.Name,
                     Discord_id: player.Discord_id,
@@ -244,7 +243,7 @@ function GetMaxMatchesInGame(game) {
         let player = GetMatches(players[i].PlayerID);
         if (maxMatches < player.length) {
             maxIndex = i;
-            maxMatches = player.length;       
+            maxMatches = player.length;
         }
     }
 
@@ -265,11 +264,11 @@ function GetReliability(player) {
         console.log(`${playerInfo.Name}'s matches: ${PlayersGames}, Max: ${maxMatches}, OldReliability: ${oldReliability}`);
 
     // Obtain the Attendance-based reliability score.
-        // Get a list of days that were/were not attended.
+    // Get a list of days that were/were not attended.
     let attendedEvents = GetAttendance(player);
 
     let attending = 0;
-        // Count up the number of days attended.
+    // Count up the number of days attended.
     [attendedEvents.Days, attendedEvents.AdditionalDays].forEach(set => set.forEach(day => {
         if (day.Attending) attending++;
     }))
@@ -305,7 +304,7 @@ function SetPlayerSkill(PlayerID, Skill) {
             if (e)
                 console.log("Error: " + e);
         })
-        
+
         // Update the cache.
         File_Cache[PlayerFile] = data;
     }
@@ -315,11 +314,11 @@ function SetPlayerSkill(PlayerID, Skill) {
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());
 const client = new Client({
     intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
     ],
-  });
+});
 
 module.exports = {
     "GetValidToken": GetValidToken, IsESportsLoginTokenValid, AddPlayerToCache, GetPlayerIDFromDiscordID,
@@ -329,7 +328,7 @@ module.exports = {
 
 let SlashCommands = []
 client.once('ready', () => {
-	console.log('Discord bot online.');
+    console.log('Discord bot online.');
     let commands = ["./Slash_Commands/CreateEvent.js", "./Slash_Commands/link.js"]; // File paths here.
     //#region Command handler stuff.
     let CommandJSON = [];
@@ -350,49 +349,49 @@ client.once('ready', () => {
     // Refresh commands:
     const UpdateCommands = async () => {
         try {
-        console.log(`Started refreshing application commands.`);
+            console.log(`Started refreshing application commands.`);
 
-        // The put method is used to fully refresh all commands in the guild with the current set
-        const data = await rest.put(
-            Discord.Routes.applicationCommands(DiscordClientId /*, guildId */ ), // use with ApplicationGuildCommands for testing.
-            { body: CommandJSON },
-        ); 
+            // The put method is used to fully refresh all commands in the guild with the current set
+            const data = await rest.put(
+                Discord.Routes.applicationCommands(DiscordClientId /*, guildId */), // use with ApplicationGuildCommands for testing.
+                { body: CommandJSON },
+            );
 
-        // Clear support server commands.
-        await rest.put(
-            Discord.Routes.applicationGuildCommands(DiscordClientId, guildId),
-            { body: {} },
-        );
+            // Clear support server commands.
+            await rest.put(
+                Discord.Routes.applicationGuildCommands(DiscordClientId, guildId),
+                { body: {} },
+            );
 
-        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+            console.log(`Successfully reloaded ${data.length} application (/) commands.`);
         } catch (error) {
-        // And of course, make sure you catch and log any errors!
-        console.error(error);
+            // And of course, make sure you catch and log any errors!
+            console.error(error);
         }
     };
-    UpdateCommands(); 
+    UpdateCommands();
     //#endregion
-}); 
+});
 
 //#region Interaction handling
 client.on("interactionCreate",
-  /**
-   * @param {Discord.CommandInteraction} int 
-   */
-  async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+    /**
+     * @param {Discord.CommandInteraction} int 
+     */
+    async (interaction) => {
+        if (!interaction.isChatInputCommand()) return;
 
-    // Find command by name.
-    const name = interaction.commandName;
-    for (let i = 0; i < SlashCommands.length; i++) {
-      const module = SlashCommands[i];
-      /** @type {Discord.SlashCommandBuilder} */
-      let data = module.data;
-      if (data.name == name) {
-        module.execute(interaction);
-      }
-    }
-})
+        // Find command by name.
+        const name = interaction.commandName;
+        for (let i = 0; i < SlashCommands.length; i++) {
+            const module = SlashCommands[i];
+            /** @type {Discord.SlashCommandBuilder} */
+            let data = module.data;
+            if (data.name == name) {
+                module.execute(interaction);
+            }
+        }
+    })
 
 module.exports = {
     GetWinrate,
@@ -404,9 +403,9 @@ module.exports = {
 }
 
 client.on("messageCreate", async (message) => {
-    if (message.author.bot) return false; 
+    if (message.author.bot) return false;
     const c = message.content;
-    
+
     // Handles registering players.
     if (c.startsWith("/link")) {
         let link_code = c.substring(c.indexOf(' ') + 1);
@@ -427,8 +426,8 @@ client.on("messageCreate", async (message) => {
             "Grade": playerInfo.Grade,
             "Ranks": playerInfo.Ranks
         }
-            // Save data to player database.
-                // If the player is already registered, update their existing profile.
+        // Save data to player database.
+        // If the player is already registered, update their existing profile.
         let ReplyStart = "Registration suceeded!"
         if (GetPlayerIDFromDiscordID(message.author.id) != -1) {
             global.playerCache[link_code] = undefined;
@@ -444,7 +443,7 @@ client.on("messageCreate", async (message) => {
         // Rename the user to have their name as their username.
         message.member.setNickname(playerInfo.Player, "Changed user's nickname to match their registered name.")
             // Send them a message if it failed.
-            .catch(() => 
+            .catch(() =>
                 message.channel.send(`I tried to rename you but I can't because I don't have permission; If you could please rename yourself to \`${Full_Player_Information.Name}\`, That'd be great.`)
             );
     }
@@ -465,7 +464,7 @@ client.on("messageCreate", async (message) => {
         let thread = await global.ThreadCache[ThreadID];
 
         // Join thread and tell the user that we're watching it.
-        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost!\nAlso, use `/addGame *` to add the games that are taking place today, please.\nIf you forgot, you can add people using `/here *`.")
+        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost!\nAlso, use `/addGame *` to add the games that are taking place today, please.\nIf you forgot, you can add people using `/here @-`, or excuse them with `/excuse @ *` Where @- is a series of usernames, @ is one username, and * is a reason.")
             // .then(message => console.log(`Sent message: ${message.content}`))
             .catch(console.error);
 
@@ -490,7 +489,7 @@ client.on("messageCreate", async (message) => {
         let userID = GetPlayerIDFromDiscordID(message.author.id);
         if (userID != -1)
             global.EventCache[ThreadID].Attending.push(userID);
-        else 
+        else
             message.channel.send("I tried to add you to the attendance, but it doesn't appear that you're registered.");
 
         console.log(`Created a new event: ${thread.name}.`);
@@ -543,19 +542,19 @@ client.on("messageCreate", async (message) => {
             eventNumber = eventNumber[eventNumber.length - 1];
 
             // If the eventNumber isn't a valid event, return since this isn't an event thread.
-            if (!global.EventCache[eventNumber] && c.startsWith("/")) 
+            if (!global.EventCache[eventNumber] && c.startsWith("/"))
                 return message.reply("This isn't an event thread, you can't use event commands here!");
             // console.log("The event number in this thread is " + eventNumber);
         } catch (error) {
             // This is not an event thread.
             return false;
         }
-        
+
         if (c.startsWith("/here")) {
             // Find event cache.
-                // Asertain command args.
+            // Asertain command args.
             let newPlayers = c.split(" ");
-                // Remove the command.
+            // Remove the command.
             newPlayers.shift();
 
             let PlayersAttached = "";
@@ -571,7 +570,7 @@ client.on("messageCreate", async (message) => {
                         errors += `${NewPlayer} is not registered!\n`;
                     }
                 }
-                
+
             });
 
             if (errors != "\n\n") errors += `\nPlease have the unregistered player${newPlayers.length > 1 ? "s" : ""} register at https://micahb.dev/ESports_Projects/Attendance_Make_Player.html\nand then you can add them via /here.`
@@ -583,12 +582,12 @@ client.on("messageCreate", async (message) => {
             message.reply(`${msgStart}${errors != "\n\n" ? errors : ""}`);
             console.log(JSON.stringify(global.EventCache[eventNumber]));
         }
-        
+
         else if (c.startsWith("/excuse")) {
             // Find event cache.
-                // Asertain command args.
+            // Asertain command args.
             let newPlayers = c.split(" ");
-                // Remove the command.
+            // Remove the command.
             newPlayers.shift();
 
             // Add the player and their excuse.
@@ -598,7 +597,7 @@ client.on("messageCreate", async (message) => {
             // Add the player-excuse object to the event.
             if (Player != -1)
                 global.EventCache[eventNumber].Excused.push({ "player": Player, "excuse": Excuse });
-            else 
+            else
                 return message.reply(`Please have the unregistered player register at https://micahb.dev/ESports_Projects/Attendance_Make_Player.html\nand then you can add them via /excuse.`);
 
             message.reply(`Player excused!`);
@@ -614,7 +613,7 @@ client.on("messageCreate", async (message) => {
             let minutes = date.getMinutes().toString();
             // Prepend zeroes if minutes is just one digit.
             while (minutes.length < 2) minutes = "0" + minutes;
-            
+
             data.EndTime = `${hours}:${minutes}`;
 
             console.log(data);
@@ -623,7 +622,7 @@ client.on("messageCreate", async (message) => {
             fs.writeFileSync(`${EventPath}/${eventNumber}.json`, JSON.stringify(data));
 
             // Tell the user that the event was closed, then archive the channel.
-                // Note that I use setTimeout() here because there was an issue where the bot would send in an already-archived thread, just due to netstuff.
+            // Note that I use setTimeout() here because there was an issue where the bot would send in an already-archived thread, just due to netstuff.
             message.reply("Event closed, you should now be able to see it on the website.")
                 .then(() => {
                     message.channel.setArchived(true)
