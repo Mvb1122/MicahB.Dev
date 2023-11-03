@@ -4,6 +4,7 @@ const fs = require('fs')
 
 const { GetPlayerIDFromDiscordID } = require('../Esports_Index.js')
 const ThreadPrefix = "Event Thread ";
+const PlayersPath = "Esports_Projects/Players";
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ module.exports = {
         let { global, GetFileFromCache } = require('../../index.js')
         let c = "/link"
         if (c.startsWith("/link")) {
-            let link_code = message.options.getInteger("code");
+            const link_code = message.options.getInteger("code");
     
             // Fetch player information from cache.
             let playerInfo = global.playerCache[link_code];
@@ -38,7 +39,7 @@ module.exports = {
             const Full_Player_Information = {
                 "Name": playerInfo.Player,
                 "PlayedGames": playerInfo.Games,
-                "Discord_id": message.author.id,
+                "Discord_id": message.member.id,
                 "Student_id": playerInfo.Id,
                 "Grade": playerInfo.Grade,
                 "Ranks": playerInfo.Ranks
@@ -46,12 +47,12 @@ module.exports = {
             // Save data to player database.
                 // If the player is already registered, update their existing profile.
             let ReplyStart = "Registration suceeded!"
-            if (GetPlayerIDFromDiscordID(message.author.id) != -1) {
+            if (GetPlayerIDFromDiscordID(message.member.id) != -1) {
                 global.playerCache[link_code] = undefined;
-                link_code = GetPlayerIDFromDiscordID(message.author.id);
+                link_code = GetPlayerIDFromDiscordID(message.member.id);
                 ReplyStart = "Profile Updated!";
             }
-            fs.writeFileSync(`${PlayerPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
+            fs.writeFileSync(`${PlayersPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
     
             // Invalidate cached version of the player.
             global.playerCache[link_code] = undefined;
