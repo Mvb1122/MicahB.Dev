@@ -367,6 +367,8 @@ module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime }
 // Run ESports setup stuff.
 require("./Esports_Projects/Esports_Index.js")
 // eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
+console.log(require("./Esports_Projects/Esports_Index.js"));
+global.File_Cache = File_Cache;
 
 // Run Hiragana Teacher stuff.
 // require("./Hiragana_Teacher/Hiragana_Teacher_Index.js")
@@ -378,6 +380,9 @@ eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
 // Save the global cache when the program is shut down.
 process.on('SIGINT', function() {
+    // Don't save file cache.
+    delete global.File_Cache;
+    
     fs.writeFileSync("./Global.json", JSON.stringify(global));
 
     process.exit();
