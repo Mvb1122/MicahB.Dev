@@ -92,6 +92,7 @@ async function GetExampleSentence(ForceNew = false) {
     const data = {
         "Set": listNumber,
         "Word": currentWord,
+        "Definition": listOfWords[index].back,
         "ForceNew": ForceNew,
         "login_token": login_token
     }

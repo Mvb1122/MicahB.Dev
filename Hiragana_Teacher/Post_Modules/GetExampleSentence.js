@@ -7,6 +7,7 @@
 {
     "Set": "123456",
     "Word": "えんぴつ",
+    "Definition": "Pencil"
     "ForceNew": false | true,
     "login_token": 123456
 }
@@ -61,7 +62,7 @@ if (ShouldGenerate) {
     
     const data = JSON.stringify({
         role: "system",
-        content: "Please write a very basic Japanese example sentence for the following word or phrase. Feel free to write a dialogue, but keep it simple. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Phrase: " + submitted.Word
+        content: `Please write a very basic Japanese example sentence for the following word or phrase. Feel free to write a dialogue, but keep it simple. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Phrase: ${submitted.Word}\nWith the definition ${submitted.Definition}`
     });
     
     const response = await fetch(url, {
