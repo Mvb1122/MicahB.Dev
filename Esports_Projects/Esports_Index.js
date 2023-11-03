@@ -61,6 +61,7 @@ function AddPlayerToCache(player) {
 
     return playerID.toString();
 }
+global.esports.AddPlayerToCache = AddPlayerToCache;
 
 const PlayersPath = "Esports_Projects/Players";
 
@@ -293,6 +294,7 @@ function GetPlayerSkill(PlayerID) {
     }
     return Skill;
 }
+global.esports.GetPlayerSkill = GetPlayerSkill;
 
 function SetPlayerSkill(PlayerID, Skill) {
     const PlayerFile = `./Esports_Projects/Players/${PlayerID}.json`;
@@ -306,9 +308,10 @@ function SetPlayerSkill(PlayerID, Skill) {
         })
 
         // Update the cache.
-        File_Cache[PlayerFile] = data;
+        global.File_Cache[PlayerFile] = data;
     }
 }
+global.esports.SetPlayerSkill = SetPlayerSkill;
 
 // Start the Discord bot.
 const botInfo = JSON.parse(fs.readFileSync("Esports_Projects/token.json").toString());
