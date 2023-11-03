@@ -16,6 +16,7 @@ function move(dist) {
         document.getElementById("MustSignInToGetExampleSentence").hidden = true;
         document.getElementById("GetExampleSentenceButton").hidden = false;
         document.getElementById("ExampleSentence").hidden = true;
+        document.getElementById("ForceExampleSentenceButton").hidden = true;
     }
 }
 
@@ -84,14 +85,14 @@ async function FlipLoop() {
     }
 }
 
-async function GetExampleSentence() {
+async function GetExampleSentence(ForceNew = false) {
     const currentWord = listOfWords[index].front;
 
     // Send the request to the server..
     const data = {
         "Set": listNumber,
         "Word": currentWord,
-        "ForceNew": false,
+        "ForceNew": ForceNew,
         "login_token": login_token
     }
     postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
@@ -103,5 +104,8 @@ async function GetExampleSentence() {
             // The below code is safe. All content is controlled.
             ExampleSentenceDisplay.innerHTML = e.Example + `<br><a href="https://jisho.org/search/${e.Example}">Jisho Link</a>`;
             ExampleSentenceDisplay.hidden = false;
+
+            // Show force button.
+            document.getElementById("ForceExampleSentenceButton").hidden = false;
         })
 }
