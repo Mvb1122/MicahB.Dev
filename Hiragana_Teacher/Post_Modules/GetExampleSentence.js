@@ -61,8 +61,8 @@ if (ShouldGenerate) {
     const url = 'http://192.168.1.3:7243';
     
     const data = JSON.stringify({
-        role: "system",
-        content: `Please write a very basic Japanese example sentence for the following word or phrase. Feel free to write a dialogue, but keep it simple. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Phrase: ${submitted.Word}\nWith the definition ${submitted.Definition}`
+        role: "user",
+        content: `Please write a very basic Japanese example sentence for the following word or phrase. Feel free to write a dialogue, but keep it simple. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Only write your translation once. Phrase: ${submitted.Word}\nWith the definition ${submitted.Definition}`
     });
     
     const response = await fetch(url, {
