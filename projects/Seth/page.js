@@ -4,8 +4,7 @@ let username,
 pseudopassword; // Not an actual password!
 function StageOne() {
     // First, hide the starting panel and go to the signup panel.
-    document.getElementById("Base").hidden = true;
-    document.getElementById("SignUp").hidden = false;
+    ShowOnly("SignUp")
 
     // Generate a password. (Use half-decent randomness.)
     const array = new Uint32Array(1);
@@ -37,8 +36,7 @@ async function EnsureSignedUpAndShowGameOne() {
         return alert("Please enter a username in the box.");
     else {
         // Display loading stuff.
-        document.getElementById("SignUp").hidden = true;
-        document.getElementById("Loading").hidden = false;
+        ShowOnly("Loading")
 
         // Sign up.
         const data = JSON.stringify({
@@ -53,8 +51,7 @@ async function EnsureSignedUpAndShowGameOne() {
         }
 
         // Show first game.
-        document.getElementById("Loading").hidden = true;
-        document.getElementById("GameOne").hidden = false;
+        ShowOnly("GameOneDescription")
         SetGameOneText();
     }
 }
@@ -89,9 +86,7 @@ let GameOneNumCorrect = 0,
 GameOneCurrentRound;
 async function StartGameOne() {
     // First, show the countdown.
-    document.getElementById("GameOneDescription").hidden = true;
-    document.getElementById("GameOneCountDown").hidden = false;
-    document.getElementById("GameOneEndSceen").hidden = true;
+    ShowOnly("GameOneCountDown")
 
     for (let i = 3; i >= 0; i--) {
         await new Promise((r) => {
@@ -103,8 +98,7 @@ async function StartGameOne() {
     }
 
     // After the countdown, go to the game.
-    document.getElementById("GameOneCountDown").hidden = true;
-    document.getElementById("GameOneGame").hidden = false;
+    ShowOnly("GameOneGame")
 
     // Now that we're in the game, setup the record loop.
     for (let i = 0; i < 11; i++) {
@@ -163,8 +157,7 @@ async function StartGameOne() {
     document.getElementById("GameOneEndScreenTextStart").innerHTML = `${Compliment} You got <b>${GameOneNumCorrect}</b> right out of ten!`;
 
     // Now, go to the Game One End screen.
-    document.getElementById("GameOneGame").hidden = true;
-    document.getElementById("GameOneEndSceen").hidden = false;
+    ShowOnly("GameOneEndSceen")
 
     // Clean up so that they can replay it if they want.
     GameOneCurrentRoundNumber = GameOneNumCorrect = 0;
@@ -190,8 +183,7 @@ function EndGameOneRoundWithColor(color) {
 }
 
 async function ShowGameTwoHideGameOne() {
-    document.getElementById("GameTwo").hidden = false;
-    document.getElementById("GameOne").hidden = true;
+    ShowOnly("GameTwoDescription")
 }
 
 // Function reassigned later on.
@@ -201,9 +193,7 @@ let GameTwoReportMisclick = () => {
 
 async function StartGameTwo() {
     // Show the div on screen and hide the intro and postgame divs.
-    document.getElementById("GameTwoGame").hidden = false;
-    document.getElementById("GameTwoDescription").hidden = true;
-    document.getElementById("GameTwoEndScreen").hidden = true;
+    ShowOnly("GameTwoGame")
 
     // Setup the misclick thing.
     let lives = 3;
@@ -287,8 +277,7 @@ async function StartGameTwo() {
     document.getElementById("GameTwoEndScreenTextStart").innerHTML = "Good job! You got <b>" + RoundNum + "</b> rounds correct!";
 
     // Show the end scren for the game.
-    document.getElementById("GameTwoEndScreen").hidden = false;
-    document.getElementById("GameTwoGame").hidden = true;
+    ShowOnly("GameTwoEndScreen");
 
     // Send the data. 
     PostToModule("SethPostGame.js", JSON.stringify({
@@ -471,6 +460,37 @@ function LoadGame3Images(QuestionNumber) {
     }
 
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
+}
+
+const sections = [["Base"], ["SignUp"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"]]
+async function ShowOnly(section) {
+    // Hide all other things.
+    sections.forEach(part => part.forEach(
+        section => {
+            /* try { */
+                document.getElementById(section).hidden = true
+            /* } catch (error) {
+                console.log(error);
+                console.log(section);
+            } */
+        }
+    ));
+
+    // Find the passed section.
+    sectionLoop:
+    for (let i = 0; i < sections.length; i++) {
+        for (let j = 0; j < sections[i].length; j++) {
+            if (sections[i][j] == section) {
+                // Show the section.
+                document.getElementById(section).hidden = false;
+                
+                // Also make sure its parent section is shown.
+                document.getElementById(sections[i][0]).hidden = false;
+
+                break sectionLoop;
+            }
+        }
+    }
 }
 
 const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]

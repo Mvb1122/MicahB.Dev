@@ -1,114 +1,142 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Seth's AP Research Exstravaganza!!!</title>
-        <meta name="description" content="Produced for Seth Chavez by Micah Bushman, this webpage does AP Research stuff, I guess.">
-        <link rel="stylesheet" href="seth.css">
-        <script src="./page.js"></script>
-    </head>
-    <body>
-        <a href="../../index.html" class="left"><img src="../../FTP/Site_Media/Logo/Logo_Square.svg" alt="MicahB.Dev Logo" style="height: 1em;"></a>
-        <h class="right">Seth Chavez and Micah Bushman</h>
-        <br><br>
 
-        <div class="container"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seth's AP Research Exstravaganza!!!</title>
+    <meta name="description"
+        content="Produced for Seth Chavez by Micah Bushman, this webpage does AP Research stuff, I guess.">
+    <link rel="stylesheet" href="seth.css">
+    <script src="./page.js"></script>
+</head>
+<!-- At the start, only show the base section. -->
+
+<body onload="ShowOnly(`Base`);">
+    <a href="../../index.html" class="left"><img src="../../FTP/Site_Media/Logo/Logo_Square.svg" alt="MicahB.Dev Logo"
+            style="height: 1em;"></a>
+    <h class="right">Seth Chavez and Micah Bushman</h>
+    <br><br>
+
+    <div class="container">
+        <br>
+        <div id="Base">
+            <h class="title">Seth's AP Research <b>Rumpus</b>!!!</h>
             <br>
-            <div id="Base">
-                <h class="title">Seth's AP Research <b>Rumpus</b>!!!</h>
+            <button onclick="DoStage(0)">Click here to start!</button>
+        </div>
+
+        <div id="SignUp" hidden>
+            <p>First, we need you to sign up, so we can track your information:</p>
+
+            <label for="UserName">Please enter your desired username here.</label>
+            <input type="text" name="UserName" id="UserName" placeholder="Your Username">
+
+            <p>
+                For future reference, this is your password: <b id="Password">Password</b>
                 <br>
-                <button onclick="DoStage(0)">Click here to start!</button>
-            </div>
-            <div id="SignUp" hidden>
-                <p>First, we need you to sign up, so we can track your information:</p>
+                Please keep it safe if you plan to return at any point in the test.
+            </p>
 
-                <label for="UserName">Please enter your desired username here.</label>
-                <input type="text" name="UserName" id="UserName" placeholder="Your Username">
+            <button onclick="DoStage(1)">Click here to move onto the next step!</button>
+        </div>
 
+        <div id="Loading" hidden>
+            <h1>Loading...</h1>
+        </div>
+
+        <div id="GameOne" hidden>
+            <div id="GameOneDescription">
+                <h1>Part one: Stroop Attention Game</h1>
                 <p>
-                    For future reference, this is your password: <b id="Password">Password</b>
-                    <br>
-                    Please keep it safe if you plan to return at any point in the test.
+                    For this test, you'll be given a word, and then you will enter the <b>color of the word!</b> (not
+                    the name!)<br><br>
+                    You will get 2.25 seconds to respond to each round, where there's one practice round and ten real
+                    ones. After you have completed the tenth round, your stats will be saved automatically.
                 </p>
-
-                <button onclick="DoStage(1)">Click here to move onto the next step!</button>
+                <button onclick="StartGameOne()">Once you're ready to get started, click here!</button>
             </div>
-            <div id="Loading" hidden><h1>Loading...</h1></div>
-
-            <div id="GameOne" hidden>
-                <div id="GameOneDescription">
-                    <h1>Part one: Stroop Attention Game</h1>
-                    <p>
-                        For this test, you'll be given a word, and then you will enter the <b>color of the word!</b> (not the name!)<br><br>
-                        You will get 2.25 seconds to respond to each round, where there's one practice round and ten real ones. After you have completed the tenth round, your stats will be saved automatically.
-                    </p>
-                    <button onclick="StartGameOne()">Once you're ready to get started, click here!</button>
-                </div>
-                <h1 id="GameOneCountDown" hidden>CountDown</h1>
-                <div id="GameOneGame" hidden>
-                    <p id="GameOneRoundNumber">Practice Round</p>
-                    <h1 id="GameOneText">
-                        Colored Word Here
-                    </h1>
-                    <div style="display: block;">
-                        <button onclick="EndGameOneRoundWithColor('Red');">Red</button><button onclick="EndGameOneRoundWithColor('Orange');">Orange</button><button onclick="EndGameOneRoundWithColor('Yellow');">Yellow</button><br>
-                        <button onclick="EndGameOneRoundWithColor('Green');">Green</button><button onclick="EndGameOneRoundWithColor('Blue');">Blue</button><button onclick="EndGameOneRoundWithColor('Pink');">Pink</button><br>
-                    </div>
-                </div>
-                <div id="GameOneEndSceen" hidden>
-                    <p id="GameOneEndScreenTextStart"></p>
-                    <button onclick="StartGameOne()">Play it again!</button>
-                    <button onclick="DoStage(2)">Go On!</button>
+            <h1 id="GameOneCountDown" hidden>CountDown</h1>
+            <div id="GameOneGame" hidden>
+                <p id="GameOneRoundNumber">Practice Round</p>
+                <h1 id="GameOneText">
+                    Colored Word Here
+                </h1>
+                <div style="display: block;">
+                    <button onclick="EndGameOneRoundWithColor('Red');">Red</button><button
+                        onclick="EndGameOneRoundWithColor('Orange');">Orange</button><button
+                        onclick="EndGameOneRoundWithColor('Yellow');">Yellow</button><br>
+                    <button onclick="EndGameOneRoundWithColor('Green');">Green</button><button
+                        onclick="EndGameOneRoundWithColor('Blue');">Blue</button><button
+                        onclick="EndGameOneRoundWithColor('Pink');">Pink</button><br>
                 </div>
             </div>
-            <button onclick="document.getElementById(`GameTwo`).hidden = false;" hidden>Show game two</button>
-            <div id="GameTwo" hidden>
-                <div id="GameTwoDescription">
-                    <h1>Part two: Visual Memory Test</h1>
-                    <p>
-                        Now, you'll be given a grid of squares, where part of them light up. After 1 second, they will turn black and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid will turn white, but after each round, one more square will light up. After every third round, the size of the grid will increase by 1. 
-                    </p>
-                    <button onclick="StartGameTwo()">When you're ready to start, click here!</button>
-                </div>
-    
-                <div id="GameTwoGame" hidden>
-                    <div>
-                        <div id="GameTwoText" style="display: block;">GAME TWO INFO</div>
-                        <img id="GameTwoLife" src="./Test_Images/Pixel_Heart@5x.png" alt="A heart indicating you have one life." class="LifeIcon" hidden>
-                        <div id="GameTwoLives" style="display: flex; flex-direction: row;">GameTwoLives</div>
-                    </div>
-                    <div id="GameTwoGrid" style="display:block">
-    
-                    </div>
-                </div>
-
-                <div id="GameTwoEndScreen" hidden>
-                    <p id="GameTwoEndScreenTextStart"></p>
-                    <p>Now, are you ready to go on? Or do you want to play again?</p>
-                    <button onclick="StartGameTwo()">Play again</button><button onclick="alert('Not Implemented yet! Jeez, look at you being all excited to see what\'s next and all that!')">Move on!</button>
-                </div>
-            </div>
-
-            <button onclick="StartGameThree()">DEBUG START GAME 3</button>
-            <div id="GameThree" hidden>
-                <div id="GameThreeGame">
-                    <p>Time Left: <b id="Game3Time">0:15</b> Questions Done: <b id="Game3Progress">1/12</b></p>
-                    
-                    <div style="width: min-content; display: grid;">
-                        <img id="Game3Question" src="./Test_Images/Part_3_Images/Q1/question.png" alt="The question"> 
-                        <div id="OverQuestion"></div>
-                    </div>
-
-                    <br>
-                    <div style="display: flex; flex-direction: row;">
-                        <img id="Game3Answer1" src="./Test_Images/Part_3_Images/Q1/1.png" class="Game3Image">
-                        <img id="Game3Answer2" src="./Test_Images/Part_3_Images/Q1/2.png" class="Game3Image">
-                        <img id="Game3Answer3" src="./Test_Images/Part_3_Images/Q1/3.png" class="Game3Image">
-                        <img id="Game3Answer4" src="./Test_Images/Part_3_Images/Q1/4.png" class="Game3Image">
-                    </div>
-                </div>
+            <div id="GameOneEndSceen" hidden>
+                <p id="GameOneEndScreenTextStart"></p>
+                <button onclick="StartGameOne()">Play it again!</button>
+                <button onclick="DoStage(2)">Go On!</button>
             </div>
         </div>
-    </body>
+        <button onclick="document.getElementById(`GameTwo`).hidden = false;" hidden>Show game two</button>
+        <div id="GameTwo" hidden>
+            <div id="GameTwoDescription">
+                <h1>Part two: Visual Memory Test</h1>
+                <p>
+                    Now, you'll be given a grid of squares, where part of them light up. After 1 second, they will turn
+                    black and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid
+                    will turn white, but after each round, one more square will light up. After every third round, the
+                    size of the grid will increase by 1.
+                </p>
+                <button onclick="StartGameTwo()">When you're ready to start, click here!</button>
+            </div>
+
+            <div id="GameTwoGame" hidden>
+                <div>
+                    <div id="GameTwoText" style="display: block;">GAME TWO INFO</div>
+                    <img id="GameTwoLife" src="./Test_Images/Pixel_Heart@5x.png"
+                        alt="A heart indicating you have one life." class="LifeIcon" hidden>
+                    <div id="GameTwoLives" style="display: flex; flex-direction: row;">GameTwoLives</div>
+                </div>
+                <div id="GameTwoGrid" style="display:block">
+
+                </div>
+            </div>
+
+            <div id="GameTwoEndScreen" hidden>
+                <p id="GameTwoEndScreenTextStart"></p>
+                <p>Now, are you ready to go on? Or do you want to play again?</p>
+                <button onclick="StartGameTwo()">Play again</button><button
+                    onclick="alert('Not Implemented yet! Jeez, look at you being all excited to see what\'s next and all that!')">Move
+                    on!</button>
+            </div>
+        </div>
+
+        <button onclick="StartGameThree()">DEBUG START GAME 3</button>
+        <div id="GameThree" hidden>
+            <div id="GameThreeDescription">
+                [PH] Select what matches.
+            </div>
+            <div id="GameThreeGame">
+                <p>Time Left: <b id="Game3Time">0:15</b> Questions Done: <b id="Game3Progress">1/12</b></p>
+
+                <div style="width: min-content; display: grid;">
+                    <img id="Game3Question" src="./Test_Images/Part_3_Images/Q1/question.png" alt="The question">
+                    <div id="OverQuestion"></div>
+                </div>
+
+                <br>
+                <div style="display: flex; flex-direction: row;">
+                    <img id="Game3Answer1" src="./Test_Images/Part_3_Images/Q1/1.png" class="Game3Image">
+                    <img id="Game3Answer2" src="./Test_Images/Part_3_Images/Q1/2.png" class="Game3Image">
+                    <img id="Game3Answer3" src="./Test_Images/Part_3_Images/Q1/3.png" class="Game3Image">
+                    <img id="Game3Answer4" src="./Test_Images/Part_3_Images/Q1/4.png" class="Game3Image">
+                </div>
+            </div>
+            <div id="GameThreeEndScreen">
+                [PH] Gob job! You did.
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
