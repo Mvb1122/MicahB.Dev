@@ -399,6 +399,30 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
     })
 }
 
+let GameThreeRoundNumber = 0;
+async function ShowGameThree() {
+    // First show the description...
+    ShowOnly("GameThreeDescription");
+    
+    // Fetch users' progress.
+    PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => {
+        let text = "This time, you will be playing section " + (data.roundNum + 1);
+        const SectionText = document.getElementById("GameThreeSectionDiv");
+        SectionText.innerText = text;
+
+        // Add the button.
+        let button = document.createElement("button");
+        button.onclick = StartGameThree();
+        button.innerText = "Start Game Three!";
+        
+        SectionText.appendChild(document.createElement("br"));
+        SectionText.appendChild(button);
+
+        GameThreeRoundNumber = data.roundNum;
+    })
+}
+
+let GameThreeSelectedAnswerId = -1;
 async function StartGameThree() {
     // Select a question based off of time.
         // For the moment, let's just do whatever and assume 1~12 works.
