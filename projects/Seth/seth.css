@@ -123,8 +123,8 @@ memoryBlock {
 
 .Game3Image {
     width: 10vh;
-    padding-right: 1vh;
-    padding-left: 1vh;
+    margin-right: 1vh;
+    margin-left: 1vh;
 }
 
 #OverQuestion {
