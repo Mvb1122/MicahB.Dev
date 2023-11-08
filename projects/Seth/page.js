@@ -425,17 +425,20 @@ async function ShowGameThree() {
 let GameThreeSelectedAnswerId = -1;
 async function StartGameThree() {
     // Select a question based off of time.
-        // For the moment, let's just do whatever and assume 1~12 works.
-    let min, max;
+        // Add twelve for each section.
+    let min = 1, max = 12;
+    min += 12 * GameThreeRoundNumber; max += 12 * GameThreeRoundNumber;
 
-    min = 1, max = 12;
-
+    let score = 0;
     for (let i = min; i <= max; i++) {
         // Load the question and its answers.
-        const answerNumber = LoadGame3Images(i);
+        const answerId = LoadGame3Images(i);
 
         // Update the text.
         document.getElementById("Game3Progress").innerText = `${i}/${max}`;
+
+        // Show the game.
+        ShowOnly("GameThreeGame");
 
         // Wait for a total of 15 seconds while updating the timer incrementally. 
         for (let j = 0; j <= 15; j++) {
@@ -445,8 +448,16 @@ async function StartGameThree() {
             await Wait(1000);
         }
 
-        // TODO: Do correct stuff or whatever. Make sure to use OverText. 
+        // Do correct stuff or whatever. Make sure to use OverText. 
+        const OverQuestion = document.getElementById("OverQuestion");
+        OverQuestion.style.backgroundColor = "Grey";
+        const IsCorrect = answerId == GameThreeSelectedAnswerId;
+        OverQuestion.innerText = (IsCorrect ? "Correct!" : "Incorrect! :(")
+
+        if (IsCorrect) score++;
     }
+
+    // TODO: Report score to server. Also, allow user to login.
 }
 
 /**
@@ -474,6 +485,7 @@ function ShuffleArray(array) {
     return array;
 }
 
+let GameThreeEventListeners = {};
 /**
  * Loads the images randomly and returns the id of the box the answer is under.
  * @param {Number} QuestionNumber The question index on server.
@@ -481,14 +493,45 @@ function ShuffleArray(array) {
 function LoadGame3Images(QuestionNumber) {
     let dir = `./Test_Images/Part_3_Images/Q${QuestionNumber}/`;
     const Game3Q = document.getElementById("Game3Question");
-    Game3Q.src = `${dir}question.png`
+    Game3Q.src = `${dir}question.png`;
+
+    // When loading, reset selected image.
+    for (let j = 1; j <= 4; j++)
+        document.getElementById(`Game3Answer${j}`).style.border = "";
 
     let imageIndex = ShuffleArray([1, 2, 3, 4]);
     for (let i = 1; i <= 4; i++) {
         let id = `Game3Answer${i}`;
         document.getElementById(id).src = `${dir}${imageIndex[i - 1]}.png`
+
+        /**
+         * @param {PointerEvent} event 
+         */
+        function listener(event) {
+            // Unborder all of the other boxes.
+            for (let j = 1; j <= 4; j++)
+                document.getElementById(`Game3Answer${j}`).style.border = "";
+
+            // Add a border to it.
+            event.target.style.border = "medium solid red";
+
+            // Set the answer.
+            GameThreeSelectedAnswerId = event.target.id;
+
+            console.log(`${GameThreeSelectedAnswerId}, from ${i}`);
+        }
+
+        // Add onclick listeners to it.
+            // Remove old ones.
+        if (GameThreeEventListeners[id] != undefined)
+            document.getElementById(id).removeEventListener("click", GameThreeEventListeners[id]);
+            // Add listener.
+        document.getElementById(id).addEventListener("click", listener);
+        GameThreeEventListeners[id] = listener;
+
     }
 
+    console.log(`CorrectAnswer: Game3Answer${imageIndex.indexOf(1) + 1}`)
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
