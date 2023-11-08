@@ -17,6 +17,12 @@ function Wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, 1000))
 }
 
+/**
+ * Posts data to a specified server module and then returns the response in JSON.
+ * @param {String} Module Module name, not including post_modules or anything.
+ * @param {String} data Make sure to stringify data!
+ * @returns {Promise<Object>} Data back from the server
+ */
 async function PostToModule(Module, data) {
     const url = `./Post_Modules/${Module}`; 
 
