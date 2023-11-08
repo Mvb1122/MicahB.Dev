@@ -106,7 +106,7 @@
                 <p id="GameTwoEndScreenTextStart"></p>
                 <p>Now, are you ready to go on? Or do you want to play again?</p>
                 <button onclick="StartGameTwo()">Play again</button><button
-                    onclick="alert('Not Implemented yet! Jeez, look at you being all excited to see what\'s next and all that!')">Move
+                    onclick="ShowGameThree()">Move
                     on!</button>
             </div>
         </div>
@@ -114,8 +114,12 @@
         <button onclick="StartGameThree()">DEBUG START GAME 3</button>
         <div id="GameThree" hidden>
             <div id="GameThreeDescription">
-                A series of figures will be presented. Your goal is to identify the figure that makes the most sense to replace the question mark. You will be given 15 seconds for each question. Also, you must play this section <b>three times</b> today, <b>at different times</b>!<br>
-                In each section, you'll be given 12 questions.
+                <h1>Part three: Seth's Stinker Questions</h1>
+                <p>A series of figures will be presented. Your goal is to identify the figure that makes the most sense to replace the question mark. You will be given 15 seconds for each question. Also, you must play this section <b>three times</b> today, <b>at different times</b>!<br> You can reselect your answer at any time within the 15 seconds.
+                    In each section, you'll be given 12 questions, for a total of 36 questions, and the questions will be different in each section.
+                    <br>
+                    <p id="GameThreeSectionDiv">Please wait for your progress to be loaded!</p>
+                </p>
             </div>
             <div id="GameThreeGame">
                 <p>Time Left: <b id="Game3Time">0:15</b> Questions Done: <b id="Game3Progress">1/12</b></p>
@@ -126,7 +130,7 @@
                 </div>
 
                 <br>
-                <div style="display: flex; flex-direction: row;">
+                <div style="display: flex; flex-direction: row;" id="GameThreeAnswerDiv">
                     <img id="Game3Answer1" src="./Test_Images/Part_3_Images/Q1/1.png" class="Game3Image">
                     <img id="Game3Answer2" src="./Test_Images/Part_3_Images/Q1/2.png" class="Game3Image">
                     <img id="Game3Answer3" src="./Test_Images/Part_3_Images/Q1/3.png" class="Game3Image">
