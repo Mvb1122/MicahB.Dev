@@ -11,7 +11,7 @@ data = JSON.parse(data);
 // See if there's a user already named the username.
 fs.readdir(UserFolderPath, (e, files) => {
     const UserFilePath = data.username
-        // Sanetize path!
+        // Sanitize path!
         .replace(/[/\\?%*:|"<>]/g, '-') 
         + ".json";
     for (let i = 0; i < files.length; i++) {
