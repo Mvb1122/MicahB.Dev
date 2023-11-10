@@ -5,7 +5,7 @@ Example Data:
     username: "SethChavez12345"
 }
 
-NOTE: Does not require password since this isn't really sensative information.
+NOTE: Does not require password since this isn't really sensetive information.
 */
 
 const UserFolderPath = "./projects/Seth/users/", fs = require('fs');
