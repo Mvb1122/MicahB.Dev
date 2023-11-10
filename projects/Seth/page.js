@@ -36,18 +36,21 @@ function StageOne() {
 }
 
 /** Returns a promise representing whether it was successful or not. */
-function LoginAs(username, password, SaveLogin = false) {
+function LoginAs(PassedUsername, password, SaveLogin = false) {
     return new Promise(async (resolve, reject) => {
         let response = await PostToModule("SethValidateUser.js", JSON.stringify({
-            username: username,
+            username: PassedUsername,
             pseudopassword: password
         }));
 
         if (response.sucessful && SaveLogin) { 
             // If we were successfully logged in, save the login information. 
-            localStorage.setItem("SethUsername", username);
+            localStorage.setItem("SethUsername", PassedUsername);
             localStorage.setItem("SethPassword", password);
         }
+
+        username = PassedUsername;
+        pseudopassword = password;
 
         resolve(response);
     })
