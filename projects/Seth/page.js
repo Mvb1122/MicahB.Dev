@@ -1,3 +1,25 @@
+// On load, check if the user has a saved login.
+if (localStorage.getItem("SethUsername") != null && localStorage.getItem("SethPassword") != null) {
+    // First, validate login.
+    LoginAs(localStorage.getItem("SethUsername"), localStorage.getItem("SethPassword"))
+        .then(response => {
+            console.log(response);
+            
+            if (response.sucessful) {
+                // Show the returning user pane.
+                ShowOnly("ReturningUserPane");
+        
+                // Set the username text.
+                ["ReturningUsername", "ReturningUsername1"].forEach(id => {
+                    document.getElementById(id).innerText = localStorage.getItem("SethUsername");
+                })
+            }
+        })
+} else {
+    // If no saved login, just show the base. 
+    ShowOnly("Base");
+}
+
 /** @type {String} */
 let username, 
 /** @type {Number} */

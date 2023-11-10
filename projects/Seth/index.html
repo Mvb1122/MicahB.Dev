@@ -9,10 +9,43 @@
         content="Produced for Seth Chavez by Micah Bushman, this webpage does AP Research stuff, I guess.">
     <link rel="stylesheet" href="seth.css">
     <script src="./page.js"></script>
+    <script>
+        // Must be sent alongside page in order to be available for use immediately.
+        const sections = [["Base", "NonReturningUserPane", "ReturningUserPane", "LoginPane"], ["SignUp"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"], ["EndPane"]]
+        function ShowOnly(section) {
+            // Hide all other things.
+            sections.forEach(part => part.forEach(
+                section => {
+                    /* try { */
+                        document.getElementById(section).hidden = true
+                    /* } catch (error) {
+                        console.log(error);
+                        console.log(section);
+                    } */
+                }
+            ));
+
+            // Find the passed section.
+            sectionLoop:
+            for (let i = 0; i < sections.length; i++) {
+                for (let j = 0; j < sections[i].length; j++) {
+                    if (sections[i][j] == section) {
+                        // Show the section.
+                        document.getElementById(section).hidden = false;
+                        
+                        // Also make sure its parent section is shown.
+                        document.getElementById(sections[i][0]).hidden = false;
+
+                        break sectionLoop;
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <!-- At the start, only show the base section. -->
 
-<body onload="ShowOnly(`Base`);">
+<body>
     <a href="../../index.html" class="left"><img src="../../FTP/Site_Media/Logo/Logo_Square.svg" alt="MicahB.Dev Logo"
             style="height: 1em;"></a>
     <h class="right">Seth Chavez and Micah Bushman</h>
@@ -21,9 +54,39 @@
     <div class="container">
         <br>
         <div id="Base">
-            <h class="title">Seth's AP Research <b>Rumpus</b>!!!</h>
-            <br>
-            <button onclick="DoStage(0)">Click here to start!</button>
+            <div id="NonReturningUserPane">
+                <h1>Seth's AP Research <b>Rumpus</b>!!!</h1>
+                <br>
+                <button onclick="DoStage(0)">Click here to start!</button>
+                <button onclick="ShowOnly(`LoginPane`)">Login as a different user!</button>
+            </div>
+
+            <div id="ReturningUserPane" hidden style="align-items: center;">
+                <h1>Welcome back!</h1>
+                <p>We see that you've returned, <b id="ReturningUsername"></b>!</p>
+                <p>To continue, click this button:</p>
+                <button onclick="ContinueTest()">
+                    Continue where you left off!
+                </button>
+
+                <p>Not <b id="ReturningUsername1"></b>?</p>
+                <button onclick="ShowOnly(`NonReturningUserPane`)">
+                    Restart as a new user!
+                </button>
+                <p>or</p>
+                <button onclick="ShowOnly(`LoginPane`)">
+                    Login as a different user!
+                </button>
+            </div>
+
+            <div id="LoginPane" hidden>
+                <p>Enter your username and password here, then hit the button below to continue:</p>
+                <input type="text" placeholder="Username" id="LoginPaneUsername"><br>
+                <input type="text" placeholder="Password" id="LoginPanePassword">
+                <button onclick="
+                    LoginAs(document.getElementById(`LoginPaneUsername`).value, document.getElementById(`LoginPanePassword`).value, true).then(e => ContinueTest())
+                ">Continue where you left off!</button>
+            </div>
         </div>
 
         <div id="SignUp" hidden>
@@ -35,7 +98,7 @@
             <p>
                 For future reference, this is your password: <b id="Password">Password</b>
                 <br>
-                Please keep it safe if you plan to return at any point in the test.
+                Please keep it safe if you plan to return at any point in the test, however it will be saved automatically, so don't worry that much about it.
             </p>
 
             <button onclick="DoStage(1)">Click here to move onto the next step!</button>
