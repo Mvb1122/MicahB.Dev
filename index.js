@@ -335,7 +335,7 @@ const requestListener = async function (req, res) {
     }
 };
 
-const host = '0.0.0.0' // require('os').hostname();
+const host = '192.168.1.3' // require('os').hostname();
 const port = 80;
 
 const server = http.createServer(requestListener);
