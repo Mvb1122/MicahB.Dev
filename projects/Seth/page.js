@@ -35,6 +35,24 @@ function StageOne() {
     document.getElementById("Password").innerText = pseudopassword;
 }
 
+/** Returns a promise representing whether it was successful or not. */
+function LoginAs(username, password, SaveLogin = false) {
+    return new Promise(async (resolve, reject) => {
+        let response = await PostToModule("SethValidateUser.js", JSON.stringify({
+            username: username,
+            pseudopassword: password
+        }));
+
+        if (response.sucessful && SaveLogin) { 
+            // If we were successfully logged in, save the login information. 
+            localStorage.setItem("SethUsername", username);
+            localStorage.setItem("SethPassword", password);
+        }
+
+        resolve(response);
+    })
+}
+
 function Wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, 1000))
 }
@@ -76,11 +94,15 @@ async function EnsureSignedUpAndShowGameOne() {
         if (response.sucessful == false) {
             alert("That user already exists! Please come up with a more original usename and try again.");
             return DoStage(0);
-        }
+        } else {
+            // Show first game.
+            ShowOnly("GameOneDescription")
+            SetGameOneText();
 
-        // Show first game.
-        ShowOnly("GameOneDescription")
-        SetGameOneText();
+            // Save the user's login info.
+            localStorage.setItem("SethUsername", username);
+            localStorage.setItem("SethPassword", pseudopassword);
+        }
     }
 }
 
