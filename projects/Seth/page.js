@@ -579,37 +579,6 @@ function LoadGame3Images(QuestionNumber) {
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
-const sections = [["Base"], ["SignUp"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"]]
-async function ShowOnly(section) {
-    // Hide all other things.
-    sections.forEach(part => part.forEach(
-        section => {
-            /* try { */
-                document.getElementById(section).hidden = true
-            /* } catch (error) {
-                console.log(error);
-                console.log(section);
-            } */
-        }
-    ));
-
-    // Find the passed section.
-    sectionLoop:
-    for (let i = 0; i < sections.length; i++) {
-        for (let j = 0; j < sections[i].length; j++) {
-            if (sections[i][j] == section) {
-                // Show the section.
-                document.getElementById(section).hidden = false;
-                
-                // Also make sure its parent section is shown.
-                document.getElementById(sections[i][0]).hidden = false;
-
-                break sectionLoop;
-            }
-        }
-    }
-}
-
 const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
 /** @param StageNum {Number}*/
 async function DoStage(StageNum) {
