@@ -1,4 +1,6 @@
-/* Example Data:
+/* NOTE: Deprecated, replaced by general GetProgress.
+
+Example Data:
 {
     username: "SethChavez12345"
 }

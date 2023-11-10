@@ -130,4 +130,13 @@ memoryBlock {
 #OverQuestion {
     position: absolute;
     justify-self: center;
+    width: 20vh;
+    height: 20vh;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+
+    background-color: grey;
 }

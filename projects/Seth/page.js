@@ -68,6 +68,15 @@ function Wait(ms) {
  * @returns {Promise<Object>} Data back from the server
  */
 async function PostToModule(Module, data, AwaitInFunction = true) {
+    // When uploading data, show the loading screen.
+    let oldSection = undefined;
+    try {
+        if (CurrentlyShownSection != undefined) {
+            oldSection = CurrentlyShownSection;
+            ShowOnly("Loading");
+        }
+    } catch {;} // Do nothing.
+
     const url = `./Post_Modules/${Module}`; 
     const result = (await fetch(url, {
         method: 'POST',
@@ -76,6 +85,10 @@ async function PostToModule(Module, data, AwaitInFunction = true) {
         },
         body: data,
     })).json();
+
+    // Go back to wherever we were before.
+    if (oldSection != undefined)
+        ShowOnly(oldSection)
     
     if (AwaitInFunction)
         return await result
@@ -497,21 +510,26 @@ async function ShowGameThree() {
     ShowOnly("GameThreeDescription");
     
     // Fetch users' progress.
-    PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => {
-        let text = "This time, you will be playing section " + (data.roundNum + 1);
-        const SectionText = document.getElementById("GameThreeSectionDiv");
-        SectionText.innerText = text;
+        // Commented-out code here is for the deprecated SethGameThreeProgress.js module.
+    /* PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => { */
+    const data = {roundNum: GameThreeRoundNumber}
+    let text = "This time, you will be playing section " + (data.roundNum + 1);
+    const SectionText = document.getElementById("GameThreeSectionDiv");
+    SectionText.innerText = text;
 
-        // Add the button.
-        let button = document.createElement("button");
-        button.onclick = StartGameThree();
-        button.innerText = "Start Game Three!";
-        
-        SectionText.appendChild(document.createElement("br"));
-        SectionText.appendChild(button);
+    // Add the button.
+    let button = document.createElement("button");
+    button.onclick = StartGameThree;
+    button.innerText = "Start Game Three!";
+    
+    SectionText.appendChild(document.createElement("br"));
+    SectionText.appendChild(button);
 
-        GameThreeRoundNumber = data.roundNum;
-    })
+    // GameThreeRoundNumber = data.roundNum;
+
+    // Update the partnum text on the game 3 end screen.
+    document.getElementById("GameThreePartNum").innerText = 2 - data.roundNum;
+    /* }) */
 }
 
 let GameThreeSelectedAnswerId = -1;
@@ -540,16 +558,52 @@ async function StartGameThree() {
             await Wait(1000);
         }
 
-        // Do correct stuff or whatever. Make sure to use OverText. 
-        const OverQuestion = document.getElementById("OverQuestion");
-        OverQuestion.style.backgroundColor = "Grey";
+        // Take tally of the score. 
         const IsCorrect = answerId == GameThreeSelectedAnswerId;
+        if (IsCorrect) score++;
+
+        // Tell the user if they were correct or not.
+        const OverQuestion = document.getElementById("OverQuestion");
+        OverQuestion.hidden = false;
         OverQuestion.innerText = (IsCorrect ? "Correct!" : "Incorrect! :(")
 
-        if (IsCorrect) score++;
+        // Do a break for like 3 seconds.
+        document.getElementById("Game3Time").innerText = `0:03`;
+        for (let j = 0; j <= 3; j++) {
+            let timeLeft = (3 - j).toString();
+            if (timeLeft.length == 1) timeLeft = "0" + timeLeft
+            document.getElementById("Game3Time").innerText = `Break 0:${timeLeft}`;
+            await Wait(1000);
+        }
+
+        // Hide OverQuestion and move on.
+        OverQuestion.hidden = true;
     }
 
-    // TODO: Report score to server. Also, allow user to login.
+    // Show the end screen, or the final end screen based off of the remaining number of parts
+    if (GameThreeRoundNumber != 2)
+        ShowOnly("GameThreeEndScreen");
+    else 
+        ShowOnly("EndPane");
+
+    // Report score to server.
+    let GamePart = "3", parts = "abc".split("");
+    GamePart += parts[GameThreeRoundNumber];
+
+    const stats = {
+        part: GamePart,
+        score: score
+    }
+
+    // Send it to the server. 
+    PostToModule("SethPostGame.js", JSON.stringify({
+        username: username,
+        pseudopassword: pseudopassword,
+        round: {
+            game: 3,
+            stats: stats
+        }
+    }))
 }
 
 /**

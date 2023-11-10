@@ -21,10 +21,12 @@ try {
         .replace(/[/\\?%*:|"<>]/g, '-') 
         + ".json";
 
+    // Read in and parse the user's data.
+    const rawUserData = fs.readFileSync(UserFolderPath + UserPath);
     /**
      * @type {{username: String, pseudopassword: Number, rounds: [{game: Number, stats: *, timestamp: String}]}}
      */
-    let user = JSON.parse(fs.readFileSync(UserFolderPath + UserPath));
+    let user = JSON.parse(rawUserData);
     
     // Look for the records.
     if (user.rounds != undefined) {
@@ -41,7 +43,7 @@ try {
                 break;
             case 3:
                 // Look at their stats.
-                let stats = JSON.parse(LastGame.stats);
+                let stats = LastGame.stats;
                 switch (stats.part) {
                     case "3a":
                         NextGame = "3b";
