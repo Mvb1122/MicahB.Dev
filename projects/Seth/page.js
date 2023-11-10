@@ -61,18 +61,22 @@ function Wait(ms) {
  * Posts data to a specified server module and then returns the response in JSON.
  * @param {String} Module Module name, not including post_modules or anything.
  * @param {String} data Make sure to stringify data!
+ * @param {Boolean?} AwaitInFunction Returns awaited result.
  * @returns {Promise<Object>} Data back from the server
  */
-async function PostToModule(Module, data) {
+async function PostToModule(Module, data, AwaitInFunction = true) {
     const url = `./Post_Modules/${Module}`; 
-
-    return (await fetch(url, {
+    const result = (await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: data,
     })).json();
+    
+    if (AwaitInFunction)
+        return await result
+    else return result;
 }
 
 async function EnsureSignedUpAndShowGameOne() {
@@ -104,6 +108,47 @@ async function EnsureSignedUpAndShowGameOne() {
             localStorage.setItem("SethPassword", pseudopassword);
         }
     }
+}
+
+async function ContinueTest() {
+    // First, ask the server what test we're on.
+    PostToModule("SethGetProgress.js", JSON.stringify({username: localStorage.getItem("SethUsername"), pseudopassword: localStorage.getItem("SethPassword")}))
+        .then(e => {
+            if (e.sucessful) {
+                // Load the specified game.
+                switch (e.game) {
+                    case "1":
+                        ShowOnly("GameOneDescription");
+                        return;
+                    case "2":
+                        ShowOnly("GameTwoDescription");
+                        return;
+                    
+                    case "3a":
+                        GameThreeRoundNumber = 0;
+                        ShowGameThree();
+                        return;
+                    
+                    case "3b":
+                        GameThreeRoundNumber = 1;
+                        ShowGameThree();
+                        return;
+
+                    case "3c":
+                        GameThreeRoundNumber = 2;
+                        ShowGameThree();
+                        return;
+                    
+                    default: 
+                        // Delete password and show the endPane.
+                        localStorage.removeItem("SethUsername"); localStorage.removeItem("SethPassword")
+                        ShowOnly("EndPane");
+                }
+            } else {
+                alert("Something went wrong! Please try again.");
+            }
+        })
+
 }
 
 const colors = "Red,Orange,Yellow,Green,Blue,Pink".split(",");
