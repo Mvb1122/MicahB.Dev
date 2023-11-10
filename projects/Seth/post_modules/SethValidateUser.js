@@ -11,7 +11,7 @@ data = JSON.parse(data);
 // Load the user's file.
 try {
     const UserPath = data.username
-        // Sanatize path!
+        // Sanetize path!
         .replace(/[/\\?%*:|"<>]/g, '-') 
         + ".json";
 

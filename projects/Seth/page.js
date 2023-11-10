@@ -527,7 +527,7 @@ async function ShowGameThree() {
 
     // GameThreeRoundNumber = data.roundNum;
 
-    // Update the partnum text on the game 3 end screen.
+    // Update the Part number text on the Game3EndScreen while we're here, just because it's easy.
     document.getElementById("GameThreePartNum").innerText = 2 - data.roundNum;
     /* }) */
 }
