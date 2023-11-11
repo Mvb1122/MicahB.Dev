@@ -194,7 +194,11 @@ function SetGameOneText() {
 let GameOneCurrentTextColor = "", GameOneCurrentRoundNumber;
 let GameOneNumCorrect = 0, 
 /** @type {Promise} */
-GameOneCurrentRound;
+GameOneCurrentRound,
+/** @type {[Number]} */
+GameOneTimes = [],
+/** @type {Number} */
+GameOneStartTime;
 async function StartGameOne() {
     // First, show the countdown.
     ShowOnly("GameOneCountDown")
@@ -214,6 +218,10 @@ async function StartGameOne() {
     // Now that we're in the game, setup the record loop.
     for (let i = 0; i < 11; i++) {
         GameOneCurrentTextColor = SetGameOneText();
+
+        // Start the timer.
+        GameOneStartTime = performance.now();
+
         GameOneCurrentRoundNumber = i;
         GameOneCurrentRound = new Promise((r) => {
             // After the practice round, start changing the text.
@@ -243,7 +251,10 @@ async function StartGameOne() {
         pseudopassword: pseudopassword,
         round: {
             game: 1,
-            stats: GameOneNumCorrect.toString()
+            stats: {
+                score: GameOneNumCorrect.toString(),
+                times: GameOneTimes
+            }
         }
     }))
 
@@ -272,9 +283,15 @@ async function StartGameOne() {
 
     // Clean up so that they can replay it if they want.
     GameOneCurrentRoundNumber = GameOneNumCorrect = 0;
+    GameOneTimes = [];
 }
 
 function EndGameOneRoundWithColor(color) {
+    // End the timer, and record it if we're not on the practice round.
+    const time = performance.now() - GameOneStartTime;
+    if (GameOneCurrentRoundNumber != 0)
+        GameOneTimes.push(time);
+    
     const text = document.getElementById("GameOneText");
     text.style = "";
 
@@ -681,8 +698,8 @@ function LoadGame3Images(QuestionNumber) {
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
-const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
 /** @param StageNum {Number}*/
-async function DoStage(StageNum) {
-    await Stages[StageNum]();
+function DoStage(StageNum) {
+    const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
+    Stages[StageNum]();
 }
