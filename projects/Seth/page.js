@@ -245,7 +245,26 @@ async function StartGameOne() {
         await GameOneCurrentRound;
     }
 
-    // Now that we have the data, submit it.
+    // AFter the game, update the text on the GameOneEndScreen
+    let Compliment = ""
+    if (GameOneNumCorrect < 3)
+        Compliment = "Nice try!"
+
+    else if (GameOneNumCorrect < 5)
+        Compliment = "Good Job!";
+
+    else if (GameOneNumCorrect < 9)
+        Compliment = "So close!"
+    
+    else
+        Compliment = "Perfect!"
+
+    document.getElementById("GameOneEndScreenTextStart").innerHTML = `${Compliment} You got <b>${GameOneNumCorrect}</b> right out of ten!`;
+
+    // Now, go to the Game One End screen.
+    ShowOnly("GameOneEndSceen")
+
+    // Also, now that we have the data, submit it.
     PostToModule("SethPostGame.js", JSON.stringify({
         username: username,
         pseudopassword: pseudopassword,
@@ -258,30 +277,7 @@ async function StartGameOne() {
         }
     }))
 
-    // Update the text on the GameOneEndScreen
-    let Compliment = ""
-    switch (GameOneNumCorrect) {
-        case GameOneNumCorrect < 3: 
-            Compliment = "Nice try!"
-            break;
-        
-        case GameOneNumCorrect < 5:
-            Compliment = "Good Job!";
-            break;
-        
-        case GameOneNumCorrect < 9:
-            Compliment = "So close!"
-        
-        default:
-            Compliment = "Perfect!"
-    }
-
-    document.getElementById("GameOneEndScreenTextStart").innerHTML = `${Compliment} You got <b>${GameOneNumCorrect}</b> right out of ten!`;
-
-    // Now, go to the Game One End screen.
-    ShowOnly("GameOneEndSceen")
-
-    // Clean up so that they can replay it if they want.
+    // Clean up so that they can replay it if they want. (Remains only as a debug thing.)
     GameOneCurrentRoundNumber = GameOneNumCorrect = 0;
     GameOneTimes = [];
 }
@@ -289,8 +285,12 @@ async function StartGameOne() {
 function EndGameOneRoundWithColor(color) {
     // End the timer, and record it if we're not on the practice round.
     const time = performance.now() - GameOneStartTime;
-    if (GameOneCurrentRoundNumber != 0)
+    if (GameOneCurrentRoundNumber >= 1 && color != "")
         GameOneTimes.push(time);
+
+    // No color passed means no response.
+    else if (GameOneCurrentRoundNumber >= 1 && color == "")
+        GameOneTimes.push("No response!");
     
     const text = document.getElementById("GameOneText");
     text.style = "";
@@ -299,7 +299,7 @@ function EndGameOneRoundWithColor(color) {
     const IsDisplayingCorrectText = document.getElementById("GameOneText").innerText.includes("orrect");
     if (GameOneCurrentTextColor.trim().toLowerCase() == color.trim().toLowerCase() && !IsDisplayingCorrectText) {
         // Ignore the practice round.
-        if (GameOneCurrentRoundNumber != 0)
+        if (GameOneCurrentRoundNumber >= 1)
             GameOneNumCorrect++;
 
         text.innerText = "Correct!";
