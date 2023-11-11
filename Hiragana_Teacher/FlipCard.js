@@ -54,7 +54,20 @@ function Print() {
     document.getElementById("body").style = startingStyle;
 }
 
-let IdleModeOn = true;
+let CurrentFont = 0;
+const fonts = ['Arial', 'Klee One']
+function SetFontIndex(i) {
+    const Font = fonts[i];
+    // Put it on the card fronts and backs for nonprinted versions. 
+    ["card_front", "card_back"].forEach(id => document.getElementById(id).style.fontFamily = Font);
+}
+
+function MoveToNextFont() {
+    CurrentFont++;
+    return SetFontIndex((CurrentFont) % 2);
+}
+
+let IdleModeOn = false;
 function ToggleIdleMode() {
     IdleModeOn = !IdleModeOn;
 
@@ -63,7 +76,6 @@ function ToggleIdleMode() {
 
     FlipLoop();
 }
-ToggleIdleMode();
 
 async function FlipLoop() {
     if (IdleModeOn) {

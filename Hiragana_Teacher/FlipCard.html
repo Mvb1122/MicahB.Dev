@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Klee+One">
 <style id="Flip_Card_CSS">
     .flip-card {
         background-color: transparent;
@@ -140,8 +141,8 @@
 
 <div id="MultiCardDisplay" hidden="true">
     <div class="CardWrapper">
-        <div class="PrintFront">FrontText</div>
-        <div class="PrintBack">BackText</div>
+        <div id="PrintFront" class="PrintFront">FrontText</div>
+        <div id="PrintBack" class="PrintBack">BackText</div>
     </div>
 </div>
 
@@ -167,4 +168,5 @@
 <br><br>
 <button class="return-button" onclick="leaveCardScreen()">Go Back to the Selection Screen</button>
 <button class="return-button" onclick="Print()">Print This Card Set</button>
-<button class="return-button" id="ToggleIdleFlipButton" onclick="ToggleIdleMode()">LOADING...</button>
+<button class="return-button" onclick="MoveToNextFont()">Change Fonts</button>
+<button class="return-button" id="ToggleIdleFlipButton" onclick="ToggleIdleMode()">Enable Idle Mode (Flips every Five seconds)</button>
