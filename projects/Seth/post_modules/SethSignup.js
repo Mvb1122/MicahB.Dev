@@ -2,6 +2,7 @@
 {
     username: username,
     pseudopassword: pseudopassword
+    questionnaire: {*}
 }
 */
 
@@ -33,7 +34,8 @@ fs.readdir(UserFolderPath, (e, files) => {
     // Reformat the data to be safe. (Strip any weird values that might be attached.)
     data = {
         username: data.username,
-        pseudopassword: data.pseudopassword
+        pseudopassword: data.pseudopassword,
+        questionnaire: data.questionnaire
     }
 
     fs.writeFile(UserFolderPath + UserFilePath, JSON.stringify(data), (e) => {

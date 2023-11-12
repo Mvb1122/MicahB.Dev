@@ -24,7 +24,7 @@ try {
     // Read in and parse the user's data.
     const rawUserData = fs.readFileSync(UserFolderPath + UserPath);
     /**
-     * @type {{username: String, pseudopassword: Number, rounds: [{game: Number, stats: *, timestamp: String}]}}
+     * @type {{username: String, pseudopassword: Number, rounds: [{game: Number, stats: *, timestamp: String}], questionnaire: {EarlyMorningActivities: string; HoursOfSleep: string; BedTime: string; WakeTime: string; Sex:  string; Age:  string; Grade: string;}}}
      */
     let user = JSON.parse(rawUserData);
     
@@ -54,12 +54,20 @@ try {
                         break;
                     
                     case "3c":
-                        NextGame = "null"
+                        if (!user.questionnaire.EarlyMorningActivities)
+                            NextGame = "null"
+                        else 
+                            "3d"
+                    
+                    // At this point, the user has played all the way up through 3c or 3d, and now they need to restart for the next day.
+                    default:
+                        NextGame = "1";
                 }
                 break;
             
+            // Error case:
             default:
-                NextGame = 1;
+                NextGame = "1";
         }
 
         res.end(JSON.stringify({

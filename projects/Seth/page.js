@@ -16,8 +16,8 @@ if (localStorage.getItem("SethUsername") != null && localStorage.getItem("SethPa
             }
         })
 } else {
-    // If no saved login, just show the base. 
-    ShowOnly("Base");
+    // If no saved login, just show the NonReturningUserPane. 
+    ShowOnly("NonReturningUserPane");
 }
 
 /** @type {String} */
@@ -26,33 +26,68 @@ let username,
 pseudopassword; // Not an actual password!
 function StageOne() {
     // First, hide the starting panel and go to the signup panel.
-    ShowOnly("SignUp")
+    ShowOnly("questionnaire");
+}
+
+let UserData, UsernamePrefix, IsExperimental;
+function ShowUsernamePasswordScreen() {
+    // Scrape all information.
+    UserData = {
+        EarlyMorningActivities: "Q1",
+        HoursOfSleep: "Q2",
+        BedTime: "Q3a",
+        WakeTime: "Q3b",
+        Sex: "Q4",
+        Age: "Q5", 
+        Grade: "Q6"
+    };
+    const keys = Object.keys(UserData)
+    for (let i = 0; i < keys.length; i++) 
+        UserData[keys[i]] = document.getElementById(UserData[keys[i]]).value
+
+    // Ensure that they filled in all of the boxes.
+    for (let i = 0; i < keys.length; i++) 
+        if (UserData[keys[i]] == '') 
+            return alert("Please fill in all of the boxes before continuing.");
+
+    // Now, we can generate a prefix for them.
+        // Parse IsExperimental to a bool.
+    IsExperimental = UserData.EarlyMorningActivities = UserData.EarlyMorningActivities == "true";
+    UsernamePrefix = `${(UserData.EarlyMorningActivities == "true" ? "E" : "C")}${UserData.Grade}_`
+        // Show it on the screen.
+    document.getElementById("UsernamePrefix").innerText = UsernamePrefix;
 
     // Generate a password. (Use half-decent randomness.)
     const array = new Uint32Array(1);
     self.crypto.getRandomValues(array);
     pseudopassword = array[0];
     document.getElementById("Password").innerText = pseudopassword;
+
+    // Go to that screen.
+    ShowOnly("UsernamePasswordScreen");
 }
 
 /** Returns a promise representing whether it was successful or not. */
 function LoginAs(PassedUsername, password, SaveLogin = false) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         let response = await PostToModule("SethValidateUser.js", JSON.stringify({
             username: PassedUsername,
             pseudopassword: password
         }));
 
-        if (response.sucessful && SaveLogin) { 
-            // If we were successfully logged in, save the login information. 
-            localStorage.setItem("SethUsername", PassedUsername);
-            localStorage.setItem("SethPassword", password);
-        }
-
-        username = PassedUsername;
-        pseudopassword = password;
-
-        resolve(response);
+        if (response.sucessful) {
+            if (SaveLogin) { 
+                // If we were successfully logged in, save the login information. 
+                localStorage.setItem("SethUsername", PassedUsername);
+                localStorage.setItem("SethPassword", password);
+            }
+    
+            username = PassedUsername;
+            pseudopassword = password;
+            IsExperimental = response.IsExperimental;
+            return resolve(response);
+        } else 
+            resolve(response)
     })
 }
 
@@ -97,17 +132,19 @@ async function PostToModule(Module, data, AwaitInFunction = true) {
 
 async function EnsureSignedUpAndShowGameOne() {
     // First, check that there's a username in the box.
-    username = document.getElementById("UserName").value;
+    username = UsernamePrefix + document.getElementById("UserName").value;
     if (username.trim() == "")
         return alert("Please enter a username in the box.");
     else {
-        // Display loading stuff.
-        ShowOnly("Loading")
-
+        // Show first game.
+        ShowOnly("GameOneDescription")
+        SetGameOneText();
+        
         // Sign up.
         const data = JSON.stringify({
             username: username,
-            pseudopassword: pseudopassword
+            pseudopassword: pseudopassword,
+            questionnaire: UserData
         });
         const response = await PostToModule("SethSignup.js", data)
 
@@ -115,11 +152,7 @@ async function EnsureSignedUpAndShowGameOne() {
             alert("That user already exists! Please come up with a more original usename and try again.");
             return DoStage(0);
         } else {
-            // Show first game.
-            ShowOnly("GameOneDescription")
-            SetGameOneText();
-
-            // Save the user's login info.
+            // Save the user's login info, since it's known-good now.
             localStorage.setItem("SethUsername", username);
             localStorage.setItem("SethPassword", pseudopassword);
         }
@@ -137,28 +170,23 @@ async function ContinueTest() {
                         ShowOnly("GameOneDescription");
                         return;
                     case "2":
-                        ShowOnly("GameTwoDescription");
+                        ShowOnly("GameOneDescription"); // ShowOnly("GameTwoDescription");
                         return;
                     
                     case "3a":
                         GameThreeRoundNumber = 0;
-                        ShowGameThree();
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
                         return;
                     
                     case "3b":
                         GameThreeRoundNumber = 1;
-                        ShowGameThree();
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
                         return;
 
                     case "3c":
                         GameThreeRoundNumber = 2;
-                        ShowGameThree();
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
                         return;
-                    
-                    default: 
-                        // Delete password and show the endPane.
-                        localStorage.removeItem("SethUsername"); localStorage.removeItem("SethPassword")
-                        ShowOnly("EndPane");
                 }
             } else {
                 alert("Something went wrong! Please try again.");
@@ -332,12 +360,20 @@ async function StartGameTwo() {
     }
 
     // At the start, set the lives to 3.
-    SetGameTwoLives(3);
+    SetGameTwoLives(lives);
 
     async function GameTwoRound(RoundNum) {
         return new Promise(async (EndRound) => {
             // Calculate Grid size.
-            const GridSize = Math.floor(RoundNum / 3) + 3;
+            let GridSize;
+
+            // For math: https://www.desmos.com/calculator/xoc92mxgk6
+            if (RoundNum >= 5) { 
+                // After round six, only increase grid size every fourth game.
+                GridSize = Math.floor((RoundNum - 2) / 4) + 4
+            } else {
+                GridSize = Math.floor(RoundNum / 3) + 3;
+            }
 
             // First setup the grid.
             await MakeGameTwoGrid(GridSize, RoundNum + 2);
@@ -421,7 +457,7 @@ async function StartGameTwo() {
 function SetGameTwoLives(lives) {
     // Set the lives counter.
     let LifeIcon = document.createElement("img");
-    LifeIcon.className = "LifeIcon"; LifeIcon.src = "./Test_Images/Pixel_Heart@5x.png";
+    LifeIcon.className = "LifeIcon"; LifeIcon.src = "./Test_Images/Seth Heart V2.svg";
 
     const LivesDisplay = document.getElementById("GameTwoLives");
     // Wipe anything inside it already.
@@ -521,7 +557,7 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
     })
 }
 
-let GameThreeRoundNumber = 0;
+let GameThreeRoundNumber;
 async function ShowGameThree() {
     // First show the description...
     ShowOnly("GameThreeDescription");
@@ -529,7 +565,7 @@ async function ShowGameThree() {
     // Fetch users' progress.
         // Commented-out code here is for the deprecated SethGameThreeProgress.js module.
     /* PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => { */
-    const data = {roundNum: GameThreeRoundNumber}
+    const data = {roundNum: GameThreeRoundNumber, IsExperimental}
     let text = "This time, you will be playing section " + (data.roundNum + 1);
     const SectionText = document.getElementById("GameThreeSectionDiv");
     SectionText.innerText = text;
@@ -545,24 +581,44 @@ async function ShowGameThree() {
     // GameThreeRoundNumber = data.roundNum;
 
     // Update the Part number text on the Game3EndScreen while we're here, just because it's easy.
-    document.getElementById("GameThreePartNum").innerText = 2 - data.roundNum;
+    document.getElementById("GameThreePartNum").innerText = (IsExperimental ? 3 : 2) - data.roundNum;
     /* }) */
+
+    // Update the description screen.
+    document.getElementById("SectionThreeSessionCounter").innerText = IsExperimental ? "four" : "three";
+    document.getElementById("SectionThreeQuestionTotal").innerText = IsExperimental ? "12" : "9";
+}
+
+function ArrayContains(arr, val) {
+    for (let i = 0; i < arr.length; i++)
+        if (arr[i] == val)
+            return true;
+
+    return false;
 }
 
 let GameThreeSelectedAnswerId = -1;
 async function StartGameThree() {
     // Select a question based off of time.
-        // Add twelve for each section.
-    let min = 1, max = 12;
-    min += 12 * GameThreeRoundNumber; max += 12 * GameThreeRoundNumber;
+        // Add 9 for each section. (There are 36 questions over 4 sections of 9 length)
+    let min = 1, max = 9;
+    min += 9 * GameThreeRoundNumber; max += 9 * GameThreeRoundNumber;
 
     let score = 0;
-    for (let i = min; i <= max; i++) {
+    let DoneQuestions = [];
+    const numRounds = 3;
+    for (let i = 1; i <= numRounds; i++) {
+        // Choose a random question.
+        let questionId = 1;
+        do {
+            questionId = Math.floor(Math.random() * (max - min + 1)) + min;
+        } while (ArrayContains(DoneQuestions, questionId));
+
         // Load the question and its answers.
-        const answerId = LoadGame3Images(i);
+        const answerId = LoadGame3Images(questionId);
 
         // Update the text.
-        document.getElementById("Game3Progress").innerText = `${i}/${max}`;
+        document.getElementById("Game3Progress").innerText = `${i}/${numRounds}`;
 
         // Show the game.
         ShowOnly("GameThreeGame");
@@ -598,13 +654,14 @@ async function StartGameThree() {
     }
 
     // Show the end screen, or the final end screen based off of the remaining number of parts
-    if (GameThreeRoundNumber != 2)
+    /* if (GameThreeRoundNumber != 2 ) */
         ShowOnly("GameThreeEndScreen");
-    else 
-        ShowOnly("EndPane");
+    /* else 
+        ShowOnly("EndPane"); */
+        // ^ Instead of doing special logic, just don't ever show that last screen. (TODO: remove it, or find a better way to flow into it.)
 
     // Report score to server.
-    let GamePart = "3", parts = "abc".split("");
+    let GamePart = "3", parts = "abcd".split("");
     GamePart += parts[GameThreeRoundNumber];
 
     const stats = {

@@ -3,6 +3,12 @@
     username: username,
     pseudopassword: pseudopassword
 }
+
+Returned data:
+{
+    sucessful: true,
+    IsExperimental: true
+}
 */
 
 const UserFolderPath = "./projects/Seth/users/", fs = require('fs');
@@ -12,18 +18,19 @@ data = JSON.parse(data);
 try {
     const UserPath = data.username
         // Sanitize path!
-        .replace(/[/\\?%*:|"<>]/g, '-') 
+        .replace(/[/\\?%*:|"<>]/g, '-')
         + ".json";
 
     /**
-     * @type {{username: String, pseudopassword: Number}}
-     */
+ * @type {{username: String, pseudopassword: Number, questionnaire: {EarlyMorningActivities: string; HoursOfSleep: string; BedTime: string; WakeTime: string; Sex:  string; Age:  string; Grade: string;}}}
+ */
     let user = JSON.parse(fs.readFileSync(UserFolderPath + UserPath));
-    
+
     // Check the user's submitted information with what's actually there.
     if (user.pseudopassword == data.pseudopassword && user.username == data.username) {
         return res.end(JSON.stringify({
             sucessful: true,
+            IsExperimental: user.questionnaire.EarlyMorningActivities
         }))
     } else {
         return res.end(JSON.stringify({
