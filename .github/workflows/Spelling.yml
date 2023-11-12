@@ -113,6 +113,21 @@ jobs:
           cspell:html/dict/html.txt
           cspell:css/dict/css.txt
           cspell:typescript/dict/typescript.txt
+          cspell:aws/aws.txt
+          cspell:python/src/python/python-lib.txt
+          cspell:node/dict/node.txt
+          cspell:fullstack/dict/fullstack.txt
+          cspell:java/src/java-terms.txt
+          cspell:npm/dict/npm.txt
+          cspell:r/src/r.txt
+          cspell:java/src/java.txt
+          cspell:python/src/common/extra.txt
+          cspell:django/dict/django.txt
+          cspell:dotnet/dict/dotnet.txt
+          cspell:golang/dict/go.txt
+          cspell:svelte/dict/svelte.txt
+          cspell:csharp/csharp.txt
+          cspell:html/src/svg.txt
 
   comment-push:
     name: Report (Push)
