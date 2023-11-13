@@ -427,9 +427,13 @@ function SelectCharacter() {
      */
     let selectedChunk = null;
     for (let i = 0; i < chunks.length; i++) {
-        if (averages[i] > max) 
+        if (averages[i] > max) {
             selectedChunk = chunks[i];
+            max = averages[i];
+        }
     }
+
+    console.log(`Selected chunk: ${chunks.indexOf(selectedChunk)}`);
 
     // Gets a random index from the chunk.
     let RandomCharacter = () => { 
@@ -834,10 +838,15 @@ async function ScrollToSearch(query) {
     
     for (let i = 0; i < Children.length; i++) {
         // Get the words. Add a space after if we're dealing with a single query.
-        let words = Children[i].innerText.toLowerCase();
+        /**
+         * @type {[String]}
+         */
+        let words = Children[i].innerText.toLowerCase().split(" ");
         
+        /*
         if (query.length == 1) 
             words = `${words} `
+        */
 
         // See how many matches it has.
         let matches = 0; 
@@ -845,8 +854,7 @@ async function ScrollToSearch(query) {
         // Check to see if the text of the thing contains any query words.
         for (let p = 0; p < query.length; p++) {
             let keyword = query[p];
-
-            if (words.includes(keyword))
+            if (words.indexOf(keyword.trim()))
                 {
                     matches++;
                     continue;
