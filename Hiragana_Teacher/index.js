@@ -841,12 +841,10 @@ async function ScrollToSearch(query) {
         /**
          * @type {[String]}
          */
-        let words = Children[i].innerText.toLowerCase().split(" ");
+        let words = Children[i].innerText.toLowerCase();
         
-        /*
         if (query.length == 1) 
             words = `${words} `
-        */
 
         // See how many matches it has.
         let matches = 0; 
@@ -854,7 +852,7 @@ async function ScrollToSearch(query) {
         // Check to see if the text of the thing contains any query words.
         for (let p = 0; p < query.length; p++) {
             let keyword = query[p];
-            if (words.indexOf(keyword.trim()))
+            if (words.includes(keyword.trim()))
                 {
                     matches++;
                     continue;
