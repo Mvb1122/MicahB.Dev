@@ -22,8 +22,8 @@ a {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    padding-left: 1in;
-    padding-right: 1in;
+    padding-left: min(1in, 5vw);
+    padding-right: min(1in, 5vw);
     padding-bottom: 3%;
     background-color: blanchedalmond;
     align-items: flex-start;
@@ -106,15 +106,13 @@ h1 {
 
 memoryBlock {
     display: block;
-    width: 10vh;
-    height: 10vh; /* Make it square */
+    width: min(10vh, 10vw);
+    height: min(10vh, 10vw); /* Make it square */
     background-color: black;
-    box-shadow: 0.5vh 0.5vh 1.5vh grey;
-
-    margin-right: 3vh;
-    margin-bottom: 3vh;
-
-    border-radius: 2vh;
+    box-shadow: min(0.5vh, 0.5vw) min(0.5vh, 0.5vw) min(1.5vh, 1.5vw) grey;
+    margin-right: min(3vh, 3vw);
+    margin-bottom: min(3vh, 3vw);
+    border-radius: min(2vh, 2vw);
 }
 
 .LifeIcon {

@@ -475,11 +475,24 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
 
         // Make a default memoryBlock.
         const DefaultBox = document.createElement("memoryBlock")
-            DefaultBox.style = "background-color: black";
+        // Resize the boxes.
+        let ScalePercentage = (80 / (Count * 2)).toPrecision(3); // <- Formula calculates what percent of the screen each box will be.
+        // NOTE: When Count > 8, which is round 17 or greater, the grid will scale off of the user's screen!
+        const sideScalePercentage = `min(${ScalePercentage}vh, ${ScalePercentage}vw)`;
+        DefaultBox.style.width = sideScalePercentage;
+        DefaultBox.style.height = sideScalePercentage;
+
+        ScalePercentage = (ScalePercentage * 1/3).toPrecision(3);
+        const marginScalePercentage = `min(${ScalePercentage}vh, ${ScalePercentage}vw)`;
+        DefaultBox.style.marginRight = marginScalePercentage;
+        DefaultBox.style.marginBottom = marginScalePercentage;
+        DefaultBox.style.backgroundColor = "black";
 
         // Make the grid.
         let grid = document.createElement("div");
-        grid.style = "display: block;";
+        // grid.style.display = "block";
+        grid.style.width = "min(80vh, 80vw)";
+        grid.style.aspectRatio = "1 / 1";
 
         // Clear grids.
         GameTwoBoxes = ClickedBoxes = [];
@@ -492,7 +505,8 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
             for (let j = 0; j < Count; j++) {
                 let box = DefaultBox.cloneNode();
                 if (j == Count - 1) {
-                    box.style = "background-color: black; margin-right: 0px;"
+                    box.style.backgroundColor = "black;"
+                    box.style.marginRight = "0%;";
                 }
 
                 const toggleColor = () => {
@@ -527,7 +541,8 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
         }
 
         // Put the grid on screen. 
-        document.getElementById("GameTwoGrid").appendChild(grid);
+        const GridDiv = document.getElementById("GameTwoGrid");
+        GridDiv.appendChild(grid);
 
         // Now, select a few random boxes and turn their colors on.
         for (let i = 0; i < NumTurnedOn; i++) {
