@@ -53,7 +53,7 @@ function ShowUsernamePasswordScreen() {
     // Now, we can generate a prefix for them.
         // Parse IsExperimental to a bool.
     IsExperimental = UserData.EarlyMorningActivities = UserData.EarlyMorningActivities == "true";
-    UsernamePrefix = `${(UserData.EarlyMorningActivities == "true" ? "E" : "C")}${UserData.Grade}_`
+    UsernamePrefix = `${(UserData.EarlyMorningActivities == true ? "E" : "C")}${UserData.Grade}_`
         // Show it on the screen.
     document.getElementById("UsernamePrefix").innerText = UsernamePrefix;
 
@@ -572,7 +572,7 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
     })
 }
 
-let GameThreeRoundNumber;
+let GameThreeRoundNumber = 0;
 async function ShowGameThree() {
     // First show the description...
     ShowOnly("GameThreeDescription");
