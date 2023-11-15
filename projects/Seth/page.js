@@ -1,16 +1,94 @@
+// On load, check if the user has a saved login.
+if (localStorage.getItem("SethUsername") != null && localStorage.getItem("SethPassword") != null) {
+    // First, validate login.
+    LoginAs(localStorage.getItem("SethUsername"), localStorage.getItem("SethPassword"))
+        .then(response => {
+            console.log(response);
+            
+            if (response.sucessful) {
+                // Show the returning user pane.
+                ShowOnly("ReturningUserPane");
+        
+                // Set the username text.
+                ["ReturningUsername", "ReturningUsername1"].forEach(id => {
+                    document.getElementById(id).innerText = localStorage.getItem("SethUsername");
+                })
+            }
+        })
+} else {
+    // If no saved login, just show the NonReturningUserPane. 
+    ShowOnly("NonReturningUserPane");
+}
+
 /** @type {String} */
 let username, 
 /** @type {Number} */
 pseudopassword; // Not an actual password!
 function StageOne() {
     // First, hide the starting panel and go to the signup panel.
-    ShowOnly("SignUp")
+    ShowOnly("questionnaire");
+}
+
+let UserData, UsernamePrefix, IsExperimental;
+function ShowUsernamePasswordScreen() {
+    // Scrape all information.
+    UserData = {
+        EarlyMorningActivities: "Q1",
+        HoursOfSleep: "Q2",
+        BedTime: "Q3a",
+        WakeTime: "Q3b",
+        Sex: "Q4",
+        Age: "Q5", 
+        Grade: "Q6"
+    };
+    const keys = Object.keys(UserData)
+    for (let i = 0; i < keys.length; i++) 
+        UserData[keys[i]] = document.getElementById(UserData[keys[i]]).value
+
+    // Ensure that they filled in all of the boxes.
+    for (let i = 0; i < keys.length; i++) 
+        if (UserData[keys[i]] == '') 
+            return alert("Please fill in all of the boxes before continuing.");
+
+    // Now, we can generate a prefix for them.
+        // Parse IsExperimental to a bool.
+    IsExperimental = UserData.EarlyMorningActivities = UserData.EarlyMorningActivities == "true";
+    UsernamePrefix = `${(UserData.EarlyMorningActivities == true ? "E" : "C")}${UserData.Grade}_`
+        // Show it on the screen.
+    document.getElementById("UsernamePrefix").innerText = UsernamePrefix;
 
     // Generate a password. (Use half-decent randomness.)
     const array = new Uint32Array(1);
     self.crypto.getRandomValues(array);
     pseudopassword = array[0];
     document.getElementById("Password").innerText = pseudopassword;
+
+    // Go to that screen.
+    ShowOnly("UsernamePasswordScreen");
+}
+
+/** Returns a promise representing whether it was successful or not. */
+function LoginAs(PassedUsername, password, SaveLogin = false) {
+    return new Promise(async (resolve) => {
+        let response = await PostToModule("SethValidateUser.js", JSON.stringify({
+            username: PassedUsername,
+            pseudopassword: password
+        }));
+
+        if (response.sucessful) {
+            if (SaveLogin) { 
+                // If we were successfully logged in, save the login information. 
+                localStorage.setItem("SethUsername", PassedUsername);
+                localStorage.setItem("SethPassword", password);
+            }
+    
+            username = PassedUsername;
+            pseudopassword = password;
+            IsExperimental = response.IsExperimental;
+            return resolve(response);
+        } else 
+            resolve(response)
+    })
 }
 
 function Wait(ms) {
@@ -21,45 +99,100 @@ function Wait(ms) {
  * Posts data to a specified server module and then returns the response in JSON.
  * @param {String} Module Module name, not including post_modules or anything.
  * @param {String} data Make sure to stringify data!
+ * @param {Boolean?} AwaitInFunction Returns awaited result.
  * @returns {Promise<Object>} Data back from the server
  */
-async function PostToModule(Module, data) {
-    const url = `./Post_Modules/${Module}`; 
+async function PostToModule(Module, data, AwaitInFunction = true) {
+    // When uploading data, show the loading screen.
+    let oldSection = undefined;
+    try {
+        if (CurrentlyShownSection != undefined) {
+            oldSection = CurrentlyShownSection;
+            ShowOnly("Loading");
+        }
+    } catch {;} // Do nothing.
 
-    return (await fetch(url, {
+    const url = `./Post_Modules/${Module}`; 
+    const result = (await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: data,
     })).json();
+
+    // Go back to wherever we were before.
+    if (oldSection != undefined)
+        ShowOnly(oldSection)
+    
+    if (AwaitInFunction)
+        return await result
+    else return result;
 }
 
 async function EnsureSignedUpAndShowGameOne() {
     // First, check that there's a username in the box.
-    username = document.getElementById("UserName").value;
+    username = UsernamePrefix + document.getElementById("UserName").value;
     if (username.trim() == "")
         return alert("Please enter a username in the box.");
     else {
-        // Display loading stuff.
-        ShowOnly("Loading")
-
+        // Show first game.
+        ShowOnly("GameOneDescription")
+        SetGameOneText();
+        
         // Sign up.
         const data = JSON.stringify({
             username: username,
-            pseudopassword: pseudopassword
+            pseudopassword: pseudopassword,
+            questionnaire: UserData
         });
         const response = await PostToModule("SethSignup.js", data)
 
         if (response.sucessful == false) {
             alert("That user already exists! Please come up with a more original usename and try again.");
             return DoStage(0);
+        } else {
+            // Save the user's login info, since it's known-good now.
+            localStorage.setItem("SethUsername", username);
+            localStorage.setItem("SethPassword", pseudopassword);
         }
-
-        // Show first game.
-        ShowOnly("GameOneDescription")
-        SetGameOneText();
     }
+}
+
+async function ContinueTest() {
+    // First, ask the server what test we're on.
+    PostToModule("SethGetProgress.js", JSON.stringify({username: localStorage.getItem("SethUsername"), pseudopassword: localStorage.getItem("SethPassword")}))
+        .then(e => {
+            if (e.sucessful) {
+                // Load the specified game.
+                switch (e.game) {
+                    case "1":
+                        ShowOnly("GameOneDescription");
+                        return;
+                    case "2":
+                        ShowOnly("GameOneDescription"); // ShowOnly("GameTwoDescription");
+                        return;
+                    
+                    case "3a":
+                        GameThreeRoundNumber = 0;
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
+                        return;
+                    
+                    case "3b":
+                        GameThreeRoundNumber = 1;
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
+                        return;
+
+                    case "3c":
+                        GameThreeRoundNumber = 2;
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
+                        return;
+                }
+            } else {
+                alert("Something went wrong! Please try again.");
+            }
+        })
+
 }
 
 const colors = "Red,Orange,Yellow,Green,Blue,Pink".split(",");
@@ -89,7 +222,11 @@ function SetGameOneText() {
 let GameOneCurrentTextColor = "", GameOneCurrentRoundNumber;
 let GameOneNumCorrect = 0, 
 /** @type {Promise} */
-GameOneCurrentRound;
+GameOneCurrentRound,
+/** @type {[Number]} */
+GameOneTimes = [],
+/** @type {Number} */
+GameOneStartTime;
 async function StartGameOne() {
     // First, show the countdown.
     ShowOnly("GameOneCountDown")
@@ -109,6 +246,10 @@ async function StartGameOne() {
     // Now that we're in the game, setup the record loop.
     for (let i = 0; i < 11; i++) {
         GameOneCurrentTextColor = SetGameOneText();
+
+        // Start the timer.
+        GameOneStartTime = performance.now();
+
         GameOneCurrentRoundNumber = i;
         GameOneCurrentRound = new Promise((r) => {
             // After the practice round, start changing the text.
@@ -132,44 +273,53 @@ async function StartGameOne() {
         await GameOneCurrentRound;
     }
 
-    // Now that we have the data, submit it.
-    PostToModule("SethPostGame.js", JSON.stringify({
-        username: username,
-        pseudopassword: pseudopassword,
-        round: {
-            game: 1,
-            stats: GameOneNumCorrect.toString()
-        }
-    }))
-
-    // Update the text on the GameOneEndScreen
+    // AFter the game, update the text on the GameOneEndScreen
     let Compliment = ""
-    switch (GameOneNumCorrect) {
-        case GameOneNumCorrect < 3: 
-            Compliment = "Nice try!"
-            break;
-        
-        case GameOneNumCorrect < 5:
-            Compliment = "Good Job!";
-            break;
-        
-        case GameOneNumCorrect < 9:
-            Compliment = "So close!"
-        
-        default:
-            Compliment = "Perfect!"
-    }
+    if (GameOneNumCorrect < 3)
+        Compliment = "Nice try!"
+
+    else if (GameOneNumCorrect < 5)
+        Compliment = "Good Job!";
+
+    else if (GameOneNumCorrect < 9)
+        Compliment = "So close!"
+    
+    else
+        Compliment = "Perfect!"
 
     document.getElementById("GameOneEndScreenTextStart").innerHTML = `${Compliment} You got <b>${GameOneNumCorrect}</b> right out of ten!`;
 
     // Now, go to the Game One End screen.
     ShowOnly("GameOneEndSceen")
 
-    // Clean up so that they can replay it if they want.
+    // Also, now that we have the data, submit it.
+    PostToModule("SethPostGame.js", JSON.stringify({
+        username: username,
+        pseudopassword: pseudopassword,
+        round: {
+            game: 1,
+            stats: {
+                score: GameOneNumCorrect.toString(),
+                times: GameOneTimes
+            }
+        }
+    }))
+
+    // Clean up so that they can replay it if they want. (Remains only as a debug thing.)
     GameOneCurrentRoundNumber = GameOneNumCorrect = 0;
+    GameOneTimes = [];
 }
 
 function EndGameOneRoundWithColor(color) {
+    // End the timer, and record it if we're not on the practice round.
+    const time = performance.now() - GameOneStartTime;
+    if (GameOneCurrentRoundNumber >= 1 && color != "")
+        GameOneTimes.push(time);
+
+    // No color passed means no response.
+    else if (GameOneCurrentRoundNumber >= 1 && color == "")
+        GameOneTimes.push("No response!");
+    
     const text = document.getElementById("GameOneText");
     text.style = "";
 
@@ -177,7 +327,7 @@ function EndGameOneRoundWithColor(color) {
     const IsDisplayingCorrectText = document.getElementById("GameOneText").innerText.includes("orrect");
     if (GameOneCurrentTextColor.trim().toLowerCase() == color.trim().toLowerCase() && !IsDisplayingCorrectText) {
         // Ignore the practice round.
-        if (GameOneCurrentRoundNumber != 0)
+        if (GameOneCurrentRoundNumber >= 1)
             GameOneNumCorrect++;
 
         text.innerText = "Correct!";
@@ -210,12 +360,20 @@ async function StartGameTwo() {
     }
 
     // At the start, set the lives to 3.
-    SetGameTwoLives(3);
+    SetGameTwoLives(lives);
 
     async function GameTwoRound(RoundNum) {
         return new Promise(async (EndRound) => {
             // Calculate Grid size.
-            const GridSize = Math.floor(RoundNum / 3) + 3;
+            let GridSize;
+
+            // For math: https://www.desmos.com/calculator/xoc92mxgk6
+            if (RoundNum >= 5) { 
+                // After round six, only increase grid size every fourth game.
+                GridSize = Math.floor((RoundNum - 2) / 4) + 4
+            } else {
+                GridSize = Math.floor(RoundNum / 3) + 3;
+            }
 
             // First setup the grid.
             await MakeGameTwoGrid(GridSize, RoundNum + 2);
@@ -299,7 +457,7 @@ async function StartGameTwo() {
 function SetGameTwoLives(lives) {
     // Set the lives counter.
     let LifeIcon = document.createElement("img");
-    LifeIcon.className = "LifeIcon"; LifeIcon.src = "./Test_Images/Pixel_Heart@5x.png";
+    LifeIcon.className = "LifeIcon"; LifeIcon.src = "./Test_Images/Seth Heart V2.svg";
 
     const LivesDisplay = document.getElementById("GameTwoLives");
     // Wipe anything inside it already.
@@ -317,11 +475,24 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
 
         // Make a default memoryBlock.
         const DefaultBox = document.createElement("memoryBlock")
-            DefaultBox.style = "background-color: black";
+        // Resize the boxes.
+        let ScalePercentage = (80 / (Count * 2)).toPrecision(3); // <- Formula calculates what percent of the screen each box will be.
+        // NOTE: When Count > 8, which is round 17 or greater, the grid will scale off of the user's screen!
+        const sideScalePercentage = `min(${ScalePercentage}vh, ${ScalePercentage}vw)`;
+        DefaultBox.style.width = sideScalePercentage;
+        DefaultBox.style.height = sideScalePercentage;
+
+        ScalePercentage = (ScalePercentage * 1/3).toPrecision(3);
+        const marginScalePercentage = `min(${ScalePercentage}vh, ${ScalePercentage}vw)`;
+        DefaultBox.style.marginRight = marginScalePercentage;
+        DefaultBox.style.marginBottom = marginScalePercentage;
+        DefaultBox.style.backgroundColor = "black";
 
         // Make the grid.
         let grid = document.createElement("div");
-        grid.style = "display: block;";
+        // grid.style.display = "block";
+        grid.style.width = "min(80vh, 80vw)";
+        grid.style.aspectRatio = "1 / 1";
 
         // Clear grids.
         GameTwoBoxes = ClickedBoxes = [];
@@ -334,7 +505,8 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
             for (let j = 0; j < Count; j++) {
                 let box = DefaultBox.cloneNode();
                 if (j == Count - 1) {
-                    box.style = "background-color: black; margin-right: 0px;"
+                    box.style.backgroundColor = "black;"
+                    box.style.marginRight = "0%;";
                 }
 
                 const toggleColor = () => {
@@ -369,7 +541,8 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
         }
 
         // Put the grid on screen. 
-        document.getElementById("GameTwoGrid").appendChild(grid);
+        const GridDiv = document.getElementById("GameTwoGrid");
+        GridDiv.appendChild(grid);
 
         // Now, select a few random boxes and turn their colors on.
         for (let i = 0; i < NumTurnedOn; i++) {
@@ -405,37 +578,62 @@ async function ShowGameThree() {
     ShowOnly("GameThreeDescription");
     
     // Fetch users' progress.
-    PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => {
-        let text = "This time, you will be playing section " + (data.roundNum + 1);
-        const SectionText = document.getElementById("GameThreeSectionDiv");
-        SectionText.innerText = text;
+        // Commented-out code here is for the deprecated SethGameThreeProgress.js module.
+    /* PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => { */
+    const data = {roundNum: GameThreeRoundNumber, IsExperimental}
+    let text = "This time, you will be playing section " + (data.roundNum + 1);
+    const SectionText = document.getElementById("GameThreeSectionDiv");
+    SectionText.innerText = text;
 
-        // Add the button.
-        let button = document.createElement("button");
-        button.onclick = StartGameThree();
-        button.innerText = "Start Game Three!";
-        
-        SectionText.appendChild(document.createElement("br"));
-        SectionText.appendChild(button);
+    // Add the button.
+    let button = document.createElement("button");
+    button.onclick = StartGameThree;
+    button.innerText = "Start Game Three!";
+    
+    SectionText.appendChild(document.createElement("br"));
+    SectionText.appendChild(button);
 
-        GameThreeRoundNumber = data.roundNum;
-    })
+    // GameThreeRoundNumber = data.roundNum;
+
+    // Update the Part number text on the Game3EndScreen while we're here, just because it's easy.
+    document.getElementById("GameThreePartNum").innerText = (IsExperimental ? 3 : 2) - data.roundNum;
+    /* }) */
+
+    // Update the description screen.
+    document.getElementById("SectionThreeSessionCounter").innerText = IsExperimental ? "four" : "three";
+    document.getElementById("SectionThreeQuestionTotal").innerText = IsExperimental ? "12" : "9";
+}
+
+function ArrayContains(arr, val) {
+    for (let i = 0; i < arr.length; i++)
+        if (arr[i] == val)
+            return true;
+
+    return false;
 }
 
 let GameThreeSelectedAnswerId = -1;
 async function StartGameThree() {
     // Select a question based off of time.
-        // Add twelve for each section.
-    let min = 1, max = 12;
-    min += 12 * GameThreeRoundNumber; max += 12 * GameThreeRoundNumber;
+        // Add 9 for each section. (There are 36 questions over 4 sections of 9 length)
+    let min = 1, max = 9;
+    min += 9 * GameThreeRoundNumber; max += 9 * GameThreeRoundNumber;
 
     let score = 0;
-    for (let i = min; i <= max; i++) {
+    let DoneQuestions = [];
+    const numRounds = 3;
+    for (let i = 1; i <= numRounds; i++) {
+        // Choose a random question.
+        let questionId = 1;
+        do {
+            questionId = Math.floor(Math.random() * (max - min + 1)) + min;
+        } while (ArrayContains(DoneQuestions, questionId));
+
         // Load the question and its answers.
-        const answerId = LoadGame3Images(i);
+        const answerId = LoadGame3Images(questionId);
 
         // Update the text.
-        document.getElementById("Game3Progress").innerText = `${i}/${max}`;
+        document.getElementById("Game3Progress").innerText = `${i}/${numRounds}`;
 
         // Show the game.
         ShowOnly("GameThreeGame");
@@ -448,16 +646,53 @@ async function StartGameThree() {
             await Wait(1000);
         }
 
-        // Do correct stuff or whatever. Make sure to use OverText. 
-        const OverQuestion = document.getElementById("OverQuestion");
-        OverQuestion.style.backgroundColor = "Grey";
+        // Take tally of the score. 
         const IsCorrect = answerId == GameThreeSelectedAnswerId;
+        if (IsCorrect) score++;
+
+        // Tell the user if they were correct or not.
+        const OverQuestion = document.getElementById("OverQuestion");
+        OverQuestion.hidden = false;
         OverQuestion.innerText = (IsCorrect ? "Correct!" : "Incorrect! :(")
 
-        if (IsCorrect) score++;
+        // Do a break for like 3 seconds.
+        document.getElementById("Game3Time").innerText = `0:03`;
+        for (let j = 0; j <= 3; j++) {
+            let timeLeft = (3 - j).toString();
+            if (timeLeft.length == 1) timeLeft = "0" + timeLeft
+            document.getElementById("Game3Time").innerText = `Break 0:${timeLeft}`;
+            await Wait(1000);
+        }
+
+        // Hide OverQuestion and move on.
+        OverQuestion.hidden = true;
     }
 
-    // TODO: Report score to server. Also, allow user to login.
+    // Show the end screen, or the final end screen based off of the remaining number of parts
+    /* if (GameThreeRoundNumber != 2 ) */
+        ShowOnly("GameThreeEndScreen");
+    /* else 
+        ShowOnly("EndPane"); */
+        // ^ Instead of doing special logic, just don't ever show that last screen. (TODO: remove it, or find a better way to flow into it.)
+
+    // Report score to server.
+    let GamePart = "3", parts = "abcd".split("");
+    GamePart += parts[GameThreeRoundNumber];
+
+    const stats = {
+        part: GamePart,
+        score: score
+    }
+
+    // Send it to the server. 
+    PostToModule("SethPostGame.js", JSON.stringify({
+        username: username,
+        pseudopassword: pseudopassword,
+        round: {
+            game: 3,
+            stats: stats
+        }
+    }))
 }
 
 /**
@@ -535,39 +770,8 @@ function LoadGame3Images(QuestionNumber) {
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
-const sections = [["Base"], ["SignUp"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"]]
-async function ShowOnly(section) {
-    // Hide all other things.
-    sections.forEach(part => part.forEach(
-        section => {
-            /* try { */
-                document.getElementById(section).hidden = true
-            /* } catch (error) {
-                console.log(error);
-                console.log(section);
-            } */
-        }
-    ));
-
-    // Find the passed section.
-    sectionLoop:
-    for (let i = 0; i < sections.length; i++) {
-        for (let j = 0; j < sections[i].length; j++) {
-            if (sections[i][j] == section) {
-                // Show the section.
-                document.getElementById(section).hidden = false;
-                
-                // Also make sure its parent section is shown.
-                document.getElementById(sections[i][0]).hidden = false;
-
-                break sectionLoop;
-            }
-        }
-    }
-}
-
-const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
 /** @param StageNum {Number}*/
-async function DoStage(StageNum) {
-    await Stages[StageNum]();
+function DoStage(StageNum) {
+    const Stages = [StageOne, EnsureSignedUpAndShowGameOne, ShowGameTwoHideGameOne]
+    Stages[StageNum]();
 }

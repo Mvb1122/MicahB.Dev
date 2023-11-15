@@ -1,17 +1,19 @@
-/* Example Data:
+/* NOTE: Deprecated, replaced by general GetProgress.
+
+Example Data:
 {
     username: "SethChavez12345"
 }
 
-NOTE: Does not require password since this isn't really sensative information.
+NOTE: Does not require password since this isn't really sensitive information.
 */
 
 const UserFolderPath = "./projects/Seth/users/", fs = require('fs');
 data = JSON.parse(data);
-const userpath = `${UserFolderPath}${data.username}.json`;
+const userPath = `${UserFolderPath}${data.username}.json`;
 // Load the user's file.
-if (fs.existsSync(userpath))
-    fs.readFile(userpath, (err, user) => {
+if (fs.existsSync(userPath))
+    fs.readFile(userPath, (err, user) => {
         // Parse data.
         user = JSON.parse(user);
 

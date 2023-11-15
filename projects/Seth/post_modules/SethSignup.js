@@ -1,9 +1,20 @@
+/* Example Data:
+{
+    username: username,
+    pseudopassword: pseudopassword
+    questionnaire: {*}
+}
+*/
+
 const UserFolderPath = "./projects/Seth/users/", fs = require('fs');
 data = JSON.parse(data);
 
 // See if there's a user already named the username.
 fs.readdir(UserFolderPath, (e, files) => {
-    const UserFilePath = data.username + ".json";
+    const UserFilePath = data.username
+        // Sanitize path!
+        .replace(/[/\\?%*:|"<>]/g, '-') 
+        + ".json";
     for (let i = 0; i < files.length; i++) {
         if (files[i].toLowerCase().trim() == UserFilePath.toLowerCase().trim())
             return res.end(JSON.stringify({
@@ -23,7 +34,8 @@ fs.readdir(UserFolderPath, (e, files) => {
     // Reformat the data to be safe. (Strip any weird values that might be attached.)
     data = {
         username: data.username,
-        pseudopassword: data.pseudopassword
+        pseudopassword: data.pseudopassword,
+        questionnaire: data.questionnaire
     }
 
     fs.writeFile(UserFolderPath + UserFilePath, JSON.stringify(data), (e) => {

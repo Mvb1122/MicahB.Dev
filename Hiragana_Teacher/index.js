@@ -41,7 +41,14 @@ function UpdatePageParams(Values) {
     window.history.pushState({}, null, newUrl);
 }
 
-let list, listNumber, part, character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "", SetInformation, exampleSetDisplay;
+/**
+ * @type {{Name: String, ObjectName: String, AnswerName: String, Author: Number, Visibility: public | private, Set: [{CharacterHere: String, chance: Number}]}}
+ */
+let list, 
+listNumber, 
+/**@type {{CharacterHere: string;chance: number;}} */
+part, 
+character, syllable, userIsMobile, currentPage = "", login_token = -1, Login_Username = "", SetInformation, exampleSetDisplay;
 async function loadAdditional() {
     console.log("Starting initial load!");
     // Determine if the user is using a mobile device.
@@ -145,9 +152,8 @@ async function authorIDToName(id) {
 }
 
 async function AddAuthorToCache(id) {
-    console.log(`Adding ${id} to cache!`)
     authorNameCache[id] = (await fetchJSON(`${pageURL}/Modules/GetAuthorName.js&author=${id}`)).name
-    console.log(`${id} is ${authorNameCache[id]}!`)
+    console.log(`Added ${id} with name ${authorNameCache[id]} to cache!`)
     return authorNameCache[id];
 }
 
@@ -300,26 +306,17 @@ function DecrementChance(ammount) {
 
 function IncrementChance(ammount) { return DecrementChance(-ammount); }
 
-function GetMaxChanceIndex()
-{
-    // Find the maximum chance of all the characters.
-    let maxIndex = -1, max = -1000;
-    for (let i = 0; i < list.Set.length; i++)
-        if (list.Set[i].chance > max)
-        {
-            maxIndex = i; max = list.Set[i].chance;
-        }
-
-    return maxIndex;
-}
-
 function SelectAndDisplayACharacter() {
     // Select a character.
     part = SelectCharacter();
 
-    // Abstract its parts.
-    let parts = JSON.stringify(part).split('"');
-    character = parts[1], syllable = parts[3];
+    // Pull out the character and the answers.
+    const keys = Object.keys(part);
+    let characterIndex = 0;
+    // Make sure that the zeroth index is the character!
+    if (keys[1] != "chance") characterIndex = 1;
+
+    character = keys[characterIndex], syllable = part[keys[characterIndex]];
 
     // Display the parts. (If the user's logged in, put a Jisho link instead.)
     if (login_token == -1)
@@ -392,9 +389,71 @@ function EvaluateAnswer() {
 // Chooses a character to test the user on.
 let LastSelectedChoice = -1;
 function SelectCharacter() {
-    let RandomCharacter = () => { return Math.floor(Math.random() * list.Set.length); }
+    /* Procedure:
+    If the set is longer than 20, divide it into (at most) 20-length chunks.
+    Calculate the average score within each chunk. If it's more than the average of the full thing, study it.
+    
+    Once we've selected a chunk, flip a three-sided coin and if it's heads, choose the one with most times wrong. Otherwise, choose randomly.
+    */
 
-    // Flip a coin, and if it's heads, choose the one with the max number of times wrong. Else, choose a random one.
+    // Divide into chunks.
+    /**
+     * @type {[[{CharacterHere: String, chance: Number}]]}
+     */
+    let chunks = [];
+    for (let i = 0; i < list.Set.length; i++) {
+        if (i % 20 == 0) {
+            chunks[Math.floor(i / 20)] = [];
+        }
+
+        chunks[Math.floor(i / 20)].push(list.Set[i]);
+    }
+
+    // Calculate chunk averages.
+    let averages = [];
+    chunks.forEach(chunk => {
+        let avg = 0;
+        for (let i = 0; i < chunk.length; i++) {
+            avg += chunk[i].chance;
+        }
+        avg /= chunk.length;
+        averages.push(avg);
+    })
+
+    // Select the chunk with the highest average score.
+    let max = Number.NEGATIVE_INFINITY;
+    /**
+     * @type [{CharacterHere: String, chance: Number}]
+     */
+    let selectedChunk = null;
+    for (let i = 0; i < chunks.length; i++) {
+        if (averages[i] > max) {
+            selectedChunk = chunks[i];
+            max = averages[i];
+        }
+    }
+
+    console.log(`Selected chunk: ${chunks.indexOf(selectedChunk)}`);
+
+    // Gets a random index from the chunk.
+    let RandomCharacter = () => { 
+        return Math.floor(Math.random() * selectedChunk.length); 
+    }
+
+    // Selects the highest chance in the chunk.
+    function GetMaxChanceIndex()
+    {
+        let maxIndex = -1, max = Number.NEGATIVE_INFINITY;
+        for (let i = 0; i < selectedChunk.length; i++)
+            if (selectedChunk[i].chance > max)
+            {
+                maxIndex = i; max = selectedChunk[i].chance;
+            }
+
+        return maxIndex;
+    }
+
+    // Flip a three-sided coin, and if it's heads, choose the one with the max number of times wrong. Else, choose a random one.
     let rand = Math.floor(Math.random() * 3);
     let DontChooseRandomly = (rand == 0);
     let choice = -1;
@@ -405,13 +464,14 @@ function SelectCharacter() {
         choice = RandomCharacter();
 
     // Prevent the same one from being chosen twice in a row, but only if the set's long enough to let that happen.
+        // NOTE: This wastes flops when the selected chunk changes, but it's transparent to the user and not really that big of a deal so I'm not going to fix it lol.
     if (choice == LastSelectedChoice && list.Set.length >= 2) 
         do 
             choice = RandomCharacter()
         while (choice == LastSelectedChoice)
     
     LastSelectedChoice = choice;
-    return list.Set[choice];
+    return selectedChunk[choice];
 }
 
 function ToggleScreen() {
@@ -778,6 +838,9 @@ async function ScrollToSearch(query) {
     
     for (let i = 0; i < Children.length; i++) {
         // Get the words. Add a space after if we're dealing with a single query.
+        /**
+         * @type {[String]}
+         */
         let words = Children[i].innerText.toLowerCase();
         
         if (query.length == 1) 
@@ -789,8 +852,7 @@ async function ScrollToSearch(query) {
         // Check to see if the text of the thing contains any query words.
         for (let p = 0; p < query.length; p++) {
             let keyword = query[p];
-
-            if (words.includes(keyword))
+            if (words.includes(keyword.trim()))
                 {
                     matches++;
                     continue;

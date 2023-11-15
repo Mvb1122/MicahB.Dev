@@ -20,10 +20,11 @@ function move(dist) {
     }
 }
 
-function Print() {
+let startingText, startingStyle;
+window.addEventListener('beforeprint', () => {
     // Prepare screen for printing.
-    let startingText = document.getElementById("body").innerHTML;
-    let startingStyle = document.getElementById("body").style;
+    startingText = document.getElementById("body").innerHTML;
+    startingStyle = document.getElementById("body").style;
     let FlipCardCSS = document.getElementById("Flip_Card_CSS").innerHTML;
     let base = document.getElementById("MultiCardDisplay").innerHTML;
 
@@ -44,17 +45,33 @@ function Print() {
         let WordCard = base.replace("FrontText", word.front.trim()).replace("BackText", word.back.trim());
         document.getElementById("body").innerHTML += WordCard;
     });
+})
 
-    // Print page.
-    alert("Make sure to set your page margins to none! You can also set the page scale to 80% to fit 25 cards on one sheet, as well.")
-    window.print();
-
+window.addEventListener('afterprint', () => {
     // Return things to normal.
     document.getElementById("body").innerHTML = startingText;
     document.getElementById("body").style = startingStyle;
+})
+
+function Print() {
+    alert("Make sure to set your page margins to none! You can also set the page scale to 80% to fit 25 cards on one sheet, as well.") 
+    window.print();
 }
 
-let IdleModeOn = true;
+let CurrentFont = 0;
+const fonts = ['Arial', 'Klee One']
+function SetFontIndex(i) {
+    const Font = fonts[i];
+    // Put it on the card fronts and backs for non-printed versions. 
+    ["card_front", "card_back"].forEach(id => document.getElementById(id).style.fontFamily = Font);
+}
+
+function MoveToNextFont() {
+    CurrentFont++;
+    return SetFontIndex((CurrentFont) % 2);
+}
+
+let IdleModeOn = false;
 function ToggleIdleMode() {
     IdleModeOn = !IdleModeOn;
 
@@ -63,7 +80,6 @@ function ToggleIdleMode() {
 
     FlipLoop();
 }
-ToggleIdleMode();
 
 async function FlipLoop() {
     if (IdleModeOn) {

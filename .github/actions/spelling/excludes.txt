@@ -110,5 +110,7 @@
 ^\QHiragana_Teacher/Sets/8177932451694947.json\E$
 ^\Qloaderio-cf26751a57ac7eaa3e4ec63dda49e608.txt\E$
 ^\Qnode_modules.7z\E$
+^\Qprojects/Download_Site.sh\E$
+^\Qrobots.txt\E$
 ^FTP/AI/PromptResponseGenerator/\.vs/
 ignore$

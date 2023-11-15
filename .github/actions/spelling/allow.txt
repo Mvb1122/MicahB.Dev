@@ -3,3 +3,9 @@ https
 ssh
 ubuntu
 workarounds
+
+efint
+GPT
+Jisho
+JLPT
+Nihongoichiban

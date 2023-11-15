@@ -477,7 +477,7 @@ client.on("messageCreate", async (message) => {
         let thread = await global.ThreadCache[ThreadID];
 
         // Join thread and tell the user that we're watching it.
-        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost!\nAlso, use `/addGame *` to add the games that are taking place today, please.\nIf you forgot, you can add people using `/here @-`, or excuse them with `/excuse @ *` Where @- is a series of usernames, @ is one username, and * is a reason.")
+        thread.send("I'm tracking an ESports Event in this thread. Make sure to use `/complete` when you're done, or your attendance may be lost!\nAlso, use `/addGame *` to add the games that are taking place today, please.\nIf you forgot, you can add people using `/here @-`, or excuse them with `/excuse @ *` Where @- is a series of UserNames, @ is one username, and * is a reason.")
             // .then(message => console.log(`Sent message: ${message.content}`))
             .catch(console.error);
 
