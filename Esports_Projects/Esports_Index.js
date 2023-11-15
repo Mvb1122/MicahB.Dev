@@ -136,10 +136,20 @@ function GetMatches(player) {
     return playersGames;
 }
 
-function GetWinrate(player) {
+function GetWinrate(player, game = "any") {
     let matches = GetMatches(player);
     let wins = 0;
     matches.forEach(match => {
+        // If we're not using any game, get from cache and parse it.
+        if (game != "any") {
+            const ReadGame = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${match.Game}`));
+            
+            if (ReadGame.Game != game) {
+                console.log(`Ignoring a ${ReadGame.game} game!`)
+                return; // Move onto next game.
+            }
+        }
+
         if (match.Players != null && ArrayContains(match.Players, player)) // (match.TeamName != null && match.Result == "Win") || ( 
             wins++;
     })
