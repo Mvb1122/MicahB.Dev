@@ -19,16 +19,63 @@ if (!fs.existsSync(`${PlayerPath}/${GivenData.id}.json`)) {
     res.end(JSON.stringify({ successful: false, reason: "Invalid user!" }));
 }
 
-console.log(GivenData);
+// Load the players into memory. (Use currently open Smash event.)
+    // Get events.
+/**
+ * @type {[{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}]}
+ */
+const events = global.EventCache;
+/**
+ * @type {{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}}
+ */
+let eventInFocus = undefined;
+for (let i = 0; i < events.length; i++) {
+    const event = events[i];
+    
+    // Check if the event's games includes Smash Bros.
+        // Just use the first smash event that has the selected player in it.
+    let includesSmash = false;
+    for (let i = 0; i < event.Games.length; i++) {
+        if (event.Games[i].toLowerCase().includes("smash"))
+        {
+            includesSmash = true;
+            break;
+        }
+    }
+        // Look for the player.
+    let includesPlayer = false;
+    for (let i = 0; i < event.Attending.length; i++) {
+        if (event.Attending[i] == GivenData.id) {
+            includesPlayer = true;
+            break;
+        }
+    }
 
-// Load the players into memory.
+    if (includesPlayer && includesSmash) {
+        eventInFocus = event;
+        break;
+    }
+}
+
+// If we don't have an event, say it.
+if (eventInFocus == undefined) {
+    res.statusCode = 200;
+    return res.end(JSON.stringify({
+        successful: false,
+        reason: "No smash events open! Please take attendance."
+    }));
+}
+
+// Load player files into memory.
 /** @type {[{Name: string,PlayedGames?: (string)[] | null, Discord_id: string,Student_id: string, "Smash_Skill":Number, FileName: String}]} */
-const players = fs.readdirSync(PlayerPath);
+const players = eventInFocus.Attending;
+console.log(players);
+
 for (let i = 0; i < players.length; i++)
     players[i] = new Promise(async res => {
-        const fileName = players[i];
+        const fileName = `${players[i]}.json`;
         console.log(fileName);
-        let data = JSON.parse(GetFileFromCache(`${PlayerPath}/${players[i]}`));
+        let data = JSON.parse(await GetFileFromCache(`${PlayerPath}/${fileName}`));
         data.FileName = fileName;
         res(data);
     })
