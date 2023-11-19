@@ -191,13 +191,15 @@ async function SubmitSplatMKMatch() {
 }
 
 async function SubmitSSBUMatch() {
-    let winners, losers;
+    let winners, losers, divs = {winner: "", loser: ""};
     if (GetValueOfSelect("CompSelector") == "beat") {
         winners = GetValueOfSelect("PTopSelect");
         losers = GetValueOfSelect("PBotSelect");
+        divs.winner = PTopSelect; divs.loser = PBotSelect;
     } else {
         winners = GetValueOfSelect("PBotSelect");
         losers = GetValueOfSelect("PTopSelect");
+        divs.loser = PTopSelect; divs.winner = PBotSelect;
     }
 
     let MatchData = {
@@ -210,9 +212,27 @@ async function SubmitSSBUMatch() {
         }
     }
 
+    // Ask for matchups.
+    if (MatchData.Options.Game == "Super Smash Bros. Ultimate") {
+        [{ file: winners, div: divs.winner }, {file: losers, div: divs.loser}].forEach(player => {
+            postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {File: player.file}).then(val => {
+                let matchup = JSON.stringify(val); // Temp.
+                
+                const text = document.createElement("p"), username = document.getElementById(player.div).innerText;
+                text.innerText = `${username}'s next recommended matchup: ${matchup}`
+                document.getElementById("SmashMatchUps").appendChild(text)
+            })
+        })
+    }
+
     SubmitMatch(MatchData);
 }
 
+/**
+ * Sends a match.
+ * @param {{token: Number;Winners: any[];Losers: any[];Options: {TeamName: String;Game: string;};}} MatchData 
+ * @returns Nothing.
+ */
 async function SubmitMatch(MatchData) {
     // Remove the null option from either part.
     let winners = [];
@@ -236,6 +256,7 @@ async function SubmitMatch(MatchData) {
 
     // Go to Processing Screen while sending the data.
     let response = postJSON("./Post_Modules/LogMatch.js&cache=false", MatchData);
+
     document.getElementById("ProcessingMenu").style.display = "block";
     document.getElementById("LeaveProcessingScreenButton").style.display = "block";
     document.getElementById(SourceScreen).style.display = "none";
@@ -254,6 +275,10 @@ async function SubmitMatch(MatchData) {
 // Return to the user's previous screen.
 function LeaveProcessingScreen() {
     document.getElementById("ProcessingMenu").style.display = "none";
+
+    // Also clear matchup display for Smash.
+    document.getElementById("SmashMatchUps").children = [];
+
     loadSelectedGame();
 }
 
