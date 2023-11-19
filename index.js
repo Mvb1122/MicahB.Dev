@@ -378,12 +378,13 @@ eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
 // require("./FTP/AI/AI_Index.js")
 eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
-// Save the global cache when the program is shut down.
-process.on('SIGINT', function() {
-    // Don't save file cache.
-    delete global.File_Cache;
-    
-    fs.writeFileSync("./Global.json", JSON.stringify(global));
+const SaveGlobalAndExit = function (error = null) {
+    if (error) console.log(error);
 
+    delete global.File_Cache;
+    fs.writeFileSync("./Global.json", JSON.stringify(global));
     process.exit();
-});
+};
+// Save the global cache when the program is shut down, or on crash.
+process.on('SIGINT', SaveGlobalAndExit);
+process.on('uncaughtException', SaveGlobalAndExit)
