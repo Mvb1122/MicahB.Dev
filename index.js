@@ -365,9 +365,9 @@ function parseQuery(queryString) {
 const global = fs.existsSync("./Global.json") ? JSON.parse(fs.readFileSync("./Global.json")) : {};
 module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime }
 // Run ESports setup stuff.
-require("./Esports_Projects/Esports_Index.js")
+const esports = require("./Esports_Projects/Esports_Index.js")
 // eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
-console.log(require("./Esports_Projects/Esports_Index.js"));
+// console.log(esports);
 global.File_Cache = File_Cache;
 
 // Run Hiragana Teacher stuff.

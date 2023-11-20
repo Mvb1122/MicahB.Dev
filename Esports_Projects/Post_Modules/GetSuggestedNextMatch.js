@@ -1,14 +1,16 @@
 /*
 Example Data:
 {
-    "File": "1234567890",
+    "id": "1234567890",
 }
 
 Returned: 
 {
-    "id": 1234567890
+    successful: true,
+    Players: [] // Ideally select randomly from this list.
 }
 */
+
 const fs = require('fs'), PlayerPath = "Esports_Projects/Players"
 /**
  * @type {{"File": String, "id": Number}}
@@ -16,7 +18,7 @@ const fs = require('fs'), PlayerPath = "Esports_Projects/Players"
 let GivenData = JSON.parse(data);
 if (!fs.existsSync(`${PlayerPath}/${GivenData.id}.json`)) {
     res.statusCode = 200;
-    res.end(JSON.stringify({ successful: false, reason: "Invalid user!" }));
+    return res.end(JSON.stringify({ successful: false, reason: "Invalid user!" }));
 }
 
 // Load the players into memory. (Use currently open Smash event.)
@@ -25,12 +27,15 @@ if (!fs.existsSync(`${PlayerPath}/${GivenData.id}.json`)) {
  * @type {[{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}]}
  */
 const events = global.EventCache;
+console.log(events);
 /**
  * @type {{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}}
  */
 let eventInFocus = undefined;
-for (let i = 0; i < events.length; i++) {
-    const event = events[i];
+const EventNumbers = Object.keys(events);
+for (let i = 0; i < EventNumbers.length; i++) {
+    const event = events[EventNumbers[i]];
+    console.log(event);
     
     // Check if the event's games includes Smash Bros.
         // Just use the first smash event that has the selected player in it.
@@ -60,20 +65,23 @@ for (let i = 0; i < events.length; i++) {
 // If we don't have an event, say it.
 if (eventInFocus == undefined) {
     res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
     return res.end(JSON.stringify({
         successful: false,
         reason: "No smash events open! Please take attendance."
     }));
 }
 
+console.log(eventInFocus);
+
 // Load player files into memory.
 /** @type {[{Name: string,PlayedGames?: (string)[] | null, Discord_id: string,Student_id: string, "Smash_Skill":Number, FileName: String}]} */
-const players = eventInFocus.Attending;
+const players = fs.readdirSync(PlayerPath); // eventInFocus.Attending;
 console.log(players);
 
 for (let i = 0; i < players.length; i++)
     players[i] = new Promise(async res => {
-        const fileName = `${players[i]}.json`;
+        const fileName = `${players[i]}`;
         console.log(fileName);
         let data = JSON.parse(await GetFileFromCache(`${PlayerPath}/${fileName}`));
         data.FileName = fileName;
@@ -104,6 +112,10 @@ Promise.all(players).then(() => {
     SD = Math.sqrt(SD / players.length);
 
     function GetPlayersWithinSDOf(Skill, Range = 1) {
+        // DEBUG:
+        if (true) {
+            console.log(`Attempting to find players within ${Range}SD of ${Skill}\nAvg: ${average}, SD: ${SD}`);
+        }
         // Look at all players.
         const min = Skill - (SD * Range), max = Skill + (SD * Range);
         /**
@@ -118,7 +130,7 @@ Promise.all(players).then(() => {
         // If the passed user is in the list, remove them. (They will always be in the list.)
         ApplicablePlayers.splice(ApplicablePlayers.indexOf(GivenData.id), 1);
 
-        if (ApplicablePlayers.length > 0 || range > 9) return ApplicablePlayers;
+        if (ApplicablePlayers.length > 0 || Range > 9) return ApplicablePlayers;
         else return GetPlayersWithinSDOf(Skill, Range + 1);
     }
     
@@ -128,10 +140,11 @@ Promise.all(players).then(() => {
     }
 
     // If they have a defined smash_skill stat, find users with similar stats.
-    if (passedPlayer.Smash_Skill != undefined) {
-        response.Players = GetPlayersWithinSDOf(passedPlayer.Smash_Skill);
-    } else {
+    console.log(passedPlayer.Smash_Skill)
+    if (passedPlayer.Smash_Skill == undefined) {
         response.Players = GetPlayersWithinSDOf(average);
+    } else {
+        response.Players = GetPlayersWithinSDOf(passedPlayer.Smash_Skill);
     }
     // If they don't have a defined smash_skill stat, recommend people around the average.
     res.statusCode = 200;

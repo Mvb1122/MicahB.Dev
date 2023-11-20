@@ -195,11 +195,11 @@ async function SubmitSSBUMatch() {
     if (GetValueOfSelect("CompSelector") == "beat") {
         winners = GetValueOfSelect("PTopSelect");
         losers = GetValueOfSelect("PBotSelect");
-        divs.winner = PTopSelect; divs.loser = PBotSelect;
+        divs.winner = "PTopSelect"; divs.loser = "PBotSelect";
     } else {
         winners = GetValueOfSelect("PBotSelect");
         losers = GetValueOfSelect("PTopSelect");
-        divs.loser = PTopSelect; divs.winner = PBotSelect;
+        divs.loser = "PTopSelect"; divs.winner = "PBotSelect";
     }
 
     let MatchData = {
@@ -214,11 +214,11 @@ async function SubmitSSBUMatch() {
 
     // Ask for matchups.
     if (MatchData.Options.Game == "Super Smash Bros. Ultimate") {
-        [{ file: winners, div: divs.winner }, {file: losers, div: divs.loser}].forEach(player => {
-            postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {File: player.file}).then(val => {
+        [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}].forEach(player => {
+            postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {id: player.id}).then(val => {
                 let matchup = JSON.stringify(val); // Temp.
-                
-                const text = document.createElement("p"), username = document.getElementById(player.div).innerText;
+                const text = document.createElement("p");
+                const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
                 text.innerText = `${username}'s next recommended matchup: ${matchup}`
                 document.getElementById("SmashMatchUps").appendChild(text)
             })

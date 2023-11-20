@@ -834,17 +834,13 @@ async function ScrollToSearch(query) {
         query[0] = `${query[0]} `
 
     const Children = document.getElementById("sets").children;
-    
-    
+
     for (let i = 0; i < Children.length; i++) {
         // Get the words. Add a space after if we're dealing with a single query.
         /**
          * @type {[String]}
          */
         let words = Children[i].innerText.toLowerCase();
-        
-        if (query.length == 1) 
-            words = `${words} `
 
         // See how many matches it has.
         let matches = 0; 
@@ -852,7 +848,7 @@ async function ScrollToSearch(query) {
         // Check to see if the text of the thing contains any query words.
         for (let p = 0; p < query.length; p++) {
             let keyword = query[p];
-            if (words.includes(keyword.trim()))
+            if (words.indexOf(keyword) != -1)
                 {
                     matches++;
                     continue;
