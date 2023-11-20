@@ -219,7 +219,7 @@ async function SubmitSSBUMatch() {
                 let matchup = JSON.stringify(val); // Temp.
                 const text = document.createElement("p");
                 const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
-                text.innerText = `${username}'s next recommended matchup: ${matchup.sucessful ? matchup.Players : matchup}`
+                text.innerText = `${username}'s next recommended matchup: ${matchup.successful ? matchup.Players : matchup}`
                 document.getElementById("SmashMatchUps").appendChild(text)
             })
         })
