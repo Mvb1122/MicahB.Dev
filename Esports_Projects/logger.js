@@ -213,17 +213,19 @@ async function SubmitSSBUMatch() {
     }
 
     // Ask for matchups.
-    if (MatchData.Options.Game == "Super Smash Bros. Ultimate") {
-        [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}].forEach(player => {
-            postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {id: player.id}).then(val => {
-                let matchup = JSON.stringify(val); // Temp.
-                const text = document.createElement("p");
-                const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
-                text.innerText = `${username}'s next recommended matchup: ${matchup.successful ? matchup.Players : matchup}`
-                document.getElementById("SmashMatchUps").appendChild(text)
-            })
+    const text = document.createElement("p");
+    text.innerHTML = "<b>BETA!</b> Matchups not required yet."
+    document.getElementById("SmashMatchUps").appendChild(text)
+
+    [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}].forEach(player => {
+        postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {id: player.id}).then(val => {
+            let matchup = JSON.stringify(val); // Temp.
+            const text = document.createElement("p");
+            const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
+            text.innerText = `${username}'s next recommended matchup: ${val.successful ? val.Players : matchup}`
+            document.getElementById("SmashMatchUps").appendChild(text)
         })
-    }
+    })
 
     SubmitMatch(MatchData);
 }
