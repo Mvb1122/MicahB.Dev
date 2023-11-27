@@ -578,7 +578,7 @@ client.on("messageCreate", async (message) => {
                     let playerID = GetPlayerIDFromDiscordID(NewPlayer);
                     if (playerID != -1) {
                         global.EventCache[eventNumber].Attending.push(playerID);
-                        PlayersAttached += `, ${NewPlayer}`;
+                        PlayersAttached += `, <${NewPlayer}>`;
                     } else {
                         errors += `${NewPlayer} is not registered!\n`;
                     }
