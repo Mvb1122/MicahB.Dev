@@ -51,10 +51,12 @@ async function loadSelectedGame() {
 
         case "Mario Kart":
             await LoadMarioKartSplatoonPanel(selectedGame);
+            document.getElementById("MapInput").placeholder = "Map (Can be empty)"
             break;
 
         case "Splatoon":
             await LoadMarioKartSplatoonPanel(selectedGame);
+            document.getElementById("MapInput").placeholder = "Gamemode (Can be empty)"
             break;
 
         default:
