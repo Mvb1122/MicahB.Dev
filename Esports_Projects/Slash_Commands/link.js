@@ -51,11 +51,15 @@ module.exports = {
                 global.playerCache[link_code] = undefined;
                 link_code = GetPlayerIDFromDiscordID(message.member.id);
                 ReplyStart = "Profile Updated!";
+
+                // Clear file cache if the player is updating.
+                global.File_Cache = null;
             }
             fs.writeFileSync(`${PlayersPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
     
             // Invalidate cached version of the player.
             global.playerCache[link_code] = undefined;
+
             message.reply(`${ReplyStart} Check the website to make sure it went through.`);
     
             // Rename the user to have their name as their username.
