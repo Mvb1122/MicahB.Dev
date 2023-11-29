@@ -44,18 +44,20 @@ module.exports = {
                 "Grade": playerInfo.Grade,
                 "Ranks": playerInfo.Ranks
             }
+            let ReplyStart = "Registration suceeded!"
+            const FilePath = `${PlayersPath}/${link_code}.json`;
+
             // Save data to player database.
                 // If the player is already registered, update their existing profile.
-            let ReplyStart = "Registration suceeded!"
             if (GetPlayerIDFromDiscordID(message.member.id) != -1) {
                 global.playerCache[link_code] = undefined;
                 link_code = GetPlayerIDFromDiscordID(message.member.id);
                 ReplyStart = "Profile Updated!";
 
-                // Clear file cache if the player is updating.
-                global.File_Cache = null;
+                // Clear file cache of the player if the player is updating.
+                global.File_Cache[FilePath] = null;
             }
-            fs.writeFileSync(`${PlayersPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
+            fs.writeFileSync(FilePath, JSON.stringify(Full_Player_Information));
     
             // Invalidate cached version of the player.
             global.playerCache[link_code] = undefined;
