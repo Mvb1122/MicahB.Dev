@@ -167,7 +167,7 @@ function GetValueOfSelectArray(array) {
 
 async function SubmitSplatMKMatch() {
     let winners, losers;
-    if (GetValueOfSelect("CompSelector") == "beat") {
+    if (GetValueOfSelect("CompSelectorMKSplat") == "beat") {
         winners = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PTopSelect"));
         losers = GetValueOfSelectArray(GetSelectsByNumberAndPrefix(4, "PBotSelect"));
     } else {
