@@ -11,7 +11,7 @@
     <script>
         // Must be sent alongside page in order to be available for use immediately.
         let CurrentlyShownSection = "NonReturningUserPane";
-        const sections = [["Base", "NonReturningUserPane", "ReturningUserPane", "LoginPane"], ["SignUp", "questionnaire", "UsernamePasswordScreen"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"], ["EndPane"]]
+        const sections = [["Base", "NonReturningUserPane", "ReturningUserPane", "LoginPane"], ["SignUp", "PreInfo", "questionnaire", "UsernamePasswordScreen"], ["Loading"], ["GameOne", "GameOneDescription", "GameOneCountDown", "GameOneGame", "GameOneEndSceen"], ["GameTwo", "GameTwoDescription", "GameTwoGame", "GameTwoEndScreen"], ["GameThree", "GameThreeDescription", "GameThreeGame", "GameThreeEndScreen"], ["EndPane"]]
         function ShowOnly(section) {
             CurrentlyShownSection = section;
             // Hide all other things.
@@ -98,6 +98,32 @@
 
         
         <div id="SignUp" hidden>
+            <div id="PreInfo">
+                <h2>Instructions (<b>Please Read!</b>)</h2>
+                <p>
+                    Participants will take part in six sessions (one session a day) within the trial period, with <u>three games per session for students that do not take part in early morning activities and four games per session for students that do take part in early morning activities.</u> Each game will take approximately three minutes to complete. During each game, participants will take variations of the Stroops test, Corsi block-tapping task, and the Raven Progressive Matrices Test. 
+                </p><br>
+
+                <h3>Please take the test at approximately the following times:</h3>
+                <ul>
+                    <li>
+                        <b>Participants that take part in early morning activities:</b>
+                        <p>The first test before 7:40 AM, the second test between 8:30 AM and 9:46 AM, the third test between 11:26 AM and 12:26 PM, and the fourth test between 1:50 PM and 2:50 PM.</p>
+                    </li>
+                    <li>
+                        <b>Participants that <b>do not</b> take part in early morning activities </b>
+                        <p>The first test between 8:30 AM and 9:46 AM, the second test between 11:26 AM and 12:26 PM, and the third test between 1:50 PM and 2:50 PM.</p>
+                    </li>
+                </ul><br>
+
+                <p>Note: For entry into a raffle, (Chick-fil-A and Chipotle gift cards!) you will need to complete at least 6 sessions in the trial period where you will have time to complete 1 session a day. <b>One session is playing the games 3/4 times a day!</b></p>
+                
+                <p>Now that you've read all that, are you ready to go on?</p>
+                <div id="PreInfoContinueButtonDiv" style="flex-direction: row;">
+                    <p>Button to move on will appear after <b id="PreInfoCountdown">30</b> seconds.</p>
+                </div>
+            </div>
+
             <div id="questionnaire" hidden>
                 <h2>First, we need you to sign up, so we can track your information!</h2>
                 <p>Please fill out the below boxes.</p>
@@ -125,10 +151,11 @@
                 </div>
 
                 <h3>Demographic Questions</h3>
-                <label for="Q4">What is your <b>sex</b>? (Not preferred gender; please select your birth gender.)</label>
+                <label for="Q4">What is your <b>gender</b>?</label>
                 <select name="Q4" id="Q4">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
+                    <option value="NB">Non-Binary</option>
                     <option value="N/A">Prefer not to say</option>
                 </select><br>
 
@@ -170,11 +197,11 @@
         <div id="GameOne" hidden>
             <div id="GameOneDescription">
                 <h1>Part one: Stroop Attention Game</h1>
+                <h2>Instructions (<b>Please Read!</b>)</h2>
                 <p>
                     For this test, you'll be given a word, and then you will enter the <b>color of the word!</b> (not
                     the name!)<br><br>
-                    You will get 2.25 seconds to respond to each round, where there's one practice round and ten real
-                    ones. After you have completed the tenth round, your stats will be saved automatically.
+                    You will get 2.25 seconds to respond to each round. However, the time it takes to select the color will be measured so <b>answer as fast and as accurate as possible!</b> There will be one practice round and ten real ones. After you have completed the tenth round you will move to the second game, and your stats will be saved automatically.
                 </p>
                 <button onclick="StartGameOne()">Once you're ready to get started, click here!</button>
             </div>
@@ -203,12 +230,9 @@
         <div id="GameTwo" hidden>
             <div id="GameTwoDescription">
                 <h1>Part two: Visual Memory Test</h1>
+                <h2>Instructions (<b>Please Read!</b>)</h2>
                 <p>
-                    Now, you'll be given a grid of squares, where part of them light up. After 1 second, they will turn
-                    black and you must click on the squares which had lit up. At first, only three squares on a 3*3 grid
-                    will turn white, but after each round, one more square will light up. After every third round, the
-                    size of the grid will increase by 1. <br>
-                    After the sixth round, size will only increase every fourth round. 
+                    Now, you'll encounter a grid of squares, with some of them initially illuminated in white. After 1 second, the illuminated squares will transition to black, and your task is to click on the squares that were illuminated. In the initial stage, only three squares on a 3x3 grid will light up. However, with each successive round, an additional square will be illuminated. Furthermore, every third round will introduce a grid size increment of 1. Starting from the sixth round, the grid size will only increase every fourth round. <b>Play as many rounds of this game as you can without making mistakes!</b> Afterward, you will move to the third and final game and, of course, your stats will be automatically saved.
                 </p>
                 <button onclick="StartGameTwo()">When you're ready to start, click here!</button>
             </div>
@@ -236,8 +260,8 @@
         <div id="GameThree" hidden>
             <div id="GameThreeDescription">
                 <h1>Part three: Raven Progressive Matrices Game</h1>
-                <p>A series of figures will be presented. Your goal is to identify the figure that makes the most sense to replace the question mark. You will be given 15 seconds for each question. Also, you must play this section <b id="SectionThreeSessionCounter">three</b> times today, <b>at different times</b>!<br> You can reselect your answer at any time within the 15 seconds.
-                    In each section, you'll be given 3 random questions, for a total of <b id="SectionThreeQuestionTotal"></b>, where the questions will be different in each section. There is a three second break between questions. 
+                <p>A sequence of figures will be displayed, and your objective is to determine the figure that best fits to replace the question mark. You'll have 15 seconds for each question, during which you can adjust your answer at any point. A brief three-second break will be provided between questions.<br> You can reselect your answer at any time within the 15 seconds.
+                    In each section, you'll be given 3 random questions, for a total of <b id="SectionThreeQuestionTotal"></b>, where the questions will be different in each section.
                     <br>
                     <p id="GameThreeSectionDiv" style="text-align: center;">Please wait for your progress to be loaded!</p>
                 </p>
@@ -261,10 +285,11 @@
             <div id="GameThreeEndScreen">
                 <p>
                     Good job! You have <b id="GameThreePartNum">LOADING...</b> part(s) left today, but those will have to wait. Please follow Seth's instructions on when to do them!
+                    Also, remember to play all games through <b id="SectionThreeSessionCounter">three</b> times today, <b>at different times</b>!
                 </p>
 
                 <p>
-                    In case you forgot for entry into a raffle, (<b>Chick-fil-A and Chipotle gift cards!</b>) you will need to complete at least 6 sessions in the 23 day trial period (November 14 through December 21, 2023) where you will have time to complete 1 session a day. (One session is completing the game up to this screen.)
+                    Note: For entry into the raffle, (<b>Chick-fil-A and Chipotle gift cards!</b>) you will need to complete at least 6 sessions in the trial period where you will have time to complete 1 session a day. <b>One session is playing all three games <b id="SectionThreeSessionCounter2"></b> times a day.</b>
                 </p>
             </div>
         </div>

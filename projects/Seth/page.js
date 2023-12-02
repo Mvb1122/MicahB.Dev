@@ -24,9 +24,26 @@ if (localStorage.getItem("SethUsername") != null && localStorage.getItem("SethPa
 let username, 
 /** @type {Number} */
 pseudopassword; // Not an actual password!
-function StageOne() {
-    // First, hide the starting panel and go to the signup panel.
-    ShowOnly("questionnaire");
+async function StageOne() {
+    // First, hide the starting panel and go to the signup panel's PreInfo screen.
+    ShowOnly("PreInfo");
+    // Set a timer for 30 seconds, then show the button.
+    for (let i = 29; i >= 1; i--) {
+        await Wait(1000);
+
+        // Update timer text.
+        document.getElementById("PreInfoCountdown").innerText = i;
+    }
+    // Create the button and add it.
+    const button = document.createElement("button");
+    button.innerText = "Move on!";
+    button.onclick = () => {
+        ShowOnly("questionnaire");
+    }
+
+    // Make the button that div's only child.
+    document.getElementById("PreInfoContinueButtonDiv").innerHTML = "";
+    document.getElementById("PreInfoContinueButtonDiv").appendChild(button);
 }
 
 let UserData, UsernamePrefix, IsExperimental;
@@ -37,7 +54,7 @@ function ShowUsernamePasswordScreen() {
         HoursOfSleep: "Q2",
         BedTime: "Q3a",
         WakeTime: "Q3b",
-        Sex: "Q4",
+        Gender: "Q4",
         Age: "Q5", 
         Grade: "Q6"
     };
@@ -598,9 +615,11 @@ async function ShowGameThree() {
     // Update the Part number text on the Game3EndScreen while we're here, just because it's easy.
     document.getElementById("GameThreePartNum").innerText = (IsExperimental ? 3 : 2) - data.roundNum;
     /* }) */
-
+    
     // Update the description screen.
-    document.getElementById("SectionThreeSessionCounter").innerText = IsExperimental ? "four" : "three";
+    const SessionCounter = IsExperimental ? "four" : "three";
+    document.getElementById("SectionThreeSessionCounter").innerText = SessionCounter;
+    document.getElementById("SectionThreeSessionCounter2").innerText = SessionCounter
     document.getElementById("SectionThreeQuestionTotal").innerText = IsExperimental ? "12" : "9";
 }
 
