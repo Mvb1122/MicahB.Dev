@@ -59,6 +59,7 @@ if (args.target != null && !args.target.includes("post_modules")) {
     let respose = { upload: location.toString() };
     if (DEBUG) console.log(`Uploading a file to: ${location}`)
     fs.writeFile(location, data, (err) => {
+        console.log(`Wrote file to ${location}!`)
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
 
