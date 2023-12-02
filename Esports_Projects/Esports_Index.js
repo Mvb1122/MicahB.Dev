@@ -135,6 +135,7 @@ function GetMatches(player) {
 
     return playersGames;
 }
+global.esports.GetMatches = GetMatches;
 
 function GetWinrate(player, game = "any") {
     let matches = GetMatches(player);
@@ -157,6 +158,7 @@ function GetWinrate(player, game = "any") {
     let winrate = wins / matches.length;
     return winrate == null ? 0 : winrate;
 }
+global.esports.GetWinrate = GetWinrate;
 
 function GetAttendance(player) {
     let PlayerFilePath = `${PlayersPath}/${player}.json`;
@@ -293,6 +295,30 @@ function GetReliability(player) {
     return (oldReliability + AttendanceReliability) / 2;
 }
 
+function ProcessSmashMatch(match) {
+    if ((match.Options != null && match.Options.Game != null && match.Options.Game == "Super Smash Bros. Ultimate") || (match.Game != null && match.Game == "Super Smash Bros. Ultimate")) {
+        const winner = match.Winners != null ? match.Winners[0] : match.Players[0];
+        const loser = match.Losers != null ? match.Losers[0] : match.Enemies[0];
+
+        // Get players' Skill level.
+        let WinnerSkill = GetPlayerSkill(winner);
+        let LoserSkill = GetPlayerSkill(loser);
+    
+        const Points = (Math.abs(WinnerSkill - LoserSkill) + 1);
+        // Calculate changes.
+        LoserSkill -= Points / 3;
+        if (WinnerSkill > LoserSkill)
+            WinnerSkill += 1;
+        else 
+            WinnerSkill += Points;
+    
+        // Update their Player files. 
+        SetPlayerSkill(winner, WinnerSkill);
+        SetPlayerSkill(loser, LoserSkill);
+    }
+}
+global.esports.ProcessSmashMatch = ProcessSmashMatch;
+
 function GetPlayerSkill(PlayerID) {
     let Skill = 1;
     const PlayerFile = `./Esports_Projects/Players/${PlayerID}.json`;
@@ -312,10 +338,7 @@ function SetPlayerSkill(PlayerID, Skill) {
         let Player = JSON.parse(fs.readFileSync(PlayerFile));
         Player.Smash_Skill = Skill;
         const data = JSON.stringify(Player);
-        fs.writeFile(PlayerFile, data, (e) => {
-            if (e)
-                console.log("Error: " + e);
-        })
+        fs.writeFileSync(PlayerFile, data);
 
         // Update the cache.
         global.File_Cache[PlayerFile] = data;
@@ -342,7 +365,7 @@ module.exports = {
 let SlashCommands = []
 client.once('ready', () => {
     console.log('Discord bot online.');
-    let commands = ["./Slash_Commands/CreateEvent.js", "./Slash_Commands/link.js"]; // File paths here.
+    let commands = ["./Slash_Commands/CreateEvent.js", "./Slash_Commands/link.js", "./Slash_Commands/RecalculateSmashSkill.js"]; // File paths here.
     //#region Command handler stuff.
     let CommandJSON = [];
     commands.forEach(command => {
@@ -413,6 +436,7 @@ module.exports = {
     GetMaxMatches,
     GetPlayerIDFromDiscordID,
     GetReliability,
+    ProcessSmashMatch
 }
 
 client.on("messageCreate", async (message) => {
@@ -442,12 +466,16 @@ client.on("messageCreate", async (message) => {
         // Save data to player database.
         // If the player is already registered, update their existing profile.
         let ReplyStart = "Registration suceeded!"
+        const FilePath = `${PlayerPath}/${link_code}.json`;
         if (GetPlayerIDFromDiscordID(message.author.id) != -1) {
             global.playerCache[link_code] = undefined;
             link_code = GetPlayerIDFromDiscordID(message.author.id);
             ReplyStart = "Profile Updated!";
+
+            // Clear file cache of the player if the player is updating.
+            global.File_Cache[FilePath] = null;
         }
-        fs.writeFileSync(`${PlayerPath}/${link_code}.json`, JSON.stringify(Full_Player_Information));
+        fs.writeFileSync(FilePath, JSON.stringify(Full_Player_Information));
 
         // Invalidate cached version of the player.
         global.playerCache[link_code] = undefined;
@@ -555,8 +583,9 @@ client.on("messageCreate", async (message) => {
             eventNumber = eventNumber[eventNumber.length - 1];
 
             // If the eventNumber isn't a valid event, return since this isn't an event thread.
-            if (!global.EventCache[eventNumber] && c.startsWith("/"))
+            if (!global.EventCache[eventNumber] && c.startsWith("/")) {
                 return message.reply("This isn't an event thread, you can't use event commands here!");
+            }
             // console.log("The event number in this thread is " + eventNumber);
         } catch (error) {
             // This is not an event thread.
@@ -578,7 +607,8 @@ client.on("messageCreate", async (message) => {
                     let playerID = GetPlayerIDFromDiscordID(NewPlayer);
                     if (playerID != -1) {
                         global.EventCache[eventNumber].Attending.push(playerID);
-                        PlayersAttached += `, <${NewPlayer}>`;
+                        const userFile = JSON.parse(GetFileFromCache(`${PlayersPath}/${playerID}.json`));
+                        PlayersAttached += `, ${userFile.Name}`;
                     } else {
                         errors += `${NewPlayer} is not registered!\n`;
                     }
@@ -613,7 +643,7 @@ client.on("messageCreate", async (message) => {
             else
                 return message.reply(`Please have the unregistered player register at https://micahb.dev/ESports_Projects/Attendance_Make_Player.html\nand then you can add them via /excuse.`);
 
-            message.reply(`Player excused!`);
+            return message.reply(`Player excused!`);
             // console.log(JSON.stringify(global.EventCache[eventNumber]));
         }
         // Handle finishing events.

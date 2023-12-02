@@ -72,7 +72,7 @@ function GetWinrateUseCache(id) {
     return new Promise(async res => {
         // See if we have the player's winrate in cache.
         if (WinrateCache[id] != undefined) res({sucessful: true, winrate: WinrateCache[id]});
-        else res(await fetch("./Modules/GetWinrate.js&player=" + id));
+        else res(await fetch("./Modules/GetWinrate.js&player=" + id + "&game=" + escape(selectedGame)));
     })
         .then(value => {
             if (value.json != undefined) return value.json();
@@ -216,10 +216,13 @@ async function SubmitSSBUMatch() {
 
     // Ask for matchups.
     const text = document.createElement("p");
+        // Clear old matchups.
+    document.getElementById("SmashMatchUps").innerHTML = "";
     text.innerHTML = "<b>BETA!</b> Matchups not required yet."
     document.getElementById("SmashMatchUps").appendChild(text)
 
-    [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}].forEach(player => {
+    const parts = [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}]
+    parts.forEach(player => {
         postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {id: player.id}).then(val => {
             let matchup = JSON.stringify(val); // Temp.
             const text = document.createElement("p");
@@ -305,4 +308,5 @@ function IncreaseLogMatchCounter() {
 function ReturnToGameSelect(OldMenuId) {
     document.getElementById(OldMenuId).style = "display: none";
     document.getElementById("LoadGame").style = "display: block";
+    WinrateCache = [];
 }

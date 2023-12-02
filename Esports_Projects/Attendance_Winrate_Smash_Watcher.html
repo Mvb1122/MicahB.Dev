@@ -39,14 +39,17 @@
                     fetch("https://micahb.dev/Esports_Projects/Modules/GetPlayersBySkill.js&cache=false")
                         .then((response) => response.json())
                         .then(async (data) => {
-                            document.getElementById("Rankings").innerHTML = "";
+                            document.getElementById("Rankings").innerHTML = "<tr><th>Name</th><th>Skill</th><th>Winrate</th><th># of Matches</th></tr>";
                             // Add each player to the list.
                             for (let i = 0; i < data.players.length; i++) {
                                 let player = data.players[i].split(" ");
-                                let Skill = player[0].toString();
-                                Skill = Skill.substring(0, Skill.indexOf(".") + 2)
+                                let Skill = player[0].toString().replace(",", "").trim();
+                                let winrate = (Number.parseFloat(player[1].toString().replace(",", "")) * 100).toPrecision(3);
+                                let NumMatches = player[3].toString().replace(",", "").trim();
+                                if (Skill.includes("."))
+                                    Skill = Skill.substring(0, Skill.indexOf(".") + 2)
                                 document.getElementById("Rankings").innerHTML +=
-                                    `<li>${await GetPlayerName(player[1])}, ${Skill} Skill`
+                                    `<tr><td>${await GetPlayerName(player[2].replace(",", ""))}</td><td>${Skill}</td><td>${winrate}%</td><td>${NumMatches}</td></tr>`
                             }
                         });
             }
@@ -68,10 +71,7 @@
         <main>
             <p>Note: These rankings are based off of your skill ranking, not your winrate. That's why people with higher wintrates may be lower than you.</p>
             <p id="TimeUntilUpdate"></p>
-            <ol id="Rankings">
-                <li>XX</li>
-                <li>XX</li>
-                <li>XX</li>
+            <table id="Rankings">
             </ol>
         </main>
     </body>
