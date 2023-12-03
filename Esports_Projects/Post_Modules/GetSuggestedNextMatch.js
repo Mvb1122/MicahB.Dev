@@ -78,7 +78,6 @@ let players = []; // eventInFocus.Attending;
 for (let i = 0; i < paths.length; i++)
     players.push(new Promise(async res => {
         const fileName = `${paths[i]}`;
-        console.log(fileName);
         let data = JSON.parse(await GetFileFromCache(`${PlayerPath}/${fileName}`));
         data.FileName = fileName;
         res(data);

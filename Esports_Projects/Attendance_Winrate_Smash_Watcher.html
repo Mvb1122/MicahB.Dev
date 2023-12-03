@@ -5,7 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>A webapp which tracks ESports Attendance.</title>
         <meta name="description" content="This page allows you to see a specified players' winrate.">
-
+        <style>
+            .sub {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 30px;
+            }
+        </style>
         <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="topnav.css">
         <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
@@ -70,22 +78,28 @@
         <br>
         <main>
             <p>Note: These rankings are based off of your skill ranking, not your winrate. That's why people with higher wintrates may be lower than you.</p>
-            <p id="TimeUntilUpdate"></p>
-            <table id="Rankings"></table>
-            <h2>How does it work?</h2>
-            <p>The skill system works as follows:</p>
-            <ul>
-                <li>Everyone starts with 1 skill point.</li>
-                <li>
-                    When a match is logged, the system decides how much to reward or give people.
-                    <ol>
-                        <li>The difference in the winner and loser's skill points is calculated, and one is added to it.</li>
-                        <li>The loser loses 1/3 the difference from step 1.</li>
-                        <li>If the winner has more skill than the loser, they gain 1 point.</li>
-                        <li>If the winner has less skill, then they gain four-fifths of the difference from step 1.</li>
-                    </ol>
-                </li>
-            </ul>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center;">
+                <div class="sub">
+                    <p id="TimeUntilUpdate"></p>
+                    <table id="Rankings"></table>
+                </div>    
+                <div class="sub">
+                    <h2>How does it work?</h2>
+                    <p>The skill system works as follows:</p>
+                    <ul>
+                        <li>Everyone starts with 1 skill point.</li>
+                        <li>
+                            When a match is logged, the system decides how much to reward or give people.
+                            <ol>
+                                <li>The difference in the winner and loser's skill points is calculated, and one is added to it.</li>
+                                <li>The loser loses 1/3 the difference from step 1.</li>
+                                <li>If the winner has more skill than the loser, they gain 1 point.</li>
+                                <li>If the winner has less skill, then they gain four-fifths of the difference from step 1.</li>
+                            </ol>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </main>
     </body>
 </html>
