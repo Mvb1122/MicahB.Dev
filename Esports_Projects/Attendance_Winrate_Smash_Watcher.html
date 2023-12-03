@@ -15,7 +15,7 @@
             async function GetPlayerName(id) {
                 return new Promise((res) => {
                     if (PlayerNameCache[id] == null) {
-                        let playerURL = `https://micahb.dev/Esports_Projects/Players/${id}.json`;
+                        let playerURL = `https://micahb.dev/Esports_Projects/Modules/GetPlayerName.js&id=${id}`;
                         fetch(playerURL)
                             .then((response) => response.json())
                             .then((d) => {
@@ -71,8 +71,21 @@
         <main>
             <p>Note: These rankings are based off of your skill ranking, not your winrate. That's why people with higher wintrates may be lower than you.</p>
             <p id="TimeUntilUpdate"></p>
-            <table id="Rankings">
-            </ol>
+            <table id="Rankings"></table>
+            <h2>How does it work?</h2>
+            <p>The skill system works as follows:</p>
+            <ul>
+                <li>Everyone starts with 1 skill point.</li>
+                <li>
+                    When a match is logged, the system decides how much to reward or give people.
+                    <ol>
+                        <li>The difference in the winner and loser's skill points is calculated, and one is added to it.</li>
+                        <li>The loser loses 1/3 the difference from step 1.</li>
+                        <li>If the winner has more skill than the loser, they gain 1 point.</li>
+                        <li>If the winner has less skill, then they gain four-fifths of the difference from step 1.</li>
+                    </ol>
+                </li>
+            </ul>
         </main>
     </body>
 </html>
