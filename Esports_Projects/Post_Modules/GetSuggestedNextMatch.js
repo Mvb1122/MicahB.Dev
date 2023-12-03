@@ -27,7 +27,6 @@ if (!fs.existsSync(`${PlayerPath}/${GivenData.id}.json`)) {
  * @type {[{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}]}
  */
 const events = global.EventCache;
-console.log(events);
 /**
  * @type {{Attending: Number[];Excused: [{ "player": Number, "excuse": String }];Date: String;StartTime: string;Games: String[];}}
  */
@@ -35,7 +34,6 @@ let eventInFocus = undefined;
 const EventNumbers = Object.keys(events);
 for (let i = 0; i < EventNumbers.length; i++) {
     const event = events[EventNumbers[i]];
-    console.log(event);
     
     // Check if the event's games includes Smash Bros.
         // Just use the first smash event that has the selected player in it.
@@ -72,52 +70,58 @@ if (eventInFocus == undefined) {
     }));
 }
 
-console.log(eventInFocus);
-
 // Load player files into memory.
+const paths = fs.readdirSync(PlayerPath)
 /** @type {[{Name: string,PlayedGames?: (string)[] | null, Discord_id: string,Student_id: string, "Smash_Skill":Number, FileName: String}]} */
-const players = fs.readdirSync(PlayerPath); // eventInFocus.Attending;
-console.log(players);
+let players = []; // eventInFocus.Attending;
 
-for (let i = 0; i < players.length; i++)
-    players[i] = new Promise(async res => {
-        const fileName = `${players[i]}`;
+for (let i = 0; i < paths.length; i++)
+    players.push(new Promise(async res => {
+        const fileName = `${paths[i]}`;
         console.log(fileName);
         let data = JSON.parse(await GetFileFromCache(`${PlayerPath}/${fileName}`));
         data.FileName = fileName;
         res(data);
-    })
+    }));
 
 // Look at the player's smash skill.
-Promise.all(players).then(() => {
+Promise.all(players).then((value) => {
+    players = value;
+
     /** @type {{Name: string,PlayedGames?: (string)[] | null, Discord_id: string,Student_id: string, "Smash_Skill":Number}} */
     const passedPlayer = JSON.parse(GetFileFromCache(`${PlayerPath}/${GivenData.id}.json`));
 
     // Calculate SD of players.
         // Calculate average smash skill.
     let average = 0;
-    players.forEach((v) => {
-        if (v.Smash_Skill)
-            average += v.Smash_Skill
+    players.forEach(v => {
+        // console.log(`${v.Smash_Skill} == undefined ? ${v.Smash_Skill == undefined}`)
+        if (v.Smash_Skill != undefined) {
+            average += v.Smash_Skill;
+        }
     });
+    // console.log(`Sum: ${average}`);
     average /= players.length;
 
     // Calculate SD.
     let SD = 0;
-    players.forEach((v) => {
+    players.forEach(v => {
         if (v.Smash_Skill) {
             SD += (v.Smash_Skill - average) ** 2;
         }
     });
     SD = Math.sqrt(SD / players.length);
 
+    console.log(`Avg: ${average}, SD: ${SD}`)
+
     function GetPlayersWithinSDOf(Skill, Range = 1) {
         // DEBUG:
         if (true) {
-            console.log(`Attempting to find players within ${Range}SD of ${Skill}\nAvg: ${average}, SD: ${SD}`);
+            console.log(`Attempting to find players within ${Range}SD of ${Skill}`);
         }
         // Look at all players.
         const min = Skill - (SD * Range), max = Skill + (SD * Range);
+        
         /**
          * @type {[String]}
          */
@@ -128,9 +132,10 @@ Promise.all(players).then(() => {
         });
 
         // If the passed user is in the list, remove them. (They will always be in the list.)
-        ApplicablePlayers.splice(ApplicablePlayers.indexOf(GivenData.id), 1);
+        if (ApplicablePlayers.indexOf(GivenData.id) != -1)
+            ApplicablePlayers.splice(ApplicablePlayers.indexOf(GivenData.id), 1);
 
-        if (ApplicablePlayers.length > 0 || Range > 9) return ApplicablePlayers;
+        if (ApplicablePlayers.length > 1 || Range > 9) return ApplicablePlayers;
         else return GetPlayersWithinSDOf(Skill, Range + 1);
     }
     
@@ -139,14 +144,14 @@ Promise.all(players).then(() => {
         Players: []
     }
 
-    // If they have a defined smash_skill stat, find users with similar stats.
-    console.log(passedPlayer.Smash_Skill)
     if (passedPlayer.Smash_Skill == undefined) {
+        // If they don't have a defined smash_skill stat, recommend people around the average.
         response.Players = GetPlayersWithinSDOf(average);
     } else {
+        // If they have a defined smash_skill stat, find users with similar stats
         response.Players = GetPlayersWithinSDOf(passedPlayer.Smash_Skill);
     }
-    // If they don't have a defined smash_skill stat, recommend people around the average.
+    
     res.statusCode = 200;
     return res.end(JSON.stringify(response));
 })

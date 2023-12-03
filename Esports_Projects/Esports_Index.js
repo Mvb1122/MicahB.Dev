@@ -114,7 +114,7 @@ function ArrayContains(array, val) {
     return false;
 }
 
-function GetMatches(player) {
+function GetMatches(player, selectedGame = "any") {
     player = player.toString().toLowerCase().trim()
     // Get a list of games.
     let games = fs.readdirSync("Esports_Projects/Games/");
@@ -125,12 +125,15 @@ function GetMatches(player) {
 
         // Read each file in and determine if it has the player.
         let data = JSON.parse(GetFileFromCache(`Esports_Projects/Games/${game}`));
-        [data.Players, data.Enemies].forEach(side => side.forEach(PlayerInGame => {
-            if (player == PlayerInGame) {
-                data.Game = game;
-                playersGames.push(data);
-            }
-        }));
+        if ((selectedGame != "any" && selectedGame == data.Game) || selectedGame == "any")
+        {
+            [data.Players, data.Enemies].forEach(side => side.forEach(PlayerInGame => {
+                if (player == PlayerInGame) {
+                    data.Game = game;
+                    playersGames.push(data);
+                }
+            }));
+        } else continue;
     }
 
     return playersGames;
@@ -138,7 +141,7 @@ function GetMatches(player) {
 global.esports.GetMatches = GetMatches;
 
 function GetWinrate(player, game = "any") {
-    let matches = GetMatches(player);
+    let matches = GetMatches(player, game);
     let wins = 0;
     matches.forEach(match => {
         // If we're not using any game, get from cache and parse it.
@@ -310,7 +313,7 @@ function ProcessSmashMatch(match) {
         if (WinnerSkill > LoserSkill)
             WinnerSkill += 1;
         else 
-            WinnerSkill += Points;
+            WinnerSkill += Points * 4 / 5;
     
         // Update their Player files. 
         SetPlayerSkill(winner, WinnerSkill);

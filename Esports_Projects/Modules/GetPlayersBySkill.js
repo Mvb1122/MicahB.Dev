@@ -8,8 +8,12 @@ let players = fs.readdirSync("Esports_Projects/Players");
 let Players = [];
 players.forEach(file => {
     let fileData = JSON.parse(GetFileFromCache(`./Esports_Projects/Players/${file}`).toString());
-    if (fileData.Smash_Skill)
-        Players.push(`${fileData.Smash_Skill}, ${global.esports.GetWinrate(file.replace(".json",""))}, ${file.substring(0, file.indexOf(".json"))}, ${global.esports.GetMatches(file.replace(".json","")).length}`) 
+    const NumMatches = global.esports.GetMatches(file.replace(".json", ""), "Super Smash Bros. Ultimate").length;
+    const FileName = file.substring(0, file.indexOf(".json"));
+    const Winrate = global.esports.GetWinrate(file.replace(".json", ""));
+    const Skill = fileData.Smash_Skill;
+    if (Skill)
+        Players.push(`${Skill}, ${Winrate}, ${FileName}, ${NumMatches}`) 
 });
 
 // Sort them and respond.

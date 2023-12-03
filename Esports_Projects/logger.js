@@ -74,16 +74,40 @@ function GetWinrateUseCache(id) {
         if (WinrateCache[id] != undefined) res({successful: true, winrate: WinrateCache[id]});
         else res(await fetch("./Modules/GetWinrate.js&player=" + id + "&game=" + escape(selectedGame)));
     })
+        // For ourselves, add the value to the cache. 
         .then(value => {
-            if (value.json != undefined) return value.json();
+            if (value.json != undefined) {
+                return value.json().then(json => {
+                    WinrateCache[id] = json.winrate;
+                    return json;
+                });
+            }
+            else return value;
+        })
+}
+
+let UsernameCache = {};
+function GetPlayerNameUseCache(id) {
+    return new Promise(async res => {
+        // See if we have the player's winrate in cache.
+        if (UsernameCache[id] != undefined) res({sucessful: true, Name: UsernameCache[id]});
+        else res(await fetch("./Modules/GetPlayerName.js&id=" + id));
+    })
+        .then(value => {
+            if (value.json != undefined) {
+                return value.json().then(json => {
+                    UsernameCache[id] = json.Name;
+                    return json;
+                });
+            }
             else return value;
         })
 }
 
 /**
- * Organized so ID = Winrate
+ * Organized so WinrateCache[ID] = Winrate
  */
-let WinrateCache = []; 
+let WinrateCache = {}; 
 async function LoadMarioKartSplatoonPanel(selectedGame) {
     let rows = GetSplatoonAndMarioKartSelects();
     await LoadRows(selectedGame, rows);
@@ -99,10 +123,8 @@ async function LoadMarioKartSplatoonPanel(selectedGame) {
                 const selectedUserId = ev.target.value;
                 return GetWinrateUseCache(selectedUserId)
                     .then(json => {
-                        if (json.sucessful && json.winrate != null) {
-                            const winrate = (json.winrate * 100).toPrecision(3)
-                            // Put their winrate in the cache.
-                            WinrateCache[selectedUserId] = json.winrate;
+                        if (json.successful && json.winrate != null) {
+                            const winrate = (json.winrate * 100).toPrecision(3);
                             document.getElementById(WinrateDisplay).innerText = winrate + "%"
                         } else {
                             document.getElementById(WinrateDisplay).innerText = "";
@@ -218,17 +240,29 @@ async function SubmitSSBUMatch() {
     const text = document.createElement("p");
         // Clear old matchups.
     document.getElementById("SmashMatchUps").innerHTML = "";
-    text.innerHTML = "<b>BETA!</b> Matchups not required yet."
     document.getElementById("SmashMatchUps").appendChild(text)
 
     const parts = [{ id: winners, div: divs.winner }, {id: losers, div: divs.loser}]
     parts.forEach(player => {
         postJSON("./Post_Modules/GetSuggestedNextMatch.js&cache=false", {id: player.id}).then(val => {
-            let matchup = JSON.stringify(val); // Temp.
             const text = document.createElement("p");
-            const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
-            text.innerText = `${username}'s next recommended matchup: ${val.successful ? val.Players : matchup}`
-            document.getElementById("SmashMatchUps").appendChild(text)
+            if (!val.successful) {
+                text.innerText = `Something went wrong!\nError: ${val.reason}`;
+                document.getElementById("SmashMatchUps").appendChild(text);
+                return;
+            } else {
+                const username = document.getElementById(player.div).options[document.getElementById(player.div).selectedIndex].text;
+                
+                const randomIndex = Math.floor(Math.random() * (val.Players.length));
+                const randomPlayer = val.Players[randomIndex];
+                GetPlayerNameUseCache(randomPlayer.substring(0, randomPlayer.indexOf(".json")))
+                    .then(val => {
+                        if (val.Name == username) val.Name = "Bye! (Please fight someone random!)"
+                        text.innerText = `${username}'s next recommended matchup: ${val.Name}`
+                        document.getElementById("SmashMatchUps").appendChild(text)
+                    })
+            }
+
         })
     })
 
