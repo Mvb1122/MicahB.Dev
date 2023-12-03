@@ -5,11 +5,11 @@ const { GetWinrate } = require("./Esports_Projects/Esports_Index.js")
 res.setHeader("Content-Type", "application/json");
 if (args.player) {
     res.statusCode = 200;
-    let data = { winrate: GetWinrate(player, game), sucessful: true};
-    data.sucessful = true;
+    let data = { winrate: GetWinrate(player, game), successful: true};
+    data.successful = true;
     res.end(JSON.stringify(data));
 } else {
     res.statusCode = 404;
-    res.end(JSON.stringify({ sucessful: false }))
+    res.end(JSON.stringify({ successful: false }))
 }
     

@@ -67,7 +67,7 @@ do {
 
 fs.writeFile(path, JSON.stringify(writeData), (err) => {
     let response = {
-        "sucessful": err == null,
+        "successful": err == null,
     }
 
     if (err)

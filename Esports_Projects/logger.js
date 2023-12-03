@@ -71,7 +71,7 @@ async function loadSelectedGame() {
 function GetWinrateUseCache(id) {
     return new Promise(async res => {
         // See if we have the player's winrate in cache.
-        if (WinrateCache[id] != undefined) res({sucessful: true, winrate: WinrateCache[id]});
+        if (WinrateCache[id] != undefined) res({successful: true, winrate: WinrateCache[id]});
         else res(await fetch("./Modules/GetWinrate.js&player=" + id + "&game=" + escape(selectedGame)));
     })
         .then(value => {
@@ -268,7 +268,7 @@ async function SubmitMatch(MatchData) {
     document.getElementById("LeaveProcessingScreenButton").style.display = "block";
     document.getElementById(SourceScreen).style.display = "none";
     response.then((resp) => {
-        if (resp.sucessful) {
+        if (resp.successful) {
             document.getElementById("ProcessingText").outerHTML = "<h1>Match Submitted!</h1>";
         } else {
             document.getElementById("ProcessingMenu").innerHTML = "<h1>Something went wrong, please reload the page!</h1>";
