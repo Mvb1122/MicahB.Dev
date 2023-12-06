@@ -30,10 +30,10 @@ try {
     
     // Look for the records.
     if (user.rounds != undefined) {
-        // Look at the last game played and then tell them to continue.
-        let LastGame = user.rounds[user.rounds.length - 1], NextGame = 1;
-
         // Define what their next game is.
+        /* Old one-time scope version:
+            // Look at the last game played and then tell them to continue.
+        let LastGame = user.rounds[user.rounds.length - 1], NextGame = 1;
         switch (LastGame.game) {
             case 1:
                 NextGame = "2";
@@ -68,6 +68,40 @@ try {
             // Error case:
             default:
                 NextGame = "1";
+        }
+        */
+        // New way: Look at their runs. Check which ones have a timestamp from today.
+            // <3 Part 3a, 3<6 Part 3b, 6<9 Part 3c, >=9 3d
+        let NumberOfGameThreeRoundsToday = 0, NextGame = "3a"
+
+        const now = new Date(Date.now());
+        const timestamp = `${now.getMonth() + 1}/${now.getDay() + 1}/${now.getFullYear()}`;
+        user.rounds.forEach(round => {
+            if (round.timestamp.startsWith(timestamp) && round.game == 3) NumberOfGameThreeRoundsToday++;
+        })
+
+        switch (NumberOfGameThreeRoundsToday) {
+            case 0:
+                NextGame = "3a"
+                break;
+            
+            case 1:
+                NextGame = "3b"
+                break;
+            
+            case 2:
+                NextGame = "3c"
+                break;
+
+            case 3:
+                // If they've already played three games, only let them play more if they're experimental.
+                if (user.questionnaire.EarlyMorningActivities)
+                    NextGame = "3d";
+                else NextGame = "end";
+                break;
+            
+            default:
+                NextGame = "end"
         }
 
         res.end(JSON.stringify({

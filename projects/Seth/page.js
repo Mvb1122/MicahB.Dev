@@ -3,6 +3,7 @@ if (localStorage.getItem("SethUsername") != null && localStorage.getItem("SethPa
     // First, validate login.
     LoginAs(localStorage.getItem("SethUsername"), localStorage.getItem("SethPassword"))
         .then(response => {
+            console.log("Session continuation information:")
             console.log(response);
             
             if (response.sucessful) {
@@ -163,7 +164,7 @@ async function EnsureSignedUpAndShowGameOne() {
             pseudopassword: pseudopassword,
             questionnaire: UserData
         });
-        const response = await PostToModule("SethSignup.js", data)
+        const response = await PostToModuFle("SethSignup.js", data)
 
         if (response.sucessful == false) {
             alert("That user already exists! Please come up with a more original usename and try again.");
@@ -183,12 +184,14 @@ async function ContinueTest() {
             if (e.sucessful) {
                 // Load the specified game.
                 switch (e.game) {
+                    /*
                     case "1":
                         ShowOnly("GameOneDescription");
                         return;
                     case "2":
                         ShowOnly("GameOneDescription"); // ShowOnly("GameTwoDescription");
                         return;
+                    */
                     
                     case "3a":
                         GameThreeRoundNumber = 0;
@@ -204,6 +207,23 @@ async function ContinueTest() {
                         GameThreeRoundNumber = 2;
                         ShowOnly("GameOneDescription"); // ShowGameThree();
                         return;
+
+                    case "3d":
+                        GameThreeRoundNumber = 3;
+                        ShowOnly("GameOneDescription");
+                        return;
+
+                    case "end":
+                        GameThreeRoundNumber = 3;
+                        ShowGameThree();
+                        ShowOnly("GameThreeEndScreen");
+                        return;
+                        
+                    default: 
+                        GameThreeRoundNumber = 0;
+                        ShowOnly("GameOneDescription"); // ShowGameThree();
+                        return;
+
                 }
             } else {
                 alert("Something went wrong! Please try again.");
@@ -531,7 +551,7 @@ function MakeGameTwoGrid(Count, NumTurnedOn) {
                         // Only change colors if we're clickable.
                         if (box.clickable && box.correct) {
                             let boxIsBlack = box.style.backgroundColor == "black";
-                            console.log(`Box[${i}][${j}] clicked. Is Black ${boxIsBlack}. BackgroundColor: ${box.style.backgroundColor}`);
+                            // console.log(`Box[${i}][${j}] clicked. Is Black ${boxIsBlack}. BackgroundColor: ${box.style.backgroundColor}`);
                             if (boxIsBlack) {
                                 box.style.backgroundColor = "white";
                             } else {
@@ -597,8 +617,7 @@ async function ShowGameThree() {
     // Fetch users' progress.
         // Commented-out code here is for the deprecated SethGameThreeProgress.js module.
     /* PostToModule("SethGameThreeProgress.js", JSON.stringify({username: username})).then(data => { */
-    const data = {roundNum: GameThreeRoundNumber, IsExperimental}
-    let text = "This time, you will be playing section " + (data.roundNum + 1);
+    let text = "This time, you will be playing section " + (GameThreeRoundNumber + 1);
     const SectionText = document.getElementById("GameThreeSectionDiv");
     SectionText.innerText = text;
 
@@ -613,7 +632,7 @@ async function ShowGameThree() {
     // GameThreeRoundNumber = data.roundNum;
 
     // Update the Part number text on the Game3EndScreen while we're here, just because it's easy.
-    document.getElementById("GameThreePartNum").innerText = (IsExperimental ? 3 : 2) - data.roundNum;
+    document.getElementById("GameThreePartNum").innerText = (IsExperimental ? 3 : 2) - GameThreeRoundNumber;
     /* }) */
     
     // Update the description screen.
@@ -650,6 +669,7 @@ async function StartGameThree() {
 
         // Load the question and its answers.
         const answerId = LoadGame3Images(questionId);
+        DoneQuestions.push(questionId);
 
         // Update the text.
         document.getElementById("Game3Progress").innerText = `${i}/${numRounds}`;
@@ -772,7 +792,7 @@ function LoadGame3Images(QuestionNumber) {
             // Set the answer.
             GameThreeSelectedAnswerId = event.target.id;
 
-            console.log(`${GameThreeSelectedAnswerId}, from ${i}`);
+            // console.log(`${GameThreeSelectedAnswerId}, from ${i}`);
         }
 
         // Add onclick listeners to it.
@@ -785,7 +805,7 @@ function LoadGame3Images(QuestionNumber) {
 
     }
 
-    console.log(`CorrectAnswer: Game3Answer${imageIndex.indexOf(1) + 1}`)
+    // console.log(`CorrectAnswer: Game3Answer${imageIndex.indexOf(1) + 1}`)
     return `Game3Answer${imageIndex.indexOf(1) + 1}`;
 }
 
