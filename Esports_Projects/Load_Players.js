@@ -14,8 +14,7 @@ async function LoadPlayers() {
         let playerURL = `https://micahb.dev/Esports_Projects/Players/${player}`;
         GetPlayer(playerURL)
             .then((d) => {
-                // ${player.Student_id}
-                list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>Function Disabled!</td>` + "</tr>";
+                list += "<tr>" + `<td><a href="https://discord.com/users/${d.Discord_id}">${d.Name}</a></td><td>${d.Student_id}</td>` + "</tr>";
                 NumberLoading--;
             });
     });
