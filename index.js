@@ -51,6 +51,11 @@ function GetFileSizeInMegabytes(url) {
     return fs.statSync(url).size / (1024*1024);
 }
 
+/**
+ * @param {http.IncomingMessage} req 
+ * @param {http.ServerResponse} res 
+ * @returns {Promise<http.ServerResponse>}
+ */
 const requestListener = async function (req, res) {
     if (DEBUG) console.log("\n\nRequest Recieved: " + req.url);
     if (DEBUG) console.log(req.method);
@@ -201,7 +206,7 @@ const requestListener = async function (req, res) {
                 // Modules should always be cached to reduce disk wear and decrease latency.
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 let script = GetFileFromCache(localURL).toString();
-                eval(script)
+                return eval(script)
             } else {
                 res.statusCode = 404;
                 res.setHeader("Content-Type", "text/plain");
