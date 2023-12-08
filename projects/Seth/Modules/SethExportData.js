@@ -23,7 +23,7 @@ Promise.all(data).then(values => {
     let CSV = "Name,EarlyMorningActivities,HoursOfSleep,BedTime,WakeTime,Sex,Age,Grade,GameNum,Timestamp,Score,Part or Timings (ms)";
     values.forEach(player => {
         const questionnaire = player.questionnaire;
-        let RoundRowBase = `\n${player.username},${questionnaire.EarlyMorningActivities},${questionnaire.HoursOfSleep},${questionnaire.BedTime},${questionnaire.WakeTime},${questionnaire.Sex},${questionnaire.Age},${questionnaire.Grade}`;
+        let RoundRowBase = `\n${player.username},${questionnaire.EarlyMorningActivities},${questionnaire.HoursOfSleep},${questionnaire.BedTime},${questionnaire.WakeTime},${questionnaire.Gender},${questionnaire.Age},${questionnaire.Grade}`;
         
         if (player.rounds != undefined) 
             player.rounds.forEach(round => {

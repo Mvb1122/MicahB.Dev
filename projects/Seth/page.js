@@ -164,7 +164,7 @@ async function EnsureSignedUpAndShowGameOne() {
             pseudopassword: pseudopassword,
             questionnaire: UserData
         });
-        const response = await PostToModuFle("SethSignup.js", data)
+        const response = await PostToModule("SethSignup.js", data)
 
         if (response.sucessful == false) {
             alert("That user already exists! Please come up with a more original usename and try again.");
