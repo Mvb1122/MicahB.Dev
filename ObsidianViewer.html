@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="A viewer for my Obsidian Markdown files.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        const backend = "https://micahb.dev"
+        async function GetSuggestedLinks() {
+            const files = await (await fetch(backend + "/Modules/Search.js&term=.md")).json();
+            const ul = document.createElement("ul");
+            files.result.forEach(file => {
+                if (file.includes("md")) {
+                    const part = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.text = file.substring(0, file.indexOf(".md"));
+                    link.onclick = function() { Load(file); }
+                    part.appendChild(link);
+                    ul.appendChild(part);
+                }
+            });
+            // Clear and add text.
+            document.getElementById("Home").innerHTML = "<h1>Checkout these pages:</h1>"
+            document.getElementById("Home").appendChild(ul);
+            document.getElementById("Home").hidden = false;
+            document.getElementById("Content").hidden = true;
+            document.getElementById("HomeButton").hidden = true;
+        }
+
+        /**
+         * @returns {Promise<Response>}
+         */
+        async function post(URL, data) {
+            return fetch(backend + URL, {
+                method: "POST",
+                body: data
+            })
+        }
+
+        async function Load(path) {
+            const page = await (await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }))).text();
+            document.getElementById("Content").innerHTML = page;
+            document.getElementById("Content").hidden = false;
+            document.getElementById("Home").hidden = true;
+            document.getElementById("HomeButton").hidden = false;
+            window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
+
+            // Replace <a>'s with working ones.
+            const matches = document.getElementById("Content").getElementsByTagName("a"); // document.getElementById("Content").innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
+            for (let i = 0; i < matches.length; i++) {
+                const match = matches[i];
+                if (match.href.includes("GetMDHTML")) {
+                    const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
+                    match.onclick = function() { 
+                        Load(newPage) 
+                    };
+                    match.removeAttribute("href");
+                } else {
+                    match.setAttribute("external", true);
+                }
+            }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("file")) {
+            setTimeout(() => {
+                Load(urlParams.get("file"));
+            }, 500);
+        }
+    </script>
+    <style>
+        body {
+            background-color: rgb(37, 37, 37);
+            display: flex;
+            flex-direction: column;
+
+            font-family: sans-serif;
+        }
+
+        .Display {
+            height: 100%;
+            padding-left: min(min(20vh, 20vw), 2in);
+            padding-right: min(min(20vh, 20vw), 2in);
+            align-self: center;
+            
+            color: white;
+        }
+
+        .Display ::after {
+            width: max(100%, 1in);
+        }
+
+        #HomeButton {
+            position: absolute;
+            top: min(3%, 1in);
+            left: min(20%, 2in);
+            transform: translateX(-3em);
+
+            background-color: grey;
+        }
+
+        #HomeButton:hover {
+            background-color: rgb(107, 107, 107);
+        }
+
+        a {
+            color: rgb(121, 0, 121);
+            text-decoration: underline dotted rgb(121, 0, 121);
+        }
+
+        a:hover {
+            color: rgb(201, 0, 201);
+            text-decoration: underline dotted rgb(201, 0, 201);
+        }
+
+        a[external] {
+            color: lightcoral;
+            text-decoration: underline dotted lightcoral;
+        }
+
+        a[external]:hover {
+            color: rgb(241, 180, 180);
+            text-decoration: underline dotted rgb(241, 180, 180);
+        }
+    </style>
+</head>
+<body onload="GetSuggestedLinks()">
+    <button onclick="GetSuggestedLinks()" id="HomeButton" hidden>🏠</button>
+    <div id="Home" class="Display">
+        Loading...
+    </div>
+    <div id="Content" class="Display">
+
+    </div>
+</body>

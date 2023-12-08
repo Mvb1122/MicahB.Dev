@@ -74,10 +74,11 @@ async function DeepSearchArray(arr, term) {
  * @returns The value found or null if not found.
  */
 function DeepSearchSync(term, arr) {
+    term = term.trim().toLowerCase();
     let matches = [];
     function Process(array) {
         for (let i = 0; i < array.length; i++)
-        if (array[i].includes && array[i].includes(term)) {
+        if (array[i].includes && array[i].trim().toLowerCase().includes(term)) {
             matches.push(array[i]);
         } else if (typeof(array[i]) == Object) {
             Process(array[i])
@@ -85,6 +86,12 @@ function DeepSearchSync(term, arr) {
     }
     Process(arr);
     return matches;
+}
+
+const OutlawedPaths = ["node_modules", ".git", "FTP\\AI\\", "Rubbish"]
+function ContainsOutlawedPath(path) {
+    for (let i = 0; i < OutlawedPaths.length; i++) if (path.includes(OutlawedPaths[i])) return true;
+    return false;
 }
 
 async function GetAllPaths(subdir = "", tier = 0) {
@@ -97,12 +104,13 @@ async function GetAllPaths(subdir = "", tier = 0) {
                 fs.stat(path, async (err, stats) => {
                     if (err) console.log(err);
                     try {
-                        if (stats.isDirectory() && !path.startsWith("node_modules") && !path.startsWith(".git")) {
+                        if (stats.isDirectory() && !ContainsOutlawedPath(path)) {
                             values = values.concat(GetAllPaths(path, tier+1));
                             // values.splice(values.indexOf(path), 1);
                         }
                     } catch (error) {
-                        console.log(error)
+                        if (DEBUG)
+                            console.log(error)
                     }
                     resolve();
                 })
@@ -111,7 +119,7 @@ async function GetAllPaths(subdir = "", tier = 0) {
         // Do nothing.
     }
 
-    await Promise.allSettled(promises);
+    await Promise.allSettled(promises.concat(values));
     /*
     for (let i = 0; i < values.length; i++)
         if (typeof(values[i]) == Promise) {
@@ -128,27 +136,44 @@ let GlobalPaths = [];
 GetAllPaths("./")
     .then(val => Promise.all(val.flat(Infinity)))
     .then(val => Promise.all(val.flat(Infinity)))
+    .then(val => Promise.all(val.flat(Infinity)))
+    .then(val => Promise.all(val.flat(Infinity)))
+    .then(val => Promise.all(val.flat(Infinity)))
     .then(async val => {
         GlobalPaths = val.flat(Infinity).flat(Infinity);
         Promise.allSettled(GlobalPaths).then(async values => {
             GlobalPaths = values;
             await new Promise(res => setTimeout(res, 5000));
             
-            for (let i = 0; i < 5; i++)
+            for (let i = 0; i < 10; i++)
                 await FilterArray();
 
             console.log(`File presearch complete! Number of items: ${GlobalPaths.length}`);
             // Test search:
-            FindFile("index.html");
+            // console.log(FindFile("Japanese"));
             console.log("Searching now active!");
+
+            fs.writeFile("./files.json", JSON.stringify(GlobalPaths), (err) => {
+                if (err) console.log(err);
+            });
 
             async function FilterArray() {
                 for (let i = 0; i < GlobalPaths.length; i++) {
-                    if (GlobalPaths[i].value != undefined)
+                    if ((await GlobalPaths[i]).value != undefined) // Test if promise
                         GlobalPaths[i] = await GlobalPaths[i].value;
-                    if (typeof (GlobalPaths[i]) == Object) {
-                        GlobalPaths = GlobalPaths.concat(await values[i].flat(Infinity));
-                        GlobalPaths.splice(i, 1);
+                    if (Array.isArray(await GlobalPaths[i])) { // Test if array
+                        try {
+                            GlobalPaths = GlobalPaths.concat(await GlobalPaths[i].flat(Infinity));
+                            GlobalPaths.splice(i, 1);
+                            i--;
+                        } catch (e) {
+                            /*
+                            if (DEBUG) {
+                                console.log(e);
+                                console.log(GlobalPaths[i]);
+                            }
+                            */
+                        }
                     }
                 }
             }
@@ -484,13 +509,32 @@ server.listen(port, host, () => {
 });
 
 // Stolen from StackOverflow ;) 
+    // And then Not-updated to use UTF-8.
+// const utf8 = require('utf-8')
+
+/**
+ * @param {String} part
+ */
+function DecodeUTF8(part) {
+    /* if (utf8.isNotUTF8()) { */ 
+        return decodeURIComponent(part);
+    /* } else {
+        let bytes = [];
+        for (let i = 0; i < part.length; i++) {
+            bytes.push(utf8.getCharCode(part[i]));
+        }
+
+        return utf8.getStringFromBytes(bytes);
+    } */ 
+}
+
 function parseQuery(queryString) {
     var query = {};
     var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
     for (var i = 0; i < pairs.length; i++) {
         try {
             var pair = pairs[i].split('=');
-            query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+            query[decodeURIComponent(pair[0])] = DecodeUTF8(pair[1]);
         } catch (error) {
             if (DEBUG) {
                 console.log("Pair: [" + pair[0] + "," + pair[1] + "]")
