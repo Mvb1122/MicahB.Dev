@@ -85,15 +85,19 @@
             color: white;
         }
 
+        /*
         .Display ::after {
             width: max(100%, 1in);
+            display: flex;
+            flex-direction: column;
         }
+        */
 
         #HomeButton {
             position: absolute;
             top: min(3%, 1in);
-            left: min(20%, 2in);
-            transform: translateX(-3em);
+            left: min(min(20vh, 20vw), 2in);
+            transform: translateX(min(-3em, -2%));
 
             background-color: grey;
         }
@@ -120,6 +124,31 @@
         a[external]:hover {
             color: rgb(241, 180, 180);
             text-decoration: underline dotted rgb(241, 180, 180);
+        }
+
+        a[external]:hover::after {
+            content: ' (' attr(href) ') ';
+        }
+
+        /*
+        a::after:not(external) {
+            content: url("FTP/Site_Media/Logo/Asset\ 1.png");
+            max-height: 12px;
+            width: auto;
+            display: inline-block;
+        }
+        */
+
+        img {
+            width: max(50%, 5in);
+            position: relative;
+            align-self: center;
+            display: flex;
+        }
+
+        p:has(img) {
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>

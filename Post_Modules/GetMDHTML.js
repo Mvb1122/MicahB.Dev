@@ -41,8 +41,11 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
             if (Matches[0].includes(".md")) newLink += `Modules/GetMDHTML.js&location=${URI}`;
             else newLink += URI;
             
-            // To prevent link weirdness, just manually put it into an <a> element.
-            file = file.replaceAll(link, `<a href="${newLink}">${inside}</a>`);
+            // To prevent link weirdness, just manually put it into an <a> element or an <img> element if it's an image. 
+            if (!newLink.includes(".png") && !newLink.includes(".jpg"))
+                file = file.replaceAll(link, `<a href="${newLink}">${inside}</a>`);
+            else 
+                file = file.replaceAll('!' + link, `<img src="${newLink}">`)
         } catch { /* Do nothing. */ }
 
     // Replace tags.
@@ -56,6 +59,7 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
         }
 
     // Hand it over to Showdown for the actual conversion.
+    console.log(file);
     const Converter = new Showdown.Converter();
     // Converter.setOption('tables', true);
     Converter.setFlavor('allOn');
