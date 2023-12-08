@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const zlib = require('zlib');
+const Path = require('path')
 const DEBUG = false;
 
 const mimeTypes = {
@@ -21,6 +22,138 @@ const mimeTypes = {
     "php": "text/html", // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
     "avif": "image/avif"
 } 
+
+function FindFile(name) {
+    console.log(`Searching for [${name}]`)
+    return DeepSearchSync(name, GlobalPaths);
+}
+
+async function DeepSearchArray(arr, term) {
+    arr = await Promise.all(arr);
+    term = term.trim().toLowerCase();
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] != undefined) {
+            /**
+            * @type {String}
+            */
+            const CurrentItem = await arr[i];
+            const type = typeof(CurrentItem).toString().toLowerCase();
+            try {
+                if (type == "string" && type != "undefined" && CurrentItem.includes(term)) {
+                    return CurrentItem;
+                }
+            } catch (e) {
+                console.log(typeof(CurrentItem));
+                console.log(e);
+                console.log(CurrentItem);
+            }
+        }
+    }
+
+    // We haven't returned yet, so deep search.
+    for (let i = 0; i < arr.length; i++) {
+        if (Array.isArray(arr[i])) {
+            const SubSearch = await DeepSearchArray(arr[i], term);
+            if (SubSearch != null)
+                return SubSearch;
+        }
+    }
+
+    // No return here, no value.
+    return null;
+}
+
+/**
+ * @param {[String | [String | [String]]} arr Array to be searched
+ * @param {String} term search term
+ * @returns The value found or null if not found.
+ */
+function DeepSearchSync(term, arr) {
+    console.log(arr);
+    let matches = [];
+    function Process(array) {
+        for (let i = 0; i < array.length; i++)
+        if (array[i].includes(term)) {
+            matches.push(array[i]);
+        } else if (typeof(array[i]) == Object) {
+            Process(array[i])
+        }
+    }
+    Process(arr);
+    return matches;
+}
+
+async function GetAllPaths(subdir = "", tier = 0) {
+    let values = fs.readdirSync(`${subdir}`);
+    values = values.map((val) => Path.join(subdir, val));
+    const promises = [];
+    for (let i = 0; i < values.length; i++) try {
+        const path = values[i];
+        promises.push(new Promise((resolve) => {
+                fs.stat(path, async (err, stats) => {
+                    if (err) console.log(err);
+                    try {
+                        if (stats.isDirectory() && !path.startsWith("node_modules") && !path.startsWith(".git")) {
+                            values = values.concat(GetAllPaths(path, tier+1));
+                            // values.splice(values.indexOf(path), 1);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    resolve();
+                })
+            }));
+    } catch {
+        // Do nothing.
+    }
+
+    await Promise.allSettled(promises);
+    /*
+    for (let i = 0; i < values.length; i++)
+        if (typeof(values[i]) == Promise) {
+            values = values.concat(await values[i].flat(Infinity))
+            values.splice(i, 1);
+        }
+    */
+
+    if (values == []) console.log(`Returning empty folder: ${subdir}`);
+    return values;
+}
+
+let GlobalPaths = [];
+GetAllPaths("./")
+    .then(val => Promise.all(val.flat(Infinity)))
+    .then(val => Promise.all(val.flat(Infinity)))
+    .then(async val => {
+        GlobalPaths = val.flat(Infinity).flat(Infinity);
+        Promise.allSettled(GlobalPaths).then(async values => {
+            GlobalPaths = values;
+            await new Promise(res => setTimeout(res, 5000));
+            
+            for (let i = 0; i < 5; i++)
+                await FilterArray();
+
+            console.log("File presearch complete!");
+            console.log(GlobalPaths.length);
+            console.log(await FindFile("Seth"));
+            console.log("Searching now active!");
+
+            fs.writeFile("./files.json", JSON.stringify(GlobalPaths), () => {})
+
+            async function FilterArray() {
+                for (let i = 0; i < GlobalPaths.length; i++) {
+                    if (GlobalPaths[i].value != undefined)
+                        GlobalPaths[i] = await GlobalPaths[i].value;
+                    if (typeof (GlobalPaths[i]) == Object) {
+                        GlobalPaths = GlobalPaths.concat(await values[i].flat(Infinity));
+                        GlobalPaths.splice(i, 1);
+                    }
+                }
+            }
+        });
+
+    })
+
 
 const getMime = (s) => {
     for (const p in mimeTypes) {
