@@ -28,7 +28,11 @@ if (args.location != undefined && fs.existsSync(args.location)) {
         // Find the file.
         const Matches = FindFile(inside);
         console.log(`{${Matches}}, with term ${inside}, replacing ${link}`);
-        file = file.replaceAll(link, `[${inside}](./${Matches[0]})`);
+        let newLink = `https://micahb.dev/`;
+        if (Matches[0].includes(".md")) newLink += `Modules/GetMDHTML.js&location=${Matches[0]}`;
+        else newLink += Matches[0];
+        
+        file = file.replaceAll(link, `[${inside}](${newLink})`);
     } catch { ; } // Do nothing.
 
     // Replace tags.

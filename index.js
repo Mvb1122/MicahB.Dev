@@ -23,11 +23,16 @@ const mimeTypes = {
     "avif": "image/avif"
 } 
 
+/**
+ * @param {String} name File term to search for.
+ * @returns {[String]} Matching paths
+ */
 function FindFile(name) {
     console.log(`Searching for [${name}]`)
     return DeepSearchSync(name, GlobalPaths);
 }
 
+// For whatever reason this doesn't work but I'm just kinda leaving it here.
 async function DeepSearchArray(arr, term) {
     arr = await Promise.all(arr);
     term = term.trim().toLowerCase();
@@ -69,11 +74,10 @@ async function DeepSearchArray(arr, term) {
  * @returns The value found or null if not found.
  */
 function DeepSearchSync(term, arr) {
-    console.log(arr);
     let matches = [];
     function Process(array) {
         for (let i = 0; i < array.length; i++)
-        if (array[i].includes(term)) {
+        if (array[i].includes && array[i].includes(term)) {
             matches.push(array[i]);
         } else if (typeof(array[i]) == Object) {
             Process(array[i])
@@ -133,12 +137,10 @@ GetAllPaths("./")
             for (let i = 0; i < 5; i++)
                 await FilterArray();
 
-            console.log("File presearch complete!");
-            console.log(GlobalPaths.length);
-            console.log(await FindFile("Seth"));
+            console.log(`File presearch complete! Number of items: ${GlobalPaths.length}`);
+            // Test search:
+            FindFile("index.html");
             console.log("Searching now active!");
-
-            fs.writeFile("./files.json", JSON.stringify(GlobalPaths), () => {})
 
             async function FilterArray() {
                 for (let i = 0; i < GlobalPaths.length; i++) {
