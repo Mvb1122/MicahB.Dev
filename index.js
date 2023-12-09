@@ -133,53 +133,59 @@ async function GetAllPaths(subdir = "", tier = 0) {
 }
 
 let GlobalPaths = [];
-GetAllPaths("./")
-    .then(val => Promise.all(val.flat(Infinity)))
-    .then(val => Promise.all(val.flat(Infinity)))
-    .then(val => Promise.all(val.flat(Infinity)))
-    .then(val => Promise.all(val.flat(Infinity)))
-    .then(val => Promise.all(val.flat(Infinity)))
-    .then(async val => {
-        GlobalPaths = val.flat(Infinity).flat(Infinity);
-        Promise.allSettled(GlobalPaths).then(async values => {
-            GlobalPaths = values;
-            await new Promise(res => setTimeout(res, 5000));
-            
-            for (let i = 0; i < 10; i++)
-                await FilterArray();
+async function BuildGlobalPaths() {
+    GetAllPaths("./")
+        // Flatten it a few times just for good measure. 
+        .then(val => Promise.all(val.flat(Infinity)))
+        .then(val => Promise.all(val.flat(Infinity)))
+        .then(val => Promise.all(val.flat(Infinity)))
+        .then(val => Promise.all(val.flat(Infinity)))
+        .then(val => Promise.all(val.flat(Infinity)))
+        .then(async val => {
+            GlobalPaths = val.flat(Infinity).flat(Infinity);
+            Promise.allSettled(GlobalPaths).then(async values => {
+                GlobalPaths = values;
+                await new Promise(res => setTimeout(res, 5000));
+                
+                for (let i = 0; i < 10; i++)
+                    await FilterArray();
 
-            console.log(`File presearch complete! Number of items: ${GlobalPaths.length}`);
-            // Test search:
-            // console.log(FindFile("Japanese"));
-            console.log("Searching now active!");
+                console.log(`File presearch complete! Number of items: ${GlobalPaths.length}`);
+                // Test search:
+                // console.log(FindFile("Japanese"));
+                console.log("Searching now active!");
 
-            fs.writeFile("./files.json", JSON.stringify(GlobalPaths), (err) => {
-                if (err) console.log(err);
-            });
+                /* Save file listing to JSON. 
+                fs.writeFile("./files.json", JSON.stringify(GlobalPaths), (err) => {
+                    if (err) console.log(err);
+                });
+                */
 
-            async function FilterArray() {
-                for (let i = 0; i < GlobalPaths.length; i++) {
-                    if ((await GlobalPaths[i]).value != undefined) // Test if promise
-                        GlobalPaths[i] = await GlobalPaths[i].value;
-                    if (Array.isArray(await GlobalPaths[i])) { // Test if array
-                        try {
-                            GlobalPaths = GlobalPaths.concat(await GlobalPaths[i].flat(Infinity));
-                            GlobalPaths.splice(i, 1);
-                            i--;
-                        } catch (e) {
-                            /*
-                            if (DEBUG) {
-                                console.log(e);
-                                console.log(GlobalPaths[i]);
+                async function FilterArray() {
+                    for (let i = 0; i < GlobalPaths.length; i++) {
+                        if ((await GlobalPaths[i]).value != undefined) // Test if promise
+                            GlobalPaths[i] = await GlobalPaths[i].value;
+                        if (Array.isArray(await GlobalPaths[i])) { // Test if array
+                            try {
+                                GlobalPaths = GlobalPaths.concat(await GlobalPaths[i].flat(Infinity));
+                                GlobalPaths.splice(i, 1);
+                                i--;
+                            } catch (e) {
+                                /*
+                                if (DEBUG) {
+                                    console.log(e);
+                                    console.log(GlobalPaths[i]);
+                                }
+                                */
                             }
-                            */
                         }
                     }
                 }
-            }
-        });
+            });
 
-    })
+        })
+}
+BuildGlobalPaths();
 
 
 const getMime = (s) => {
