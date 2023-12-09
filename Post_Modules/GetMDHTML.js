@@ -59,7 +59,6 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
         }
 
     // Hand it over to Showdown for the actual conversion.
-    console.log(file);
     const Converter = new Showdown.Converter();
     // Converter.setOption('tables', true);
     Converter.setFlavor('allOn');
