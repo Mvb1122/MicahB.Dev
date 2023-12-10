@@ -1,0 +1,173 @@
+:root {
+    --Border-Radius: min(3vh, 3vw);
+    --Border-Thickness: 3px;
+
+    --External-Link-Color: rgb(241, 180, 180);
+}
+
+body {
+    background-color: rgb(37, 37, 37);
+    display: flex;
+    flex-direction: column;
+
+    font-family: sans-serif;
+}
+
+.Display[hidden] {
+    display: none;
+}
+
+.Display {
+    height: 100%;
+    padding-left: min(min(20vh, 20vw), 2in);
+    padding-right: min(min(20vh, 20vw), 2in);
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    width: min(80vw, 8in);
+    color: white;
+}
+
+#HomeButton {
+    background-color: grey;
+}
+
+.ButtonContainer {
+    position: absolute;
+    top: min(3%, 1in);
+    left: min(3%, 1in);
+}
+
+#HomeButton:hover {
+    background-color: rgb(107, 107, 107);
+}
+
+a {
+    color: rgb(121, 0, 121);
+    text-decoration: underline dotted rgb(121, 0, 121);
+}
+
+a:hover {
+    color: rgb(201, 0, 201);
+    text-decoration: underline dotted rgb(201, 0, 201);
+}
+
+a[external] {
+    position: relative;
+    display: inline-flex;
+    color: lightcoral;
+    text-decoration: underline dotted lightcoral;
+}
+
+a[external]:hover {
+    color: var(--External-Link-Color);
+    text-decoration: underline dotted var(--External-Link-Color);
+}
+
+externallinkafterimage {
+    content: url(FTP/Site_Media/Logo/ExternalObsidianLink.png);
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    break-before: avoid;
+    transform: translate(0.1em, 0.2em);
+}
+
+a[external]:hover::after {
+    content: ' (' attr(href) ') ';
+    display: block;
+    transform: translateY(-100%) translateX(-50%);
+    position: absolute;
+    width: max(3in, 30vw);
+    height: 500%;
+    left: 50%;
+    background: black;
+    padding: 15px;
+    overflow: clip;
+    overflow-clip-margin: content-box;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+    border-radius: var(--Border-Radius);
+    border: solid;
+
+    /* Initially hidden, shown by animation. */
+    opacity: 0;
+    animation: fadeIn 0.25s ease-in forwards
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+img {
+    width: max(50%, 5in);
+    position: relative;
+    align-self: center;
+    display: flex;
+}
+
+p:has(img) {
+    display: flex;
+    flex-direction: column;
+}
+
+pre {
+    background-color: rgb(64, 64, 64);
+    padding: 3%;
+    border: solid rgb(48, 48, 48) var(--Border-Thickness);
+    border-radius: var(--Border-Radius);
+    width: min(60vw, 6in);
+    align-self: center;
+}
+
+code {
+    text-wrap: wrap;
+}
+
+blockquote {
+    padding: 3%;
+    align-self: center;
+    border-radius: 3vh;
+    width: min(80vw, 8in);
+}
+
+blockquote[tldr] {
+    background-color: #2a7d8b;
+    border: solid #205e69 var(--Border-Thickness);
+    color: rgb(117, 221, 255);
+}
+
+blockquote[warning] {
+    background-color: darkorange;
+    border: solid rgb(167, 92, 0) var(--Border-Thickness);
+    color: rgb(255, 230, 184);
+}
+
+blockquote[danger] {
+    background-color: darkred;
+    border: solid rgb(80, 0, 0) var(--Border-Thickness);
+    color: rgb(255, 182, 182);
+}
+
+blockquote[btw] {
+    background-color: darkblue;
+    border: solid rgb(0, 16, 78) var(--Border-Thickness);
+    color: hsl(240, 100%, 73%);
+}
+
+table,
+th,
+td {
+    border: var(--Border-Thickness) solid rgb(110, 110, 110);
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
