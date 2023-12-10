@@ -60,6 +60,25 @@
                 // Read and send the file.
                 xhr.send(await actualData);
             }
+
+            function clearCache() {
+                fetch(`../../Modules/ClearCache.js&cache=false`)
+                    .then(data => data.json())
+                    .then(json => {
+                        if (json.successful) {
+                            const list = document.createElement("ul");
+                            json.cleared_files.forEach(key => {
+                                const li = document.createElement("li");
+                                li.innerText = key;
+                                list.appendChild(li);
+                            });
+
+                            document.getElementById("CacheClearList").innerHTML = "Cleared Items:<br>";
+                            document.getElementById("CacheClearList").appendChild(list);
+                        }
+
+                    })
+            }
         </script>
     </head>
 
@@ -81,7 +100,10 @@
             <br>
             <button onclick="postData()">Upload!</button>
             <br>
-            <button onclick="fetch(`../../Modules/ClearCache.js&cache=false`)">Force clear server cache.</button>
+            <button onclick="clearCache()">Force clear server cache.</button>
+            <div id="CacheClearList">
+
+            </div>
         </div>
         <div id="link-display" hidden="true">
             https://micahb.dev/FTP/
