@@ -33,7 +33,7 @@ body {
 }
 
 #ButtonContainer {
-    position: absolute;
+    position: fixed;
     top: min(3%, 1in);
     left: min(3%, 1in);
 }
@@ -88,7 +88,7 @@ a[tag]:hover {
 }
 
 a[external]:hover::after {
-    content: ' (' attr(href) ') ';
+    content: attr(href);
     display: block;
     transform: translateY(-100%) translateX(-50%);
     position: absolute;

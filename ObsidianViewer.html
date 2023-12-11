@@ -59,7 +59,8 @@
             const matches = document.getElementById("Content").getElementsByTagName("a"); // document.getElementById("Content").innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
             for (let i = 0; i < matches.length; i++) {
                 const match = matches[i];
-                if (match.href.toLowerCase().includes("micahb.dev")) {
+                const href = match.href.toLowerCase();
+                if (href.includes("micahb.dev") && href.includes(".md")) {
                     const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
                     match.onclick = function() { 
                         Load(newPage) 
