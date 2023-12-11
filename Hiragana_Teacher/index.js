@@ -323,6 +323,31 @@ function SelectAndDisplayACharacter() {
         document.getElementById("Display").innerHTML = character.replaceAll("・", "<br>");
     else {
         document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${character.replaceAll("・", "<br>")}</a>`;
+
+        // Also load examples here if they're requested.
+        LoadCurrentExample();
+    }
+}
+
+function LoadCurrentExample() {
+    const ExampleSentenceDisplay = document.getElementById("GameExampleDiv");
+    if (ExamplesEnabled) {
+        // Send the request to the server..
+        const data = {
+            "Set": listNumber,
+            "Word": character,
+            "Definition": syllable,
+            "ForceNew": false,
+            "login_token": login_token
+        };
+        postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
+            .then(json => {
+                // The below code is safe. All content is controlled.
+                ExampleSentenceDisplay.innerHTML = json.Example + `<br><a href="https://jisho.org/search/${json.Example}">Jisho Link</a>`;
+                ExampleSentenceDisplay.hidden = false;
+            });
+    } else {
+        ExampleSentenceDisplay.hidden = true;
     }
 }
 
@@ -500,16 +525,12 @@ async function fetchJSON(URL) {
  * @returns {Promise<{*}>} The JSON back from the server.
  */
 async function postJSON(URL, data) {
-    try {
-        let request = fetch(URL, {
-            method: "POST",
-            body: JSON.stringify(data)
-        })
-            
-        return request.then((res) => res.json());
-    } catch (error) {
-        throw error;
-    }
+    let request = fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        
+    return request.then((res) => res.json());
 }
 
 const loginPrompt = "Logged in as {X}!"
@@ -685,8 +706,13 @@ async function LoginAs(username, password, forceResetToken = false) {
 
             // If the game is currently running, start sending data to the server.
             if (currentPage == "game") SendChangesToTheServer()
+
+            // Show example sentence button here.
+            document.getElementById("GameExampleSentenceButton").hidden = false;
+
             res(true)
         } else {
+            document.getElementById("GameExampleSentenceButton").hidden = true;
             updateLoginPane(false);
             res(false)
         }
@@ -880,4 +906,21 @@ async function ScrollToSearch(query) {
     }
     else
         alert("No results found!")
+}
+
+// Show example sentences on the game.
+let ExamplesEnabled = false;
+function ToggleGameExamples() {
+    ExamplesEnabled = !ExamplesEnabled;
+    document.getElementById("GameExampleDiv").hidden = ExamplesEnabled;
+
+    const Button = document.getElementById("GameExampleSentenceButton");
+    if (ExamplesEnabled) {
+        Button.innerText = Button.innerText.replaceAll("Show", "Hide");
+    } else {
+        Button.innerText = Button.innerText.replaceAll("Hide", "Show");
+    }
+
+    // Request examples for the current thing.
+    LoadCurrentExample();
 }
