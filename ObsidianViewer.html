@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head>
+<head lang="en">
     <meta charset="UTF-8">
     <meta name="description" content="A viewer for my Obsidian Markdown files.">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,7 +24,7 @@
             document.getElementById("Home").appendChild(ul);
             document.getElementById("Home").hidden = false;
             document.getElementById("Content").hidden = true;
-            document.getElementById("HomeButton").hidden = true;
+            document.getElementById("ButtonContainer").hidden = true;
         }
         
         /**
@@ -38,18 +38,28 @@
         }
 
         async function Load(path) {
+            // First, fetch the HTML from the server and load it in.
             const page = await (await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }))).text();
             document.getElementById("Content").innerHTML = page;
+
+            // Next, put the title of the page on screen.
+            const title = document.createElement("h1");
+            title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
+            document.getElementById("Content").prepend(title);
+
+            // Unhide the content panel and hide the home panel.
             document.getElementById("Content").hidden = false;
             document.getElementById("Home").hidden = true;
-            document.getElementById("HomeButton").hidden = false;
+                // Also show buttons.
+            document.getElementById("ButtonContainer").hidden = false;
+                // Update history so people can share links easily. 
             window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
 
             // Replace <a>'s with working ones.
             const matches = document.getElementById("Content").getElementsByTagName("a"); // document.getElementById("Content").innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
             for (let i = 0; i < matches.length; i++) {
                 const match = matches[i];
-                if (match.href.includes("GetMDHTML")) {
+                if (match.href.toLowerCase().includes("micahb.dev")) {
                     const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
                     match.onclick = function() { 
                         Load(newPage) 
@@ -80,21 +90,68 @@
                 }
             }
 
+            const Tags = document.getElementById("Content").getElementsByTagName("p");
+            tagLoop:
+            for (let i = 0; i < Tags.length; i++) {
+                const match = Tags[i].innerText.match(/\{TAG:[A-Za-z0-9]+\}/);
+                if (match != null) {
+                    const tag = match[0], inside = tag.substring(5, tag.length - 1);
+
+                    const NewTag = document.createElement("a");
+                    NewTag.setAttribute("tag", true);
+                    NewTag.innerHTML = `<b>#</b>${inside}`;
+
+                    /*
+                    for (let i = 0; i < Tags[i].children; i++) {
+                        if (Tags[i].children[i].innerText.includes(tag)) {
+                            Tags[i].children[i].innerText = Tags[i].children[i].innerText.replace(tag, "");
+                            Tags[i].prepend(NewTag);
+                            continue tagLoop;
+                        }
+                    }
+                    */
+
+                    Tags[i].innerHTML = Tags[i].innerHTML.replace(tag, "");
+                    Tags[i].prepend(NewTag);
+                }
+            }
+
             document.title = "MicahB.Dev | " + path.substring(path.lastIndexOf("\\") + 1);
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has("file")) {
-            setTimeout(() => {
-                Load(urlParams.get("file"));
-            }, 500);
+        function UpdatePageFromParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has("file")) {
+                setTimeout(() => {
+                    Load(urlParams.get("file"));
+                }, 500);
+            }
         }
+        UpdatePageFromParams();
+
+        // Check every 100ms to see if the page params changed.
+        /*
+        async function CheckLoop() {
+            do {
+                let lastPageParams = document.location.search;
+                await new Promise(res => {
+                    setTimeout(() => {
+                        if (document.location.search != lastPageParams)
+                            UpdatePageFromParams();
+                        
+                        res();
+                    }, 100)
+                });
+            } while (true);
+        }
+        CheckLoop();
+        */
     </script>
     <link rel="stylesheet" href="ObsidianViewer.css">
 </head>
 <body onload="GetSuggestedLinks()">
-    <div class="ButtonContainer">
-        <button onclick="GetSuggestedLinks()" id="HomeButton" hidden>🏠</button>
+    <div id="ButtonContainer" hidden>
+        <button onclick="GetSuggestedLinks()" id="HomeButton">🏠</button>
     </div>
     <div id="Home" class="Display">
         Loading...

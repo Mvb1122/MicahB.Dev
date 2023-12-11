@@ -32,7 +32,7 @@ body {
     background-color: grey;
 }
 
-.ButtonContainer {
+#ButtonContainer {
     position: absolute;
     top: min(3%, 1in);
     left: min(3%, 1in);
@@ -43,7 +43,7 @@ body {
 }
 
 a {
-    color: rgb(121, 0, 121);
+    color: rgb(146, 0, 146);
     text-decoration: underline dotted rgb(121, 0, 121);
 }
 
@@ -71,6 +71,20 @@ externallinkafterimage {
     display: inline-block;
     break-before: avoid;
     transform: translate(0.1em, 0.2em);
+}
+
+a[tag] {
+    background-color: rgb(83, 0, 83);
+    color: rgb(145, 0, 145);
+    padding: 0.4em;
+    border-radius: 0.2em;
+}
+
+a[tag]:hover {
+    background-color: rgb(145, 0, 145);
+    color: rgb(209, 0, 209);
+    padding: 0.4em;
+    border-radius: 0.2em;
 }
 
 a[external]:hover::after {
@@ -134,7 +148,7 @@ blockquote {
     padding: 3%;
     align-self: center;
     border-radius: 3vh;
-    width: min(80vw, 8in);
+    /* width: min(80vw, 8in); */
 }
 
 blockquote[tldr] {
