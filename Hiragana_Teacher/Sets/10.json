@@ -1,1 +1,1339 @@
-{"Name":"AP Japanese Kanji","ObjectName":"Kanji","AnswerName":"Meaning, Onyomi, or Kunyomi.","Set":[{"悪":"あく/わる(い)/bad/aku/waru/warui"},{"安":"あん/やす(い)/cheap/peaceful/an/yasu/yasui"},{"暗":"あん/くら(い)/dark/an/kurai/kura"},{"以":"い/to the ~ of/i"},{"意":"い/meaning/mind/i"},{"医":"い/medical/i"},{"育":"いく/そだ(つてる)/to raise(a child or pet)/iku/soda/sodatsuteru"},{"員":"いん/member/in"},{"引":"いん/ひ(く)/to pull/in/hi/hiku"},{"飲":"いん/の(む)/to drink/in/nomu/no"},{"院":"いん/institute/in"},{"右":"う/ゆう/みぎ/right(side)/u/yuu/migi"},{"雨":"う/あめ/rain/u/ame"},{"運":"うん/はこ(ぶ)/to carry/luck/un/hakobu/hako"},{"泳":"えい/およ(ぐ)/to swim/ei/oyogu/oyo"},{"英":"えい/British/brave/ei"},{"駅":"えき/station/eki"},{"円":"えん/まる/circle yen/en/maru"},{"園":"えん/その/garden/en/sono"},{"遠":"えん/とお(い)/far/en/toii"},{"横":"おう/よこ/side/ou/yoko"},{"温":"おん/あたた(かい)/warm/on/atata/atatakai"},{"音":"おん/おと/sound/on/oto"},{"下":"か/げ/した/under/ka/ge/shita"},{"化":"か/ば(ける)/to change/ka/ba/bakeru"},{"何":"か/なに/なん/what/ka/nani/nan"},{"夏":"か/なつ/summer/ka/natsu"},{"科":"か/subject/ka"},{"歌":"か/うた/song/ka/uta"},{"火":"か/ひ/fire/ka/hi"},{"花":"か/はな/flower/ka/hana"},{"荷":"か/に/luggage/ka/ni"},{"画":"が/かく/picture/stroke/ga/kaku"},{"会":"かい/あ(う)/to meet/kai/au/a"},{"海":"かい/うみ/sea/ocean/beach/kai/umi"},{"界":"かい/boundary/kai"},{"皆":"かい/みんな/everyone/kai/mina"},{"絵":"かい/え/painting/kai/e"},{"開":"かい/あ(ける)/あ(く)/ひら(く)/to open/kai/a/akeru/aku/hira/hiraku"},{"階":"かい/がい/floor/kai/gai"},{"学":"がく/まな(ぶ)/to learn/gaku/mana/manabu"},{"楽":"がく/らく/たの(しい)/enjoyable/gaku/raku/tano/tanoshii"},{"活":"かつ/active/live/katsu"},{"寒":"かん/さむ(い)/cold/kann/samu/samui"},{"漢":"かん/Chinese/kan"},{"間":"かん/あいだ /ま/interval/space/kan/aida/ma"},{"関":"barrier/カン/kan/せき/seki"},{"館":"かん/building/kan"},{"顔":"がん/かお/face/gan/kao"},{"願":"がん/ねが(う)/wish/gane/nega/negau"},{"期":"き/term/ki"},{"機":"き/machine/ki"},{"帰":"き/かえ(る)/to return/ki/kaeru"},{"売":"ばい/to sell/bai/う（る）/uru"},{"記":"き/to mark/ki/しる（す）/shirusu/shiru"},{"起":"き/おき(る)/to wake up/ki/okiru/oki"},{"休":"きゅう/やす(む)/to rest/kyuu/yasu/yasumu"},{"急":"きゅう/いそ(ぐ)/to hurry/kyuu/isogu/iso"},{"泣":"きゅう/な(く)/to cry/kyuu/naku/na"},{"究":"きゅう/to investigate/きわ（める）/kiwameru/kiwame"},{"牛":"ぎゅう/うし/cow/gyuu/ushi"},{"魚":"ぎょ/さかな/fish/gyo/sakana"},{"京":"きょう/capital/kyou"},{"強":"きょう/つよ(い)/strong/kyou/tsuyoi/tsuyo"},{"教":"きょう/おし(える)/to teach/kyou/oshieru/oshi"},{"橋":"きょう/はし/bridge/kyou/hashi"},{"業":"ぎょう/work/business/gyou"},{"局":"きょく/office/kyoku"},{"近":"きん/こん/ちか(い)/near/kin/kon/chikai/chika"},{"九":"きゅう/く/ここの/nine/kyuu/ku/kokono"},{"空":"くう/そら/から/あ(き)/sky/kuu/sora/kara/aki/a"},{"係":"けい/かか(り)/in charge/kei/kakari/kaka"},{"兄":"けい/きょ/う/あに/に/い/older/brother/kai/kyo/u/ani/ni/i"},{"形":"けい/かたち/shape/kei/katachi"},{"経":"けい/ヘ(る)to pass/through/kei"},{"計":"けい/はか(る)/to measure/kei/hakaru/haka"},{"決":"けつ/き(める)/to decide/ketsu/kimeru/ki"},{"月":"げつ/がつ/つき/moon/month/getsu/gatsu/tsuki"},{"犬":"けん/いぬ/dog/ken/inu"},{"見":"けん/み(る)/to see/look/watch/ken/miru/mi"},{"験":"けん/testing/ken"},{"元":"げん/がん/もと/original/gen/gan/moto"},{"現":"げん/あらわ（れる）/to appear/gen/arawareru/arawa"},{"言":"げん/い(う)/to say/gen/iu/i"},{"個":"こ/individual/ko"},{"古":"こ/old/ふる（い）/ko/furui/furu"},{"五":"ご/いつ(つ)/five/go/itsutsu/itsu"},{"午":"ご/noon/go"},{"後":"ご/うし(ろ )/あと/after/go/ushi/ushiro/ato"},{"語":"ご/かた(る)/to talk/go/kataru/kata"},{"公":"こう/おおや(け)/public/kou/ooyake/ooya"},{"口":"こう/くち/ぐち/mouth/kou/kuchi/guchi"},{"向":"こう/む(く or かう)/to face/kou/muku/mukau"},{"聞":"ぶん/き（く）/to listen/to ask/bun/kiku/ki"},{"工":"こう/industrial"},{"広":"こう/ひろ(い)/wide"},{"校":"こう/school"},{"港":"こう/みなと/harbor"},{"考":"こう/かんが(える)/to think"},{"行":"こう/ぎょう/い/ゆ(く)/to go"},{"降":"こう/ふ(る)/お(りる)/to fall/get/off"},{"号":"ごう/#/~th number"},{"合":"ごう/あ(う)/to match/to meet"},{"国":"こく/くに/country"},{"黒":"こく/くろ/black"},{"今":"こん/いま/now"},{"困":"こん/こま(る)/to be troubled"},{"左":"さ/ひだり/left"},{"最":"さい/もっと(も)/most"},{"歳":"さい/せい/とし/age;/-years old"},{"祭":"さい/まつり/festival"},{"際":"さい/きわ/edge"},{"作":"さく/つく(る)/to make"},{"昨":"last/preceding/さく/昨日〔きのう/さくじつ〕/yesterday/昨年〔さくねん〕/last year/昨夜〔さくや〕/last night/昨今〔さっこん〕/nowadays"},{"雑":"ざつ/miscellaneous"},{"三":"さん/み(っつ)/three"},{"山":"さん/やま/mountain"},{"残":"ざん/のこ(す/り)/to leave"},{"仕":"し/つか(える)/to serve"},{"使":"し/つか(う)/to use"},{"四":"し/よ(っつ)/four"},{"始":"to begin/し/はじ/始まる〔はじまる〕(something) begins/始める〔はじめる〕/begin(something)/始業式〔しぎょうしき〕/opening ceremony/(of the school term)/開始〔かいし〕する to start"},{"姉":"し/あね/ねえ/older sister"},{"子":"し/こ/child"},{"市":"し/いち/city"},{"思":"し/おも(う)/to think"},{"指":"し/ゆび/finger"},{"止":"し/と(まる or める)/to stop"},{"私":"し/わたし/I/private"},{"紙":"し/かみ/paper"},{"事":"し/じ/こと/ごと/matter"},{"字":"じ/character"},{"寺":"じ/てら/でら/temple"},{"持":"じ/も(つ)/to hold"},{"時":"じ/とき/と/time"},{"次":"じ/つぎ/next"},{"治":"じ/なお(る)/to treat"},{"自":"じ/self"},{"式":"しき/ceremony"},{"七":"しち/なな/seven"},{"失":"しつ/うしな(う)/to lose"},{"室":"しつ/room"},{"実":"じつ/み/truth"},{"写":"しゃ/うつ(す)/to copy"},{"者":"しゃ/じゃ/もの/person"},{"車":"しゃ/くるま/car"},{"若":"じゃく/わか(い)/young"},{"主":"しゅ/おも/main"},{"取":"しゅ/と(る)/to take"},{"手":"しゅ/て/hand/person"},{"受":"じゅ/う(ける)/to receive"},{"授":"じゅ/さず(か or る)/to receive"},{"州":"しゅう/state"},{"秋":"しゅう/あき/autumn"},{"終":"しゅう/お(わる)/to end"},{"習":"しゅう/なら(う)/to learn"},{"週":"しゅう/week"},{"住":"じゅう/す(む)/to live"},{"十":"じゅう/とお/ten"},{"重":"じゅう/おも(い)/heavy"},{"宿":"しゅく/やど/inn"},{"出":"しゅつ/で(る)/だ(す)/to go out"},{"術":"じゅつ/art"},{"春":"spring/しゅん/春の花〔はるのはな〕/spring flower/春分の日〔しゅんぶんのひ〕/Vernal Equinox Day/(a holiday on March 20 or 21)/青春〔せいしゅん〕/youth/思春期〔ししゅんき〕/adolescence/春夏秋冬〔しゅんかしゅうとう〕/spring/summer autumn and winter"},{"初":"しょ/はじ(め)/beginning"},{"所":"しょ/ところ/place"},{"暑":"しょ/あつ(い)/hot"},{"書":"しょ/か(く)/to write"},{"女":"じょ/おんな/female"},{"商":"しょう/あきな(い)/commercial"},{"小":"しょう/ちい(さい)/small"},{"少":"しょう/すく(ない)/すこ(し)/few"},{"笑":"to smile/laugh/しょう/笑う〔わらう〕/to smile or laugh"},{"上":"じょう/あが(る)/うえ/かみ/top"},{"乗":"じょう/の(る)/to ride"},{"場":"じょう/ば/place"},{"色":"しき/いろ/color"},{"食":"しょく/た(べる)/to eat"},{"信":"しん/しん(じ or る)/to trust"},{"寝":"しん/ね(る)/to sleep"},{"心":"heart/しん/いい心〔こころ〕/good heart/安心〔あんしん〕する/to be relieved/心配〔しんぱい〕する to worry/中心〔ちゅうしん〕/center"},{"新":"しん/あたら(しい)/new"},{"森":"しん/もり/forest"},{"神":"しん/かみ/かん/God"},{"親":"しん/おや/parent"},{"身":"しん/み/body"},{"進":"しん/すす(む)/to go/forward"},{"人":"じん/にん/ひと/person"},{"働":"to work/どう/働く〔はたらく〕/to work/働き者〔はたらきもの〕/hard worker/労働時間〔ろうどうじかん〕/working/hours/労働者〔ろうどうしゃ〕/laborer/worker"},{"水":"すい/みず/water"},{"数":"すう/かず/かぞ(える)/number/to count"},{"世":"せ/よ/world"},{"制":"せい/system"},{"成":"せい/な(る)/to become"},{"晴":"せい/は(れ)/clear sky"},{"正":"しょう/ただ(しい)/correct"},{"生":"せい/じょ/う/う(まれる)/なま/to be born"},{"青":"せい/あお/blue"},{"静":"せい/しず(か)/quiet"},{"昔":"せき/むかし/long ago"},{"石":"せき/いし/rock/stone"},{"赤":"せき/あか/red"},{"切":"せつ/き(る)/to cut"},{"接":"せつ/to connect"},{"節":"せつ/ふし/node/joint"},{"説":"to explain/せつ/説明〔せつめい〕/explanation/小説〔しょうせつ〕/novel/解説者〔かいせつしゃ〕/commentator"},{"雪":"せつ/ゆき/snow"},{"先":"せん/さき/first"},{"千":"せん/ち/thousand"},{"専":"せん/exclusive"},{"川":"せん/かわ/river"},{"洗":"せん/あら(う)/to wash"},{"線":"せん/line"},{"選":"せん/えら(ぶ)/to choose"},{"然":"undefined/be as is"},{"全":"ぜん/ま っ た(く)/whole"},{"組":"そ/くみ/group"},{"早":"そう/はや(い)/early"},{"相":"そう/あい/mutually"},{"走":"そう/はし(る)/to run"},{"送":"そう/おく(る)/to send"},{"贈":"ぞう/おく(る)/to present"},{"足":"そく/あし/た(りる)/foot/enough"},{"速":"そく/はや(い)/fast"},{"族":"ぞく/group"},{"続":"ぞく/つづ(く)/to continue"},{"卒":"そつ/to graduate"},{"村":"そん/むら/villate"},{"多":"た/おお(い)/many"},{"太":"た/たい/ふと(る)/fat"},{"打":"だ/う(つ)/to hit"},{"対":"たい/vs./versus"},{"待":"たい/ま(つ)/to wait"},{"貸":"たい/か(す)/to lend"},{"台":"たい/だ/い/step"},{"大":"だい/おお(きい)/big"},{"第":"だい/ordinal"},{"題":"だい/title"},{"単":"たん/single"},{"短":"たん/みじか(い)/short"},{"男":"だん/おとこ/male"},{"知":"ち/し(る)/to know"},{"地":"ち/じ/land;/ground"},{"池":"ち/いけ/pond"},{"置":"ち/お(く)/to put"},{"遅":"ち/おそ(い)/to be late"},{"着":"ちゃく/き(る)/つ(く)/to wear/arrive"},{"中":"ちゅう/なか/inside"},{"昼":"ちゅう/ひる/noon"},{"注":"ちゅう/そそ(ぐ)/to pour"},{"朝":"ちょう/あさ/morning"},{"町":"ちょう/まち/town"},{"長":"ちょう/なが(い)/long/head"},{"鳥":"ちょう/とり/bird"},{"痛":"つう/いた(い)/painful"},{"通":"つう/とお(る )/かよ(う)/togo/through/commute"},{"低":"てい/ひく(い)/low"},{"定":"てい/さだ/fixed"},{"弟":"てい/だ/い/で/おとうと/younger/brother"},{"的":"てき/まと/-like/target"},{"天":"てん/あま/heaven"},{"店":"てん/みせ/store"},{"転":"てん/ころ(がる)/to roll"},{"点":"てん/point"},{"伝":"でん/つた(える)/to convey"},{"田":"でん/た/rice field"},{"電":"でん/electricity"},{"都":"と/みやこ/capital"},{"度":"ど/-time(s)"},{"土":"ど/と/つち/soil"},{"冬":"とう/ふゆ/winter"},{"島":"とう/しま/island"},{"東":"とう/ひがし/east"},{"答":"とう/こた(える)/answer"},{"頭":"とう/ず/あたま/head"},{"動":"どう/うご(く)/to move"},{"同":"どう/おな(じ)/same"},{"道":"どう/みち/road/way"},{"特":"とく/special"},{"内":"ない/うち/inside"},{"南":"なん/みなみ/south"},{"難":"なん/むずか(しい)/~がた(い)/difficult"},{"二":"に/ふた/two"},{"肉":"にく/meat"},{"日":"day/にち/じつ/何日〔なんにち〕/what day?/how many days?/一日〔 ついた ち 〕/the 1st day of the month/two days/一日〔いちにち〕/one day/二日〔ふつか〕/the 2nd day of the month/日曜日〔にちようび〕/Sunday/定休日〔ていきゅうび〕/regular day off/祭日〔さいじつ〕/national holiday festival day/祝日〔しゅくじつ〕/holiday/日 の 丸 〔 ひ の ま る 〕/(name of) the Japanese flag/お日様〔おひさま〕/Sun"},{"入":"にゅう/はい(る)/い(れる)/to enter"},{"熱":"ねつ/あつ(い)/hot/fever"},{"年":"ねん/とし/year"},{"背":"はい/せ/back"},{"配":"はい/ぱい/くば(る)/to deliver"},{"買":"ばい/か(う)/to buy"},{"白":"ばい/はく/しろ/white"},{"八":"はち/やっ/よう/eight"},{"発":"はつ/to depart"},{"半":"はん/half"},{"反":"はん/against"},{"飯":"はん/めし/cooked/rice"},{"晩":"ばん/evening"},{"番":"ばん/number"},{"飛":"ひ/と(ぶ)/to fly/jump"},{"美":"び/うつく(しい)/beautiful"},{"鼻":"び/はな/nose"},{"必":"ひつ/かなら(ず)/necessary"},{"百":"ひゃく/hundred"},{"氷":"ひょう/こおり/ice"},{"表":"ひょう/おもて/front/chart"},{"病":"びょう/やま(い)/illness"},{"不":"ふ/non-"},{"付":"ふ/つ(く)/attach"},{"夫":"ふ /ふう/おっと/man/(one's own) husband"},{"婦":"ふ/married/woman"},{"父":"ふ/ちち/とう/father"},{"部":"ぶ/へ/part"},{"風":"wind/ふう/風〔かぜ〕/wind/風邪〔かぜ〕/a cold/強風〔きょうふう〕/strong wind/台風〔たいふう〕/typhoon/風力〔ふうりょく〕/wind power/和風〔わふう〕/Japanese style/洋風〔ようふう〕/Western style"},{"服":"ふく/cloth"},{"払":"ふつ/はら(う)/to pay"},{"物":"ぶつ/もつ/もの/thing (tangible)"},{"分":"ふん/ぶん/わ(かる or ける)/to understand/to divide"},{"文":"ぶん/も/ふみ/sentence"},{"平":"へい/たい(ら)/ひら/flat/peace"},{"別":"べつ/わか(れる)/to separate"},{"変":"へん/か(わる or える)/to change"},{"便":"べん/びん/convenient"},{"勉":"べん/つと(める)/to study"},{"歩":"ほ/ぽ/ある(く)/to walk"},{"方":"ほう/かた/がた/person/wayof/doing/side"},{"法":"ほう/law"},{"忘":"ぼう/わす(れる)/to forget"},{"忙":"ぼう/いそが(し/い)/busy"},{"北":"ほく/きた/north"},{"本":"ほん/ぼん/もと/origin/book"},{"妹":"まい/いもうと/younger/sister"},{"毎":"まい/every"},{"末":"まつ/すえ/end"},{"万":"まん/ten/thousand"},{"味":"み/あじ/taste"},{"未":"み/not yet"},{"無":"む/nothing"},{"名":"name/めい/名前〔なまえ〕/name/名古屋〔なごや〕/Nagoya/氏名〔しめい〕/full name/有名〔ゆうめい〕/famous/名人〔めいじん〕/expert/名物〔めいぶつ〕/famous product/名門校〔めいもんこう〕/famed school"},{"明":"めい/あか(る/い)/bright"},{"面":"めん/おも/おもて/face"},{"木":"もく/き/tree"},{"目":"もく/め/eye"},{"問":"もん/と(う)/to ask"},{"門":"もん/gate"},{"夜":"や/よる/night"},{"野":"field/や/野原〔のはら〕/field/野中〔のなか〕さん/Nonaka-san/野菜〔やさい〕/vegetables/野球選手〔やきゅうせんしゅ〕/baseball player/野球場〔やきゅうじょう〕/baseball field/野生〔やせい〕/wild"},{"薬":"やく/くすり/medicine"},{"友":"ゆう/とも/friend"},{"有":"ゆう/あ(る)/to have"},{"由":"ゆう/reason"},{"遊":"ゆう/あそ(ぶ)/to play"},{"夕":"ゆう/evening"},{"予":"よ/pre"},{"曜":"よう/dayof/week"},{"様":"よう/さま/Mr./Mrs./manner"},{"用":"よう/task/use"},{"要":"よう/かなめ/main"},{"来":"らい/き/く/こ/to come"},{"絡":"らく/linkage"},{"落":"らく/お(ちる or とす)/to fall or drop"},{"利":"り/advantage"},{"理":"り/reason"},{"留":"りゅう/る/とど(める)/to stop"},{"旅":"りょ/たび/travel"},{"両":"りょう/both"},{"料":"りょう/material/fee"},{"力":"りょく/ちから/power"},{"林":"りん/はやし/forest"},{"冷":"れい/つめ(たい)/cold"},{"練":"れん/ね(る)/to train"},{"六":"ろく/む/six"},{"和":"わ/harmony/Japanese"},{"良":"りょう/よ(い)/good"},{"耳":"じ/みみ/ear"},{"々":"(repeat)"},{"玉":"ぎょく/たま/ball/jewel"},{"米":"まい/こめ/rice/uncooked rice"},{"戸":"こ/と/door"},{"才":"さい/ability"},{"銀":"ぎん/silver"},{"糸":"し/いと/thread"},{"閉":"へい/と(じる)/し(める)/し(まる)/to close"},{"竹":"ちく/たけ/bamboo"},{"黄":"おう/き/yellow"},{"鉄":"てつ/iron"},{"客":"きゃく/guest/customer"},{"座":"ざ/す(わる)/to sit"},{"当":"とう/あ(たる/てる)/to hit"},{"死":"し/し(ぬ)/to die"},{"亡":"ぼう/な(くなる)/to pass away"},{"船":"せん/ふね/ship/boat"},{"戦":"せん/たたか(う)/to fight"},{"争":"そう/あらそ(う)/dispute"},{"軍":"ぐん/military"},{"連":"れん/つ(れる)/companion"},{"葉":"よう/は/ば/leaf"},{"代":"だい/か(わる)/to take place"},{"苦":"く/くる(しい)/にが(い)/painful"},{"幸":"こう/しあわ(せ)/さち/happiness"},{"福":"ふく/fortune"},{"建":"ちく/た(てる)/to build"},{"助":"じょ/たす(ける)/to assist"},{"喜":"き/よろ(こぶ)/to be pleased"},{"嬉":"き/うれ(しい)/happy (emotion)/happy"},{"悲":"ひ/かな(しい)/sad"},{"愛":"あい/love/affection"},{"恋":"れん/こい/love (romantic)/love"},{"原":"げん/はら/field"},{"窓":"そう/まど/window"},{"雲":"うん/くも/cloud"},{"曇":"どん/くも(る)/to get cloudy"},{"交":"こう/まじ(わる)/to cross/intersect"},{"泊":"はく/と(まる)/to sleep over"},{"感":"かん/かん/to feel"},{"箱":"はこ/box"}],"Visibility":"public","Notes":"This set was scraped from <a href='https://web.archive.org/web/20231027060306/http://my.cheng-tsui.com/files/AP%20Kanji%20List%2012307_0.pdf'>this website</a><br>The actual listing can be found on <a href=\"https://apcentral.collegeboard.org/media/pdf/ap-japanese-language-and-culture-course-and-exam-description.pdf\">this PDF from the AP Collegeboard, on page 200.</a><br>Also,if you get a number, type out the word instead of typing the number itself, eg \"nine\" instead of \"9.\" ","Author":"976","examples":{"安":"このホテルはとても安いです。\nTranslation: This hotel is very cheap.","以":"彼は私たち以外の人々に会ったことがありません。\nHe has never met anyone other than us.","医":"医者は病気を治すことができます。\nA doctor can cure diseases.","右":"彼は右に曲がりました。\nHe turned right.","泳":"泳ぐのは楽しいです。\nEnglish translation: Swimming is fun.","英":"英語を勉強しています。\n(Eigo o benkyou shiteimasu.)\nI am studying English.","駅":"駅に行きます。\n(I will go to the station.)","園":"公園でピクニックをしましょう。\nLet's have a picnic at the park.","悪":"彼はとても悪い人です。\nTranslation: He is a very bad person.","運":"彼は運がいい。\nTranslation: He is lucky.","暗":"暗い部屋で眠っている。 \nTranslation: I am sleeping in a dark room.","雨":"雨が降っています。\nTranslation: It's raining.","意":"彼の意見は重要です。\nHis opinion is important.","員":"彼は会社の新しい従業員です。\nTranslation: He is a new employee at the company.","育":"子供を育てることは大変です。\nRaising a child is difficult.","引":"彼は強く引っ張ってドアを開けた。\nHe pulled hard and opened the door.","院":"病院に行きます。\nI am going to the hospital.","飲":"飲み物を注文します。\nI will order a drink.","何":"何を食べますか？\nEnglish translation: What will you eat?","花":"花がきれいです。\nThe flowers are beautiful.","円":"この本は５００円です。\nTranslation: This book costs 500 yen.","遠":"私の家は駅から遠いです。\nMy house is far from the train station.","横":"彼は机の横に本を置いた。\nEnglish translation: He placed a book beside the desk.","荷":"荷を持ってきてください。\nPlease bring the luggage.","化":"彼の態度は化していた。\nHis attitude had changed.","温":"今日は温かいですね。\nTranslation: It's warm today, isn't it?","音":"音が大きいです。\nThe sound is loud.","夏":"夏は暑いです。\nEnglish translation: Summer is hot.","科":"その科について勉強しましょう。\nLet's study about that subject.\n\nEnglish translation: Let's study about that subject.","下":"彼は机の下にいる。\nHe is under the desk.","画":"画を描くのが好きです。\nI enjoy drawing pictures.","界":"世界の中で私たちはつながっている。\nTranslation: We are connected within the world.","学":"私は日本語を学んでいます。\nEnglish translation: I am learning Japanese.","公":"公園で遊びましょう。\nLet's play at the park.\n(Note: The word \"公\" can have multiple meanings, but in this example, it is used in the context of a public park.)","会":"彼と会います。\nEnglish translation: I will meet him.","皆":"皆さん、お帰りなさい！\nTranslation: Welcome back, everyone!","元":"元気ですか？\n(Genki desu ka?)\nHow are you?","考":"彼は新しいアイデアを考えている。\nTranslation: He is thinking of a new idea.","歳":"私は２０歳です。\nTranslation: I am 20 years old.","降":"雨が降っています。\nTranslation: It's raining.","合":"合う人を探しています。\nI am looking for a person to match with.","階":"その建物は３階建てです。\nEnglish translation: That building has three floors.","寒":"寒いですね。\nIt's cold, isn't it?","漢":"彼は漢字を勉強しています。\nTranslation: He is studying kanji.","願":"願いが叶いますように。\nNegai ga kanaimasu youni.\nMay your wish come true.","期":"今日は期末試験の日です。\nEnglish translation: Today is the day of the final exams.","機":"機械は音をたてて動いています。\nTranslation: The machine is making noise and moving.","売":"私は本を売ります。\nI sell books.","休":"彼は一週間休んだ。\nTranslation: He rested for one week.","急":"急いで学校に行きます。\nTranslation: I hurry to school.","海":"海で泳ぎたいです。\nEnglish translation: I want to swim in the sea.","落":"木から落ちた。\nTranslation: It fell from the tree.","問":"彼に質問をする。\nTranslation: I ask him a question.","飯":"今日の夕飯は何ですか？\nWhat is today's dinner?","発":"電車が発車します。\nThe train will depart.","絵":"絵を描くのが好きです。\nI like to paint.\n","開":"ドアを開けてください。\nPlease open the door.","活":"彼はとても活発な子供です。\nTranslation: He is a very active child.","間":"彼との間には距離がある。\nThere is distance between him and me.\n\n","関":"私の友達は関東地域に住んでいます。\n\nEnglish translation: My friend lives in the Kanto region.","館":"館にはたくさんの本があります。\nThere are many books in the building.","顔":"彼は笑っている顔が好きです。\nTranslation: I like his smiling face.","帰":"帰ります。\nEnglish translation: I will return.","記":"彼は大事なことをメモに記しています。\nEnglish translation: He is making notes of important things.","起":"私は毎朝、6時に起きます。\nTranslation: I wake up at 6 o'clock every morning.","泣":"泣いている赤ちゃんを見て、私は心配しました。\nEnglish translation: I felt worried when I saw the crying baby.","究":"究をして、その問題の答えを見つけましょう。\nEnglish translation: Let's investigate and find the answer to that problem.","牛":"牛は草を食べます。\nTranslation: Cows eat grass.","魚":"魚が好きです。\nI like fish.","京":"京都は日本の古都です。\nTranslation: Kyoto is an ancient capital of Japan.","強":"彼はとても強いです。\nHe is very strong.","教":"教えてください。\nPlease teach me.","橋":"橋を渡って公園に行きました。\nI crossed the bridge and went to the park.","業":"私は毎日、業に勤しんでいます。\nTranslation: I work diligently every day.","局":"彼は会社の局で働いています。\nTranslation: He works at the office of the company.","近":"このお店は私の家から近いです。\nTranslation: This store is near my house.","九":"九時に会いましょう。\nEnglish translation: Let's meet at nine o'clock.","歌":"歌が大好きです。\nTranslation: I love singing.","工":"工場で働いています。\nI work at a factory."}}
+{
+    "Name": "AP Japanese Kanji",
+    "ObjectName": "Kanji",
+    "AnswerName": "Meaning, Onyomi, or Kunyomi.",
+    "Set": [
+        {
+            "悪": "アク/わる(い)/bad/aku/waru/warui"
+        },
+        {
+            "安": "アン/やす(い)/cheap/peaceful/an/yasu/yasui"
+        },
+        {
+            "暗": "アン/くら(い)/dark/an/kurai/kura"
+        },
+        {
+            "以": "イ/to the ~ of/i"
+        },
+        {
+            "意": "イ/meaning/mind/i"
+        },
+        {
+            "医": "イ/medical/i"
+        },
+        {
+            "育": "イク/そだ(つてる)/to raise(a child or pet)/iku/soda/sodatsuteru"
+        },
+        {
+            "員": "イン/member/in"
+        },
+        {
+            "引": "イン/ひ(く)/to pull/in/hi/hiku"
+        },
+        {
+            "飲": "イン/の(む)/to drink/in/nomu/no"
+        },
+        {
+            "院": "イン/institute/in"
+        },
+        {
+            "右": "ウ/ゆう/みぎ/right(side)/u/yuu/migi"
+        },
+        {
+            "雨": "ウ/あめ/rain/u/ame"
+        },
+        {
+            "運": "ウン/はこ(ぶ)/to carry/luck/un/hakobu/hako"
+        },
+        {
+            "泳": "エイ/およ(ぐ)/to swim/ei/oyogu/oyo"
+        },
+        {
+            "英": "エイ/British/brave/ei"
+        },
+        {
+            "駅": "エキ/station/eki"
+        },
+        {
+            "円": "エン/まる/circle yen/en/maru"
+        },
+        {
+            "園": "エン/その/garden/en/sono"
+        },
+        {
+            "遠": "エン/とお(い)/far/en/toii"
+        },
+        {
+            "横": "オウ/よこ/side/ou/yoko"
+        },
+        {
+            "温": "オン/あたた(かい)/warm/on/atata/atatakai"
+        },
+        {
+            "音": "オン/おと/sound/on/oto"
+        },
+        {
+            "下": "カ/げ/した/under/ka/ge/shita"
+        },
+        {
+            "化": "カ/ば(ける)/to change/ka/ba/bakeru"
+        },
+        {
+            "何": "カ/なに/なん/what/ka/nani/nan"
+        },
+        {
+            "夏": "カ/なつ/summer/ka/natsu"
+        },
+        {
+            "科": "カ/subject/ka"
+        },
+        {
+            "歌": "カ/うた/song/ka/uta"
+        },
+        {
+            "火": "カ/ひ/fire/ka/hi"
+        },
+        {
+            "花": "カ/はな/flower/ka/hana"
+        },
+        {
+            "荷": "カ/に/luggage/ka/ni"
+        },
+        {
+            "画": "ガ/かく/picture/stroke/ga/kaku"
+        },
+        {
+            "会": "カイ/あ(う)/to meet/kai/au/a"
+        },
+        {
+            "海": "カイ/うみ/sea/ocean/beach/kai/umi"
+        },
+        {
+            "界": "カイ/boundary/kai"
+        },
+        {
+            "皆": "カイ/みんな/everyone/kai/mina"
+        },
+        {
+            "絵": "カイ/え/painting/kai/e"
+        },
+        {
+            "開": "カイ/あ(ける)/あ(く)/ひら(く)/to open/kai/a/akeru/aku/hira/hiraku"
+        },
+        {
+            "階": "カイ/がい/floor/kai/gai"
+        },
+        {
+            "学": "ガク/まな(ぶ)/to learn/gaku/mana/manabu"
+        },
+        {
+            "楽": "ガク/らく/たの(しい)/enjoyable/gaku/raku/tano/tanoshii"
+        },
+        {
+            "活": "カツ/active/live/katsu"
+        },
+        {
+            "寒": "カン/さむ(い)/cold/kann/samu/samui"
+        },
+        {
+            "漢": "カン/Chinese/kan"
+        },
+        {
+            "間": "カン/あいだ /ま/interval/space/kan/aida/ma"
+        },
+        {
+            "関": "barrier/カン/kan/せき/seki"
+        },
+        {
+            "館": "カン/building/kan"
+        },
+        {
+            "顔": "ガン/かお/face/gan/kao"
+        },
+        {
+            "願": "ガン/ねが(う)/wish/gane/nega/negau"
+        },
+        {
+            "期": "キ/term/ki"
+        },
+        {
+            "機": "キ/machine/ki"
+        },
+        {
+            "帰": "キ/かえ(る)/to return/ki/kaeru"
+        },
+        {
+            "売": "バイ/to sell/bai/う（る）/uru"
+        },
+        {
+            "記": "キ/to mark/ki/しる（す）/shirusu/shiru"
+        },
+        {
+            "起": "キ/おき(る)/to wake up/ki/okiru/oki"
+        },
+        {
+            "休": "キュウ/やす(む)/to rest/kyuu/yasu/yasumu"
+        },
+        {
+            "急": "キュウ/いそ(ぐ)/to hurry/kyuu/isogu/iso"
+        },
+        {
+            "泣": "キュウ/な(く)/to cry/kyuu/naku/na"
+        },
+        {
+            "究": "キュウ/to investigate/きわ（める）/kiwameru/kiwame"
+        },
+        {
+            "牛": "ギュウ/うし/cow/gyuu/ushi"
+        },
+        {
+            "魚": "ギョ/さかな/fish/gyo/sakana"
+        },
+        {
+            "京": "キョウ/capital/kyou"
+        },
+        {
+            "強": "キョウ/つよ(い)/strong/kyou/tsuyoi/tsuyo"
+        },
+        {
+            "教": "キョウ/おし(える)/to teach/kyou/oshieru/oshi"
+        },
+        {
+            "橋": "キョウ/はし/bridge/kyou/hashi"
+        },
+        {
+            "業": "ギョウ/work/business/gyou"
+        },
+        {
+            "局": "キョク/office/kyoku"
+        },
+        {
+            "近": "キン/こん/ちか(い)/near/kin/kon/chikai/chika"
+        },
+        {
+            "九": "キュウ/く/ここの/nine/kyuu/ku/kokono"
+        },
+        {
+            "空": "クウ/そら/から/あ(き)/sky/kuu/sora/kara/aki/a"
+        },
+        {
+            "係": "ケイ/かか(り)/in charge/kei/kakari/kaka"
+        },
+        {
+            "兄": "ケイ/きょ/う/あに/に/い/older/brother/kai/kyo/u/ani/ni/i"
+        },
+        {
+            "形": "ケイ/かたち/shape/kei/katachi"
+        },
+        {
+            "経": "ケイ/ヘ(る)to pass/through/kei"
+        },
+        {
+            "計": "ケイ/はか(る)/to measure/kei/hakaru/haka"
+        },
+        {
+            "決": "ケツ/き(める)/to decide/ketsu/kimeru/ki"
+        },
+        {
+            "月": "ゲツ/がつ/つき/moon/month/getsu/gatsu/tsuki"
+        },
+        {
+            "犬": "ケン/いぬ/dog/ken/inu"
+        },
+        {
+            "見": "ケン/み(る)/to see/look/watch/ken/miru/mi"
+        },
+        {
+            "験": "ケン/testing/ken"
+        },
+        {
+            "元": "ゲン/がん/もと/original/gen/gan/moto"
+        },
+        {
+            "現": "ゲン/あらわ（れる）/to appear/gen/arawareru/arawa"
+        },
+        {
+            "言": "ゲン/い(う)/to say/gen/iu/i"
+        },
+        {
+            "個": "コ/individual/ko"
+        },
+        {
+            "古": "コ/old/ふる（い）/ko/furui/furu"
+        },
+        {
+            "五": "ゴ/いつ(つ)/five/go/itsutsu/itsu"
+        },
+        {
+            "午": "ゴ/noon/go"
+        },
+        {
+            "後": "ゴ/うし(ろ )/あと/after/go/ushi/ushiro/ato"
+        },
+        {
+            "語": "ゴ/かた(る)/to talk/go/kataru/kata"
+        },
+        {
+            "公": "コウ/おおや(け)/public/kou/ooyake/ooya"
+        },
+        {
+            "口": "コウ/くち/ぐち/mouth/kou/kuchi/guchi"
+        },
+        {
+            "向": "コウ/む(く or かう)/to face/kou/muku/mukau"
+        },
+        {
+            "聞": "ブン/き（く）/to listen/to ask/bun/kiku/ki"
+        },
+        {
+            "工": "コウ/industrial"
+        },
+        {
+            "広": "コウ/ひろ(い)/wide"
+        },
+        {
+            "校": "コウ/school"
+        },
+        {
+            "港": "コウ/みなと/harbor"
+        },
+        {
+            "考": "コウ/かんが(える)/to think"
+        },
+        {
+            "行": "コウ/ぎょう/い/ゆ(く)/to go"
+        },
+        {
+            "降": "コウ/ふ(る)/お(りる)/to fall/get/off"
+        },
+        {
+            "号": "ゴウ/#/~th number"
+        },
+        {
+            "合": "ゴウ/あ(う)/to match/to meet"
+        },
+        {
+            "国": "コク/くに/country"
+        },
+        {
+            "黒": "コク/くろ/black"
+        },
+        {
+            "今": "コン/いま/now"
+        },
+        {
+            "困": "コン/こま(る)/to be troubled"
+        },
+        {
+            "左": "サ/ひだり/left"
+        },
+        {
+            "最": "サイ/もっと(も)/most"
+        },
+        {
+            "歳": "サイ/せい/とし/age;/-years old"
+        },
+        {
+            "祭": "サイ/まつり/festival"
+        },
+        {
+            "際": "サイ/きわ/edge"
+        },
+        {
+            "作": "サク/つく(る)/to make"
+        },
+        {
+            "昨": "last/preceding/さく/昨日〔きのう/さくじつ〕/yesterday/昨年〔さくねん〕/last year/昨夜〔さくや〕/last night/昨今〔さっこん〕/nowadays"
+        },
+        {
+            "雑": "ザツ/miscellaneous"
+        },
+        {
+            "三": "サン/み(っつ)/three"
+        },
+        {
+            "山": "サン/やま/mountain"
+        },
+        {
+            "残": "ザン/のこ(す/り)/to leave"
+        },
+        {
+            "仕": "シ/つか(える)/to serve"
+        },
+        {
+            "使": "シ/つか(う)/to use"
+        },
+        {
+            "四": "シ/よ(っつ)/four"
+        },
+        {
+            "始": "to begin/し/はじ/始まる〔はじまる〕(something) begins/始める〔はじめる〕/begin(something)/始業式〔しぎょうしき〕/opening ceremony/(of the school term)/開始〔かいし〕する to start"
+        },
+        {
+            "姉": "シ/あね/ねえ/older sister"
+        },
+        {
+            "子": "シ/こ/child"
+        },
+        {
+            "市": "シ/いち/city"
+        },
+        {
+            "思": "シ/おも(う)/to think"
+        },
+        {
+            "指": "シ/ゆび/finger"
+        },
+        {
+            "止": "シ/と(まる or める)/to stop"
+        },
+        {
+            "私": "シ/わたし/I/private"
+        },
+        {
+            "紙": "シ/かみ/paper"
+        },
+        {
+            "事": "シ/じ/こと/ごと/matter"
+        },
+        {
+            "字": "ジ/character"
+        },
+        {
+            "寺": "ジ/てら/でら/temple"
+        },
+        {
+            "持": "ジ/も(つ)/to hold"
+        },
+        {
+            "時": "ジ/とき/と/time"
+        },
+        {
+            "次": "ジ/つぎ/next"
+        },
+        {
+            "治": "ジ/なお(る)/to treat"
+        },
+        {
+            "自": "ジ/self"
+        },
+        {
+            "式": "シキ/ceremony"
+        },
+        {
+            "七": "シチ/なな/seven"
+        },
+        {
+            "失": "シツ/うしな(う)/to lose"
+        },
+        {
+            "室": "シツ/room"
+        },
+        {
+            "実": "ジツ/み/truth"
+        },
+        {
+            "写": "シャ/うつ(す)/to copy"
+        },
+        {
+            "者": "シャ/じゃ/もの/person"
+        },
+        {
+            "車": "シャ/くるま/car"
+        },
+        {
+            "若": "ジャク/わか(い)/young"
+        },
+        {
+            "主": "シュ/おも/main"
+        },
+        {
+            "取": "シュ/と(る)/to take"
+        },
+        {
+            "手": "シュ/て/hand/person"
+        },
+        {
+            "受": "ジュ/う(ける)/to receive"
+        },
+        {
+            "授": "ジュ/さず(か or る)/to receive"
+        },
+        {
+            "州": "シュウ/state"
+        },
+        {
+            "秋": "シュウ/あき/autumn"
+        },
+        {
+            "終": "シュウ/お(わる)/to end"
+        },
+        {
+            "習": "シュウ/なら(う)/to learn"
+        },
+        {
+            "週": "シュウ/week"
+        },
+        {
+            "住": "ジュウ/す(む)/to live"
+        },
+        {
+            "十": "ジュウ/とお/ten"
+        },
+        {
+            "重": "ジュウ/おも(い)/heavy"
+        },
+        {
+            "宿": "シュク/やど/inn"
+        },
+        {
+            "出": "シュツ/で(る)/だ(す)/to go out"
+        },
+        {
+            "術": "ジュツ/art"
+        },
+        {
+            "春": "spring/しゅん/春の花〔はるのはな〕/spring flower/春分の日〔しゅんぶんのひ〕/Vernal Equinox Day/(a holiday on March 20 or 21)/青春〔せいしゅん〕/youth/思春期〔ししゅんき〕/adolescence/春夏秋冬〔しゅんかしゅうとう〕/spring/summer autumn and winter"
+        },
+        {
+            "初": "ショ/はじ(め)/beginning"
+        },
+        {
+            "所": "ショ/ところ/place"
+        },
+        {
+            "暑": "ショ/あつ(い)/hot"
+        },
+        {
+            "書": "ショ/か(く)/to write"
+        },
+        {
+            "女": "ジョ/おんな/female"
+        },
+        {
+            "商": "ショウ/あきな(い)/commercial"
+        },
+        {
+            "小": "ショウ/ちい(さい)/small"
+        },
+        {
+            "少": "ショウ/すく(ない)/すこ(し)/few"
+        },
+        {
+            "笑": "to smile/laugh/しょう/笑う〔わらう〕/to smile or laugh"
+        },
+        {
+            "上": "ジョウ/あが(る)/うえ/かみ/top"
+        },
+        {
+            "乗": "ジョウ/の(る)/to ride"
+        },
+        {
+            "場": "ジョウ/ば/place"
+        },
+        {
+            "色": "シキ/いろ/color"
+        },
+        {
+            "食": "ショク/た(べる)/to eat"
+        },
+        {
+            "信": "シン/しん(じ or る)/to trust"
+        },
+        {
+            "寝": "シン/ね(る)/to sleep"
+        },
+        {
+            "心": "heart/しん/いい心〔こころ〕/good heart/安心〔あんしん〕する/to be relieved/心配〔しんぱい〕する to worry/中心〔ちゅうしん〕/center"
+        },
+        {
+            "新": "シン/あたら(しい)/new"
+        },
+        {
+            "森": "シン/もり/forest"
+        },
+        {
+            "神": "シン/かみ/かん/God"
+        },
+        {
+            "親": "シン/おや/parent"
+        },
+        {
+            "身": "シン/み/body"
+        },
+        {
+            "進": "シン/すす(む)/to go/forward"
+        },
+        {
+            "人": "ジン/にん/ひと/person"
+        },
+        {
+            "働": "to work/どう/働く〔はたらく〕/to work/働き者〔はたらきもの〕/hard worker/労働時間〔ろうどうじかん〕/working/hours/労働者〔ろうどうしゃ〕/laborer/worker"
+        },
+        {
+            "水": "スイ/みず/water"
+        },
+        {
+            "数": "スウ/かず/かぞ(える)/number/to count"
+        },
+        {
+            "世": "セ/よ/world"
+        },
+        {
+            "制": "セイ/system"
+        },
+        {
+            "成": "セイ/な(る)/to become"
+        },
+        {
+            "晴": "セイ/は(れ)/clear sky"
+        },
+        {
+            "正": "ショウ/ただ(しい)/correct"
+        },
+        {
+            "生": "セイ/じょ/う/う(まれる)/なま/to be born"
+        },
+        {
+            "青": "セイ/あお/blue"
+        },
+        {
+            "静": "セイ/しず(か)/quiet"
+        },
+        {
+            "昔": "セキ/むかし/long ago"
+        },
+        {
+            "石": "セキ/いし/rock/stone"
+        },
+        {
+            "赤": "セキ/あか/red"
+        },
+        {
+            "切": "セツ/き(る)/to cut"
+        },
+        {
+            "接": "セツ/to connect"
+        },
+        {
+            "節": "セツ/ふし/node/joint"
+        },
+        {
+            "説": "to explain/せつ/説明〔せつめい〕/explanation/小説〔しょうせつ〕/novel/解説者〔かいせつしゃ〕/commentator"
+        },
+        {
+            "雪": "セツ/ゆき/snow"
+        },
+        {
+            "先": "セン/さき/first"
+        },
+        {
+            "千": "セン/ち/thousand"
+        },
+        {
+            "専": "セン/exclusive"
+        },
+        {
+            "川": "セン/かわ/river"
+        },
+        {
+            "洗": "セン/あら(う)/to wash"
+        },
+        {
+            "線": "セン/line"
+        },
+        {
+            "選": "セン/えら(ぶ)/to choose"
+        },
+        {
+            "然": "undefined/be as is"
+        },
+        {
+            "全": "ゼン/ま っ た(く)/whole"
+        },
+        {
+            "組": "ソ/くみ/group"
+        },
+        {
+            "早": "ソウ/はや(い)/early"
+        },
+        {
+            "相": "ソウ/あい/mutually"
+        },
+        {
+            "走": "ソウ/はし(る)/to run"
+        },
+        {
+            "送": "ソウ/おく(る)/to send"
+        },
+        {
+            "贈": "ゾウ/おく(る)/to present"
+        },
+        {
+            "足": "ソク/あし/た(りる)/foot/enough"
+        },
+        {
+            "速": "ソク/はや(い)/fast"
+        },
+        {
+            "族": "ゾク/group"
+        },
+        {
+            "続": "ゾク/つづ(く)/to continue"
+        },
+        {
+            "卒": "ソツ/to graduate"
+        },
+        {
+            "村": "ソン/むら/villate"
+        },
+        {
+            "多": "タ/おお(い)/many"
+        },
+        {
+            "太": "タ/たい/ふと(る)/fat"
+        },
+        {
+            "打": "ダ/う(つ)/to hit"
+        },
+        {
+            "対": "タイ/vs./versus"
+        },
+        {
+            "待": "タイ/ま(つ)/to wait"
+        },
+        {
+            "貸": "タイ/か(す)/to lend"
+        },
+        {
+            "台": "タイ/だ/い/step"
+        },
+        {
+            "大": "ダイ/おお(きい)/big"
+        },
+        {
+            "第": "ダイ/ordinal"
+        },
+        {
+            "題": "ダイ/title"
+        },
+        {
+            "単": "タン/single"
+        },
+        {
+            "短": "タン/みじか(い)/short"
+        },
+        {
+            "男": "ダン/おとこ/male"
+        },
+        {
+            "知": "チ/し(る)/to know"
+        },
+        {
+            "地": "チ/じ/land;/ground"
+        },
+        {
+            "池": "チ/いけ/pond"
+        },
+        {
+            "置": "チ/お(く)/to put"
+        },
+        {
+            "遅": "チ/おそ(い)/to be late"
+        },
+        {
+            "着": "チャク/き(る)/つ(く)/to wear/arrive"
+        },
+        {
+            "中": "チュウ/なか/inside"
+        },
+        {
+            "昼": "チュウ/ひる/noon"
+        },
+        {
+            "注": "チュウ/そそ(ぐ)/to pour"
+        },
+        {
+            "朝": "チョウ/あさ/morning"
+        },
+        {
+            "町": "チョウ/まち/town"
+        },
+        {
+            "長": "チョウ/なが(い)/long/head"
+        },
+        {
+            "鳥": "チョウ/とり/bird"
+        },
+        {
+            "痛": "ツウ/いた(い)/painful"
+        },
+        {
+            "通": "ツウ/とお(る )/かよ(う)/togo/through/commute"
+        },
+        {
+            "低": "テイ/ひく(い)/low"
+        },
+        {
+            "定": "テイ/さだ/fixed"
+        },
+        {
+            "弟": "テイ/だ/い/で/おとうと/younger/brother"
+        },
+        {
+            "的": "テキ/まと/-like/target"
+        },
+        {
+            "天": "テン/あま/heaven"
+        },
+        {
+            "店": "テン/みせ/store"
+        },
+        {
+            "転": "テン/ころ(がる)/to roll"
+        },
+        {
+            "点": "テン/point"
+        },
+        {
+            "伝": "デン/つた(える)/to convey"
+        },
+        {
+            "田": "デン/た/rice field"
+        },
+        {
+            "電": "デン/electricity"
+        },
+        {
+            "都": "ト/みやこ/capital"
+        },
+        {
+            "度": "ド/-time(s)"
+        },
+        {
+            "土": "ド/と/つち/soil"
+        },
+        {
+            "冬": "トウ/ふゆ/winter"
+        },
+        {
+            "島": "トウ/しま/island"
+        },
+        {
+            "東": "トウ/ひがし/east"
+        },
+        {
+            "答": "トウ/こた(える)/answer"
+        },
+        {
+            "頭": "トウ/ず/あたま/head"
+        },
+        {
+            "動": "ドウ/うご(く)/to move"
+        },
+        {
+            "同": "ドウ/おな(じ)/same"
+        },
+        {
+            "道": "ドウ/みち/road/way"
+        },
+        {
+            "特": "トク/special"
+        },
+        {
+            "内": "ナイ/うち/inside"
+        },
+        {
+            "南": "ナン/みなみ/south"
+        },
+        {
+            "難": "ナン/むずか(しい)/~がた(い)/difficult"
+        },
+        {
+            "二": "ニ/ふた/two"
+        },
+        {
+            "肉": "ニク/meat"
+        },
+        {
+            "日": "day/にち/じつ/何日〔なんにち〕/what day?/how many days?/一日〔 ついた ち 〕/the 1st day of the month/two days/一日〔いちにち〕/one day/二日〔ふつか〕/the 2nd day of the month/日曜日〔にちようび〕/Sunday/定休日〔ていきゅうび〕/regular day off/祭日〔さいじつ〕/national holiday festival day/祝日〔しゅくじつ〕/holiday/日 の 丸 〔 ひ の ま る 〕/(name of) the Japanese flag/お日様〔おひさま〕/Sun"
+        },
+        {
+            "入": "ニュウ/はい(る)/い(れる)/to enter"
+        },
+        {
+            "熱": "ネツ/あつ(い)/hot/fever"
+        },
+        {
+            "年": "ネン/とし/year"
+        },
+        {
+            "背": "ハイ/せ/back"
+        },
+        {
+            "配": "ハイ/ぱい/くば(る)/to deliver"
+        },
+        {
+            "買": "バイ/か(う)/to buy"
+        },
+        {
+            "白": "バイ/はく/しろ/white"
+        },
+        {
+            "八": "ハチ/やっ/よう/eight"
+        },
+        {
+            "発": "ハツ/to depart"
+        },
+        {
+            "半": "ハン/half"
+        },
+        {
+            "反": "ハン/against"
+        },
+        {
+            "飯": "ハン/めし/cooked/rice"
+        },
+        {
+            "晩": "バン/evening"
+        },
+        {
+            "番": "バン/number"
+        },
+        {
+            "飛": "ヒ/と(ぶ)/to fly/jump"
+        },
+        {
+            "美": "ビ/うつく(しい)/beautiful"
+        },
+        {
+            "鼻": "ビ/はな/nose"
+        },
+        {
+            "必": "ヒツ/かなら(ず)/necessary"
+        },
+        {
+            "百": "ヒャク/hundred"
+        },
+        {
+            "氷": "ヒョウ/こおり/ice"
+        },
+        {
+            "表": "ヒョウ/おもて/front/chart"
+        },
+        {
+            "病": "ビョウ/やま(い)/illness"
+        },
+        {
+            "不": "フ/non-"
+        },
+        {
+            "付": "フ/つ(く)/attach"
+        },
+        {
+            "夫": "ふ /ふう/おっと/man/(one's own) husband"
+        },
+        {
+            "婦": "フ/married/woman"
+        },
+        {
+            "父": "フ/ちち/とう/father"
+        },
+        {
+            "部": "ブ/へ/part"
+        },
+        {
+            "風": "wind/ふう/風〔かぜ〕/wind/風邪〔かぜ〕/a cold/強風〔きょうふう〕/strong wind/台風〔たいふう〕/typhoon/風力〔ふうりょく〕/wind power/和風〔わふう〕/Japanese style/洋風〔ようふう〕/Western style"
+        },
+        {
+            "服": "フク/cloth"
+        },
+        {
+            "払": "フツ/はら(う)/to pay"
+        },
+        {
+            "物": "ブツ/もつ/もの/thing (tangible)"
+        },
+        {
+            "分": "フン/ぶん/わ(かる or ける)/to understand/to divide"
+        },
+        {
+            "文": "ブン/も/ふみ/sentence"
+        },
+        {
+            "平": "ヘイ/たい(ら)/ひら/flat/peace"
+        },
+        {
+            "別": "ベツ/わか(れる)/to separate"
+        },
+        {
+            "変": "ヘン/か(わる or える)/to change"
+        },
+        {
+            "便": "ベン/びん/convenient"
+        },
+        {
+            "勉": "ベン/つと(める)/to study"
+        },
+        {
+            "歩": "ホ/ぽ/ある(く)/to walk"
+        },
+        {
+            "方": "ホウ/かた/がた/person/wayof/doing/side"
+        },
+        {
+            "法": "ホウ/law"
+        },
+        {
+            "忘": "ボウ/わす(れる)/to forget"
+        },
+        {
+            "忙": "ボウ/いそが(し/い)/busy"
+        },
+        {
+            "北": "ホク/きた/north"
+        },
+        {
+            "本": "ホン/ぼん/もと/origin/book"
+        },
+        {
+            "妹": "マイ/いもうと/younger/sister"
+        },
+        {
+            "毎": "マイ/every"
+        },
+        {
+            "末": "マツ/すえ/end"
+        },
+        {
+            "万": "マン/ten/thousand"
+        },
+        {
+            "味": "ミ/あじ/taste"
+        },
+        {
+            "未": "ミ/not yet"
+        },
+        {
+            "無": "ム/nothing"
+        },
+        {
+            "名": "name/めい/名前〔なまえ〕/name/名古屋〔なごや〕/Nagoya/氏名〔しめい〕/full name/有名〔ゆうめい〕/famous/名人〔めいじん〕/expert/名物〔めいぶつ〕/famous product/名門校〔めいもんこう〕/famed school"
+        },
+        {
+            "明": "メイ/あか(る/い)/bright"
+        },
+        {
+            "面": "メン/おも/おもて/face"
+        },
+        {
+            "木": "モク/き/tree"
+        },
+        {
+            "目": "モク/め/eye"
+        },
+        {
+            "問": "モン/と(う)/to ask"
+        },
+        {
+            "門": "モン/gate"
+        },
+        {
+            "夜": "ヤ/よる/night"
+        },
+        {
+            "野": "field/や/野原〔のはら〕/field/野中〔のなか〕さん/Nonaka-san/野菜〔やさい〕/vegetables/野球選手〔やきゅうせんしゅ〕/baseball player/野球場〔やきゅうじょう〕/baseball field/野生〔やせい〕/wild"
+        },
+        {
+            "薬": "ヤク/くすり/medicine"
+        },
+        {
+            "友": "ユウ/とも/friend"
+        },
+        {
+            "有": "ユウ/あ(る)/to have"
+        },
+        {
+            "由": "ユウ/reason"
+        },
+        {
+            "遊": "ユウ/あそ(ぶ)/to play"
+        },
+        {
+            "夕": "ユウ/evening"
+        },
+        {
+            "予": "ヨ/pre"
+        },
+        {
+            "曜": "ヨウ/dayof/week"
+        },
+        {
+            "様": "ヨウ/さま/Mr./Mrs./manner"
+        },
+        {
+            "用": "ヨウ/task/use"
+        },
+        {
+            "要": "ヨウ/かなめ/main"
+        },
+        {
+            "来": "ライ/き/く/こ/to come"
+        },
+        {
+            "絡": "ラク/linkage"
+        },
+        {
+            "落": "ラク/お(ちる or とす)/to fall or drop"
+        },
+        {
+            "利": "リ/advantage"
+        },
+        {
+            "理": "リ/reason"
+        },
+        {
+            "留": "リュウ/る/とど(める)/to stop"
+        },
+        {
+            "旅": "リョ/たび/travel"
+        },
+        {
+            "両": "リョウ/both"
+        },
+        {
+            "料": "リョウ/material/fee"
+        },
+        {
+            "力": "リョク/ちから/power"
+        },
+        {
+            "林": "リン/はやし/forest"
+        },
+        {
+            "冷": "レイ/つめ(たい)/cold"
+        },
+        {
+            "練": "レン/ね(る)/to train"
+        },
+        {
+            "六": "ロク/む/six"
+        },
+        {
+            "和": "ワ/harmony/Japanese"
+        },
+        {
+            "良": "リョウ/よ(い)/good"
+        },
+        {
+            "耳": "ジ/みみ/ear"
+        },
+        {
+            "々": "(repeat)"
+        },
+        {
+            "玉": "ギョク/たま/ball/jewel"
+        },
+        {
+            "米": "マイ/こめ/rice/uncooked rice"
+        },
+        {
+            "戸": "コ/と/door"
+        },
+        {
+            "才": "サイ/ability"
+        },
+        {
+            "銀": "ギン/silver"
+        },
+        {
+            "糸": "シ/いと/thread"
+        },
+        {
+            "閉": "ヘイ/と(じる)/し(める)/し(まる)/to close"
+        },
+        {
+            "竹": "チク/たけ/bamboo"
+        },
+        {
+            "黄": "オウ/き/yellow"
+        },
+        {
+            "鉄": "テツ/iron"
+        },
+        {
+            "客": "キャク/guest/customer"
+        },
+        {
+            "座": "ザ/す(わる)/to sit"
+        },
+        {
+            "当": "トウ/あ(たる/てる)/to hit"
+        },
+        {
+            "死": "シ/し(ぬ)/to die"
+        },
+        {
+            "亡": "ボウ/な(くなる)/to pass away"
+        },
+        {
+            "船": "セン/ふね/ship/boat"
+        },
+        {
+            "戦": "セン/たたか(う)/to fight"
+        },
+        {
+            "争": "ソウ/あらそ(う)/dispute"
+        },
+        {
+            "軍": "グン/military"
+        },
+        {
+            "連": "レン/つ(れる)/companion"
+        },
+        {
+            "葉": "ヨウ/は/ば/leaf"
+        },
+        {
+            "代": "ダイ/か(わる)/to take place"
+        },
+        {
+            "苦": "ク/くる(しい)/にが(い)/painful"
+        },
+        {
+            "幸": "コウ/しあわ(せ)/さち/happiness"
+        },
+        {
+            "福": "フク/fortune"
+        },
+        {
+            "建": "チク/た(てる)/to build"
+        },
+        {
+            "助": "ジョ/たす(ける)/to assist"
+        },
+        {
+            "喜": "キ/よろ(こぶ)/to be pleased"
+        },
+        {
+            "嬉": "キ/うれ(しい)/happy (emotion)/happy"
+        },
+        {
+            "悲": "ヒ/かな(しい)/sad"
+        },
+        {
+            "愛": "アイ/love/affection"
+        },
+        {
+            "恋": "レン/こい/love (romantic)/love"
+        },
+        {
+            "原": "ゲン/はら/field"
+        },
+        {
+            "窓": "ソウ/まど/window"
+        },
+        {
+            "雲": "ウン/くも/cloud"
+        },
+        {
+            "曇": "ドン/くも(る)/to get cloudy"
+        },
+        {
+            "交": "コウ/まじ(わる)/to cross/intersect"
+        },
+        {
+            "泊": "ハク/と(まる)/to sleep over"
+        },
+        {
+            "感": "カン/かん/to feel"
+        },
+        {
+            "箱": "ハコ/box"
+        }
+    ],
+    "Visibility": "public",
+    "Notes": "This set was scraped from <a href='https://web.archive.org/web/20231027060306/http://my.cheng-tsui.com/files/AP%20Kanji%20List%2012307_0.pdf'>this website</a><br>The actual listing can be found on <a href=\"https://apcentral.collegeboard.org/media/pdf/ap-japanese-language-and-culture-course-and-exam-description.pdf\">this PDF from the AP Collegeboard, on page 200.</a><br>Also,if you get a number, type out the word instead of typing the number itself, eg \"nine\" instead of \"9.\"<br>Finally, this text was also passed through <a href=\"https://www.npmjs.com/package/wanakana\">wanakana</a> in order to make the Katakana readings in Katakana.",
+    "Author": "976",
+    "examples": {
+        "安": "このホテルはとても安いです。\nTranslation: This hotel is very cheap.",
+        "以": "彼は私たち以外の人々に会ったことがありません。\nHe has never met anyone other than us.",
+        "医": "医者は病気を治すことができます。\nA doctor can cure diseases.",
+        "右": "彼は右に曲がりました。\nHe turned right.",
+        "泳": "泳ぐのは楽しいです。\nEnglish translation: Swimming is fun.",
+        "英": "英語を勉強しています。\n(Eigo o benkyou shiteimasu.)\nI am studying English.",
+        "駅": "駅に行きます。\n(I will go to the station.)",
+        "園": "公園でピクニックをしましょう。\nLet's have a picnic at the park.",
+        "悪": "彼はとても悪い人です。\nTranslation: He is a very bad person.",
+        "運": "彼は運がいい。\nTranslation: He is lucky.",
+        "暗": "暗い部屋で眠っている。 \nTranslation: I am sleeping in a dark room.",
+        "雨": "雨が降っています。\nTranslation: It's raining.",
+        "意": "彼の意見は重要です。\nHis opinion is important.",
+        "員": "彼は会社の新しい従業員です。\nTranslation: He is a new employee at the company.",
+        "育": "子供を育てることは大変です。\nRaising a child is difficult.",
+        "引": "彼は強く引っ張ってドアを開けた。\nHe pulled hard and opened the door.",
+        "院": "病院に行きます。\nI am going to the hospital.",
+        "飲": "飲み物を注文します。\nI will order a drink.",
+        "何": "何を食べますか？\nEnglish translation: What will you eat?",
+        "花": "花がきれいです。\nThe flowers are beautiful.",
+        "円": "この本は５００円です。\nTranslation: This book costs 500 yen.",
+        "遠": "私の家は駅から遠いです。\nMy house is far from the train station.",
+        "横": "彼は机の横に本を置いた。\nEnglish translation: He placed a book beside the desk.",
+        "荷": "荷を持ってきてください。\nPlease bring the luggage.",
+        "化": "彼の態度は化していた。\nHis attitude had changed.",
+        "温": "今日は温かいですね。\nTranslation: It's warm today, isn't it?",
+        "音": "音が大きいです。\nThe sound is loud.",
+        "夏": "夏は暑いです。\nEnglish translation: Summer is hot.",
+        "科": "その科について勉強しましょう。\nLet's study about that subject.\n\nEnglish translation: Let's study about that subject.",
+        "下": "彼は机の下にいる。\nHe is under the desk.",
+        "画": "画を描くのが好きです。\nI enjoy drawing pictures.",
+        "界": "世界の中で私たちはつながっている。\nTranslation: We are connected within the world.",
+        "学": "私は日本語を学んでいます。\nEnglish translation: I am learning Japanese.",
+        "公": "公園で遊びましょう。\nLet's play at the park.\n(Note: The word \"公\" can have multiple meanings, but in this example, it is used in the context of a public park.)",
+        "会": "彼と会います。\nEnglish translation: I will meet him.",
+        "皆": "皆さん、お帰りなさい！\nTranslation: Welcome back, everyone!",
+        "元": "元気ですか？\n(Genki desu ka?)\nHow are you?",
+        "考": "彼は新しいアイデアを考えている。\nTranslation: He is thinking of a new idea.",
+        "歳": "私は２０歳です。\nTranslation: I am 20 years old.",
+        "降": "雨が降っています。\nTranslation: It's raining.",
+        "合": "合う人を探しています。\nI am looking for a person to match with.",
+        "階": "その建物は３階建てです。\nEnglish translation: That building has three floors.",
+        "寒": "寒いですね。\nIt's cold, isn't it?",
+        "漢": "彼は漢字を勉強しています。\nTranslation: He is studying kanji.",
+        "願": "願いが叶いますように。\nNegai ga kanaimasu youni.\nMay your wish come true.",
+        "期": "今日は期末試験の日です。\nEnglish translation: Today is the day of the final exams.",
+        "機": "機械は音をたてて動いています。\nTranslation: The machine is making noise and moving.",
+        "売": "私は本を売ります。\nI sell books.",
+        "休": "彼は一週間休んだ。\nTranslation: He rested for one week.",
+        "急": "急いで学校に行きます。\nTranslation: I hurry to school.",
+        "海": "海で泳ぎたいです。\nEnglish translation: I want to swim in the sea.",
+        "落": "木から落ちた。\nTranslation: It fell from the tree.",
+        "問": "彼に質問をする。\nTranslation: I ask him a question.",
+        "飯": "今日の夕飯は何ですか？\nWhat is today's dinner?",
+        "発": "電車が発車します。\nThe train will depart.",
+        "絵": "絵を描くのが好きです。\nI like to paint.\n",
+        "開": "ドアを開けてください。\nPlease open the door.",
+        "活": "彼はとても活発な子供です。\nTranslation: He is a very active child.",
+        "間": "彼との間には距離がある。\nThere is distance between him and me.\n\n",
+        "関": "私の友達は関東地域に住んでいます。\n\nEnglish translation: My friend lives in the Kanto region.",
+        "館": "館にはたくさんの本があります。\nThere are many books in the building.",
+        "顔": "彼は笑っている顔が好きです。\nTranslation: I like his smiling face.",
+        "帰": "帰ります。\nEnglish translation: I will return.",
+        "記": "彼は大事なことをメモに記しています。\nEnglish translation: He is making notes of important things.",
+        "起": "私は毎朝、6時に起きます。\nTranslation: I wake up at 6 o'clock every morning.",
+        "泣": "泣いている赤ちゃんを見て、私は心配しました。\nEnglish translation: I felt worried when I saw the crying baby.",
+        "究": "究をして、その問題の答えを見つけましょう。\nEnglish translation: Let's investigate and find the answer to that problem.",
+        "牛": "牛は草を食べます。\nTranslation: Cows eat grass.",
+        "魚": "魚が好きです。\nI like fish.",
+        "京": "京都は日本の古都です。\nTranslation: Kyoto is an ancient capital of Japan.",
+        "強": "彼はとても強いです。\nHe is very strong.",
+        "教": "教えてください。\nPlease teach me.",
+        "橋": "橋を渡って公園に行きました。\nI crossed the bridge and went to the park.",
+        "業": "私は毎日、業に勤しんでいます。\nTranslation: I work diligently every day.",
+        "局": "彼は会社の局で働いています。\nTranslation: He works at the office of the company.",
+        "近": "このお店は私の家から近いです。\nTranslation: This store is near my house.",
+        "九": "九時に会いましょう。\nEnglish translation: Let's meet at nine o'clock.",
+        "歌": "歌が大好きです。\nTranslation: I love singing.",
+        "工": "工場で働いています。\nI work at a factory."
+    }
+}
