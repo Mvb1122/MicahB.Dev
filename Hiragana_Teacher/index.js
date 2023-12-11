@@ -329,6 +329,7 @@ function SelectAndDisplayACharacter() {
     }
 }
 
+let ExampleCache = {};
 function LoadCurrentExample() {
     const ExampleSentenceDisplay = document.getElementById("GameExampleDiv");
     if (ExamplesEnabled) {
@@ -340,12 +341,23 @@ function LoadCurrentExample() {
             "ForceNew": false,
             "login_token": login_token
         };
-        postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
-            .then(json => {
-                // The below code is safe. All content is controlled.
-                ExampleSentenceDisplay.innerHTML = json.Example + `<br><a href="https://jisho.org/search/${json.Example}">Jisho Link</a>`;
-                ExampleSentenceDisplay.hidden = false;
-            });
+        if (ExampleCache[character] != null) {
+            const json = {Example: ExampleCache[character]};
+            ExampleSentenceDisplay.innerHTML = json.Example + `<br><a href="https://jisho.org/search/${json.Example}">Jisho Link</a>`;
+            ExampleSentenceDisplay.hidden = false;
+        } else {
+            postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
+                .then(json => {
+                    if (json.successful) {
+                        // The below code is safe. All content is controlled.
+                        ExampleSentenceDisplay.innerHTML = json.Example + `<br><a href="https://jisho.org/search/${json.Example}">Jisho Link</a>`;
+                        ExampleSentenceDisplay.hidden = false;
+                        ExampleCache[character] = json.Example;
+                    } else {
+                        ReLog().then(() => LoadCurrentExample())
+                    }
+                });
+        }
     } else {
         ExampleSentenceDisplay.hidden = true;
     }
