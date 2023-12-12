@@ -92,4 +92,4 @@ res.setHeader("Content-Type", "application/json");
 
 if (DEBUG) console.log(`Generated AI Example for ${submitted.Word}: ${AIResponse}`)
 
-res.end(JSON.stringify({ "Example": AIResponse }));
+res.end(JSON.stringify({ "Example": AIResponse, "successful": true }));
