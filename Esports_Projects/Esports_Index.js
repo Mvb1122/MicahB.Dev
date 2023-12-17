@@ -39,7 +39,10 @@ function IsESportsLoginTokenValid(token) {
     token = Number.parseInt(token);
     for (let i = 0; i < LoginTokens.length; i++) {
         let tokenInList = LoginTokens[i];
-        console.log(`Checking: ${token} against ${tokenInList}`);
+        
+        if (DEBUG)
+            console.log(`Checking: ${token} against ${tokenInList}`);
+
         if (token == tokenInList) return true;
     }
 
@@ -310,6 +313,7 @@ function ProcessSmashMatch(match) {
         const Points = (Math.abs(WinnerSkill - LoserSkill) + 1);
         // Calculate changes.
         LoserSkill -= Points / 3;
+
         if (WinnerSkill > LoserSkill)
             WinnerSkill += 1;
         else 
