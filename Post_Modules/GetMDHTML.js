@@ -5,12 +5,15 @@
 // Regexs
 const ObsidianLinkRegex = new RegExp(/\[\[[^\]]*\]\]/g);
 const TagRegex = new RegExp(/(?<!#)\B#{1}([A-Za-z0-9]{1,})/g);
+const SingleLaTeX = new RegExp(/\$(.*?)\$/g);
+const MultipleLaTeX = new RegExp(/\$\$(.*?)\$\$/g);
 
 // console.log("+[[School Todo]]".match(ObsidianLinkRegex).length)
 
 const fs = require('fs');
 const path = require('path');
 const Showdown = require('showdown');
+const temml = require('temml');
 
 let GivenData = JSON.parse(data);
 
@@ -63,6 +66,22 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
     // Converter.setOption('tables', true);
     Converter.setFlavor('allOn');
     file = Converter.makeHtml(file);
+
+    // Replace LaTex: (Do it after making HTML)
+    const laTeX = file.match(SingleLaTeX); // .concat(file.match(MultipleLaTeX));
+    if (laTeX != null) {
+        for (let i = 0; i < laTeX.length; i++) {
+            let replaced = laTeX[i];
+            do {
+                if (replaced.startsWith("$")) replaced = replaced.substring(1);
+                if (replaced.endsWith("$")) replaced = replaced.substring(0, replaced.length - 1);
+            } while (replaced.startsWith("$") || replaced.endsWith("$"))
+            const mathML = temml.renderToString(replaced);
+
+            if (mathML != "<math></math>")
+                file = file.replaceAll(laTeX[i], mathML)
+        }
+    }
 
     res.statusCode = 200;
     // Just for good measure, make it decode in UTF-8.

@@ -185,3 +185,7 @@ td {
 td {
     text-align: center;
 }
+
+li:has(input[type="checkbox"][checked]) {
+    color:rgb(184, 184, 184);
+}

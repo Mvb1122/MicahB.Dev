@@ -81,10 +81,10 @@
                 // Look for a style tag:
                 /** @type {String} */
                 const text = quote.innerText;
-                let Query = text.match(/\[![A-Za-z0-9]+\]/);
-                if (Query != null) {
-                    const match = Query[0];
-                    quote.innerText = quote.innerText.replace(Query[0], "");
+                let title = text.match(/\[![A-Za-z0-9]+\]/);
+                if (title != null) {
+                    const match = title[0];
+                    quote.innerText = quote.innerText.replace(title[0], "");
                     const param = match.substring(2, match.length - 1);
                     quote.setAttribute(param, true);
                     quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
