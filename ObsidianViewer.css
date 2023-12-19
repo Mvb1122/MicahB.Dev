@@ -88,7 +88,7 @@ a[tag]:hover {
 }
 
 a[external]:hover::after {
-    content: attr(href);
+    content: " " attr(href);
     display: block;
     transform: translateY(-100%) translateX(-50%);
     position: absolute;
@@ -149,6 +149,10 @@ blockquote {
     align-self: center;
     border-radius: 3vh;
     /* width: min(80vw, 8in); */
+
+    background-color: darkblue;
+    border: solid rgb(0, 16, 78) var(--Border-Thickness);
+    color: hsl(240, 100%, 73%);
 }
 
 blockquote[tldr] {
@@ -167,12 +171,6 @@ blockquote[danger] {
     background-color: darkred;
     border: solid rgb(80, 0, 0) var(--Border-Thickness);
     color: rgb(255, 182, 182);
-}
-
-blockquote[btw] {
-    background-color: darkblue;
-    border: solid rgb(0, 16, 78) var(--Border-Thickness);
-    color: hsl(240, 100%, 73%);
 }
 
 table,
