@@ -132,7 +132,7 @@ async function GetAllPaths(subdir = "", tier = 0) {
     return values;
 }
 
-let GlobalPaths = [];
+let GlobalPaths = [], MDBacklinks = {};
 async function BuildGlobalPaths() {
     GetAllPaths("./")
         // Flatten it a few times just for good measure. 
@@ -181,8 +181,55 @@ async function BuildGlobalPaths() {
                         }
                     }
                 }
-            });
 
+                // Also at this point, build the backlinks database.
+                const ObsidianLinkRegex = new RegExp(/\[\[[^\]]*\]\]/g);
+                let LinkSearchPromises = [];
+                for (let i = 0; i < GlobalPaths.length; i++) {
+                    try {
+                        const path = await GlobalPaths[i];
+                        if (typeof(path) == 'string' && path.includes("md")) {
+                            const search = new Promise(res => {
+                                fs.readFile(path, (err, data) => {
+                                    if (err != null) {
+                                        if (DEBUG)
+                                            return console.log(err);
+                                        else return;
+                                    }
+    
+                                    data = data.toString();
+                                    const matches = data.match(ObsidianLinkRegex);
+                                    if (matches != null) {
+                                        for (let j = 0; j < matches.length; j++) {
+                                            if (matches[j] != undefined)
+                                                matches[j] = matches[j].substring(2, matches[j].length - 2)
+                                        }
+            
+                                        MDBacklinks[GlobalPaths[i]] = matches;
+                                    }
+
+                                    res();
+                                })
+                            })
+                            LinkSearchPromises.push(search);
+                        }
+                    } catch (e) {
+                        // Do nothing.
+                        continue;
+                    }
+                }
+
+                Promise.all(LinkSearchPromises).then(() => {
+                    console.log(`Backlinks active! Length: ${Object.keys(MDBacklinks).length}`);
+                })
+
+                /* Write out Paths and Links.
+                setTimeout(() => {
+                    fs.writeFileSync("./Paths.json", JSON.stringify(GlobalPaths));
+                    fs.writeFileSync("./Links.json", JSON.stringify(GlobalBacklinks));
+                }, 2000);
+                */
+            });
         })
 }
 BuildGlobalPaths();
@@ -553,7 +600,7 @@ function parseQuery(queryString) {
 
 // Load persistant information.
 const global = fs.existsSync("./Global.json") ? JSON.parse(fs.readFileSync("./Global.json")) : {};
-module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime }
+module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime, MDBacklinks, GlobalPaths }
 // Run ESports setup stuff.
 const esports = require("./Esports_Projects/Esports_Index.js")
 // eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());

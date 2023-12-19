@@ -17,8 +17,6 @@ const temml = require('temml');
 
 let GivenData = JSON.parse(data);
 
-console.log(GivenData.location);
-
 if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
     // First, let's read in the file.
     // GivenData.location = DecodeLocation();
@@ -26,7 +24,6 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
      * @type {String}
     */
     let file = String(GetFileFromCache(GivenData.location)); // .split("\n");
-    console.log(typeof(file));
 
     const ObsidianLinks = file.match(ObsidianLinkRegex);
 

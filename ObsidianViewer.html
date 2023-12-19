@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MicahB.Dev | Markdown Viewer</title>
     <script>
-        const backend = "https://micahb.dev"
+        const backend = "."
         async function GetSuggestedLinks() {
             const files = await (await fetch(backend + "/Modules/Search.js&term=.md")).json();
             const ul = document.createElement("ul");
@@ -52,8 +52,6 @@
             document.getElementById("Home").hidden = true;
                 // Also show buttons.
             document.getElementById("ButtonContainer").hidden = false;
-                // Update history so people can share links easily. 
-            window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
 
             // Replace <a>'s with working ones.
             const matches = document.getElementById("Content").getElementsByTagName("a"); // document.getElementById("Content").innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
@@ -116,8 +114,38 @@
                     Tags[i].prepend(NewTag);
                 }
             }
+            
+            // Update the page title.
+            const FileName = path.substring(path.lastIndexOf("\\") + 1);
+            document.title = "MicahB.Dev | " + FileName;
 
-            document.title = "MicahB.Dev | " + path.substring(path.lastIndexOf("\\") + 1);
+            // Update history so people can share links easily. 
+            window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
+            
+            // Finally, add the backlinks.
+            const backlinks = await (await post("/Post_Modules/GetBacklinks.js", JSON.stringify({ path: FileName.substring(0, FileName.length - 3) }))).json();
+            if (backlinks.successful && backlinks.links.length > 0) {
+                const BackLinkDiv = document.createElement("div");
+                const Header = document.createElement("h2");
+                Header.innerText = "Backlinks: ";
+                BackLinkDiv.appendChild(Header);
+                const List = document.createElement("ul");
+                backlinks.links.forEach(link => {
+                    const item = document.createElement("li");
+                    const el = document.createElement("a");
+
+                    el.onclick = function() { 
+                        Load(link);
+                    }
+                    el.innerText = link;
+
+                    item.appendChild(el);
+                    List.appendChild(item);
+                });
+                BackLinkDiv.appendChild(List);
+
+                document.getElementById("Content").appendChild(BackLinkDiv);
+            }
         }
 
         function UpdatePageFromParams() {

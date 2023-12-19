@@ -2,11 +2,13 @@
 let ComponentCache = [];
 
 function GetComponents(fileToRead) {
-    if (ComponentCache[fileToRead] != null) return ComponentCache[fileToRead];
+    if (ComponentCache[fileToRead] != null) 
+        return ComponentCache[fileToRead];
     else if (fileToRead != null && fs.existsSync(fileToRead) && fileToRead.includes("AI")) {
         // Obtain the data from the file.
         let OGdata = fs.readFileSync(fileToRead).toString();
-        if (DEBUG) console.log("Read file for components parsing!")
+        if (DEBUG) 
+            console.log("Read file for components parsing!")
         let data = OGdata;
         let start = data.indexOf("tEXt") + 4, end = data.indexOf(", Model hash: ");
         let promptText = data.substring(start, end);
@@ -18,7 +20,8 @@ function GetComponents(fileToRead) {
         let partsParts = [[]];
         for (let i = 0; i < parts.length - 1; i++) {
             partsParts[i] = parts[i].split(": ");
-            if (DEBUG) console.log(`Part: ${parts[i]}`);
+            if (DEBUG) 
+                console.log(`Part: ${parts[i]}`);
         }
 
         // Split the last part into its parts.
@@ -37,7 +40,8 @@ function GetComponents(fileToRead) {
         let parameters = data.substring(data.indexOf("tEXtparameters") + 15, data.indexOf("Negative"));
         response.parameters = parameters.trim();
         */
-        if (DEBUG) console.log(`Response: \n${response}`);
+        if (DEBUG) 
+            console.log(`Response: \n${response}`);
         
         // Cache the response, so that the next call can be sped up, then return it. 
         ComponentCache[fileToRead] = response;
