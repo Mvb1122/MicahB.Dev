@@ -35,6 +35,8 @@ function GetValidToken() {
     return newToken;
 }
 
+const DEBUG = false;
+
 function IsESportsLoginTokenValid(token) {
     token = Number.parseInt(token);
     for (let i = 0; i < LoginTokens.length; i++) {
