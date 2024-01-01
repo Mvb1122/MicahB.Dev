@@ -187,16 +187,24 @@ async function loadToInnerHTML(url, elementId) {
         .then(response => document.getElementById(elementId).innerHTML = response);
 }
 
-function load(setID) {
+let LastSetId = -1;
+function load(setID, visible = true) {
+    LastSetId = setID;
     // Put the setID in the URL. 
     UpdatePageParams({"set": setID})
     currentPage = "game"
     list = setID;
-    LoadSetAndStart();
+
+    // Erase change cache on reload.
+    ChangeCache = [];
+    gameEndedSinceLastLoop = true;
+
+    // Now do the actual loading.
+    LoadSetAndStart(visible);
 }
 
 let chances; const DEFAULT_CHANCE = 3;
-async function LoadSetAndStart() {
+async function LoadSetAndStart(visible = true) {
     // Get the list from the server.
     listNumber = list;
     list = await fetchJSON(`${pageURL}Sets/${list}.json`)
@@ -229,28 +237,34 @@ async function LoadSetAndStart() {
 
     console.log("Final composited set:")
     console.log(list.Set)
-        
-    // Swap over to the game screen, also prepare prompt and answer texts.
-    answerText = "{q} is {a}."; promptText = "What {c} is this?"
-    document.getElementById("prompt").innerText = promptText.replace("{c}", list.ObjectName)
-    answerText = answerText.replace("{at}", list.AnswerName);
-    document.getElementById("AnswerInput").placeholder = list.AnswerName;
-
-    // Prepare notes section and author name display.
-    document.getElementById("AuthorNameDisplay").innerHTML = `Set by ${await authorIDToName(list.Author)}`;
-
-    // Even though the server will also filter this out-- just in case, also filter out scripts here.
-    const Notes = (list.Notes == undefined ? "" : list.Notes).replaceAll("<script", "<p").replaceAll("</script>", "</p>");
-    document.getElementById("NotesDisplay").innerHTML = Notes;
-
-    ToggleScreen()
-
-    // Start the game!
-    startGame();
-
+    
     // Start the loop that checks if there's data that needs to be sent and sends it, but only if we're logged on.
-    if (login_token != -1)
+    if (login_token != -1) {
+        gameEndedSinceLastLoop = false;
         SendChangesToTheServer();
+    }
+    
+    // Swap over to the game screen, also prepare prompt and answer texts.
+        // Don't be visible if we're not visible.
+    if (!visible) return;
+    else {
+        answerText = "{q} is {a}."; promptText = "What {c} is this?"
+        document.getElementById("prompt").innerText = promptText.replace("{c}", list.ObjectName)
+        answerText = answerText.replace("{at}", list.AnswerName);
+        document.getElementById("AnswerInput").placeholder = list.AnswerName;
+    
+        // Prepare notes section and author name display.
+        document.getElementById("AuthorNameDisplay").innerHTML = `Set by ${await authorIDToName(list.Author)}`;
+    
+        // Even though the server will also filter this out-- just in case, also filter out scripts here.
+        const Notes = (list.Notes == undefined ? "" : list.Notes).replaceAll("<script", "<p").replaceAll("</script>", "</p>");
+        document.getElementById("NotesDisplay").innerHTML = Notes;
+    
+        ToggleScreen()
+    
+        // Start the game!
+        startGame();
+    }
 }
 
 let ChangeCache = [], gameEndedSinceLastLoop;
@@ -562,7 +576,11 @@ async function updateLoginPane(IsPasswordCorrect) {
         // Show the "Create a Set Button"
         document.getElementById("CreateASetButton").hidden = false;
 
-        
+        // Reload the set.
+        if (LastSetId != -1) {
+            load(LastSetId, false);
+            
+        }
     } else {
         loginPane.innerText = "Incorrect password!"
         setTimeout(() => {
