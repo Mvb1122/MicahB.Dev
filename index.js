@@ -69,7 +69,7 @@ async function DeepSearchArray(arr, term) {
 }
 
 /**
- * @param {[String | [String | [String]]} arr Array to be searched
+ * @param {[String] | [String | [String]]} arr Array to be searched
  * @param {String} term search term
  * @returns The value found or null if not found.
  */

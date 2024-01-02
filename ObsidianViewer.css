@@ -187,3 +187,19 @@ td {
 li:has(input[type="checkbox"][checked]) {
     color:rgb(184, 184, 184);
 }
+
+div[embed] {
+    /* Scooch in a little on both sides, make the background slightly lighter. */
+    padding: 3%;
+    border: solid rgb(48, 48, 48) var(--Border-Thickness);
+    border-radius: var(--Border-Radius);
+    background-color: rgb(63, 63, 63);
+}
+
+div[embed]::before {
+    height: 0; width: 100%;
+    text-align: right;
+    overflow: visible;
+    content: attr(document);
+    display: block;
+}

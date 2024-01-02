@@ -3,7 +3,7 @@
  */
 
 // Regexs
-const ObsidianLinkRegex = new RegExp(/\[\[[^\]]*\]\]/g);
+const ObsidianLinkRegex = new RegExp(/(?<=)\!?\[\[[^\]]*\]\]/g);
 const TagRegex = new RegExp(/(?<!#)\B#{1}([A-Za-z0-9]{1,})/g);
 const SingleLaTeX = new RegExp(/\$(.*?)\$/g);
 const MultipleLaTeX = new RegExp(/\$\$(.*?)\$\$/g);
@@ -31,19 +31,29 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
     if (ObsidianLinks != null)
         for (let i = 0; i < ObsidianLinks.length; i++) try {
             let link = ObsidianLinks[i];
+
+            let IsEmbedLink = false;
+            if (link.startsWith("!")) {
+                IsEmbedLink = true;
+
+                // Remove the ! from both file and link.
+                file = file.replace(link, link = link.substring(1));
+            }
+
             const inside = link.substring(2, link.length - 2); // Remove [[]]
             
             // Find the file.
             const Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension) 
             console.log(`{${Matches}}, with term \`${inside}\`, replacing ${link}`);
             let newLink = `https://micahb.dev/`;
+
             const URI = encodeURIComponent(Matches[0]); // Safe version of the link url. (In case of 日本語)
             if (Matches[0].includes(".md")) newLink += `Modules/GetMDHTML.js&location=${URI}`;
             else newLink += URI;
             
             // To prevent link weirdness, just manually put it into an <a> element or an <img> element if it's an image. 
             if (!newLink.includes(".png") && !newLink.includes(".jpg"))
-                file = file.replaceAll(link, `<a href="${newLink}">${inside}</a>`);
+                file = file.replaceAll(link, `<a href="${newLink}"${(IsEmbedLink ? ` embed=${IsEmbedLink}` : "")}>${inside}</a>`);
             else 
                 file = file.replaceAll('!' + link, `<img src="${newLink}">`)
         } catch { /* Do nothing. */ }

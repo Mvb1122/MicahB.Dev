@@ -37,115 +37,136 @@
             })
         }
 
-        async function Load(path) {
-            // First, fetch the HTML from the server and load it in.
-            const page = await (await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }))).text();
-            document.getElementById("Content").innerHTML = page;
+        async function Load(path, LoadToElement = "Content") {
+            return new Promise(async () => {
+                // First, fetch the HTML from the server and load it in.
+                const isBaseDocument = LoadToElement == "Content";
 
-            // Next, put the title of the page on screen.
-            const title = document.createElement("h1");
-            title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
-            document.getElementById("Content").prepend(title);
-
-            // Unhide the content panel and hide the home panel.
-            document.getElementById("Content").hidden = false;
-            document.getElementById("Home").hidden = true;
-                // Also show buttons.
-            document.getElementById("ButtonContainer").hidden = false;
-
-            // Replace <a>'s with working ones.
-            const matches = document.getElementById("Content").getElementsByTagName("a"); // document.getElementById("Content").innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
-            for (let i = 0; i < matches.length; i++) {
-                const match = matches[i];
-                const href = match.href.toLowerCase();
-                if (href.includes("micahb.dev") && href.includes(".md")) {
-                    const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
-                    match.onclick = function() { 
-                        Load(newPage) 
-                    };
-                    match.removeAttribute("href");
-                } else {
-                    match.setAttribute("external", true);
-
-                    // Follow it with an after image.
-                    const AfterImage = document.createElement("externallinkafterimage");
-                    match.after(AfterImage);
+                const page = await (await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }))).text();
+                document.getElementById(LoadToElement).innerHTML = page;
+    
+                // Next, put the title of the page on screen.
+                if (isBaseDocument) {
+                    const title = document.createElement("h1");
+                    title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
+                    document.getElementById(LoadToElement).prepend(title);
                 }
-            }
-            
-            const Quotes = document.getElementById("Content").getElementsByTagName("blockquote");
-            for (let i = 0; i < Quotes.length; i++) {
-                let quote = Quotes[i];
-                // Look for a style tag:
-                /** @type {String} */
-                const text = quote.innerText;
-                let title = text.match(/\[![A-Za-z0-9]+\]/);
-                if (title != null) {
-                    const match = title[0];
-                    quote.innerText = quote.innerText.replace(title[0], "");
-                    const param = match.substring(2, match.length - 1);
-                    quote.setAttribute(param, true);
-                    quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
-                }
-            }
-
-            const Tags = document.getElementById("Content").getElementsByTagName("p");
-            tagLoop:
-            for (let i = 0; i < Tags.length; i++) {
-                const match = Tags[i].innerText.match(/\{TAG:[A-Za-z0-9]+\}/);
-                if (match != null) {
-                    const tag = match[0], inside = tag.substring(5, tag.length - 1);
-
-                    const NewTag = document.createElement("a");
-                    NewTag.setAttribute("tag", true);
-                    NewTag.innerHTML = `<b>#</b>${inside}`;
-
-                    /*
-                    for (let i = 0; i < Tags[i].children; i++) {
-                        if (Tags[i].children[i].innerText.includes(tag)) {
-                            Tags[i].children[i].innerText = Tags[i].children[i].innerText.replace(tag, "");
-                            Tags[i].prepend(NewTag);
-                            continue tagLoop;
+    
+                // Unhide the content panel and hide the home panel.
+                document.getElementById(LoadToElement).hidden = false;
+                document.getElementById("Home").hidden = true;
+                    // Also show buttons.
+                document.getElementById("ButtonContainer").hidden = false;
+    
+                // Replace <a>'s with working ones.
+                const matches = document.getElementById(LoadToElement).getElementsByTagName("a"); // document.getElementById(LoadToElement).innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
+                for (let i = 0; i < matches.length; i++) {
+                    const match = matches[i];
+                    const href = match.href.toLowerCase();
+                    if (href.includes("micahb.dev") && href.includes(".md")) {
+                        // Check if there's an ! before the link. If so, embed the page.
+                        const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
+                        if (match.embed != undefined) {
+                            match.onclick = function() { 
+                                Load(newPage) 
+                            };
+                            match.removeAttribute("href");
+                        } else {
+                            const newPart = document.createElement("div");
+                            const docName = newPage.substring(newPage.lastIndexOf("\\") + 1);
+                            newPart.id = "Embed_" + docName + "_" + Math.floor(Math.random() * 10000);
+                            newPart.setAttribute("embed", true);
+                            newPart.setAttribute("document", docName)
+                            match.parentElement.replaceChild(newPart, match);
+                            Load(newPage, newPart.id);
                         }
+    
+                    } else {
+                        match.setAttribute("external", true);
+    
+                        // Follow it with an after image.
+                        const AfterImage = document.createElement("externallinkafterimage");
+                        match.after(AfterImage);
                     }
-                    */
-
-                    Tags[i].innerHTML = Tags[i].innerHTML.replace(tag, "");
-                    Tags[i].prepend(NewTag);
                 }
-            }
-            
-            // Update the page title.
-            const FileName = path.substring(path.lastIndexOf("\\") + 1);
-            document.title = "MicahB.Dev | " + FileName;
-
-            // Update history so people can share links easily. 
-            window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
-            
-            // Finally, add the backlinks.
-            const backlinks = await (await post("/Post_Modules/GetBacklinks.js", JSON.stringify({ path: FileName.substring(0, FileName.length - 3) }))).json();
-            if (backlinks.successful && backlinks.links.length > 0) {
-                const BackLinkDiv = document.createElement("div");
-                const Header = document.createElement("h2");
-                Header.innerText = "Backlinks: ";
-                BackLinkDiv.appendChild(Header);
-                const List = document.createElement("ul");
-                backlinks.links.forEach(link => {
-                    const item = document.createElement("li");
-                    const el = document.createElement("a");
-
-                    el.onclick = function() { 
-                        Load(link);
+                
+                const Quotes = document.getElementById(LoadToElement).getElementsByTagName("blockquote");
+                for (let i = 0; i < Quotes.length; i++) {
+                    let quote = Quotes[i];
+                    // Look for a style tag:
+                    /** @type {String} */
+                    const text = quote.innerText;
+                    let title = text.match(/\[![A-Za-z0-9]+\]/);
+                    if (title != null) {
+                        const match = title[0];
+                        quote.innerText = quote.innerText.replace(title[0], "");
+                        const param = match.substring(2, match.length - 1);
+                        quote.setAttribute(param, true);
+                        quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
                     }
-                    el.innerText = link;
-
-                    item.appendChild(el);
-                    List.appendChild(item);
-                });
-                BackLinkDiv.appendChild(List);
-
-                document.getElementById("Content").appendChild(BackLinkDiv);
-            }
+                }
+    
+                const Tags = document.getElementById(LoadToElement).getElementsByTagName("p");
+                tagLoop:
+                for (let i = 0; i < Tags.length; i++) {
+                    const match = Tags[i].innerText.match(/\{TAG:[A-Za-z0-9]+\}/);
+                    if (match != null) {
+                        const tag = match[0], inside = tag.substring(5, tag.length - 1);
+    
+                        const NewTag = document.createElement("a");
+                        NewTag.setAttribute("tag", true);
+                        NewTag.innerHTML = `<b>#</b>${inside}`;
+    
+                        /*
+                        for (let i = 0; i < Tags[i].children; i++) {
+                            if (Tags[i].children[i].innerText.includes(tag)) {
+                                Tags[i].children[i].innerText = Tags[i].children[i].innerText.replace(tag, "");
+                                Tags[i].prepend(NewTag);
+                                continue tagLoop;
+                            }
+                        }
+                        */
+    
+                        Tags[i].innerHTML = Tags[i].innerHTML.replace(tag, "");
+                        Tags[i].prepend(NewTag);
+                    }
+                }
+                
+                // Update the page title.
+                const FileName = path.substring(path.lastIndexOf("\\") + 1);
+                document.title = "MicahB.Dev | " + FileName;
+                
+                // Only update history and show backlinks for base document.
+                if (isBaseDocument) {
+                    // Update history so people can share links easily. 
+                    window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
+                    
+                    // Finally, add the backlinks.
+                    const backlinks = await (await post("/Post_Modules/GetBacklinks.js", JSON.stringify({ path: FileName.substring(0, FileName.length - 3) }))).json();
+                    if (backlinks.successful && backlinks.links.length > 0) {
+                        const BackLinkDiv = document.createElement("div");
+                        const Header = document.createElement("h2");
+                        Header.innerText = "Backlinks: ";
+                        BackLinkDiv.appendChild(Header);
+                        const List = document.createElement("ul");
+                        backlinks.links.forEach(link => {
+                            const item = document.createElement("li");
+                            const el = document.createElement("a");
+        
+                            el.onclick = function() { 
+                                Load(link);
+                            }
+                            el.innerText = link;
+        
+                            item.appendChild(el);
+                            List.appendChild(item);
+                        });
+                        BackLinkDiv.appendChild(List);
+        
+                        document.getElementById(LoadToElement).appendChild(BackLinkDiv);
+                    }
+                }
+            })
         }
 
         function UpdatePageFromParams() {
