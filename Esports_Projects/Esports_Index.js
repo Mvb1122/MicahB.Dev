@@ -261,7 +261,7 @@ function GetMaxMatchesInGame(game) {
     // Go through each player and determine who has the most matches.
     let maxIndex = -1, maxMatches = -1;
     for (let i = 0; i < players.length; i++) {
-        let player = GetMatches(players[i].PlayerID);
+        let player = GetMatches(players[i].PlayerID, game);
         if (maxMatches < player.length) {
             maxIndex = i;
             maxMatches = player.length;
@@ -271,11 +271,11 @@ function GetMaxMatchesInGame(game) {
     return { player: players[maxIndex], numMatches: maxMatches };
 }
 
-function GetReliability(player) {
+function GetReliability(player, Game = null) {
     // Get player information.
     let playerInfo = JSON.parse(GetFileFromCache(`${PlayerPath}/${player}.json`));
     // Determine the game to be played (just whatever their first one is.)
-    let game = playerInfo.PlayedGames[0];
+    let game = Game == null ? playerInfo.PlayedGames[0] : Game;
 
     // Obtain the Game-based reliability score.
     let PlayersGames = GetMatches(player).length;
@@ -296,6 +296,7 @@ function GetReliability(player) {
 
     const RequiredDays = attendedEvents.Days.length == 0 ? 1 : attendedEvents.Days.length;
     let AttendanceReliability = attending / (RequiredDays)
+
     if (global.DEBUG)
         console.log(`${playerInfo.Name}'s attendance: ${attending}, Max: ${RequiredDays}+${attendedEvents.AdditionalDays.length}, AttendanceReliability: ${AttendanceReliability}`)
 
