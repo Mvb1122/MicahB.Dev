@@ -37,7 +37,7 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
                 IsEmbedLink = true;
 
                 // Remove the ! from both file and link.
-                file = file.replace(link, link = link.substring(1));
+                file = file.replaceAll(link, link = link.substring(1));
             }
 
             const inside = link.substring(2, link.length - 2); // Remove [[]]
