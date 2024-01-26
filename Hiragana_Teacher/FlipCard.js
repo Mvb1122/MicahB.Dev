@@ -20,6 +20,15 @@ function move(dist) {
     }
 }
 
+// Let arrow keys control moving forward and back.
+document.addEventListener("keydown", (key) => {
+    if (key.code == "ArrowRight" || key.code == "KeyD") // Right arrow or D key.
+        move(1)
+    else if (key.code == "ArrowLeft" || key.code == "KeyA") // Left arrow or A key.
+        move(-1);
+})
+
+
 let startingText, startingStyle;
 window.addEventListener('beforeprint', () => {
     // Prepare screen for printing.
