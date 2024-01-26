@@ -419,7 +419,9 @@ const requestListener = async function (req, res) {
                 // Modules should always be cached to reduce disk wear and decrease latency.
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
                 let script = GetFileFromCache(localURL).toString();
-                return eval(script)
+
+                // Run the eval as an async function.
+                return eval(`async function f() {${script}} f();`)
             } else {
                 res.statusCode = 404;
                 res.setHeader("Content-Type", "text/plain");
@@ -526,7 +528,7 @@ const requestListener = async function (req, res) {
                         // Also cache them to make stuff go faster.
                     try {
                         if (localURL.endsWith(".js"))
-                            eval("async function f() {" + GetFileFromCache(localURL).toString() + "} f();");
+                            eval(`async function f() {${GetFileFromCache(localURL).toString()}} f();`);
                         else {
                             res.statusCode = 403;
                             res.setHeader("Content-Type", "application/json");
