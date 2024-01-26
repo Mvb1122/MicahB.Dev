@@ -79,6 +79,25 @@
 
                     })
             }
+
+            function ensureNoDiscord() {
+                fetch(`../../Modules/EnsureLocalMedia.js&cache=false`)
+                    .then(data => data.json())
+                    .then(json => {
+                        if (json.successful) {
+                            const list = document.createElement("ul");
+                            json.Links.forEach(key => {
+                                const li = document.createElement("li");
+                                li.innerText = key;
+                                list.appendChild(li);
+                            });
+
+                            document.getElementById("CacheClearList").innerHTML = "Downloaded Items:<br>";
+                            document.getElementById("CacheClearList").appendChild(list);
+                        }
+
+                    })
+            }
         </script>
     </head>
 
@@ -101,6 +120,7 @@
             <button onclick="postData()">Upload!</button>
             <br>
             <button onclick="clearCache()">Force clear server cache.</button> <button onclick="fetch('../../Modules/ResetSearch.js&cache=false')">Reset Search</button>
+            <button onlick="ensureNoDiscord()">Force No Discord Images</button>
             <div id="CacheClearList">
 
             </div>
