@@ -120,7 +120,7 @@ a[external]:hover::after {
 }
 
 img {
-    width: max(50%, 5in);
+    width: min(90%, 5in);
     position: relative;
     align-self: center;
     display: flex;
