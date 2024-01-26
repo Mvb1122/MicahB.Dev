@@ -24,7 +24,6 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
      * @type {String}
     */
     let file = String(GetFileFromCache(GivenData.location)); // .split("\n");
-
     const ObsidianLinks = file.match(ObsidianLinkRegex);
 
     // Replace obsidian links.
@@ -54,8 +53,9 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
             // To prevent link weirdness, just manually put it into an <a> element or an <img> element if it's an image. 
             if (!newLink.includes(".png") && !newLink.includes(".jpg"))
                 file = file.replaceAll(link, `<a href="${newLink}"${(IsEmbedLink ? ` embed=${IsEmbedLink}` : "")}>${inside}</a>`);
-            else 
+            else {
                 file = file.replaceAll('!' + link, `<img src="${newLink}">`)
+            }
         } catch { /* Do nothing. */ }
 
     // Replace tags.

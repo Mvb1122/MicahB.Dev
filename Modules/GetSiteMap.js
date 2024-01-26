@@ -3,6 +3,7 @@ const fs = require('fs')
 let prefix = "https://micahb.dev/";
 let filePrefix = "D:/mDB/";
 let list = "";
+
 function checkDir(dir) {
     // console.log(`Checking ${dir}`);
     let files = fs.readdirSync(dir);
@@ -26,6 +27,6 @@ function checkDir(dir) {
 }
 
 res.statusCode = 200;
-res.setHeader("Content-Type", getMime("json"));
 checkDir(__dirname);
+res.setHeader("Content-Type", getMime("json"));
 res.end(list);

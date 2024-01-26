@@ -69,7 +69,6 @@ a {
     display: block;
     position: relative;
     left: 50%;
-    transform: translateX(-50%);
     width: auto;
     padding-top: 3vh;
     padding-bottom: 3vh;
