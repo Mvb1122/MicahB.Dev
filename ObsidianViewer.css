@@ -19,8 +19,10 @@ body {
 
 .Display {
     height: 100%;
-    padding-left: min(min(20vh, 20vw), 2in);
-    padding-right: min(min(20vh, 20vw), 2in);
+    /* No need for padding if it's automatic pretty much...
+    padding-left: min(20vw, 2in);
+    padding-right: min(20vw, 2in);
+    */
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -28,17 +30,19 @@ body {
     color: white;
 }
 
-#HomeButton {
+.DarkButton {
     background-color: grey;
 }
 
 #ButtonContainer {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     top: min(3%, 1in);
     left: min(3%, 1in);
 }
 
-#HomeButton:hover {
+.DarkButton:hover {
     background-color: rgb(107, 107, 107);
 }
 
@@ -119,14 +123,19 @@ a[external]:hover::after {
     }
 }
 
-img {
+img, svg {
     width: min(90%, 5in);
     position: relative;
     align-self: center;
     display: flex;
 }
 
-p:has(img) {
+svg {
+    width: min(90vw, 8in) !important;
+    z-index: -1;
+}
+
+p:has(img), p:has(svg) {
     display: flex;
     flex-direction: column;
 }
@@ -190,6 +199,12 @@ td {
 
 li:has(input[type="checkbox"][checked]) {
     color:rgb(184, 184, 184);
+}
+
+/* Special spacing for multiple choice questions. */
+ol > li > ul > li:has(strong) {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 div[embed] {

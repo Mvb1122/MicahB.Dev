@@ -29,9 +29,12 @@ if (GivenData.path) {
         }
     }
     response.links = backlinks;
+    res.statusCode = 200;
 } else {
     response.successful = false;
     response.reason = "No backlinks found!";
+    res.statusCode = 404;
 }
 
+res.setHeader("Content-Type", getMime("json"));
 res.end(JSON.stringify(response));

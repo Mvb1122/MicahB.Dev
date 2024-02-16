@@ -5,8 +5,10 @@
         <meta name="description" content="A viewer for my Obsidian Markdown files.">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>MicahB.Dev | Markdown Viewer</title>
+        <script src="https://cdn.jsdelivr.net/npm/@excalidraw/utils@0.1.2/dist/excalidraw-utils.min.js"></script>
         <script>
             const backend = "."
+            let CurrentBaseDocument = "";
             async function GetSuggestedLinks() {
                 const files = await (await fetch(backend + "/Modules/Search.js&term=.md")).json();
                 const ul = document.createElement("ul");
@@ -17,7 +19,7 @@
                         link.text = file.substring(0, file.indexOf(".md"));
                         link.onclick = function() { 
                             Load(file);
-                            return pressedKeys != undefined ? pressedKeys[16] : false;
+                            return pressedKeys != undefined ? (pressedKeys[16] != undefined) : false;
                         };
     
                         const newAddr = window.location.href.split('?')[0] + "?file=" + file;
@@ -63,7 +65,7 @@
                         Load(newPage, newPart.id);
                     } else {
                         // Allows for crawling links while also cutting down on load times. 
-                        match.onclick = function (evt) {
+                        match.onclick = function(evt) {
                             Load(newPage);
     
                             // Return true: Calls href. Return false: Does nothing.
@@ -88,102 +90,157 @@
                 }
             }
     
+            const LoadingText = "Loading...";
             async function Load(path, LoadToElement = "Content") {
                 new Promise(async (res) => {
                     try {
                         // First, fetch the HTML from the server and load it in.
                         const isBaseDocument = LoadToElement == "Content";
     
-                        const page = await (await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }))).text();
-                        document.getElementById(LoadToElement).innerHTML = page;
+                        let page = post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }));
+                        let backlinksRequest;
+                        const Element = document.getElementById(LoadToElement);
+                        const FileName = path.substring(path.lastIndexOf("\\") + 1);
+                        Element.innerHTML = LoadingText;
     
                         // Next, put the title of the page on screen.
                         if (isBaseDocument) {
+                            CurrentBaseDocument = path;
                             const title = document.createElement("h1");
                             title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
-                            document.getElementById(LoadToElement).prepend(title);
+                            Element.prepend(title);
+
+                            // Ask for backlinks early on. This saves a few ms.
+                            backlinksRequest = post("/Post_Modules/GetBacklinks.js", JSON.stringify({ path: FileName.substring(0, FileName.length - 3) }));
                         }
     
                         // Unhide the content panel and hide the home panel.
-                        document.getElementById(LoadToElement).removeAttribute("hidden");
+                        Element.removeAttribute("hidden");
                         document.getElementById("Home").setAttribute("hidden", true);
                             // Also show buttons.
                         document.getElementById("ButtonContainer").removeAttribute("hidden");
+
+                        // ExcalidrawUtils is a global variable defined by excalidraw.min.js
+                        const { exportToSvg } = ExcalidrawUtils;
     
-                        // Replace <a>'s with working ones.
-                        const Anchors = document.getElementById(LoadToElement).getElementsByTagName("a"); // document.getElementById(LoadToElement).innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
-                        for (let AnchorIndex = 0; AnchorIndex < Anchors.length; AnchorIndex++) {
-                            const match = Anchors[AnchorIndex];
-    
-                            // Wait for 10ms to ensure that the next one is also scheduled.
-                            setTimeout(() => {
-                                ProcessLink(match)
-                            }, 10);
-                        }
-    
-                        const Quotes = document.getElementById(LoadToElement).getElementsByTagName("blockquote");
-                        for (let i = 0; i < Quotes.length; i++) {
-                            let quote = Quotes[i];
-                            // Look for a style tag:
-                            /** @type {String} */
-                            const text = quote.innerText;
-                            let title = text.match(/\[![A-Za-z0-9]+\]/);
-                            if (title != null) {
-                                const match = title[0];
-                                quote.innerText = quote.innerText.replace(title[0], "");
-                                const param = match.substring(2, match.length - 1);
-                                quote.setAttribute(param, true);
-                                quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
+                        // First, decide if it's an Excalidraw document or a normal one.
+                        if (!path.includes(".excalidraw.md")) {
+                            page = await (await page).text();
+                            Element.innerHTML = Element.innerHTML.replace(LoadingText, "") + page;
+                            // If it isn't, Replace <a>'s with working ones.
+                            const Anchors = Element.getElementsByTagName("a"); // Element.innerHTML.match(/<\s*a[^>]*>(.*?)<\s*\/\s*a\s*>/g);
+                            for (let AnchorIndex = 0; AnchorIndex < Anchors.length; AnchorIndex++) {
+                                const match = Anchors[AnchorIndex];
+        
+                                // Wait for 10ms to ensure that the next one is also scheduled.
+                                setTimeout(() => {
+                                    ProcessLink(match)
+                                }, 10);
                             }
-                        }
-    
-                        const Tags = document.getElementById(LoadToElement).getElementsByTagName("p");
-                        tagLoop:
-                        for (let i = 0; i < Tags.length; i++) {
-                            const match = Tags[i].innerText.match(/\{TAG:.+\}/);
-                            if (match != null) {
-                                const tag = match[0], inside = tag.substring(5, tag.length - 1);
-    
-                                const NewTag = document.createElement("a");
-                                NewTag.setAttribute("tag", true);
-                                NewTag.innerHTML = `<b>#</b>${inside}`;
-    
-                                /*
-                                for (let i = 0; i < Tags[i].children; i++) {
-                                    if (Tags[i].children[i].innerText.includes(tag)) {
-                                        Tags[i].children[i].innerText = Tags[i].children[i].innerText.replace(tag, "");
-                                        Tags[i].prepend(NewTag);
-                                        continue tagLoop;
-                                    }
+        
+                            const Quotes = Element.getElementsByTagName("blockquote");
+                            for (let i = 0; i < Quotes.length; i++) {
+                                let quote = Quotes[i];
+                                // Look for a style tag:
+                                /** @type {String} */
+                                const text = quote.innerText;
+                                let title = text.match(/\[![A-Za-z0-9]+\]/);
+                                if (title != null) {
+                                    const match = title[0];
+                                    quote.innerText = quote.innerText.replace(title[0], "");
+                                    const param = match.substring(2, match.length - 1);
+                                    quote.setAttribute(param, true);
+                                    quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
                                 }
-                                */
-    
-                                Tags[i].innerHTML = Tags[i].innerHTML.replace(tag, "");
-                                Tags[i].prepend(NewTag);
                             }
+        
+                            const Tags = Element.getElementsByTagName("p");
+                            tagLoop:
+                            for (let i = 0; i < Tags.length; i++) {
+                                const match = Tags[i].innerText.match(/\{TAG:.+\}/);
+                                if (match != null) {
+                                    const tag = match[0], inside = tag.substring(5, tag.length - 1);
+        
+                                    const NewTag = document.createElement("a");
+                                    NewTag.setAttribute("tag", true);
+                                    NewTag.innerHTML = `<b>#</b>${inside}`;
+        
+                                    /*
+                                    for (let i = 0; i < Tags[i].children; i++) {
+                                        if (Tags[i].children[i].innerText.includes(tag)) {
+                                            Tags[i].children[i].innerText = Tags[i].children[i].innerText.replace(tag, "");
+                                            Tags[i].prepend(NewTag);
+                                            continue tagLoop;
+                                        }
+                                    }
+                                    */
+        
+                                    Tags[i].innerHTML = Tags[i].innerHTML.replace(tag, "");
+                                    Tags[i].prepend(NewTag);
+                                }
+                            }
+        
+                            // Fix redirected media images.
+                            const Images = Element.getElementsByTagName("img");
+                            const folder = path.substring(0, path.lastIndexOf("\\"));
+        
+                            for (let i = 0; i < Images.length; i++) {
+                                const image = Images[i];
+                                if (image.src.includes("/Media/")) image.src = image.src.replace("/Media/", "/" + folder + "/Media/");
+                            };
+
+                            // Look for <YBN id={Whatever}> embeds:
+                            const YBNotes = Element.getElementsByTagName("YBN");
+                            for (let i = 0; i < YBNotes.length; i++) {
+                                const NotebookElement = YBNotes[i];
+                                const id = NotebookElement.getAttribute("id");
+                                const NotebookDirectory = backend + "/Converted_YBN_Notebooks/" + id + "/";
+
+                                // Get pages.
+                                fetch(NotebookDirectory + "pages.json").then(v => v.json()).then(json => {
+                                    json.pages.forEach(page => {
+                                        const part = document.createElement("div");
+                                        NotebookElement.appendChild(part);
+                                        fetch(NotebookDirectory + page + ".excalidraw.json").then(v => v.json()).then(eJSON => {
+                                            // Convert the page to SVG.
+                                            const svg = exportToSvg(eJSON);
+                                            svg.then(v => {
+                                                // Enable scaling.
+                                                v.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                                                v.removeAttribute("width"); v.removeAttribute("height");
+                                                part.appendChild(v);
+                                            })
+                                        })
+                                    })
+                                })
+                            }
+
                         }
-    
-                        // Fix redirected media images.
-                        const Images = document.getElementById(LoadToElement).getElementsByTagName("img");
-                        const folder = path.substring(0, path.lastIndexOf("\\"));
-    
-                        for (let i = 0; i < Images.length; i++) {
-                            const image = Images[i];
-                            if (image.src.includes("/Media/")) image.src = image.src.replace("/Media/", "/" + folder + "/Media/");
-                        };
-    
+                        else {
+                            // If it is, convert it to SVG.
+                            page = await (await page).json();
+                            const svg = exportToSvg(page);
+                            svg.then(
+                            /** @type {HTMLElement} */    
+                            v => {
+                                // Enable scaling.
+                                v.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                                v.removeAttribute("width"); v.removeAttribute("height");
+                                Element.innerHTML = Element.innerHTML.replace(LoadingText, "");
+                                Element.appendChild(v);
+                            })
+                        }
                         
                         // Only update history and show backlinks for base document.
                         if (isBaseDocument) {
                             // Update the page title.
-                            const FileName = path.substring(path.lastIndexOf("\\") + 1);
                             document.title = "MicahB.Dev | " + FileName;
                             
                             // Update history so people can share links easily. 
                             window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
                             
                             // Finally, add the backlinks.
-                            const backlinks = await (await post("/Post_Modules/GetBacklinks.js", JSON.stringify({ path: FileName.substring(0, FileName.length - 3) }))).json();
+                            const backlinks = await (await backlinksRequest).json();
                             if (backlinks.successful && backlinks.links.length > 0) {
                                 const BackLinkDiv = document.createElement("div");
                                 const Header = document.createElement("h2");
@@ -204,7 +261,7 @@
                                 });
                                 BackLinkDiv.appendChild(List);
     
-                                document.getElementById(LoadToElement).appendChild(BackLinkDiv);
+                                Element.appendChild(BackLinkDiv);
                             }
                         }
                     } catch (e) {
@@ -220,9 +277,18 @@
                     setTimeout(() => {
                         Load(urlParams.get("file"));
                     }, 500);
+                } else {
+                    GetSuggestedLinks();
                 }
             }
-            UpdatePageFromParams();
+
+            async function Reload() {
+                const url = '/Post_Modules/ClearCachedFile.js&cache=false';
+                const data = JSON.stringify({ path: CurrentBaseDocument });
+                post(url, data).then((val) => {
+                    Load(CurrentBaseDocument);
+                })
+            }
     
             // Check every 100ms to see if the page params changed.
             /*
@@ -244,9 +310,10 @@
         </script>
         <link rel="stylesheet" href="ObsidianViewer.css">
     </head>
-    <body onload="GetSuggestedLinks()">
+    <body onload="UpdatePageFromParams()">
         <div id="ButtonContainer" hidden>
-            <button onclick="GetSuggestedLinks()" id="HomeButton">🏠</button>
+            <button onclick="GetSuggestedLinks()" class="DarkButton" title="Go Home!">🏠</button>
+            <button onclick="Reload()" class="DarkButton" title="Reload the current page!">🔄</button>
         </div>
         <div id="Home" class="Display">
             Loading...
