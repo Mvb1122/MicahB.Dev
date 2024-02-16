@@ -28,7 +28,9 @@ const mimeTypes = {
  * @returns {[String]} Matching paths
  */
 function FindFile(name) {
-    console.log(`Searching for [${name}]`)
+    if (DEBUG)
+        console.log(`Searching for [${name}]`)
+    
     return DeepSearchSync(name, GlobalPaths);
 }
 
@@ -626,4 +628,13 @@ const SaveGlobalAndExit = function (error = null) {
 };
 // Save the global cache when the program is shut down, or on crash.
 process.on('SIGINT', SaveGlobalAndExit);
-process.on('uncaughtException', SaveGlobalAndExit)
+
+// If we're not in debug mode, ignore all errors. 
+if (!DEBUG) {
+    process.on('uncaughtException', function (err) {
+        console.log('Caught exception: ');
+        console.log(err);
+    });
+} else {
+    process.on('uncaughtException', SaveGlobalAndExit)
+}

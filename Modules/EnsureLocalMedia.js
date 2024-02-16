@@ -6,6 +6,8 @@ const https = require('https');
 let MediaPromise = [];
 let AllLinks = [];
 
+console.warn("Looking for Discord images!")
+
 for (let i = 0; i < GlobalPaths.length; i++) {
     try {
         const path = await GlobalPaths[i];
@@ -23,7 +25,7 @@ for (let i = 0; i < GlobalPaths.length; i++) {
                     const matches = data.match(LinkRegex);
                     if (matches != null) {
                         matches.forEach(match => {
-                            if (match.includes("cdn.discordapp.com")) {
+                            if (match.includes("cdn.discordapp.com") || match.includes("media.discordapp.net")) {
                                 // Check if we've downloaded this.
                                 const folder = path.substring(0, path.lastIndexOf("\\"));
                                 console.log(folder);

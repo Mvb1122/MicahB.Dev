@@ -392,13 +392,16 @@ function ArrayContains(array, item) {
 }
 
 function EvaluateAnswer() {
+    function Process(string) {
+        return string.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").replace("-", "").split("/");
+    }
     // Tell the user if their answer was right or wrong.
         // Ignore capitalization and punctuation.
-    let UserAnswer = (document.getElementById("AnswerInput").value + "").trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "");
+    let UserAnswer = Process(document.getElementById("AnswerInput").value + "")
     
     // Check if the user's answer matches any of the supplied ones.
     let right = false;
-    let answers = syllable.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").split("/");
+    let answers = Process(syllable);
     answers.forEach(a => {
         // Save performance by only checking if the answer is correct if a previous answer wasn't correct.
             // JS won't let me break from this loop, so this is how I'm doing it.

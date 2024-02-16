@@ -54,7 +54,6 @@ function Remove_Line(line) {
 
         // Remove the row from the rows array.
         for (const row in rows) {
-            console.log(row)
             if (rows[row].id == line)
                 {
                     delete rows[row];
