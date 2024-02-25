@@ -438,8 +438,6 @@ function EvaluateAnswer() {
     
     // Create a human-readable answer by replacing all the slashes with ","
         // And the last one with "or"
-        // But only do this if there's more than one answer...
-    let HRAnswer = SyllableToList(syllable);
         // But only do this if the mode is normal.
     let HRAnswer;
     if (answerMode == "Normal") HRAnswer = SyllableToList(syllable);
@@ -687,11 +685,17 @@ async function AddPrivateSets() {
         // Get list of character sets from the server and offer it to the user, but only in the desktop sort of way.
         postJSON(pageURL + "Post_Modules/GetPrivateSets.js&cache=false", { token: login_token })
             .then(async (response) => {
-                // Set up the desktop UI.
-                let all = "";
+                // Set up the desktop and mobile UI.
+                let all, text = all = "";
 
                 for (let i = 0; i < response.sets.length; i++) {
                     let element = response.sets[i];
+
+                    // If the user's on a mobile device, only process the stuff for their dropdown.
+                    if (userIsMobile) {
+                        text += `<option value="${element.ID}">${element.Name.replace("<br>", " ")}</option>`
+                        continue;
+                    }
 
                     // Append this response to the SetInformation.
                     SetInformation.push(element);
@@ -706,12 +710,13 @@ async function AddPrivateSets() {
                     all = all + exampleSetDisplay
                         .replace("Name", element.Name)
                         .replace("Length", element.length + " " + element.ObjectName + "s")
-                        .replaceAll("{s}", element.ID)
+                        .replaceAll("{s}", `${element.ID}`)
                         .replace("Set_Example", `Set_${element.ID}`)
                         .replace("{a}", authorName);
                 }
 
                 document.getElementById("sets").innerHTML = all + document.getElementById("sets").innerHTML;
+                document.getElementById("Selection").innerHTML = text + document.getElementById("Selection").innerHTML;
                 if (!userIsMobile) document.getElementById("sets").style.visibility = "visible";
                 else document.getElementById("MobileSelection").style.visibility = "visible";
                 res(true);

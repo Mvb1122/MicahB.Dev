@@ -1,0 +1,202 @@
+{
+    "Name": "Chapter 8 Counters Flipped",
+    "ObjectName": "count",
+    "AnswerName": "phrase",
+    "Set": [
+        {
+            "1 general counter": "ひとつ/一つ"
+        },
+        {
+            "2 general counter": "ふたつ/二つ"
+        },
+        {
+            "3 general counter": "みっつ/三つ"
+        },
+        {
+            "4 general counter": "よっつ/四つ"
+        },
+        {
+            "5 general counter": "いつつ/五つ"
+        },
+        {
+            "6 general counter": "むっつ/六つ"
+        },
+        {
+            "7 general counter": "ななつ/七つ"
+        },
+        {
+            "8 general counter": "やっつ/八つ"
+        },
+        {
+            "9 general counter": "ここのつ/九つ"
+        },
+        {
+            "10 general counter": "とお"
+        },
+        {
+            "1 person": "一人/ひとり"
+        },
+        {
+            "2 people": "二人/ふたり"
+        },
+        {
+            "3 people": "三人/さんにん"
+        },
+        {
+            "4 people": "四人/よにん"
+        },
+        {
+            "5 people": "五人/ごにん"
+        },
+        {
+            "6 people": "六人/ろくにん"
+        },
+        {
+            "7 people": "七人/しちにん"
+        },
+        {
+            "8 people": "八人/はちにん"
+        },
+        {
+            "9 people": "九人/くにん"
+        },
+        {
+            "10 people": "十人/じゅうにん"
+        },
+        {
+            "1 thin, flat object": "一枚/いちまい"
+        },
+        {
+            "2 thin, flat objects": "二枚/にまい"
+        },
+        {
+            "3 thin, flat objects": "三枚/さんまい"
+        },
+        {
+            "4 thin, flat objects": "四枚/よんまい"
+        },
+        {
+            "5 thin, flat objects": "五枚/ごまい"
+        },
+        {
+            "6 thin, flat objects": "六枚/ろくまい"
+        },
+        {
+            "7 thin, flat objects": "七枚/ななまい"
+        },
+        {
+            "8 thin, flat objects": "八枚/はちまい"
+        },
+        {
+            "9 thin, flat objects": "九枚/きゅうまい"
+        },
+        {
+            "10 thin, flat objects": "十枚/じゅうまい"
+        },
+        {
+            "1 cylindrical objects": "一本/いっぽん"
+        },
+        {
+            "2 cylindrical objects": "二本/にほん"
+        },
+        {
+            "3 cylindrical objects": "三本/さんぼん"
+        },
+        {
+            "4 cylindrical objects": "四本/よんほん"
+        },
+        {
+            "5 cylindrical objects": "五本/ごほん"
+        },
+        {
+            "6 cylindrical objects": "六本/ろっぽん"
+        },
+        {
+            "7 cylindrical objects": "七本/ななほん"
+        },
+        {
+            "8 cylindrical objects": "八本/はっぽん"
+        },
+        {
+            "9 cylindrical objects": "九本/きゅうほん"
+        },
+        {
+            "10 cylindrical objects": "十本/じゅっぽん"
+        },
+        {
+            "1 fish, animals": "一匹/いっぴき"
+        },
+        {
+            "2 fish, animals": "二匹/にひき"
+        },
+        {
+            "3 fish, animals": "三匹/さんびき"
+        },
+        {
+            "4 fish, animals": "四匹/よんひき"
+        },
+        {
+            "5 fish, animals": "五匹/ごひき"
+        },
+        {
+            "6 fish, animals": "六匹/ろっぴき"
+        },
+        {
+            "7 fish, animals": "七匹/ななひき"
+        },
+        {
+            "8 fish, animals": "八匹/はっぴき"
+        },
+        {
+            "9 fish, animals": "九匹/きゅうひき"
+        },
+        {
+            "10 fish, animals": "十匹/じゅっぴき"
+        },
+        {
+            "1 bound objects": "一冊/いっさつ"
+        },
+        {
+            "2 bound objects": "二冊/にさつ"
+        },
+        {
+            "3 bound objects": "三冊/さんさつ"
+        },
+        {
+            "4 bound objects": "四冊/よんさつ"
+        },
+        {
+            "5 bound objects": "五冊/ごさつ"
+        },
+        {
+            "6 bound objects": "六冊/ろくさつ"
+        },
+        {
+            "7 bound objects": "七冊/ななさつ"
+        },
+        {
+            "8 bound objects": "八冊/はっさつ"
+        },
+        {
+            "9 bound objects": "九冊/きゅうさつ"
+        },
+        {
+            "10 bound objects": "十冊/じゅっさつ"
+        },
+        {
+            "how many thin, flat objects": "何枚/なんまい"
+        },
+        {
+            "how many cylindrical objects": "何本/なんぼん"
+        },
+        {
+            "how many fish, animals": "何匹/なんびき"
+        },
+        {
+            "how many bound objects": "何冊/なんさつ"
+        }
+    ],
+    "Visibility": "public",
+    "Notes": "Nakama 1 Ch.8's counters + 円 & 階 + Japanese Origin Numbers/General Counters + People\n<br>You can find all of this in Appendix D in the Nakama 1 Combined Second Student Edition. (I don't know what it is in the Nakama 1B one.)\n<br>Also you can just enter \"how many\" for all of the counters if you don't wanna type them all out.",
+    "Author": "976"
+}
