@@ -14,26 +14,18 @@ function GetComponents(fileToRead) {
         let promptText = data.substring(start, end);
         
         // Split the data into parts.
-        let parts = promptText.replaceAll("\x00", ": ").replaceAll("\x0A", ": ").replaceAll("\u00001", ": ").split('\n');
-
-        // Process each part into its own parts. (Part name and content.)
-        let partsParts = [[]];
-        for (let i = 0; i < parts.length - 1; i++) {
-            partsParts[i] = parts[i].split(": ");
-            if (DEBUG) 
-                console.log(`Part: ${parts[i]}`);
-        }
-
-        // Split the last part into its parts.
-        let compoundPart = parts[parts.length - 1].split(", ");
-        for (let i = 0; i < compoundPart.length; i++)
-            partsParts.push(compoundPart[i].split(": "));
+        /**
+         * @type {String}
+         */
+        let parts = promptText.replaceAll("\x00", ": ").replaceAll("\x0A", ": ").replaceAll("\u00001", ": ");
+        const values = parts.match(/(?<=\b\w+\:)(.*?)(?= \b\w+(?=:)\b)/g);
+        const titles = parts.match(/\b\w+(?=:)\b/g);
 
         // Copy each part onto a JS object.
         let response = {};
-        partsParts.forEach(part => {
-            response[part[0].replace(" ", "")] = part[1];
-        });
+        for (let i = 0; i < values.length; i++) {
+            response[titles[i].replace(":", "").trim()] = values[i].trim();
+        }
 
         // Patch inconsistent parameters labling.
         /*
