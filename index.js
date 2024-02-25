@@ -263,15 +263,17 @@ function PathIsSafe(path) {
     }
 
     // Last check, if it's a .js file, look to see if it starts with a JSON object declaring a safety thing.
-    if (path.includes(".js") && !path.includes("module")) {
+    if (path.includes(".js") && path.includes("/modules/")) {
         let data = String(GetFileFromCache(path));
-        data = data.substring(0, data.indexOf("}"))
-        try {
-            const json = JSON.parse(data);
-            if (data.readable == false) return false;
-        } catch {
-            // Nothing, continue and return true.
-        }
+        if (data.includes("{") && data.includes("}"))
+            try {
+                const json = JSON.parse(data.substring(0, data.indexOf("}") + 1));
+                if (json.readable == false) return false;
+            } catch (e) {
+                // Nothing, continue and return true.
+                if (e && DEBUG)
+                    console.log(e);
+            }
     }
 
     return true;
@@ -297,6 +299,14 @@ function GetFileFromCache(url) {
 // Returns the size of a file in Megabytes.
 function GetFileSizeInMegabytes(url) {
     return fs.statSync(url).size / (1024*1024);
+}
+
+// Removes a JS object from the start of the string if it's there.
+function RemovePrependedObject(string) {
+    if (string.startsWith("{") && string.includes("}")) {
+        string = string.substring(string.indexOf("}") + 1);
+    }
+    return string;
 }
 
 /**
@@ -456,7 +466,7 @@ const requestListener = async function (req, res) {
             // Run the specified file, if it exists and isn't a directory.
                 // Modules should always be cached to reduce disk wear and decrease latency.
             if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
-                let script = GetFileFromCache(localURL).toString();
+                let script = RemovePrependedObject(GetFileFromCache(localURL).toString());
 
                 // Run the eval as an async function.
                 return eval(`async function f() {${script}} f();`)
@@ -572,9 +582,10 @@ const requestListener = async function (req, res) {
                     // Because stuff can sometimes get a bit funky, allow post modules to use async/await.
                         // Also cache them to make stuff go faster.
                     try {
-                        if (localURL.endsWith(".js"))
-                            eval(`async function f() {${GetFileFromCache(localURL).toString()}} f();`);
-                        else {
+                        const file = RemovePrependedObject(GetFileFromCache(localURL).toString());
+                        if (localURL.endsWith(".js")) {
+                            eval(`async function f() {${file}} f();`);
+                        } else {
                             res.statusCode = 403;
                             res.setHeader("Content-Type", "application/json");
                             return res.end(JSON.stringify({
