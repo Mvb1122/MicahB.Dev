@@ -244,6 +244,39 @@ const getMime = (s) => {
     return getMime("txt");
 }
 
+// Dissallowed paths:
+/*
+./index.js
+./git*
+etc...
+*/
+const DisallowedPatterns = [/\/\.git/]
+
+/**
+ * Checks if a path is okay to share.
+ * @param {String} path The path to safety check.
+ */
+function PathIsSafe(path) {
+    for (let i = 0; i < DisallowedPatterns.length; i++) {
+        const Matches = path.match(DisallowedPatterns[i]);
+        if (Matches != undefined) return false;
+    }
+
+    // Last check, if it's a .js file, look to see if it starts with a JSON object declaring a safety thing.
+    if (path.includes(".js") && !path.includes("module")) {
+        let data = String(GetFileFromCache(path));
+        data = data.substring(0, data.indexOf("}"))
+        try {
+            const json = JSON.parse(data);
+            if (data.readable == false) return false;
+        } catch {
+            // Nothing, continue and return true.
+        }
+    }
+
+    return true;
+}
+
 // Implement a simple cache for files, which should recieve more traffic than other files.
 let File_Cache = [];
 /**
@@ -285,9 +318,10 @@ const requestListener = async function (req, res) {
             localURL = hostPath;
     };
 
+
+    // If this is an implied index.html request, forward the user to the actual page.
     if (req.url.indexOf(".") == -1 && !req.url.includes("&") && !req.url.endsWith("/")) 
     {
-        // If this is a malformed index.html request, forward the user to the actual page.
         res.setHeader("Location", req.url + '/');
         res.writeHead(301);
         return res.end();
@@ -313,6 +347,7 @@ const requestListener = async function (req, res) {
 
     // Also, set the CORS policy so the www domain can also access stuff.
     res.setHeader("Access-Control-Allow-Origin", "*");
+    
     if (DEBUG) console.log("Request for LocalURL at " + localURL)
 
     // Set compression on all non-image/video requests.
@@ -341,6 +376,7 @@ const requestListener = async function (req, res) {
         
         // GETTING:
     if (req.method === "GET") {
+        // Old Strigoi stuff.
         if (req.url.startsWith("/json/") || req.url.startsWith("/JSON/") || req.url.startsWith("/mDB/")) {
             url = './mDB/' + req.url.slice("/json/".length - 1);
             if (DEBUG) console.log(`Processed URL: ${url}`);
@@ -430,8 +466,9 @@ const requestListener = async function (req, res) {
                 res.end("Module Not Found!");
             }
         } else {
+            const PathSafe = PathIsSafe(localURL);
             // Generally try to read any given file (that's not a directory), throw 404 if it doesn't work.
-            if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory()) {
+            if (fs.existsSync(localURL) && !fs.lstatSync(localURL).isDirectory() && PathSafe) {
                 try {
                     let mime = getMime(localURL);
                     res.setHeader("Content-Type", mime);
@@ -469,9 +506,15 @@ const requestListener = async function (req, res) {
                     res.end("Not found, Local URL: " + localURL + "\nError Code:\n" + error);
                 }
             } else {
-                res.setHeader("Content-Type", "text/plain");
-                res.statusCode = 404;
-                res.end("Not found, Local URL: " + localURL);
+                if (!PathSafe) {
+                    res.setHeader("Content-Type", "text/plain");
+                    res.statusCode = 401;
+                    res.end("You are not authorized to read local URL: " + localURL);
+                } else {
+                    res.setHeader("Content-Type", "text/plain");
+                    res.statusCode = 404;
+                    res.end("Not found, Local URL: " + localURL);
+                }
             }
         }
 
