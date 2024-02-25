@@ -204,6 +204,7 @@ function load(setID, visible = true) {
 }
 
 let chances; const DEFAULT_CHANCE = 3;
+let answerMode;
 async function LoadSetAndStart(visible = true) {
     // Get the list from the server.
     listNumber = list;
@@ -242,6 +243,14 @@ async function LoadSetAndStart(visible = true) {
     if (login_token != -1) {
         gameEndedSinceLastLoop = false;
         SendChangesToTheServer();
+    }
+
+    // Set answer mode.
+    answerMode = "Normal";
+    if (list.Notes != undefined && list.Notes.includes("AnswerMode")) {
+        // Slice out what the answer mode is.
+        answerMode = list.Notes.substring(list.Notes.indexOf("AnswerMode"));
+        answerMode = answerMode.substring(answerMode.indexOf(":") + 1, answerMode.indexOf(" "));
     }
     
     // Swap over to the game screen, also prepare prompt and answer texts.
@@ -392,26 +401,32 @@ function ArrayContains(array, item) {
 }
 
 function EvaluateAnswer() {
-    function Process(string) {
-        return string.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").replace("-", "").split("/");
-    }
-    // Tell the user if their answer was right or wrong.
-        // Ignore capitalization and punctuation.
-    let UserAnswer = Process(document.getElementById("AnswerInput").value + "")
-    
-    // Check if the user's answer matches any of the supplied ones.
     let right = false;
-    let answers = Process(syllable);
-    answers.forEach(a => {
-        // Save performance by only checking if the answer is correct if a previous answer wasn't correct.
-            // JS won't let me break from this loop, so this is how I'm doing it.
-        if (right == false) {
-            let answer = a.trim();
-            if (UserAnswer == answer) {
-                right = true; 
+    function Process(string) {
+        return string.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").replace("-", "");
+    }
+    let UserAnswer = document.getElementById("AnswerInput").value;
+
+    if (answerMode == "Normal") {
+        // Tell the user if their answer was right or wrong.
+            // Ignore capitalization and punctuation.
+        UserAnswer = Process(UserAnswer + "").split("/")
+        
+        // Check if the user's answer matches any of the supplied ones.
+        let ActualAnswers = Process(syllable).split("/");
+        ActualAnswers.forEach(ValidAnswer => {
+            // Save performance by only checking if the answer is correct if a previous answer wasn't correct.
+                // JS won't let me break from this loop, so this is how I'm doing it.
+            if (right == false) {
+                let answer = ValidAnswer.trim();
+                if (UserAnswer == answer) {
+                    right = true; 
+                }
             }
-        }
-    });
+        });
+    } else if (answerMode = "NoSplit") {
+        right = Process(UserAnswer) == Process(syllable);
+    }
 
     // If the user was right, decrease the chance of getting that one.
         // Otherwise, increase the chance by two.
@@ -425,6 +440,11 @@ function EvaluateAnswer() {
         // And the last one with "or"
         // But only do this if there's more than one answer...
     let HRAnswer = SyllableToList(syllable);
+        // But only do this if the mode is normal.
+    let HRAnswer;
+    if (answerMode == "Normal") HRAnswer = SyllableToList(syllable);
+    else HRAnswer = syllable;
+    
     HRAnswer = answerText.replace("{a}", HRAnswer).replace("{q}", character).toString();
 
     // If the last two characters in HRAnswer are punctuation, remove the extra punctuation.
@@ -487,7 +507,7 @@ function SelectCharacter() {
         }
     }
 
-    console.log(`Selected chunk: ${chunks.indexOf(selectedChunk)}`);
+    // console.log(`Selected chunk: ${chunks.indexOf(selectedChunk)}`);
 
     // Gets a random index from the chunk.
     let RandomCharacter = () => { 
