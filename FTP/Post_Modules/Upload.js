@@ -1,4 +1,4 @@
-if (args.target != null && !args.target.includes("post_modules")) {
+if (args.target != null && !args.target.includes("modules")) {
     const fs = require('fs');
     // Remove header stuff and write.
     if (data.includes("0D0A0D0A89504E47", 0, "hex")){
