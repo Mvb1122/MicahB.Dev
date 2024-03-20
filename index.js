@@ -250,7 +250,7 @@ const getMime = (s) => {
 ./git*
 etc...
 */
-const DisallowedPatterns = [/\/\.git/]
+const DisallowedPatterns = [/\/\.git/, /Hiragana_Teacher\/Users\/\d+\/user.json/]
 
 /**
  * Checks if a path is okay to share.
