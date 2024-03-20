@@ -483,9 +483,9 @@ const requestListener = async function (req, res) {
                     let mime = getMime(localURL);
                     res.setHeader("Content-Type", mime);
 
-                    // If this is an AI image file, tell the user's device to cache it; those images don't usually change very often.
+                    // If this is an AI image file or YBN Note, tell the user's device to cache it; those images don't usually change very often.
                         // (Cache for 1 week.)
-                    if (mime.includes("image") && localURL.includes("AI"))
+                    if ((mime.includes("image") && localURL.includes("AI")) || localURL.includes(".excalidraw.json"))
                         res.setHeader("Cache-Control", "max-age=604800")
 
                     // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
