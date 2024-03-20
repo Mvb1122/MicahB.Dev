@@ -402,8 +402,12 @@ function ArrayContains(array, item) {
 
 function EvaluateAnswer() {
     let right = false;
+    /**
+     * @param {String} string 
+     * @returns String processed.
+     */
     function Process(string) {
-        return string.trim().toLowerCase().replace(".", "").replace("!", "").replace("?", "").replace(",", "").replace("-", "");
+        return string.trim().toLowerCase().replaceAll(".", "").replaceAll("!", "").replaceAll("?", "").replaceAll(",", "").replaceAll("-", "").replaceAll(" ", "");
     }
     let UserAnswer = document.getElementById("AnswerInput").value;
 
@@ -424,8 +428,8 @@ function EvaluateAnswer() {
                 }
             }
         });
-    } else if (answerMode = "NoSplit") {
-        right = Process(UserAnswer) == Process(syllable);
+    } else if (answerMode == "NoSplit") {
+        right = UserAnswer == syllable;
     }
 
     // If the user was right, decrease the chance of getting that one.
