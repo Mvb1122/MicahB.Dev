@@ -14,6 +14,9 @@ if (GivenData.path) {
         delete File_Cache[GivenData.path]
         response.successful = true;
         response.cleared_files = [GivenData.path]
+
+        // Tell the client to clear their cache too.
+        res.setHeader("Clear-Site-Data", "cache");
     }
 } else {
     response.successful = false;

@@ -4,6 +4,7 @@ console.log("Reloading YBN Notebooks!");
 // Return format:
 const response = {
     "Notes": [],
+    "New": [],
     "successful": true
 };
 
@@ -21,6 +22,8 @@ fs.readdirSync(YBNPath).forEach(folder => {
             // Dir is created.
             if (DEBUG)
                 console.log(`MKDIR@RefreshYBN.js: ${"Converted_" + path}`);
+
+            response.New.push(folder);
         })
 
         // Get a list of the pages.
