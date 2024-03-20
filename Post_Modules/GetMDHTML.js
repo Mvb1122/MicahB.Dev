@@ -42,10 +42,20 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
                     file = file.replaceAll(link, link = link.substring(1));
                 }
 
-                const inside = link.substring(2, link.length - 2); // Remove [[]]
+                let inside = link.substring(2, link.length - 2); // Remove [[]]
+                let search = false;
+
+                // Cut off any heading 
+                if (inside.includes("#")) {
+                    search = inside.substring(inside.indexOf("#") + 1).trim();
+                    inside = inside.substring(0, inside.indexOf("#")).trim();
+                }
+
+                console.log(`S: ${search}\nI: ${inside}`);
 
                 // Find the file.
                 const Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension)
+                
                 if (DEBUG)
                     console.log(`{${Matches}}, with term \`${inside}\`, replacing ${link}`);
 
@@ -57,7 +67,7 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
 
                 // To prevent link weirdness, just manually put it into an <a> element or an <img> element if it's an image. 
                 if (!newLink.includes(".png") && !newLink.includes(".jpg"))
-                    file = file.replaceAll(link, `<a href="${newLink}"${(IsEmbedLink ? ` embed=${IsEmbedLink}` : "")}>${inside}</a>`);
+                    file = file.replaceAll(link, `<a href="${newLink}" ${(IsEmbedLink ? `embed=${IsEmbedLink}` : "")} ${(search != false ? `search="${search}"` : "")}>${inside}</a>`);
                 else {
                     file = file.replaceAll('!' + link, `<img src="${newLink}">`)
                 }

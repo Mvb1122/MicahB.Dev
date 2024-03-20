@@ -52,7 +52,10 @@
                 console.log("Processing link to " + href)
                 if (href.includes("micahb.dev") && href.includes(".md")) {
                     // Check if there's an ! before the link. If so, embed the page.
-                    const newPage = decodeURI(match.href.substring(match.href.indexOf("=") + 1));
+                    let Address = match.href.substring(match.href.indexOf("=") + 1);
+                    let ScrollTo = match.getAttribute("search");
+
+                    const newPage = decodeURI(Address);
                     if (match.getAttribute("embed") == "true") {
                         const newPart = document.createElement("div");
                         const docName = newPage.substring(newPage.lastIndexOf("\\") + 1);
@@ -66,7 +69,34 @@
                     } else {
                         // Allows for crawling links while also cutting down on load times. 
                         match.onclick = function(evt) {
-                            Load(newPage);
+                            Load(newPage).then(e => {
+                                // Scroll to the highlighted element
+                                if (ScrollTo != undefined) {
+                                    // Get all headings.
+                                    let headings = [
+                                        document.getElementsByTagName("h1"),
+                                        document.getElementsByTagName("h2"),
+                                        document.getElementsByTagName("h3"),
+                                        document.getElementsByTagName("h4"),
+                                        document.getElementsByTagName("h5"),
+                                        document.getElementsByTagName("h6")
+                                    ];
+
+                                    // Loop through all headings.
+                                    FindLoop:
+                                    for (let j = 0; j < headings.length; j++) {
+                                        const headingType = headings[j];
+                                        for (let i = 0; i < headingType.length; i++) {
+                                            const h = headingType[i];
+
+                                            if (h.innerText == ScrollTo) {
+                                                h.scrollIntoView({ behavior: 'smooth' });
+                                                break FindLoop;
+                                            }
+                                        }
+                                    }
+                                }
+                            })
     
                             // Return true: Calls href. Return false: Does nothing.
                             // Allow for shift-click to open in a new tab.
@@ -92,12 +122,12 @@
     
             const LoadingText = "Loading...";
             async function Load(path, LoadToElement = "Content") {
-                new Promise(async (res) => {
+                return new Promise(async (res, rej) => {
                     try {
                         // First, fetch the HTML from the server and load it in.
                         const isBaseDocument = LoadToElement == "Content";
     
-                        let page = post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }));
+                        let page = await post("/Post_Modules/GetMDHTML.js", JSON.stringify({ location: path }));
                         let backlinksRequest;
                         const Element = document.getElementById(LoadToElement);
                         const FileName = path.substring(path.lastIndexOf("\\") + 1);
@@ -189,6 +219,9 @@
                                 if (image.src.includes("/Media/")) image.src = image.src.replace("/Media/", "/" + folder + "/Media/");
                             };
 
+                            // The bulk of the loading is now finished so we can just cut it there.
+                            res();
+
                             // Look for <YBN id={Whatever}> embeds:
                             const YBNotes = Element.getElementsByTagName("YBN");
                             for (let i = 0; i < YBNotes.length; i++) {
@@ -266,7 +299,7 @@
                         }
                     } catch (e) {
                         console.log(e)
-                        res();
+                        rej(e);
                     }
                 })
             }
@@ -283,9 +316,12 @@
             }
 
             async function Reload() {
+                // Clear the server's cache for the file.
+                    // Note that this request includes a header telling the client to clear cache too.
                 const url = '/Post_Modules/ClearCachedFile.js&cache=false';
                 const data = JSON.stringify({ path: CurrentBaseDocument });
                 post(url, data).then((val) => {
+                    // Reload the page.
                     Load(CurrentBaseDocument);
                 })
             }
