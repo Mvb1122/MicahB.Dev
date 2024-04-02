@@ -51,8 +51,6 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
                     inside = inside.substring(0, inside.indexOf("#")).trim();
                 }
 
-                console.log(`S: ${search}\nI: ${inside}`);
-
                 // Find the file.
                 const Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension)
                 

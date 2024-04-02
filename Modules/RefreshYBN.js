@@ -12,7 +12,7 @@ const response = {
 const fs = require('fs');
 const YBNPath = "YBN_Notebooks/";
 fs.readdirSync(YBNPath).forEach(folder => {
-    if (folder.startsWith("{") && folder.endsWith("}")) {
+    if (folder.startsWith("{") && folder.endsWith("}") || folder == "Default") {
         // This is a note folder, so add it to the list. (and also make the path.)
         response.Notes.push(folder);
         let path = YBNPath + folder;

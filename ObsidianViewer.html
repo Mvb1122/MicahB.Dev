@@ -297,6 +297,33 @@
                                 Element.appendChild(BackLinkDiv);
                             }
                         }
+
+                        // Look for style information.
+                        const blocks = Element.getElementsByTagName("code");
+                        if (blocks.length >= 1)
+                            try {
+                                let data = blocks[0].innerText.replaceAll("\n", "");
+                                data = JSON.parse(data);
+                                const Body = Element; // document.getElementsByTagName("body")[0]
+                                blocks[0].parentElement.hidden = true;
+
+                                switch (data.style) {
+                                    case "legal":
+                                        Body.style.backgroundColor = "white";
+                                        Body.style.fontFamily = "'Times New Roman', Times, serif";
+                                        Body.style.lineHeight = "1.3em";
+                                        Body.style.color = "black"
+                                        Body.style.padding = "3em";
+                                        break;
+                                
+                                        // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
+                                    default:
+                                        break;
+                                }
+                            } catch (e) {
+                                console.log(e)
+                                // Do nothing; there's no valid blocks.
+                            }
                     } catch (e) {
                         console.log(e)
                         rej(e);
