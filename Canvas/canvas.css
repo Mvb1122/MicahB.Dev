@@ -21,7 +21,7 @@ body {
     flex-direction: column;
 }
 
-.Nodule, .CenterButtons, .Title {
+.Nodule, .Title, button {
     position: relative;
 
     background-color: grey;
@@ -38,11 +38,18 @@ body {
     padding: var(--Common-Spacing);
 }
 
+button:hover {
+    background-color: black;
+    color: grey;
+}
+
 .CenterButtons, .Title {
     position: sticky;
     align-self: center;
 
     top: var(--Common-Spacing);
+
+    display: flex;
 }
 
 .Title {

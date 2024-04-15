@@ -11,9 +11,27 @@
     <script src="./canvas.js"></script>
 </head>
 
-<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()">
+<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()" id="body">
     <div class = "CenterButtons">
-        Buttons or whatever.
+        <div style="position: relative; width: 120px;">
+            <div id="AddNodules" class="Nodule" onmouseenter="document.getElementById(`NodeSelect`).hidden = false;" onmouseleave="document.getElementById(`NodeSelect`).hidden = true;" style="position: absolute;">
+                Add a node.
+                <div id="NodeSelect" style="display: relative; top:2.5em; right: 0em;" hidden>
+                    <button onclick="Add('text')">Text</button>
+                    <button onclick="Add('url_Pre')">URL</button>
+                    <button onclick="Add('img_Pre')">IMG</button>
+                </div>
+            </div>
+        </div>
+        <div style="position: relative; width: 120px;">
+            <div class="Nodule" onmouseenter="document.getElementById(`SaveLoadSelect`).hidden = false;" onmouseleave="document.getElementById(`SaveLoadSelect`).hidden = true;" style="position: absolute;">
+                Save/Load
+                <div id="SaveLoadSelect" style="display: relative; top:2.5em; right: 0em;" hidden>
+                    <button onclick="Save()">Save</button>
+                    <button onclick="Load()">Load</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="Title" style="top:3px;">
         TITLE

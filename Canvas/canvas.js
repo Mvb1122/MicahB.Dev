@@ -5,11 +5,16 @@ function drag_start(event) {
     event.dataTransfer.setData("Text", str);
 }
 
+let last_z = 0;
 function drop(event) {
     var offset = event.dataTransfer.getData("Text").split(',');
     var dm = document.getElementById(offset[2]);
     dm.style.left = (event.clientX + parseInt(offset[0], 10)) + 'px';
     dm.style.top = (event.clientY + parseInt(offset[1], 10)) + 'px';
+
+    // Make it so whatever you moved last always goes on top.
+    dm.style.zIndex = ++last_z;
+
     event.preventDefault();
     return false;
 }
@@ -67,4 +72,128 @@ function EquipDraggable(draggable) {
 
     // Add listeners.
     draggable.addEventListener("dragstart", e => drag_start(e));
+}
+
+/**
+ * @param {'text' || 'image' || 'url' || 'url_Pre'} type 
+ */
+function Add(type, url = "null") {
+    /**
+     * @type {HTMLElement}
+     */
+    let element;
+    switch (type) {
+        case 'text':
+            element = document.createElement("textarea");
+            element.style.height = "1em";
+            element.style.width = "5em";
+            
+            element.addEventListener("input", () => {element.style.width = "max-content"})
+            break;
+            
+        case 'url_Pre':
+            element = document.createElement("input");
+            element.type = "text"
+            element.style.height = "1em";
+            element.style.width = "10em";
+            element.placeholder = "Paste URL Here!"
+            
+            
+            element.addEventListener("change", () => {
+                element.hidden = true;
+                Add('url', element.value);
+            })
+            break;
+
+        case 'url': 
+            element = document.createElement("iframe");
+            element.style.height = "10em";
+            element.style.width = "10em";
+            element.style.resize = "both";
+            element.style.position = "absolute";
+
+            element.src = url;
+            break;
+
+        case 'img_Pre':
+            element = document.createElement("input");
+            element.type = "file";
+            element.accept = "image/png, image/jpeg";
+
+            element.addEventListener("change", () => {
+                if (element.value) {
+                    // Upload it and then add it as an image.
+                    Upload(element).then(url => {
+                        element.hidden = true;
+                        // Add the image.
+                        Add('img', url);
+                    })
+                }
+            })
+            break;
+
+        case 'img':
+            element = document.createElement("img");
+            element.src = url;
+
+            element.style.resize = "both"
+            
+            // Make it resizable.
+            element.addEventListener("mouseenter", () => {
+                element.style.resize = "both"
+            });
+            element.addEventListener("mouseleave", () => {
+                element.style.resize = "none";
+            })
+
+            break;
+
+        default:
+            element = document.createElement("div");
+    }
+
+    // Put it on screen, in the center.
+    document.getElementById("body").append(element);
+    element.className = "Nodule";
+    
+    element.style.left = "50vw";
+    element.style.top = "50vh";
+    EquipDraggable(element);
+
+}
+
+/**
+ * 
+ * @param {HTMLInputElement} selector 
+ */
+async function Upload(selector) {
+    return new Promise(async res => {
+        // Prepare the request
+        let data = selector.files[0];
+        const actualData = data.arrayBuffer();
+        let name = `../Canvas/@Res/${data.name}`;
+        var url = "../FTP/Post_Modules/Upload.js&target=" + name;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Content-Type", data.type);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+                let JSONData = JSON.parse(xhr.responseText);
+
+                if (JSONData.upload != null) {
+                    let response = `${JSONData.upload}`.split("/");
+                    res(`./@Res/${response[response.length - 1]}`);
+                } else {
+                    alert(JSONData.reason)
+                }
+            }
+        };
+
+        // Read and send the file.
+        xhr.send(await actualData);
+    })
 }
