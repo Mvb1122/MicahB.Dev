@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Canvas Organizer Tool Thing</title>
+
+    <meta name="description" content="A quick tool for organizing stuff I guess">
+    <link rel="stylesheet" href="./canvas.css">
+    <script src="./canvas.js"></script>
+</head>
+
+<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()">
+    <div class = "CenterButtons">
+        Buttons or whatever.
+    </div>
+    <div class="Title" style="top:3px;">
+        TITLE
+    </div>
+    <br>
+    <div draggable="true" class="Nodule" ondragstart="drag_start(event)" style="left:3px; top:50px" id="dragtest">
+        drag me :3
+    </div>
+
+    <div draggable="true" class="Nodule">
+        Unconfigured draggable.
+    </div>
+</body>
+
+</html>
