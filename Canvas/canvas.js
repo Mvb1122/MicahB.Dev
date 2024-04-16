@@ -194,7 +194,7 @@ function Add(type, url = "null") {
             const icon = document.createElement("img")
             icon.className = "Icon";
             const URLObject = new URL(url);
-            icon.src = `${URLObject.protocol}${URLObject.host}/favicon.ico`;
+            icon.src = `${URLObject.protocol}//${URLObject.host}/favicon.ico`;
             icon.draggable = false; // Parent is draggable so dw.
 
             element.appendChild(icon);
