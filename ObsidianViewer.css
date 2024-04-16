@@ -155,6 +155,12 @@ img, svg {
     display: flex;
 }
 
+iframe {
+    position: relative;
+    align-self: center;
+    display: flex;
+}
+
 svg {
     width: min(90%, var(--MainWidth)) !important;
     z-index: -1;

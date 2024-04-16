@@ -267,7 +267,7 @@
                         // Only update history and show backlinks for base document.
                         if (isBaseDocument) {
                             // Update the page title.
-                            document.title = "MicahB.Dev | " + FileName;
+                            document.title = `${FileName} | MicahB.Dev`;
                             
                             // Update history so people can share links easily. 
                             window.history.pushState({}, null, window.location.href.split('?')[0] + "?file=" + path);
@@ -302,7 +302,7 @@
                         const blocks = Element.getElementsByTagName("code");
                         if (blocks.length >= 1)
                             try {
-                                let data = blocks[0].innerText.replaceAll("\n", "");
+                                let data = blocks[0].innerText.replaceAll("\n", " ");
                                 data = JSON.parse(data);
                                 const Body = Element; // document.getElementsByTagName("body")[0]
                                 blocks[0].parentElement.hidden = true;
@@ -314,6 +314,22 @@
                                         Body.style.lineHeight = "1.3em";
                                         Body.style.color = "black"
                                         Body.style.padding = "3em";
+                                        let elements = [document.getElementsByTagName("p"), document.getElementsByTagName("ul")];
+                                        for (let i = 0; i < elements.length; i++) {
+                                            for (let j = 0; j < elements[i].length; j++) {
+                                                let element = elements[i][j];
+
+                                                switch (element.tagName) {
+                                                    case "P":
+                                                        element.style.marginBlockEnd = "0px"
+                                                        break;
+                                                
+                                                    default:
+                                                        element.style.marginBlockStart = "0px"
+                                                        break;
+                                                }
+                                            }
+                                        }
                                         break;
                                 
                                         // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
@@ -370,13 +386,46 @@
             }
             CheckLoop();
             */
+
+            let startingStyle = {body: "", ButtonContainer: "", Heading: "", HeadingElement: ""};
+            window.addEventListener('beforeprint', () => {
+                // Prepare screen for printing.
+                startingStyle.body = document.getElementById("body").style;
+                startingStyle.ButtonContainer = document.getElementById("ButtonContainer").style;
+                startingStyle.HeadingElement = document.getElementById("Content").children[0];
+                startingStyle.Heading = startingStyle.HeadingElement.computedStyleMap();
+
+                // Make the page background white to save ink. Also hide buttons.
+                document.getElementById("body").style.backgroundColor = "white";
+                document.getElementById("body").style.color = "black";
+                startingStyle.HeadingElement.style.color = "black";
+                document.getElementById("ButtonContainer").style = "display: none";
+            })
+
+            window.addEventListener('afterprint', () => {
+                // Return things to normal.
+                document.getElementById("body").style = startingStyle.body;
+                document.getElementById("ButtonContainer").style = startingStyle.ButtonContainer;
+                startingStyle.HeadingElement.style = startingStyle.Heading;
+            })
         </script>
         <link rel="stylesheet" href="ObsidianViewer.css">
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JGVXR46BL"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2JGVXR46BL');
+        </script>
     </head>
-    <body onload="UpdatePageFromParams()">
+    <body onload="UpdatePageFromParams()" id="body">
         <div id="ButtonContainer" hidden>
             <button onclick="GetSuggestedLinks()" class="DarkButton" title="Go Home!">🏠</button>
             <button onclick="Reload()" class="DarkButton" title="Reload the current page!">🔄</button>
+            <button onclick="print()" class="DarkButton" title="Print!">🖨️</button>
         </div>
         <div id="Home" class="Display">
             Loading...
