@@ -12,7 +12,7 @@
 </head>
 
 <body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()">
-    <div class = "CenterButtons">
+    <div class="CenterButtons">
         <div style="position: relative; width: 120px;">
             <div id="AddNodules" class="Nodule" onmouseenter="document.getElementById(`NodeSelect`).hidden = false;" onmouseleave="document.getElementById(`NodeSelect`).hidden = true;" style="position: absolute;">
                 Add a Node
@@ -32,6 +32,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="Trash" id="TrashCorner" hidden>
+        Drag here to trash something!
     </div>
 
     <div id="content">

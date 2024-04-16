@@ -3,6 +3,9 @@ function drag_start(event) {
     var style = window.getComputedStyle(event.target, null);
     var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
     event.dataTransfer.setData("Text", str);
+
+    // Show trash corner.
+    document.getElementById("TrashCorner").hidden = false;
 }
 
 let last_z = 0;
@@ -14,6 +17,15 @@ function drop(event) {
 
     // Make it so whatever you moved last always goes on top.
     dm.style.zIndex = ++last_z;
+    
+    // If we're above the trash corner, delete it.
+    const trashCorner = document.getElementById("TrashCorner");
+    if (DoElementsOverlap(dm, trashCorner)) {
+        dm.parentElement.removeChild(dm);
+    }
+
+    // Hide trash corner.
+    trashCorner.hidden = true;
 
     event.preventDefault();
     return false;
@@ -230,13 +242,29 @@ async function Load() {
         const enc = new TextDecoder("utf-8");
 
         const data = input.files[0].arrayBuffer();
-        document.getElementById("content").innerHTML = enc.decode(await data);
+        const text = enc.decode(await data);
+        document.getElementById("content").innerHTML = text;
         EquipAllDraggable();
 
         // Copy all textarea content into its value.
         const areas = document.getElementsByTagName("textarea");
         for (let i = 0; i < areas.length; i++) areas[i].value = areas[i].innerHTML;
+
+        // Find highest z-index.
+        const zIndexes = text.match(/(?<=z\-index: )\d?\d/g);
+        let max = -100;
+        for (let i = 0; i < zIndexes.length; i++) {
+            if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
+        }
+        last_z = max;
     })
 
     input.click();
+}
+
+function DoElementsOverlap(Element1, Element2) {
+    const rect1 = Element1.getBoundingClientRect();
+    const rect2 = Element2.getBoundingClientRect();
+
+    return rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y;
 }

@@ -2,6 +2,11 @@
     --Common-Spacing: 3px;
 }
 
+/* Hide hidden stuff. */
+[hidden] {
+    display: none !important;
+}
+
 html {
     width: 100vw;
     height: 100vh;
@@ -21,7 +26,7 @@ body {
     flex-direction: column;
 }
 
-.Nodule, .Title, button {
+.Nodule, .Title, button, .Trash {
     position: relative;
 
     background-color: grey;
@@ -60,4 +65,19 @@ button:hover {
 
     left: var(--Common-Spacing);
     top: var(--Common-Spacing);
+}
+
+.Trash {
+    font-size: x-large;
+    position: absolute;
+    bottom: var(--Common-Spacing);
+    left: var(--Common-Spacing);
+    background-color: black;
+    color: darkred;
+    width: calc(var(--Common-Spacing) * 40);
+    height: calc(var(--Common-Spacing) * 40);
+    text-align: center;
+    alignment-baseline: central;
+    display: flex;
+    align-items: center;
 }
