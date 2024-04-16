@@ -2,6 +2,11 @@
     --Common-Spacing: 3px;
 }
 
+::placeholder {
+    color: rgb(121, 121, 121);
+    opacity: 1; /* Firefox */
+}
+
 /* Hide hidden stuff. */
 [hidden] {
     display: none !important;
@@ -80,4 +85,29 @@ button:hover {
     alignment-baseline: central;
     display: flex;
     align-items: center;
+}
+
+/* Icon styling */
+.Icon {
+    width: 128px;
+    height: auto;
+}
+
+a:has(img)[title] {
+    background-color: rgba(0, 0, 0, 0);
+    width: max-content;
+    height: max-content;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+a:has(img)::after {
+    position: absolute;
+    content: attr(Title);
+    transform: translate(0px, 200%);
+    color: black;
+    width: 100%;
+    text-align: center;
+    height: inherit;
 }

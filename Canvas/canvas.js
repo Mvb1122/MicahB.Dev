@@ -136,9 +136,11 @@ function Add(type, url = "null") {
                 if (element.value) {
                     // Upload it and then add it as an image.
                     Upload(element).then(url => {
-                        element.hidden = true;
                         // Add the image.
                         Add('img', url);
+
+                        // Remove the element.
+                        element.parentElement.removeChild(element);
                     })
                 }
             })
@@ -158,6 +160,44 @@ function Add(type, url = "null") {
                 element.style.resize = "none";
             })
 
+            break;
+
+        case 'ico_Pre':
+            element = document.createElement('input');
+            element.type = "text"
+            element.style.height = "1em";
+            element.style.width = "10em";
+            element.placeholder = "Paste URL Here!"
+            
+            
+            element.addEventListener("change", () => {
+                Add('ico', element.value);
+                element.parentElement.removeChild(element);
+            })
+            break;
+
+        case 'ico':
+            // Create the linking block:
+            element = document.createElement('a');
+            element.setAttribute("href", url);
+
+            // Set the page's title asynchronously so that things run fastish.
+            GetRemotePageTitle(url).then(val => {
+                element.setAttribute("title", val);
+            })
+
+            // Make it open in a new tab.
+            element.setAttribute("target", "_blank")
+            element.setAttribute("rel", "noreferrer noopener")
+
+            // Create the icon:
+            const icon = document.createElement("img")
+            icon.className = "Icon";
+            const URLObject = new URL(url);
+            icon.src = `${URLObject.protocol}${URLObject.host}/favicon.ico`;
+            icon.draggable = false; // Parent is draggable so dw.
+
+            element.appendChild(icon);
             break;
 
         default:
@@ -268,3 +308,12 @@ function DoElementsOverlap(Element1, Element2) {
 
     return rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y;
 }
+
+async function GetRemotePageTitle(url) {
+    // Thanks AllOrgins for this handy trick :)
+    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const title = doc.querySelectorAll('title')[0];
+    return title.innerText;
+};
