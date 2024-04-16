@@ -11,11 +11,11 @@
     <script src="./canvas.js"></script>
 </head>
 
-<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()" id="body">
+<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()">
     <div class = "CenterButtons">
         <div style="position: relative; width: 120px;">
             <div id="AddNodules" class="Nodule" onmouseenter="document.getElementById(`NodeSelect`).hidden = false;" onmouseleave="document.getElementById(`NodeSelect`).hidden = true;" style="position: absolute;">
-                Add a node.
+                Add a Node
                 <div id="NodeSelect" style="display: relative; top:2.5em; right: 0em;" hidden>
                     <button onclick="Add('text')">Text</button>
                     <button onclick="Add('url_Pre')">URL</button>
@@ -33,16 +33,19 @@
             </div>
         </div>
     </div>
-    <div class="Title" style="top:3px;">
-        TITLE
-    </div>
-    <br>
-    <div draggable="true" class="Nodule" ondragstart="drag_start(event)" style="left:3px; top:50px" id="dragtest">
-        drag me :3
-    </div>
 
-    <div draggable="true" class="Nodule">
-        Unconfigured draggable.
+    <div id="content">
+        <div class="Title" style="top:3px;">
+            TITLE
+        </div>
+        <br>
+        <div draggable="true" class="Nodule" ondragstart="drag_start(event)" style="left:3px; top:50px" id="dragtest">
+            drag me :3
+        </div>
+    
+        <div draggable="true" class="Nodule">
+            Unconfigured draggable.
+        </div>
     </div>
 </body>
 

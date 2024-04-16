@@ -152,10 +152,10 @@ function Add(type, url = "null") {
             element = document.createElement("div");
     }
 
-    // Put it on screen, in the center.
-    document.getElementById("body").append(element);
+    // Put it on screen, in the center, on top.
+    document.getElementById("content").append(element);
     element.className = "Nodule";
-    
+    element.style.zIndex = ++last_z;
     element.style.left = "50vw";
     element.style.top = "50vh";
     EquipDraggable(element);
@@ -196,4 +196,47 @@ async function Upload(selector) {
         // Read and send the file.
         xhr.send(await actualData);
     })
+}
+
+let SaveHandle;
+async function Save() {
+    try {
+        // create a new handle
+        SaveHandle = await window.showSaveFilePicker();
+        
+        // create a FileSystemWritableFileStream to write to
+        const writableStream = await SaveHandle.createWritable();
+        
+        // Copy all textarea content into its innerhtml.
+        const areas = document.getElementsByTagName("textarea");
+        for (let i = 0; i < areas.length; i++) areas[i].innerHTML = areas[i].value;
+        
+        // write our file
+        const content = document.getElementById("content").innerHTML;
+        await writableStream.write(content);
+
+        // close the file and write the contents to disk.
+        await writableStream.close();
+    } catch (err) {
+        console.error(err.name, err.message);
+    }
+}
+
+async function Load() {
+    const input = document.createElement('input');
+    input.type = 'file';
+
+    input.addEventListener("change", async () => {
+        const enc = new TextDecoder("utf-8");
+
+        const data = input.files[0].arrayBuffer();
+        document.getElementById("content").innerHTML = enc.decode(await data);
+        EquipAllDraggable();
+
+        // Copy all textarea content into its value.
+        const areas = document.getElementsByTagName("textarea");
+        for (let i = 0; i < areas.length; i++) areas[i].value = areas[i].innerHTML;
+    })
+
+    input.click();
 }

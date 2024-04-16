@@ -25,7 +25,7 @@ body {
     position: relative;
 
     background-color: grey;
-    color:black;
+    color:white;
 
     box-shadow: var(--Common-Spacing) var(--Common-Spacing) var(--Common-Spacing) black;
     z-index: 0;
@@ -50,6 +50,8 @@ button:hover {
     top: var(--Common-Spacing);
 
     display: flex;
+
+    z-index: 99999999999; /* Make always on top! */
 }
 
 .Title {
