@@ -27,6 +27,9 @@ function drop(event) {
     // Hide trash corner.
     trashCorner.hidden = true;
 
+    // Save for autoreloading. 
+    SaveToLocalStorage();
+
     event.preventDefault();
     return false;
 }
@@ -99,8 +102,11 @@ function Add(type, url = "null") {
             element = document.createElement("textarea");
             element.style.height = "1em";
             element.style.width = "5em";
-            
-            element.addEventListener("input", () => {element.style.width = "max-content"})
+
+            // Save occasionally.
+            element.addEventListener("change", () => {
+                QueueForAutoSaveToLocalStorage();
+            })
             break;
             
         case 'url_Pre':
@@ -194,7 +200,7 @@ function Add(type, url = "null") {
             const icon = document.createElement("img")
             icon.className = "Icon";
             const URLObject = new URL(url);
-            icon.src = `${URLObject.protocol}//${URLObject.host}/favicon.ico`;
+            icon.src = `${URLObject.protocol}${URLObject.host}/favicon.ico`;
             icon.draggable = false; // Parent is draggable so dw.
 
             element.appendChild(icon);
@@ -211,7 +217,7 @@ function Add(type, url = "null") {
     element.style.left = "50vw";
     element.style.top = "50vh";
     EquipDraggable(element);
-
+    SaveToLocalStorage();
 }
 
 /**
@@ -250,11 +256,10 @@ async function Upload(selector) {
     })
 }
 
-let SaveHandle;
 async function Save() {
     try {
         // create a new handle
-        SaveHandle = await window.showSaveFilePicker();
+        let SaveHandle = await window.showSaveFilePicker();
         
         // create a FileSystemWritableFileStream to write to
         const writableStream = await SaveHandle.createWritable();
@@ -283,23 +288,27 @@ async function Load() {
 
         const data = input.files[0].arrayBuffer();
         const text = enc.decode(await data);
-        document.getElementById("content").innerHTML = text;
-        EquipAllDraggable();
-
-        // Copy all textarea content into its value.
-        const areas = document.getElementsByTagName("textarea");
-        for (let i = 0; i < areas.length; i++) areas[i].value = areas[i].innerHTML;
-
-        // Find highest z-index.
-        const zIndexes = text.match(/(?<=z\-index: )\d?\d/g);
-        let max = -100;
-        for (let i = 0; i < zIndexes.length; i++) {
-            if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
-        }
-        last_z = max;
+        LoadContent(text);
     })
 
     input.click();
+}
+
+function LoadContent(text) {
+    document.getElementById("content").innerHTML = text;
+    EquipAllDraggable();
+
+    // Copy all textarea content into its value.
+    const areas = document.getElementsByTagName("textarea");
+    for (let i = 0; i < areas.length; i++) areas[i].value = areas[i].innerHTML;
+
+    // Find highest z-index.
+    const zIndexes = text.match(/(?<=z\-index: )\d?\d/g);
+    let max = -100;
+    for (let i = 0; i < zIndexes.length; i++) {
+        if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
+    }
+    last_z = max;
 }
 
 function DoElementsOverlap(Element1, Element2) {
@@ -317,3 +326,35 @@ async function GetRemotePageTitle(url) {
     const title = doc.querySelectorAll('title')[0];
     return title.innerText;
 };
+
+
+// Handle reloading last stuff when you load the page.
+const AutoSaveLabel = "CanvasLastContent"
+
+function SaveToLocalStorage() {
+    // Copy all textarea content into its innerhtml.
+    const areas = document.getElementsByTagName("textarea");
+    for (let i = 0; i < areas.length; i++) areas[i].innerHTML = areas[i].value;
+
+    localStorage.setItem(AutoSaveLabel, document.getElementById("content").innerHTML);
+}
+
+function LoadFromLocalStorage() {
+    if (localStorage.getItem(AutoSaveLabel) != null) {
+        LoadContent(localStorage.getItem(AutoSaveLabel));
+    }
+}
+
+// Roll up requests for autosaving into splurts every five seconds.
+    // On documents with a lot of text boxes, this should make typing a lot more performant.
+let SaveQueued = false;
+function QueueForAutoSaveToLocalStorage() {
+    if (SaveQueued) return;
+    else {
+        SaveQueued = true;
+        setTimeout(() => {
+            SaveToLocalStorage();
+            SaveQueued = false;
+        }, 5000);
+    }
+}
