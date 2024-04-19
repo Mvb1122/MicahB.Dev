@@ -137,6 +137,7 @@
                         if (isBaseDocument) {
                             CurrentBaseDocument = path;
                             const title = document.createElement("h1");
+                            title.id = "BaseDocumentTitle"
                             title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
                             Element.prepend(title);
 
@@ -276,6 +277,7 @@
                             const backlinks = await (await backlinksRequest).json();
                             if (backlinks.successful && backlinks.links.length > 0) {
                                 const BackLinkDiv = document.createElement("div");
+                                BackLinkDiv.id = "BaseDocumentBacklinks"
                                 const Header = document.createElement("h2");
                                 Header.innerText = "Backlinks: ";
                                 BackLinkDiv.appendChild(Header);
@@ -307,21 +309,38 @@
                                 const Body = Element; // document.getElementsByTagName("body")[0]
                                 blocks[0].parentElement.hidden = true;
 
+                                // Handle custom titles.
+                                if (data.title != undefined && isBaseDocument) 
+                                    document.getElementById("BaseDocumentTitle").innerHTML = data.title;
+
+                                // Handle hiding backlinks.
+                                if (data.backlinks != undefined && !data.backlinks)
+                                    document.getElementById("BaseDocumentBacklinks").parentElement.removeChild(document.getElementById("BaseDocumentBacklinks"));
+
+                                // Handle style requests.
                                 switch (data.style) {
                                     case "legal":
                                         Body.style.backgroundColor = "white";
                                         Body.style.fontFamily = "'Times New Roman', Times, serif";
-                                        Body.style.lineHeight = "1.3em";
                                         Body.style.color = "black"
                                         Body.style.padding = "3em";
-                                        let elements = [document.getElementsByTagName("p"), document.getElementsByTagName("ul")];
+
+                                        let elements = [document.getElementsByTagName("p"), document.getElementsByTagName("ul"), document.getElementsByTagName("th"), document.getElementsByTagName("td")];
                                         for (let i = 0; i < elements.length; i++) {
                                             for (let j = 0; j < elements[i].length; j++) {
                                                 let element = elements[i][j];
-
+                                                
+                                                // Make <p> and <ul> elements have better spacing. 
                                                 switch (element.tagName) {
+                                                    case "UL":
                                                     case "P":
                                                         element.style.marginBlockEnd = "0px"
+                                                        break;
+
+                                                    // Make table rows 
+                                                    case "TD":
+                                                    case "TH":
+                                                        element.style.color = "black";
                                                         break;
                                                 
                                                     default:
@@ -337,7 +356,8 @@
                                         break;
                                 }
                             } catch (e) {
-                                console.log(e)
+                                if (e)
+                                    console.log(e);
                                 // Do nothing; there's no valid blocks.
                             }
                     } catch (e) {
