@@ -188,6 +188,7 @@ function Add(type, url = "null") {
             element.setAttribute("href", url);
 
             // Set the page's title asynchronously so that things run fastish.
+            element.setAttribute("title", "Loading...");
             GetRemotePageTitle(url).then(val => {
                 element.setAttribute("title", val);
             })
@@ -199,8 +200,7 @@ function Add(type, url = "null") {
             // Create the icon:
             const icon = document.createElement("img")
             icon.className = "Icon";
-            const URLObject = new URL(url);
-            icon.src = `${URLObject.protocol}${URLObject.host}/favicon.ico`;
+            icon.src = `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=256`;
             icon.draggable = false; // Parent is draggable so dw.
 
             element.appendChild(icon);

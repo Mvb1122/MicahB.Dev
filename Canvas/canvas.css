@@ -105,7 +105,7 @@ a:has(img)[title] {
 a:has(img)::after {
     position: absolute;
     content: attr(Title);
-    transform: translate(0px, 200%);
+    transform: translate(0px, 100%);
     color: black;
     width: 100%;
     text-align: center;
