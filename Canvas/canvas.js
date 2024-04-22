@@ -22,6 +22,9 @@ function drop(event) {
     const trashCorner = document.getElementById("TrashCorner");
     if (DoElementsOverlap(dm, trashCorner)) {
         dm.parentElement.removeChild(dm);
+
+        // Autosave too.
+        QueueForAutoSaveToLocalStorage();
     }
 
     // Hide trash corner.
@@ -225,7 +228,7 @@ function Add(type, url = "null") {
  * @param {HTMLInputElement} selector 
  */
 async function Upload(selector) {
-    return new Promise(async res => {
+    return new Promise(res => {
         // Prepare the request
         let data = selector.files[0];
         const actualData = data.arrayBuffer();
@@ -252,14 +255,22 @@ async function Upload(selector) {
         };
 
         // Read and send the file.
-        xhr.send(await actualData);
+        actualData.then(d => {
+            xhr.send(d);
+        })
     })
+}
+
+function GetDocumentTitle() {
+    return `${document.getElementsByClassName("Title")[0].innerText}`.trim();
 }
 
 async function Save() {
     try {
         // create a new handle
-        let SaveHandle = await window.showSaveFilePicker();
+        let SaveHandle = await window.showSaveFilePicker(
+            { "suggestedName": GetDocumentTitle(), "types": [{ "description": "Text File", "accept": {"text/plain": [".txt"]} }, { "description": "HTML File", "accept": {"text/html": [".html"]} }] }
+        );
         
         // create a FileSystemWritableFileStream to write to
         const writableStream = await SaveHandle.createWritable();
@@ -298,17 +309,29 @@ function LoadContent(text) {
     document.getElementById("content").innerHTML = text;
     EquipAllDraggable();
 
-    // Copy all textarea content into its value.
+    // Copy all textarea content into its value, also make it have autosave.
+    const attachAutosave = (e, event = "DOMCharacterDataModified") => {e.addEventListener(event, () => QueueForAutoSaveToLocalStorage())};
     const areas = document.getElementsByTagName("textarea");
-    for (let i = 0; i < areas.length; i++) areas[i].value = areas[i].innerHTML;
+    for (let i = 0; i < areas.length; i++) {
+        areas[i].value = areas[i].innerHTML;
+        attachAutosave(areas[i], "change");
+    }
 
     // Find highest z-index.
-    const zIndexes = text.match(/(?<=z\-index: )\d?\d/g);
+    const zIndexes = text.match(/(?<=z-index: )\d?\d/g);
     let max = -100;
     for (let i = 0; i < zIndexes.length; i++) {
         if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
     }
     last_z = max;
+
+    // Make sure title is editable and causes autosave.
+    const title = document.getElementsByClassName("Title")[0];
+    title.setAttribute("contenteditable", "true");
+    attachAutosave(title);
+
+    // Make sure textarea causes autosave.
+    for (let i = 0; i < areas.length; i++) attachAutosave(areas[i]);
 }
 
 function DoElementsOverlap(Element1, Element2) {
@@ -325,18 +348,25 @@ async function GetRemotePageTitle(url) {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const title = doc.querySelectorAll('title')[0];
     return title.innerText;
-};
-
+}
 
 // Handle reloading last stuff when you load the page.
 const AutoSaveLabel = "CanvasLastContent"
 
-function SaveToLocalStorage() {
+function PrepAndGetContent() {
     // Copy all textarea content into its innerhtml.
     const areas = document.getElementsByTagName("textarea");
     for (let i = 0; i < areas.length; i++) areas[i].innerHTML = areas[i].value;
 
-    localStorage.setItem(AutoSaveLabel, document.getElementById("content").innerHTML);
+    // Send back the content.
+    return document.getElementById("content").innerHTML;
+}
+
+function SaveToLocalStorage() {
+    localStorage.setItem(AutoSaveLabel, PrepAndGetContent());
+
+    // Save to recents too.
+    SaveToRecents();
 }
 
 function LoadFromLocalStorage() {
@@ -355,6 +385,114 @@ function QueueForAutoSaveToLocalStorage() {
         setTimeout(() => {
             SaveToLocalStorage();
             SaveQueued = false;
+            console.log("Autosaving!");
         }, 5000);
     }
+}
+
+const CanvasRecentsName = "CanvasRecents"; // [{name: string, content: string}]
+
+function LoadFromRecent(name) {
+    /** @type {[{name: string, content: string}]} */
+    const recents = JSON.parse(localStorage.getItem(CanvasRecentsName));
+    if (recents != undefined) {
+        // Find recent file.
+        for (let i = 0; i < recents.length; i++) 
+            if (recents[i].name == name) {
+                LoadContent(recents[i].content);
+                break;
+            }
+    }
+}
+
+/// Does not throw if name is not in recents!
+function RemoveFromRecent(name) {
+    /** @type {[{name: string, content: string}]} */
+    const recents = JSON.parse(localStorage.getItem(CanvasRecentsName));
+    if (recents != undefined) {
+        // Find recent file.
+        for (let i = 0; i < recents.length; i++) 
+            if (recents[i].name == name) {
+                // Remove it.
+                recents.splice(i, 1);
+
+                // Save.
+                localStorage.setItem(CanvasRecentsName, JSON.stringify(recents));
+                break;
+            }
+    }
+}
+
+// Shows recent canvases.
+function ViewRecents() {
+    document.getElementById("RecentsOuter").hidden = false;
+    
+    if (localStorage.getItem(CanvasRecentsName) != null) {
+        // Add recents.
+        /** @type {[{name: string, content: string}]} */
+        const recents = JSON.parse(localStorage.getItem(CanvasRecentsName));
+        const list = document.createElement("table");
+
+        recents.forEach(recentDoc => {
+            const div = document.createElement("tr");
+            const text = document.createElement("td");
+            text.innerText = recentDoc.name;
+            div.appendChild(text);
+            
+            const CreateButtonWithTextAndFunction = (text, f) => {
+                const btn = document.createElement("button");
+                btn.innerText = text;
+                btn.onclick = f;
+                const btntd = document.createElement("td");
+                btntd.appendChild(btn);
+
+                div.appendChild(btntd);
+            }
+            
+            // Add a button which clicking loads the thing.
+            CreateButtonWithTextAndFunction("Load", () => {LoadFromRecent(recentDoc.name);})
+
+            // Add a button which removes it.
+            CreateButtonWithTextAndFunction("🗑️", () => {
+                // If we delete something, we should probably reload the list right after.
+                RemoveFromRecent(recentDoc.name);
+                ViewRecents();
+            })
+
+            // Add it to the table.
+            list.appendChild(div);
+        });
+        
+        // Add the table to the div.
+        document.getElementById("RecentsList").innerText = "";
+        document.getElementById("RecentsList").appendChild(list);
+    } else {
+        // Say they have no recents.
+        document.getElementById("RecentsList").innerText = "You have no recents! Go make stuff! (Remember to change title!)"
+    }
+}
+
+function HideRecents() {
+    document.getElementById("RecentsOuter").hidden = true;
+}
+
+function SaveToRecents() {
+    const title = GetDocumentTitle();
+    
+    // Remove old recent.
+    RemoveFromRecent(title);
+
+    let OldRecents = localStorage.getItem(CanvasRecentsName);
+    if (OldRecents == undefined) OldRecents = [];
+    else OldRecents = JSON.parse(OldRecents);
+
+
+    // Save to the old recents and write it back down.
+    const data = {
+        name: title,
+        content: PrepAndGetContent()
+    };
+    OldRecents.push(data);
+
+    localStorage.setItem(CanvasRecentsName, JSON.stringify(OldRecents));
 }

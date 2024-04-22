@@ -31,7 +31,7 @@ body {
     flex-direction: column;
 }
 
-.Nodule, .Title, button, .Trash {
+.Nodule, .Title, button, .Trash, #RecentsInner {
     position: relative;
 
     background-color: grey;
@@ -110,4 +110,34 @@ a:has(img)::after {
     width: 100%;
     text-align: center;
     height: inherit;
+}
+
+/* Does dark background */
+#RecentsOuter {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    top: 0%;
+    background-color: rgba(58, 58, 58, 0.623);
+    z-index: 5000000000;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Puts in center */
+#RecentsInner {
+    align-self: center;
+    padding: calc(2 * var(--Common-Spacing));
+}
+
+#RecentsList {
+    padding-top: var(--Common-Spacing);
+    padding-bottom: var(--Common-Spacing);
+}
+
+#RecentsList > table > tr {
+    padding: var(--Common-Spacing);
+    height: 1em;
 }

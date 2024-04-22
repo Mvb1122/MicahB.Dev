@@ -40,8 +40,18 @@
                 <div id="SaveLoadSelect" style="display: relative; top:2.5em; right: 0em;" hidden>
                     <button onclick="Save()">Save</button>
                     <button onclick="Load()">Load</button>
+                    <button onclick="ViewRecents()">View Recents</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="RecentsOuter" hidden>
+        <div id="RecentsInner">
+            Select which canvas you'd like to load.
+            <div id="RecentsList">LOADING...</div>
+            <button onclick="alert('TBA | Tell micah to get to work.')">Load Last</button>
+            <button onclick="HideRecents()">Back</button>
         </div>
     </div>
 
