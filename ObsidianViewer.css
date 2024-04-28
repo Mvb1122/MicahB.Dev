@@ -184,6 +184,7 @@ code {
     text-wrap: wrap;
 }
 
+/* Quote shading stuff.*/
 blockquote {
     padding: 3%;
     align-self: center;
@@ -193,6 +194,10 @@ blockquote {
     background-color: darkblue;
     border: solid rgb(0, 16, 78) var(--Border-Thickness);
     color: hsl(240, 100%, 73%);
+}
+
+blockquote > p {
+    color:white;
 }
 
 blockquote[tldr] {
@@ -211,6 +216,12 @@ blockquote[danger] {
     background-color: darkred;
     border: solid rgb(80, 0, 0) var(--Border-Thickness);
     color: rgb(255, 182, 182);
+}
+
+blockquote[quote] {
+    background-color: rgb(80, 80, 80);
+    border: solid rgb(31, 31, 31) var(--Border-Thickness);
+    color:grey;
 }
 
 table, th, td {

@@ -177,11 +177,33 @@
                                 const text = quote.innerText;
                                 let title = text.match(/\[![A-Za-z0-9]+\]/);
                                 if (title != null) {
+                                    // Get styling attribute.
                                     const match = title[0];
+
+                                    // Remove styling attribute.
                                     quote.innerText = quote.innerText.replace(title[0], "");
                                     const param = match.substring(2, match.length - 1);
+                                    const stylingText = `${param.substring(0, 1).toUpperCase()}${param.substring(1)}`;
+                                    // Set it onto the element.
                                     quote.setAttribute(param, true);
-                                    quote.innerHTML = `<h3 style="margin: 0%">${param.substring(0, 1).toUpperCase()}${param.substring(1)}</h3>` + quote.innerHTML;
+
+                                    // Handle inner text.
+                                    if (quote.innerHTML.includes("<br>")) {
+                                        // If there's a line break, then bump the first line onto the title and put all the rest into the content.
+                                        const lines = quote.innerHTML.split("<br>");
+                                        const heading = document.createElement("h3");
+                                        heading.style.margin = 0;
+                                        heading.innerHTML = `${stylingText}: ${lines.shift()}`;
+                                        
+                                        const body = document.createElement("p");
+                                        body.innerHTML = lines.join("<br>");
+
+                                        quote.innerHTML = "";
+                                        quote.appendChild(heading);
+                                        quote.appendChild(body);
+                                    }
+                                    // If there's no line break, then just use the styling parameter as the heading.
+                                    else quote.innerHTML = `<h3 style="margin: 0%">${stylingText}</h3>` + quote.innerHTML;
                                 }
                             }
         
