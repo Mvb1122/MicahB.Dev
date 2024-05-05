@@ -46,105 +46,112 @@ fs.readdirSync(YBNPath).forEach(folder => {
             let ReadPromises = [];
             pages.forEach(page => {
                 ReadPromises.push(new Promise((resolve) => {
-                    fs.readFile(`./${path}/${page}/Drawing.jiix`, (err, data) => {
-                        const YBN = JSON.parse(data);
-                        
-                        // Convert it into Excalidraw format.
-                        const Excalidraw = {
-                            "type": "excalidraw",
-                            "version": 2,
-                            "source": "https://micahb.dev",
-                            "elements": [],
-                            "appState": {
-                                "gridSize": null,
-                                "viewBackgroundColor": "#ffffff"
-                            },
-                            "files": {}
-                        };
-    
-                        const pageX = YBN["bounding-box"].x;
-                        const pageY = YBN["bounding-box"].y;
-                        const pageWidth = YBN["bounding-box"].width;
-                        const pageHeight = YBN["bounding-box"].height;
-    
-                        YBN.items.forEach(item => {
-                            // Calculate width and height, while also rebasing deltas. 
-                            let Width = -100;
-                            const RootX = item.X[0];
-                            const XCoords = [];
-                            item.X.forEach(coord => {
-                                const delta = Math.abs(coord);
-                                if (delta > Width)
-                                    Width = delta;
-    
-                                XCoords.push(coord - RootX);
+                    const DrawingPath = `./${path}/${page}/Drawing.jiix`;
+                    fs.readFile(DrawingPath, (err, data) => {
+                        try {
+                            const YBN = JSON.parse(data);
+                            
+                            // Convert it into Excalidraw format.
+                            const Excalidraw = {
+                                "type": "excalidraw",
+                                "version": 2,
+                                "source": "https://micahb.dev",
+                                "elements": [],
+                                "appState": {
+                                    "gridSize": null,
+                                    "viewBackgroundColor": "#ffffff"
+                                },
+                                "files": {}
+                            };
+        
+                            const pageX = YBN["bounding-box"].x;
+                            const pageY = YBN["bounding-box"].y;
+                            const pageWidth = YBN["bounding-box"].width;
+                            const pageHeight = YBN["bounding-box"].height;
+        
+                            YBN.items.forEach(item => {
+                                // Calculate width and height, while also rebasing deltas. 
+                                let Width = -100;
+                                const RootX = item.X[0];
+                                const XCoords = [];
+                                item.X.forEach(coord => {
+                                    const delta = Math.abs(coord);
+                                    if (delta > Width)
+                                        Width = delta;
+        
+                                    XCoords.push(coord - RootX);
+                                })
+        
+                                let Height = -100;
+                                const RootY = item.Y[0];
+                                const YCoords = [];
+                                item.Y.forEach(coord => {
+                                    const delta = Math.abs(coord);
+                                    if (delta > Height)
+                                        Height = delta;
+        
+                                    YCoords.push(coord - RootY); 
+                                })
+        
+                                const Seed = Math.floor(Math.random() * 1000000000);
+                                let TimeStampEnd = item.timestamp;
+                                TimeStampEnd = TimeStampEnd.substring(TimeStampEnd.indexOf(".") + 1);
+                                const eItem = {
+                                    "id": Seed,
+                                    "type": "freedraw",
+                                    "x": RootX * 10,
+                                    "y": RootY * 10,
+                                    "width": Width,
+                                    "height": Height,
+                                    "angle": 0,
+                                    "strokeColor": "#1e1e1e",
+                                    "backgroundColor": "transparent",
+                                    "fillStyle": "solid",
+                                    "strokeWidth": 1, // TODO: Find out how to pull out the stroke width.
+                                    "strokeStyle": "solid",
+                                    "roughness": 1,
+                                    "opacity": 100,
+                                    "groupIds": [],
+                                    "frameId": null,
+                                    "roundness": null,
+                                    "seed": Seed,
+                                    "version": 22,
+                                    "versionNonce": 847882817,
+                                    "isDeleted": false,
+                                    "boundElements": null,
+                                    "updated": TimeStampEnd,
+                                    "link": null,
+                                    "locked": false,
+                                    "points": [],
+                                    "pressures": [],
+                                    "simulatePressure": true,
+                                    "lastCommittedPoint": null
+                                }
+        
+                                // Add points and pressures.
+                                for (let i = 0; i < XCoords.length; i++) {
+                                    eItem.points.push([XCoords[i] * 10, YCoords[i] * 10 ]);
+                                    eItem.pressures.push(item.F[i]);
+                                }
+        
+                                // Add last point.
+                                // eItem.lastCommittedPoint = eItem.points[eItem.points.length];
+        
+                                // Add it to the overall file.
+                                Excalidraw.elements.push(eItem);
                             })
     
-                            let Height = -100;
-                            const RootY = item.Y[0];
-                            const YCoords = [];
-                            item.Y.forEach(coord => {
-                                const delta = Math.abs(coord);
-                                if (delta > Height)
-                                    Height = delta;
-    
-                                YCoords.push(coord - RootY); 
+                            // Write out the page.
+                            fs.writeFile(`Converted_${path}/${page}.excalidraw.json`, JSON.stringify(Excalidraw), (err) => {
+                                if (err)
+                                    console.log(err);
                             })
-    
-                            const Seed = Math.floor(Math.random() * 1000000000);
-                            let TimeStampEnd = item.timestamp;
-                            TimeStampEnd = TimeStampEnd.substring(TimeStampEnd.indexOf(".") + 1);
-                            const eItem = {
-                                "id": Seed,
-                                "type": "freedraw",
-                                "x": RootX * 10,
-                                "y": RootY * 10,
-                                "width": Width,
-                                "height": Height,
-                                "angle": 0,
-                                "strokeColor": "#1e1e1e",
-                                "backgroundColor": "transparent",
-                                "fillStyle": "solid",
-                                "strokeWidth": 1, // TODO: Find out how to pull out the stroke width.
-                                "strokeStyle": "solid",
-                                "roughness": 1,
-                                "opacity": 100,
-                                "groupIds": [],
-                                "frameId": null,
-                                "roundness": null,
-                                "seed": Seed,
-                                "version": 22,
-                                "versionNonce": 847882817,
-                                "isDeleted": false,
-                                "boundElements": null,
-                                "updated": TimeStampEnd,
-                                "link": null,
-                                "locked": false,
-                                "points": [],
-                                "pressures": [],
-                                "simulatePressure": true,
-                                "lastCommittedPoint": null
-                            }
-    
-                            // Add points and pressures.
-                            for (let i = 0; i < XCoords.length; i++) {
-                                eItem.points.push([XCoords[i] * 10, YCoords[i] * 10 ]);
-                                eItem.pressures.push(item.F[i]);
-                            }
-    
-                            // Add last point.
-                            // eItem.lastCommittedPoint = eItem.points[eItem.points.length];
-    
-                            // Add it to the overall file.
-                            Excalidraw.elements.push(eItem);
-                        })
-
-                        // Write out the page.
-                        fs.writeFile(`Converted_${path}/${page}.excalidraw.json`, JSON.stringify(Excalidraw), (err) => {
-                            if (err)
-                                console.log(err);
-                        })
-                        resolve();
+                            resolve();
+                        } catch (e) { 
+                            // Do nothing except log since it meant the file was weird or whatever.
+                            console.log(`Error processing file ${DrawingPath}!`);
+                            console.log(e); 
+                        } 
                     })
                 }))
             })

@@ -44,15 +44,24 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
 
                 let inside = link.substring(2, link.length - 2); // Remove [[]]
                 let search = false;
+                let Matches;
 
                 // Cut off any heading 
                 if (inside.includes("#")) {
+                    // Find the file.
                     search = inside.substring(inside.indexOf("#") + 1).trim();
-                    inside = inside.substring(0, inside.indexOf("#")).trim();
+                    if (search.includes("ShowTitle")) {
+                        search = search.replace("ShowTitle", "").trim();
+                        inside = inside.substring(0, inside.indexOf("#")).trim();
+                        Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension)
+                        inside = search;
+                    } else {
+                        inside = inside.substring(0, inside.indexOf("#")).trim();
+                        Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension)
+                    }
+                } else {
+                    Matches = FindFile(`${inside}`); 
                 }
-
-                // Find the file.
-                const Matches = FindFile(`${inside}`); // inside.includes(".") ? "" : ".md" // Include ".md" if no period found (assume file extension)
                 
                 if (DEBUG)
                     console.log(`{${Matches}}, with term \`${inside}\`, replacing ${link}`);
@@ -64,8 +73,10 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
                 else newLink += URI;
 
                 // To prevent link weirdness, just manually put it into an <a> element or an <img> element if it's an image. 
-                if (!newLink.includes(".png") && !newLink.includes(".jpg"))
-                    file = file.replaceAll(link, `<a href="${newLink}" ${(IsEmbedLink ? `embed=${IsEmbedLink}` : "")} ${(search != false ? `search="${search}"` : "")}>${inside}</a>`);
+                if (!newLink.includes(".png") && !newLink.includes(".jpg")) {
+                    const finalLink = `<a href="${newLink}" ${(IsEmbedLink ? `embed=${IsEmbedLink}` : "")} ${(search != false ? `search="${search}"` : "")}>${inside}</a>`;
+                    file = file.replaceAll(link, finalLink);
+                }
                 else {
                     file = file.replaceAll('!' + link, `<img src="${newLink}">`)
                 }

@@ -69,7 +69,14 @@
                     } else {
                         // Allows for crawling links while also cutting down on load times. 
                         match.onclick = function(evt) {
-                            Load(newPage).then(e => {
+                            // Only load the new page if it's different.
+                            const LoadPromise = new Promise(res => {
+                                if (newPage != CurrentBaseDocument)
+                                    Load(newPage).then(() => res());
+                                else res();
+                            })
+
+                            LoadPromise.then(() => {
                                 // Scroll to the highlighted element
                                 if (ScrollTo != undefined) {
                                     // Get all headings.
