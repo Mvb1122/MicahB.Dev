@@ -20,7 +20,8 @@ const mimeTypes = {
     "wav": "audio/wav",
     "css": "text/css",
     "php": "text/html", // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
-    "avif": "image/avif"
+    "avif": "image/avif",
+    "webm": "video/webm"
 } 
 
 /**
@@ -483,6 +484,11 @@ const requestListener = async function (req, res) {
                     let mime = getMime(localURL);
                     res.setHeader("Content-Type", mime);
 
+                    // Always set content size.
+                    var stats = fs.statSync(localURL)
+                    var fileSizeInBytes = stats.size;
+                    res.setHeader("Content-Length", fileSizeInBytes)
+
                     // If this is an AI image file or YBN Note, tell the user's device to cache it; those images don't usually change very often.
                         // (Cache for 1 week.)
                     if ((mime.includes("image") && localURL.includes("AI")) || localURL.includes(".excalidraw.json"))
@@ -491,20 +497,11 @@ const requestListener = async function (req, res) {
                     // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
                         // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index") || localURL.includes("favicon")) {
-                        var stats = fs.statSync(localURL)
-                        var fileSizeInBytes = stats.size;
-                        res.setHeader("Content-Length", fileSizeInBytes)
                         res.end(GetFileFromCache(localURL));
                     } else if (args.compress) {
-                        var stats = fs.statSync(localURL)
-                        var fileSizeInBytes = stats.size;
-                        res.setHeader("Content-Length", fileSizeInBytes)
                         res.EndWithCompression(GetFileFromCache(localURL));
                     } else {
                         let s = fs.createReadStream(localURL);
-                        var stats = fs.statSync(localURL)
-                        var fileSizeInBytes = stats.size;
-                        res.setHeader("Content-Length", fileSizeInBytes)
                         s.on('open', function () {
                             res.setHeader('Content-Type', mime);
                             s.pipe(res);

@@ -1,0 +1,91 @@
+:root {
+    --ImageSize: max(min(10vw, 10vh), 1in);
+    --Gradient: linear-gradient(90deg, #55395a 0%, #503c5c 11%, #444663 22%, #2e566e 34%, #2a5a71 36%, #29626a 71%, #296d61 100%);
+    --Main-Width: min(80vw, 5in);
+    --Main-Height: 80vh;
+    --Border-Width: calc(var(--ImageSize) / 16);
+    --Gen-Spacing: calc(var(--ImageSize) / 4);
+}
+
+html {
+    height: 100%;
+    width: 100%;
+
+    font-family: sans-serif;
+}
+
+/* Stuff for the outer container */
+div:has(div[id]) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#Main {
+    width: var(--Main-Width);
+    height: var(--Main-Height);
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: var(--Gen-Spacing);
+    
+    border: solid var(--Border-Width) transparent;
+    background-clip: padding-box;
+    border-radius: var(--Gen-Spacing);
+
+    /* Silly border */
+    &::after {
+        /* For whatever reason this works :3 */
+        width: calc(var(--Main-Width) + 10*var(--Border-Width));
+        height: calc(var(--Main-Height) + 10*var(--Border-Width));
+        transform: translateY(calc(-5*var(--Border-Width)));
+        
+        content: '';
+        position: absolute;
+        display:block;
+        z-index: -1;
+        border-radius: inherit;
+        background: var(--Gradient);
+    }
+}
+
+
+img,
+.pfp {
+    width: var(--ImageSize);
+    height: var(--ImageSize);
+}
+
+.pfp {
+    clip-path: circle(calc(var(--ImageSize) / 2) at center);
+    background-image: url("./trans pfp.png");
+    background-size: contain
+}
+
+video {
+    position: absolute;
+    z-index: -1;
+    left: 0%;
+    top: 0%;
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    user-select: none;
+}
+
+a {
+    font-size: x-large;
+    padding-block-end: 1em;
+}
+
+p {
+    margin:0;
+}
+
+/* Hide annoying opera stuff */
+#detach-button-host {
+    display:none !important;
+}
