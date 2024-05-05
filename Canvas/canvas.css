@@ -46,6 +46,8 @@ body {
     
     margin: var(--Common-Spacing);
     padding: var(--Common-Spacing);
+
+    cursor:pointer;
 }
 
 button:hover {
