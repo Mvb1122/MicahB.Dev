@@ -14,6 +14,13 @@ html {
     font-family: sans-serif;
 }
 
+body {
+    display: flex;
+    flex-direction: row;
+    height: 99vh;
+    align-items: center;
+}
+
 /* Stuff for the outer container */
 div:has(div[id]) {
     width: 100%;
@@ -62,9 +69,11 @@ img,
 }
 
 .pfp {
-    clip-path: circle(calc(var(--ImageSize) / 2) at center);
+    clip-path: circle(at center);
     background-image: url("./trans pfp.png");
-    background-size: contain
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 video {
@@ -76,6 +85,12 @@ video {
     width: 100%;
     object-fit: fill;
     user-select: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    video {
+        filter: invert(1);
+    }
 }
 
 a {
