@@ -36,6 +36,8 @@ div:has(div[id]) {
     background-clip: padding-box;
     border-radius: var(--Gen-Spacing);
 
+    box-shadow: 6px 6px 20px 0px black;
+    
     /* Silly border */
     &::after {
         /* For whatever reason this works :3 */

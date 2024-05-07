@@ -79,6 +79,7 @@
                             LoadPromise.then(() => {
                                 // Scroll to the highlighted element
                                 if (ScrollTo != undefined) {
+                                    ScrollTo = ScrollTo.trim();
                                     // Get all headings.
                                     let headings = [
                                         document.getElementsByTagName("h1"),
