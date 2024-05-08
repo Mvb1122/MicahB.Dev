@@ -297,3 +297,8 @@ YBN > div > button:hover {
     background-color: rgb(80, 80, 80);
     color: white;
 }
+
+/* Code highlighting accesability stuff */ 
+.hljs-comment {
+    color: rgb(190, 190, 190) !important;
+}
