@@ -269,10 +269,19 @@
                             // Fix redirected media images.
                             const Images = Element.getElementsByTagName("img");
                             const folder = path.substring(0, path.lastIndexOf("\\"));
+                            const host = new URL(document.URL).host;
         
                             for (let i = 0; i < Images.length; i++) {
                                 const image = Images[i];
-                                if (image.src.includes("/Media/")) image.src = image.src.replace("/Media/", "/" + folder + "/Media/");
+                                if (image.src.includes("/Media/")) image.src = folder + new URL(image.src).pathname;
+                                
+                                /*
+                                // If image is hosted on server and errors, try to redirect it properly.
+                                    // Wait for a second in order to allow it to error.
+                                setTimeout(() => {
+                                    if (image.src.includes(host) && !image.complete) image.src = image.src.replace("./", "./" + folder);
+                                }, 1000);
+                                */
                             };
 
                             // For most pages, the loading will be done there. For YBN Notes, they can just load asynchronously, so it's not that big of a deal.
@@ -484,6 +493,7 @@
             })
         </script>
         <link rel="stylesheet" href="ObsidianViewer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JGVXR46BL"></script>

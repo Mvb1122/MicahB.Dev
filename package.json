@@ -21,6 +21,7 @@
     "discord.js": "^14.13.0",
     "events": "^3.3.0",
     "excalidraw-to-svg": "^3.0.2",
+    "highlight.js": "^11.9.0",
     "http": "0.0.1-security",
     "nodemon": "^2.0.19",
     "package.json": "^0.0.0",
