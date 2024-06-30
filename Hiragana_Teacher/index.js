@@ -204,7 +204,8 @@ function load(setID, visible = true) {
 }
 
 let chances; const DEFAULT_CHANCE = 3;
-let answerMode;
+let answerMode, kanjiMode, kanjiDisplayMode = 0;
+answerMode = kanjiMode = undefined;
 async function LoadSetAndStart(visible = true) {
     // Get the list from the server.
     listNumber = list;
@@ -247,10 +248,22 @@ async function LoadSetAndStart(visible = true) {
 
     // Set answer mode.
     answerMode = "Normal";
-    if (list.Notes != undefined && list.Notes.includes("AnswerMode")) {
-        // Slice out what the answer mode is.
-        answerMode = list.Notes.substring(list.Notes.indexOf("AnswerMode"));
-        answerMode = answerMode.substring(answerMode.indexOf(":") + 1, answerMode.indexOf(" "));
+    if (list.Notes != undefined) {
+        if (list.Notes.includes("AnswerMode")) {
+            // Slice out what the answer mode is.
+            answerMode = list.Notes.substring(list.Notes.indexOf("AnswerMode"));
+            answerMode = answerMode.substring(answerMode.indexOf(":") + 1, answerMode.indexOf("\n")).trim();
+        } else answerMode = undefined;
+
+        if (list.Notes.includes("KanjiMode")) {
+            kanjiMode = list.Notes.substring(list.Notes.indexOf("KanjiMode"));
+            kanjiMode = kanjiMode.substring(kanjiMode.indexOf(":") + 1, kanjiMode.indexOf("\n")).trim();
+
+            document.getElementById("KanjiModeButton").hidden = false;
+        } else {
+            document.getElementById("KanjiModeButton").hidden = true;
+            kanjiMode = undefined;
+        }
     }
     
     // Swap over to the game screen, also prepare prompt and answer texts.
@@ -341,15 +354,44 @@ function SelectAndDisplayACharacter() {
 
     character = keys[characterIndex], syllable = part[keys[characterIndex]];
 
+    DisplayCharacter();
+}
+
+function DisplayCharacter() {
+    let QuestionText = character.replaceAll("・", "<br>");
+
+    // If there's a kanji mode, handle it appropriately.
+    if (kanjiMode != undefined && QuestionText.includes("<br>")) {
+        const before = kanjiMode.toLowerCase().includes("before");
+
+        switch (kanjiDisplayMode) {
+            case 1: // First mode, Kanji only.
+                QuestionText = before ? QuestionText.substring(0, QuestionText.indexOf('<br>')) : QuestionText.substring(QuestionText.indexOf('<br>') + 4);
+                break;
+
+            case 2: // Second mode, Kana only.
+                QuestionText = before ? QuestionText.substring(QuestionText.indexOf('<br>') + 4) : QuestionText.substring(0, QuestionText.indexOf('<br>'));
+                break;
+
+            default: // Third mode, default.
+                break;
+        }
+    }
+
     // Display the parts. (If the user's logged in, put a Jisho link instead.)
     if (login_token == -1)
-        document.getElementById("Display").innerHTML = character.replaceAll("・", "<br>");
+        document.getElementById("Display").innerHTML = QuestionText;
     else {
-        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${character.replaceAll("・", "<br>")}</a>`;
+        document.getElementById("Display").innerHTML = `<a href="https://jisho.org/search/${character}" style="text-decoration: none;">${QuestionText}</a>`;
 
         // Also load examples here if they're requested.
         LoadCurrentExample();
     }
+}
+
+function SwapKanjiMode() {
+    kanjiDisplayMode = ++kanjiDisplayMode % 3;
+    DisplayCharacter();
 }
 
 let ExampleCache = {};
