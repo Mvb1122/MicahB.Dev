@@ -11,12 +11,8 @@ const SingleLaTeX = new RegExp(/\$(.*?)\$/g);
 // console.log("+[[School Todo]]".match(ObsidianLinkRegex).length)
 
 const fs = require('fs');
-const path = require('path');
 const Showdown = require('showdown');
 const temml = require('temml');
-const highlightjs = require('highlight.js');
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 const highlightjs = require('highlight.js');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -153,45 +149,11 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
             }
         }
 
-        // Highlight code.
-            // Instead of using regex, use worse string manip. methods in order to handle this.
-            // Regex: /<code class=".*">(.*\n*)+<\/code>/gm
-            // ^ Causes catostrophic backtracking on long files :(
-            // NOTE: this implementation assumes that there's no nested code statements.
-            // NOTE: this implementation assumes that all code blocks are closed.
-
-        let start, end = start = 0, sectionToEnd = file;
-        const startFlag = "<code", endFlag = "</code>";
-        try {
-            while (sectionToEnd.includes(startFlag)) {
-                start = sectionToEnd.indexOf(startFlag);
-                end = sectionToEnd.indexOf(endFlag) + endFlag.length;
-                let section = sectionToEnd.substring(start, end);
-                // Move sectionToEnd forward.
-                sectionToEnd = sectionToEnd.substring(end);
-                
-                // Get section inner text. 
-                const inner = new JSDOM(section);
-                section = inner.window.document.querySelector("code").textContent;
-
-                // Try to highlight them.
-                console.log("\n" + section);
-                const highlightedCode = highlightjs.highlightAuto(section).value;
-                file = file.replace(section, highlightedCode); // .substring(startFlag.length + 1, -endFlag.length)
-
-            }
-        } catch (e) {
-            if (DEBUG) { 
-                console.log(`Error in file ${GivenData.location}! Invalid code block.`)
-                console.log(e);
-            }
-        }
-
         res.statusCode = 200;
         // Just for good measure, make it decode in UTF-8.
         file = "<head><meta charset=\"UTF-8\"></head>\n" + file;
         res.setHeader("Content-Type", getMime("html"));
-        res.end(file);
+        return res.end(file);
     } else {
         /*
         const Excalidraw = require('excalidraw-to-svg');

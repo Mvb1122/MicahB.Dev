@@ -470,10 +470,11 @@
             CheckLoop();
             */
 
-            let startingStyle = {body: "", ButtonContainer: "", Heading: "", HeadingElement: ""};
+            let startingStyle = {body: "", ButtonContainer: "", Heading: "", HeadingElement: "", Content: ""};
             window.addEventListener('beforeprint', () => {
                 // Prepare screen for printing.
                 startingStyle.body = document.getElementById("body").style;
+                startingStyle.content = document.getElementById("Content").style;
                 startingStyle.ButtonContainer = document.getElementById("ButtonContainer").style;
                 startingStyle.HeadingElement = document.getElementById("Content").children[0];
                 startingStyle.Heading = startingStyle.HeadingElement.computedStyleMap();
@@ -481,6 +482,7 @@
                 // Make the page background white to save ink. Also hide buttons.
                 document.getElementById("body").style.backgroundColor = "white";
                 document.getElementById("body").style.color = "black";
+                document.getElementById("Content").style.color = "black";
                 startingStyle.HeadingElement.style.color = "black";
                 document.getElementById("ButtonContainer").style = "display: none";
             })
@@ -488,6 +490,7 @@
             window.addEventListener('afterprint', () => {
                 // Return things to normal.
                 document.getElementById("body").style = startingStyle.body;
+                document.getElementById("Content").style = startingStyle.Content;
                 document.getElementById("ButtonContainer").style = startingStyle.ButtonContainer;
                 startingStyle.HeadingElement.style = startingStyle.Heading;
             })

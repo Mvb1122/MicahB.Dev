@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PromptResponseGenerator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2410bfaa045704515b7b2e524e8479f254b0245d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c90f71a9da55826823facb10d080131b9880f01f")]
 [assembly: System.Reflection.AssemblyProductAttribute("PromptResponseGenerator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PromptResponseGenerator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
