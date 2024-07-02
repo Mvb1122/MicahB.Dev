@@ -75,7 +75,7 @@ async function SubmitSet() {
         "AnswerName": document.getElementById("AnswerName").value,
         "Set": getSetData(),
         "Visibility": document.getElementById("PublicPrivateSelector").value,
-        "Notes": document.getElementById("NotesInput").value
+        "Notes": document.getElementById("NotesInput").value.replaceAll("\n", "<br>")
     }
 
     let data = {

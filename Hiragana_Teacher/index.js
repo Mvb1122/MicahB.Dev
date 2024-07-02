@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const pageURL = "./" // Use for redirecting backend usage.
 let promptText = "";
 let answerText = "";
@@ -205,7 +206,6 @@ function load(setID, visible = true) {
 
 let chances; const DEFAULT_CHANCE = 3;
 let answerMode, kanjiMode, kanjiDisplayMode = 0;
-answerMode = kanjiMode = undefined;
 async function LoadSetAndStart(visible = true) {
     // Get the list from the server.
     listNumber = list;
@@ -246,14 +246,15 @@ async function LoadSetAndStart(visible = true) {
         SendChangesToTheServer();
     }
 
-    // Set answer mode.
+    // Set answer and kanji default mode.
     answerMode = "Normal";
+    kanjiMode = undefined;
     if (list.Notes != undefined) {
         if (list.Notes.includes("AnswerMode")) {
             // Slice out what the answer mode is.
             answerMode = list.Notes.substring(list.Notes.indexOf("AnswerMode"));
             answerMode = answerMode.substring(answerMode.indexOf(":") + 1, answerMode.indexOf("\n")).trim();
-        } else answerMode = undefined;
+        }
 
         if (list.Notes.includes("KanjiMode")) {
             kanjiMode = list.Notes.substring(list.Notes.indexOf("KanjiMode"));
@@ -358,19 +359,21 @@ function SelectAndDisplayACharacter() {
 }
 
 function DisplayCharacter() {
-    let QuestionText = character.replaceAll("・", "<br>");
+    // Use seperate lines on mobile but not on desktop.
+    const seperator = userIsMobile ? "<br>" : "・"
+    let QuestionText = character.replaceAll("・", seperator); // This is innefficient but it makes the code easier to read so whatever.
 
     // If there's a kanji mode, handle it appropriately.
-    if (kanjiMode != undefined && QuestionText.includes("<br>")) {
+    if (kanjiMode != undefined && QuestionText.includes(seperator)) {
         const before = kanjiMode.toLowerCase().includes("before");
 
         switch (kanjiDisplayMode) {
             case 1: // First mode, Kanji only.
-                QuestionText = before ? QuestionText.substring(0, QuestionText.indexOf('<br>')) : QuestionText.substring(QuestionText.indexOf('<br>') + 4);
+                QuestionText = before ? QuestionText.substring(0, QuestionText.indexOf(seperator)) : QuestionText.substring(QuestionText.indexOf(seperator) + seperator.length);
                 break;
 
             case 2: // Second mode, Kana only.
-                QuestionText = before ? QuestionText.substring(QuestionText.indexOf('<br>') + 4) : QuestionText.substring(0, QuestionText.indexOf('<br>'));
+                QuestionText = before ? QuestionText.substring(QuestionText.indexOf(seperator) + seperator.length) : QuestionText.substring(0, QuestionText.indexOf(seperator));
                 break;
 
             default: // Third mode, default.
@@ -429,7 +432,7 @@ function LoadCurrentExample() {
 }
 
 function SyllableToList(syllable) {
-    let HRAnswer = syllable;
+    let HRAnswer = syllable; // HR = Human readable
     if (syllable.indexOf("/") != -1) {
         HRAnswer = syllable.replaceAll("/", ", ");
         HRAnswer = HRAnswer.substring(0, HRAnswer.lastIndexOf(", ")) + " or " + HRAnswer.substring(HRAnswer.lastIndexOf(", ") + 1);

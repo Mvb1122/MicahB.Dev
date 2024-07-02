@@ -113,7 +113,10 @@
                 <input id="AnswerInput"><br>
                 <button id="SubmitButton" class="SubmitButton" onclick="EvaluateAnswer()">Submit</button>
                 <h3 id="PHAnswerShower"></h3>
-                <button onclick="SwapKanjiMode()" id="KanjiModeButton" hidden class="SmoothButton">Cycle Kanji mode!</button>
+                <div id="KanjiModeButton" hidden>
+                    <button onclick="SwapKanjiMode()" class="SmoothButton">Cycle Kanji mode!</button>
+                    <br>
+                </div>
                 <button onclick="ToggleGameExamples()" id="GameExampleSentenceButton" hidden class="SmoothButton">Show AI Example Sentences!</button>
                 <div id="GameExampleDiv" hidden>
                     Example Loading!
