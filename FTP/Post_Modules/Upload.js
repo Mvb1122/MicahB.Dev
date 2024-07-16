@@ -10,7 +10,7 @@ if (args.target != null && !args.target.includes("modules")) {
         data = data.subarray(start)
     }
 
-    let location = `FTP/${unescape(args.target.replaceAll("$$DOT$$", ".").replaceAll("$$SLASH$$", "/"))}`;
+    let location = `FTP/${unescape(args.target.replaceAll("$$DOT$$", ".").replaceAll("$$SLASH$$", "/"))}`//.replace(/[<>:"/\\|?*]/g, '');
 
     // If this is an AI file, attempt to rename it to use the standard naming scheme.
     if (location.includes("AI")) {
@@ -24,7 +24,7 @@ if (args.target != null && !args.target.includes("modules")) {
                 const parameters = components.parameters;
                 const maxLength = 200 - Path.length;
                 let endIndex = Math.min(maxLength, parameters.length);
-                location = `${Path}${parameters.substring(0, endIndex)}_${components.Seed}.png`;
+                location = `${Path}${parameters.substring(0, endIndex)}_${components.Seed}.png`//.replace(/[<>:"/\\|?*]/g, '');
             } catch (e) {
                 // Do nothing, since that means that the image was malformatted and we just have to trust that the client named it correctly.
             }

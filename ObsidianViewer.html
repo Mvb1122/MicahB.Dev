@@ -63,8 +63,7 @@
                         newPart.setAttribute("embed", true);
                         newPart.setAttribute("document", docName)
                         match.parentElement.replaceChild(newPart, match); // Parent is never null here. 
-    
-                        // Note, use a settimeout for loading in order to ensure that this document finishes processing first. 
+                        
                         Load(newPage, newPart.id);
                     } else {
                         // Allows for crawling links while also cutting down on load times. 
@@ -174,7 +173,8 @@
                             CurrentBaseDocument = path;
                             const title = document.createElement("h1");
                             title.id = "BaseDocumentTitle"
-                            title.innerText = path.substring(path.lastIndexOf("\\") + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
+                            let splitLocation = path.includes("\\") ? path.lastIndexOf("\\") : path.lastIndexOf("/");
+                            title.innerText = path.substring(splitLocation + 1, path.includes(".md") ? path.indexOf(".md") : path.length);
                             Element.prepend(title);
 
                             // Ask for backlinks early on. This saves a few ms.
@@ -268,7 +268,8 @@
         
                             // Fix redirected media images.
                             const Images = Element.getElementsByTagName("img");
-                            const folder = path.substring(0, path.lastIndexOf("\\"));
+                            let splitLocation = path.includes("\\") ? path.lastIndexOf("\\") : path.lastIndexOf("/");
+                            const folder = path.substring(0, splitLocation);
                             const host = new URL(document.URL).host;
         
                             for (let i = 0; i < Images.length; i++) {
