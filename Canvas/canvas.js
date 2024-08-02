@@ -1,8 +1,14 @@
-// Add draggable functions
+//#region Add draggable functions
 function drag_start(event) {
+    /**
+     * @type {CSSStyleDeclaration}
+     */
     var style = window.getComputedStyle(event.target, null);
     var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
     event.dataTransfer.setData("Text", str);
+
+    // Make the element able to be clicked through.
+    event.target.style.setProperty("pointerEvents", "none")
 
     // Show trash corner.
     document.getElementById("TrashCorner").hidden = false;
@@ -17,6 +23,9 @@ function drop(event) {
 
     // Make it so whatever you moved last always goes on top.
     dm.style.zIndex = ++last_z;
+
+    // Make it not able to be clicked through again
+    dm.style.setProperty("pointerEvents", "inherit")
     
     // If we're above the trash corner, delete it.
     const trashCorner = document.getElementById("TrashCorner");
@@ -41,6 +50,7 @@ function drag_over(event) {
     event.preventDefault();
     return false;
 }
+//#endregion
 
 /**
  * @param {Document} element element to grab all elements under.
@@ -132,6 +142,19 @@ function Add(type, url = "null") {
             element.style.width = "10em";
             element.style.resize = "both";
             element.style.position = "absolute";
+
+            // Fix the URL if it's a YouTube link.
+            var end = url.includes("&") ? url.indexOf("&") : url.length;
+            if (url.includes("youtube.com/watch")) {
+                url = url.substring(0, end).replace("watch?v=", "embed/")
+            }
+            else if (url.includes("youtu.be")) {
+                url = `https://youtube.com/embed/${url.substring(url.indexOf("be/") + 3, end)}`;
+            }
+            else if (url.includes("pornhub.com"))
+                url = url.replace("/view_video.php?viewkey=", "/embed/")
+            else if (url.includes("archive.org"))
+                url = url.replace("details", "embed")
 
             element.src = url;
             break;
@@ -310,7 +333,10 @@ function LoadContent(text) {
     EquipAllDraggable();
 
     // Copy all textarea content into its value, also make it have autosave.
-    const attachAutosave = (e, event = "DOMCharacterDataModified") => {e.addEventListener(event, () => QueueForAutoSaveToLocalStorage())};
+    const attachAutosave = (element) => {
+        element.addEventListener("input", () => QueueForAutoSaveToLocalStorage());
+        element.addEventListener("change", () => QueueForAutoSaveToLocalStorage());
+    };
     const areas = document.getElementsByTagName("textarea");
     for (let i = 0; i < areas.length; i++) {
         areas[i].value = areas[i].innerHTML;
@@ -320,10 +346,12 @@ function LoadContent(text) {
     // Find highest z-index.
     const zIndexes = text.match(/(?<=z-index: )\d?\d/g);
     let max = -100;
-    for (let i = 0; i < zIndexes.length; i++) {
-        if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
-    }
-    last_z = max;
+    if (zIndexes) {
+        for (let i = 0; i < zIndexes.length; i++) {
+            if (Number.parseInt(zIndexes[i]) > max) max = zIndexes[i];
+        }
+        last_z = max;
+    } else last_z = 0;
 
     // Make sure title is editable and causes autosave.
     const title = document.getElementsByClassName("Title")[0];

@@ -21,7 +21,8 @@ const mimeTypes = {
     "css": "text/css",
     "php": "text/html", // Note: php is declared as html content because the MTGA game dev website uses it as HTML for some reason.
     "avif": "image/avif",
-    "webm": "video/webm"
+    "webm": "video/webm",
+    "js": "text/javascript"
 } 
 
 /**
