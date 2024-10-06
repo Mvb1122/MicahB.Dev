@@ -1,3 +1,5 @@
+const path = require('path');
+
 if (args.target != null && !args.target.includes("modules")) {
     const fs = require('fs');
     // Remove header stuff and write.
@@ -11,16 +13,17 @@ if (args.target != null && !args.target.includes("modules")) {
     }
 
     let location = `FTP/${unescape(args.target.replaceAll("$$DOT$$", ".").replaceAll("$$SLASH$$", "/"))}`//.replace(/[<>:"/\\|?*]/g, '');
+    location = path.resolve(location);
 
     // If this is an AI file, attempt to rename it to use the standard naming scheme.
-    if (location.includes("AI")) {
+    if (location.includes("AI") && location.includes("FTP")) {
         // Get AI tools. 
         const AITools = require('./FTP/AI/PromptWorker.js');
         if (data.toString().includes("tEXt")) {
             try {
                 // ! The below assumes that the file is a PNG!
                 const components = await AITools.GetComponentsFromBuffer(data);
-                const Path = location.substring(0, location.lastIndexOf("/") + 1);
+                const Path = location.substring(0, location.lastIndexOf(path.sep) + 1);
                 const parameters = components.parameters;
                 const maxLength = 200 - Path.length;
                 let endIndex = Math.min(maxLength, parameters.length);
@@ -31,6 +34,7 @@ if (args.target != null && !args.target.includes("modules")) {
         }
     }
 
+    // If this file already exists, add a tag to its name.
     if (fs.existsSync(location)) {
         // Check that this isn't the second or more-th time that this file has been uploaded.
         let parts = location.split(".");
@@ -39,7 +43,6 @@ if (args.target != null && !args.target.includes("modules")) {
         // Attempt to figure out which upload number this is.
         let uploadNum = 1;
 
-        // If this file already exists, add a tag to its name.
         numLoop:
         while (true) {
             let fullPath = "";
