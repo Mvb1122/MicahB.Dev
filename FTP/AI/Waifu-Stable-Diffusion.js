@@ -131,21 +131,38 @@ async function loadImagesFromPrompt(AI, Prompt) {
     
     document.getElementById("ImageList").innerHTML = "";
     
-    let num = 0;
+    let ImageLoadIndex = 0;
     Prompt.forEach(IncludedPrompt => {
         IncludedPrompt.images.forEach(image => {
             let im = document.createElement("img");
-            im.alt = `${IncludedPrompt.promptName}`
+            im.alt = `${IncludedPrompt.promptName}`;
+
+            // Preliminary height set.
+                // Poll for the proper height until it's available. 
+            const poll = setInterval(function () {
+                if (im.naturalHeight) {
+                    clearInterval(poll);
+                    im.style.height = im.naturalHeight; im.style.width = im.naturalWidth;
+                }
+            }, 10);
+
+            // Actual height set.
             im.addEventListener("load", function() {
                 im.style.height = "auto";
             })
 
-            // The data here is controlled by the server pretty much
-            im.src = `./${AI}/${IncludedPrompt.promptName}_${image}.png`;
+            // Default height + width for extreme close up images.
+            if (IncludedPrompt.promptName.includes("extreme_close_up")) {
+                im.style.height = "512px"; im.style.width = "512px";
+            }
 
-            if (num < 3) {
+            // The data here is controlled by the server pretty much
+            const fullresURL = `./${AI}/${IncludedPrompt.promptName}_${image}.png`;
+            im.src = fullresURL + "&compress=true";
+
+            if (ImageLoadIndex < 30) {
                 im.loading = "eager";
-                num++;
+                ImageLoadIndex++;
             } else {
                 im.loading = "lazy";
             }
@@ -160,6 +177,12 @@ async function loadImagesFromPrompt(AI, Prompt) {
 
                         console.log("Does prompt pass NSFW filter? " + PassesFilter(IncludedPrompt));
                     })
+            })
+
+            // When the user hovers over the image, swap to the uncompressed version of the image.
+            im.addEventListener('mouseover', () => {
+                im.src = fullresURL;
+                im.loading = "eager";
             })
 
     
