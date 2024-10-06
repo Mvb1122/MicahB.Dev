@@ -1,0 +1,6426 @@
+{
+    "Name": "n3",
+    "ObjectName": "word",
+    "AnswerName": "translation",
+    "Set": [
+        {
+            "作法・さほう": "manners"
+        },
+        {
+            "様々・さまざま": "varied"
+        },
+        {
+            "冷ます・さます": "to cool"
+        },
+        {
+            "覚ます・さます": "to awaken"
+        },
+        {
+            "冷める・さめる": "to become cool"
+        },
+        {
+            "覚める・さめる": "to wake"
+        },
+        {
+            "左右・さゆう": "left and right; influence"
+        },
+        {
+            "皿・さら": "plate"
+        },
+        {
+            "更に・さらに": "furthermore"
+        },
+        {
+            "去る・さる": "to leave"
+        },
+        {
+            "猿・さる": "monkey"
+        },
+        {
+            "騒ぎ・さわぎ": "uproar"
+        },
+        {
+            "参加・さんか": "participation"
+        },
+        {
+            "参考・さんこう": "reference"
+        },
+        {
+            "賛成・さんせい": "approval"
+        },
+        {
+            "酸性・さんせい": "acidity"
+        },
+        {
+            "酸素・さんそ": "oxygen"
+        },
+        {
+            "氏・し": "family name"
+        },
+        {
+            "詩・し": "poem; poetry"
+        },
+        {
+            "幸せ・しあわせ": "happiness"
+        },
+        {
+            "ジーンズ・ジーンズ": "jeans"
+        },
+        {
+            "ジェット機・ジェットき": "jet plane"
+        },
+        {
+            "四角・しかく": "square"
+        },
+        {
+            "直に・じかに": "immediately"
+        },
+        {
+            "しかも・しかも": "moreover"
+        },
+        {
+            "四季・しき": "four seasons"
+        },
+        {
+            "直・じき": "immediately"
+        },
+        {
+            "時期・じき": "time"
+        },
+        {
+            "支給・しきゅう": "payment"
+        },
+        {
+            "至急・しきゅう": "urgent"
+        },
+        {
+            "しきりに・しきりに": "frequently"
+        },
+        {
+            "刺激・しげき": "stimulus"
+        },
+        {
+            "資源・しげん": "resources"
+        },
+        {
+            "事件・じけん": "event"
+        },
+        {
+            "時刻・じこく": "time"
+        },
+        {
+            "自殺・じさつ": "suicide"
+        },
+        {
+            "事実・じじつ": "fact"
+        },
+        {
+            "支出・ししゅつ": "expenditure"
+        },
+        {
+            "事情・じじょう": "circumstances"
+        },
+        {
+            "詩人・しじん": "poet"
+        },
+        {
+            "自身・じしん": "oneself"
+        },
+        {
+            "沈む・しずむ": "to sink; to feel depressed"
+        },
+        {
+            "自然・しぜん": "nature"
+        },
+        {
+            "思想・しそう": "thought"
+        },
+        {
+            "舌・した": "tongue"
+        },
+        {
+            "次第・しだい": "order; circumstances; immediate(ly)"
+        },
+        {
+            "従う・したがう": "to abide (by the rules)"
+        },
+        {
+            "したがって・したがって": "therefore"
+        },
+        {
+            "親しい・したしい": "intimate"
+        },
+        {
+            "質・しつ": "quality"
+        },
+        {
+            "失業・しつぎょう": "unemployment"
+        },
+        {
+            "湿気・しっけ": "moisture"
+        },
+        {
+            "実験・じっけん": "lab work; experiment"
+        },
+        {
+            "実現・じつげん": "implementation"
+        },
+        {
+            "実行・じっこう": "practice"
+        },
+        {
+            "実際・じっさい": "in fact; in actuality"
+        },
+        {
+            "実施・じっし": "enforcement"
+        },
+        {
+            "湿度・しつど": "humidity"
+        },
+        {
+            "じっと・じっと": "patiently"
+        },
+        {
+            "実に・じつに": "indeed"
+        },
+        {
+            "実は・じつは": "actually; in fact"
+        },
+        {
+            "失望・しつぼう": "disappointment"
+        },
+        {
+            "実力・じつりょく": "ability; force"
+        },
+        {
+            "支店・してん": "branch store (office)"
+        },
+        {
+            "指導・しどう": "leadership"
+        },
+        {
+            "自動・じどう": "automatic"
+        },
+        {
+            "児童・じどう": "children"
+        },
+        {
+            "品・しな": "thing"
+        },
+        {
+            "支配・しはい": "rule"
+        },
+        {
+            "芝居・しばい": "play"
+        },
+        {
+            "しばしば・しばしば": "often"
+        },
+        {
+            "芝生・しばふ": "lawn"
+        },
+        {
+            "支払・しはらい": "payment"
+        },
+        {
+            "支払う・しはらう": "to pay"
+        },
+        {
+            "死亡・しぼう": "death"
+        },
+        {
+            "資本・しほん": "funds"
+        },
+        {
+            "姉妹・しまい": "sisters"
+        },
+        {
+            "しまった (かん)・しまった (かん)": "Damn it!"
+        },
+        {
+            "自慢・じまん": "pride"
+        },
+        {
+            "地味・じみ": "quiet"
+        },
+        {
+            "示す・しめす": "to show"
+        },
+        {
+            "占める・しめる": "to take up; to account for"
+        },
+        {
+            "湿る・しめる": "to be wet"
+        },
+        {
+            "下・しも": "under"
+        },
+        {
+            "霜・しも": "frost"
+        },
+        {
+            "借金・しゃっきん": "debt"
+        },
+        {
+            "しゃべる・しゃべる": "to talk"
+        },
+        {
+            "週・しゅう": "week"
+        },
+        {
+            "州・しゅう": "state"
+        },
+        {
+            "銃・じゅう": "gun"
+        },
+        {
+            "周囲・しゅうい": "surroundings"
+        },
+        {
+            "収穫・しゅうかく": "harvest"
+        },
+        {
+            "宗教・しゅうきょう": "religion"
+        },
+        {
+            "重視・じゅうし": "importance"
+        },
+        {
+            "就職・しゅうしょく": "finding employment"
+        },
+        {
+            "ジュース・ジュース": "juice"
+        },
+        {
+            "修正・しゅうせい": "amendment"
+        },
+        {
+            "重体・じゅうたい": "seriously ill"
+        },
+        {
+            "渋滞・じゅうたい": "congestion (e.g."
+        },
+        {
+            "重大・じゅうだい": "serious"
+        },
+        {
+            "住宅・じゅうたく": "resident"
+        },
+        {
+            "集団・しゅうだん": "group"
+        },
+        {
+            "集中・しゅうちゅう": "concentration"
+        },
+        {
+            "収入・しゅうにゅう": "income"
+        },
+        {
+            "住民・じゅうみん": "inhabitants"
+        },
+        {
+            "重要・じゅうよう": "important"
+        },
+        {
+            "修理・しゅうり": "repairing"
+        },
+        {
+            "主義・しゅぎ": "doctrine"
+        },
+        {
+            "宿泊・しゅくはく": "lodging"
+        },
+        {
+            "手術・しゅじゅつ": "surgical operation"
+        },
+        {
+            "首相・しゅしょう": "Prime Minister"
+        },
+        {
+            "手段・しゅだん": "means"
+        },
+        {
+            "主張・しゅちょう": "claim"
+        },
+        {
+            "出場・しゅつじょう": "participation"
+        },
+        {
+            "出身・しゅっしん": "come from"
+        },
+        {
+            "出版・しゅっぱん": "publication"
+        },
+        {
+            "首都・しゅと": "capital city"
+        },
+        {
+            "主婦・しゅふ": "housewife"
+        },
+        {
+            "主要・しゅよう": "chief"
+        },
+        {
+            "需要・じゅよう": "demand"
+        },
+        {
+            "種類・しゅるい": "variety"
+        },
+        {
+            "順・じゅん": "order"
+        },
+        {
+            "瞬間・しゅんかん": "moment"
+        },
+        {
+            "順調・じゅんちょう": "doing well"
+        },
+        {
+            "順番・じゅんばん": "turn (in line)"
+        },
+        {
+            "使用・しよう": "use (same as 使うこと (つかうこと))"
+        },
+        {
+            "小・しょう": "small"
+        },
+        {
+            "章・しょう": "chapter"
+        },
+        {
+            "賞・しょう": "prize"
+        },
+        {
+            "上・じょう": "first volume; superior quality; governmental"
+        },
+        {
+            "障害・しょうがい": "obstacle"
+        },
+        {
+            "奨学金・しょうがくきん": "scholarship"
+        },
+        {
+            "乗客・じょうきゃく": "passenger"
+        },
+        {
+            "上京・じょうきょう": "proceeding to the capital (Tokyo)"
+        },
+        {
+            "状況・じょうきょう": "state of affairs"
+        },
+        {
+            "条件・じょうけん": "conditions"
+        },
+        {
+            "正午・しょうご": "noon"
+        },
+        {
+            "正直・しょうじき": "honesty"
+        },
+        {
+            "常識・じょうしき": "common sense"
+        },
+        {
+            "少女・しょうじょ": "young girl"
+        },
+        {
+            "少々・しょうしょう": "a little; short (time) (formal for 少し (すこし))"
+        },
+        {
+            "症状・しょうじょう": "symptoms"
+        },
+        {
+            "生じる・しょうじる": "to occur"
+        },
+        {
+            "状態・じょうたい": "condition"
+        },
+        {
+            "上達・じょうたつ": "improvement"
+        },
+        {
+            "冗談・じょうだん": "a joke"
+        },
+        {
+            "上等・じょうとう": "first class"
+        },
+        {
+            "衝突・しょうとつ": "collision"
+        },
+        {
+            "商人・しょうにん": "trader"
+        },
+        {
+            "承認・しょうにん": "recognition"
+        },
+        {
+            "少年・しょうねん": "boys"
+        },
+        {
+            "商売・しょうばい": "trade"
+        },
+        {
+            "消費・しょうひ": "consumption"
+        },
+        {
+            "商品・しょうひん": "commodity"
+        },
+        {
+            "賞品・しょうひん": "prize"
+        },
+        {
+            "消防・しょうぼう": "fire fighting"
+        },
+        {
+            "情報・じょうほう": "information"
+        },
+        {
+            "証明・しょうめい": "proof"
+        },
+        {
+            "省略・しょうりゃく": "omission"
+        },
+        {
+            "女王・じょおう": "queen"
+        },
+        {
+            "職・しょく": "employment"
+        },
+        {
+            "職業・しょくぎょう": "occupation"
+        },
+        {
+            "食卓・しょくたく": "dining table"
+        },
+        {
+            "食品・しょくひん": "foodstuff"
+        },
+        {
+            "植物・しょくぶつ": "plant"
+        },
+        {
+            "食物・しょくもつ": "food"
+        },
+        {
+            "食欲・しょくよく": "appetite (for food)"
+        },
+        {
+            "食料・しょくりょう": "food"
+        },
+        {
+            "食糧・しょくりょう": "provisions"
+        },
+        {
+            "書斎・しょさい": "study"
+        },
+        {
+            "女子・じょし": "woman"
+        },
+        {
+            "助手・じょしゅ": "helper"
+        },
+        {
+            "徐々に・じょじょに": "slowly"
+        },
+        {
+            "署名・しょめい": "signature"
+        },
+        {
+            "書物・しょもつ": "books"
+        },
+        {
+            "女優・じょゆう": "actress"
+        },
+        {
+            "処理・しょり": "processing"
+        },
+        {
+            "書類・しょるい": "documents"
+        },
+        {
+            "知らせ・しらせ": "notice"
+        },
+        {
+            "尻・しり": "buttocks"
+        },
+        {
+            "知合い・しりあい": "acquaintance"
+        },
+        {
+            "印・しるし": "mark; symbol; evidence"
+        },
+        {
+            "城・しろ": "castle"
+        },
+        {
+            "進学・しんがく": "going on to university"
+        },
+        {
+            "神経・しんけい": "nerve"
+        },
+        {
+            "真剣・しんけん": "seriousness"
+        },
+        {
+            "信仰・しんこう": "(religious) faith"
+        },
+        {
+            "信号・しんごう": "traffic lights"
+        },
+        {
+            "人工・じんこう": "artificial"
+        },
+        {
+            "深刻・しんこく": "serious"
+        },
+        {
+            "診察・しんさつ": "medical examination (of a patient)"
+        },
+        {
+            "人種・じんしゅ": "race (of people)"
+        },
+        {
+            "信じる・しんじる": "to believe"
+        },
+        {
+            "人生・じんせい": "(human) life (e.g."
+        },
+        {
+            "親戚・しんせき": "relative(s)"
+        },
+        {
+            "新鮮・しんせん": "fresh"
+        },
+        {
+            "心臓・しんぞう": "heart"
+        },
+        {
+            "身体・しんたい": "the body"
+        },
+        {
+            "身長・しんちょう": "height (of body)"
+        },
+        {
+            "慎重・しんちょう": "careful"
+        },
+        {
+            "審判・しんぱん": "umpire"
+        },
+        {
+            "人物・じんぶつ": "character"
+        },
+        {
+            "進歩・しんぽ": "improvement"
+        },
+        {
+            "親友・しんゆう": "close friend"
+        },
+        {
+            "信用・しんよう": "confidence"
+        },
+        {
+            "信頼・しんらい": "reliance"
+        },
+        {
+            "心理・しんり": "mentality"
+        },
+        {
+            "人類・じんるい": "mankind"
+        },
+        {
+            "巣・す": "nest"
+        },
+        {
+            "酢・す": "vinegar"
+        },
+        {
+            "図・ず": "figure"
+        },
+        {
+            "水準・すいじゅん": "level"
+        },
+        {
+            "推薦・すいせん": "recommendation"
+        },
+        {
+            "スイッチ・スイッチ": "switch"
+        },
+        {
+            "睡眠・すいみん": "sleep"
+        },
+        {
+            "数・すう": "number"
+        },
+        {
+            "数字・すうじ": "numeral"
+        },
+        {
+            "スープ・スープ": "(Western) soup"
+        },
+        {
+            "末・すえ": "the end of"
+        },
+        {
+            "姿・すがた": "figure"
+        },
+        {
+            "スキー・スキー": "ski"
+        },
+        {
+            "救う・すくう": "to rescue from"
+        },
+        {
+            "すくなくとも・すくなくとも": "at least"
+        },
+        {
+            "優れる・すぐれる": "to surpass"
+        },
+        {
+            "スケート・スケート": "skate(s)"
+        },
+        {
+            "スケジュール・スケジュール": "schedule"
+        },
+        {
+            "少しも・すこしも": "anything of"
+        },
+        {
+            "過ごす・すごす": "to pass"
+        },
+        {
+            "筋・すじ": "muscle"
+        },
+        {
+            "進める・すすめる": "to advance"
+        },
+        {
+            "勧める・すすめる": "to urge (someone) to do (something)"
+        },
+        {
+            "スター・スター": "star"
+        },
+        {
+            "スタイル・スタイル": "style"
+        },
+        {
+            "スタンド・スタンド": "stand"
+        },
+        {
+            "頭痛・ずつう": "headache"
+        },
+        {
+            "ずっと・ずっと": "for a long time; all the time; consecutively"
+        },
+        {
+            "すっぱい・すっぱい": "sour"
+        },
+        {
+            "すてき・すてき": "lovely"
+        },
+        {
+            "既に・すでに": "already (same as もう)"
+        },
+        {
+            "すなわち・すなわち": "that is"
+        },
+        {
+            "スピーチ・スピーチ": "speech"
+        },
+        {
+            "全て・すべて": "all"
+        },
+        {
+            "済ませる・すませる": "to be finished"
+        },
+        {
+            "角・すみ": "corner"
+        },
+        {
+            "墨・すみ": "ink"
+        },
+        {
+            "すみません (かん)・すみません (かん)": "sorry"
+        },
+        {
+            "澄む・すむ": "to clear (e.g."
+        },
+        {
+            "清む・すむ": "to clear (e.g."
+        },
+        {
+            "刷る・する": "to print"
+        },
+        {
+            "為る・する": "to do"
+        },
+        {
+            "鋭い・するどい": "pointed"
+        },
+        {
+            "すれ違う・すれちがう": "to pass by one another"
+        },
+        {
+            "ずれる・ずれる": "move"
+        },
+        {
+            "正・せい": "(logical) true"
+        },
+        {
+            "生・せい": "birth"
+        },
+        {
+            "性・せい": "sex"
+        },
+        {
+            "姓・せい": "surname"
+        },
+        {
+            "所為・せい": "cause"
+        },
+        {
+            "税・ぜい": "tax"
+        },
+        {
+            "性格・せいかく": "character"
+        },
+        {
+            "正確・せいかく": "accurate"
+        },
+        {
+            "世紀・せいき": "century"
+        },
+        {
+            "請求・せいきゅう": "claim"
+        },
+        {
+            "税金・ぜいきん": "tax"
+        },
+        {
+            "清潔・せいけつ": "clean"
+        },
+        {
+            "制限・せいげん": "restriction"
+        },
+        {
+            "成功・せいこう": "success"
+        },
+        {
+            "正式・せいしき": "official"
+        },
+        {
+            "性質・せいしつ": "nature"
+        },
+        {
+            "精神・せいしん": "mind"
+        },
+        {
+            "成人・せいじん": "adult"
+        },
+        {
+            "精々・せいぜい": "at the most"
+        },
+        {
+            "成績・せいせき": "grade (i.e."
+        },
+        {
+            "製造・せいぞう": "manufacture"
+        },
+        {
+            "贅沢・ぜいたく": "luxury"
+        },
+        {
+            "成長・せいちょう": "growth"
+        },
+        {
+            "生長・せいちょう": "growth"
+        },
+        {
+            "制度・せいど": "system"
+        },
+        {
+            "青年・せいねん": "youth"
+        },
+        {
+            "生年月日・せいねんがっぴ": "birth date"
+        },
+        {
+            "製品・せいひん": "manufactured goods"
+        },
+        {
+            "政府・せいふ": "government"
+        },
+        {
+            "生物・せいぶつ": "living thing"
+        },
+        {
+            "生命・せいめい": "life"
+        },
+        {
+            "整理・せいり": "sorting"
+        },
+        {
+            "咳・せき": "cough"
+        },
+        {
+            "石炭・せきたん": "coal"
+        },
+        {
+            "責任・せきにん": "duty"
+        },
+        {
+            "石油・せきゆ": "oil"
+        },
+        {
+            "世間・せけん": "world"
+        },
+        {
+            "説・せつ": "theory"
+        },
+        {
+            "積極的・せっきょくてき": "positive"
+        },
+        {
+            "設計・せっけい": "plan"
+        },
+        {
+            "絶対・ぜったい": "definitely"
+        },
+        {
+            "セット・セット": "set"
+        },
+        {
+            "愛・あい": "love"
+        },
+        {
+            "相変わらず・あいかわらず": "as ever"
+        },
+        {
+            "愛情・あいじょう": "love"
+        },
+        {
+            "合図・あいず": "sign"
+        },
+        {
+            "アイスクリーム・アイスクリーム": "ice cream"
+        },
+        {
+            "愛する・あいする": "to love"
+        },
+        {
+            "相手・あいて": "partner; addressee; the person you are talking to"
+        },
+        {
+            "あいにく・あいにく": "unfortunately"
+        },
+        {
+            "遭う・あう": "to meet"
+        },
+        {
+            "アウト・アウト": "out"
+        },
+        {
+            "明かり・あかり": "lamplight"
+        },
+        {
+            "空き・あき": "vacancy"
+        },
+        {
+            "明らか・あきらか": "obvious"
+        },
+        {
+            "諦める・あきらめる": "to give up"
+        },
+        {
+            "飽きる・あきる": "to get tired of"
+        },
+        {
+            "握手・あくしゅ": "handshake"
+        },
+        {
+            "悪魔・あくま": "devil"
+        },
+        {
+            "明ける・あける": "to dawn"
+        },
+        {
+            "揚げる・あげる": "to lift"
+        },
+        {
+            "挙げる・あげる": "to raise; to list"
+        },
+        {
+            "預かる・あずかる": "to keep (something) for (someone)"
+        },
+        {
+            "預ける・あずける": "to give into custody"
+        },
+        {
+            "汗・あせ": "sweat"
+        },
+        {
+            "与える・あたえる": "to give"
+        },
+        {
+            "温かい・あたたかい": "warm"
+        },
+        {
+            "暖まる・あたたまる": "to warm up"
+        },
+        {
+            "温まる・あたたまる": "to warm oneself"
+        },
+        {
+            "暖める・あたためる": "to warm (up to someone/something)"
+        },
+        {
+            "温める・あたためる": "to warm"
+        },
+        {
+            "辺り・あたり": "vicinity"
+        },
+        {
+            "当たり前・あたりまえ": "usual"
+        },
+        {
+            "当たる・あたる": "to be hit"
+        },
+        {
+            "あちこち・あちこち": "here and there"
+        },
+        {
+            "扱う・あつかう": "to treat"
+        },
+        {
+            "集まり・あつまり": "gathering"
+        },
+        {
+            "当てる・あてる": "to hit; to apply to"
+        },
+        {
+            "跡・あと": "trace; remains; scar"
+        },
+        {
+            "穴・あな": "hole"
+        },
+        {
+            "油・あぶら": "oil"
+        },
+        {
+            "脂・あぶら": "fat"
+        },
+        {
+            "誤り・あやまり": "error"
+        },
+        {
+            "粗・あら": "defect"
+        },
+        {
+            "嵐・あらし": "storm"
+        },
+        {
+            "争う・あらそう": "to dispute"
+        },
+        {
+            "新た・あらた": "new"
+        },
+        {
+            "あらゆる・あらゆる": "all"
+        },
+        {
+            "表す・あらわす": "to express"
+        },
+        {
+            "現す・あらわす": "to show"
+        },
+        {
+            "著す・あらわす": "to write"
+        },
+        {
+            "現れ・あらわれ": "expression"
+        },
+        {
+            "現れる・あらわれる": "to appear (v.i.)"
+        },
+        {
+            "ありがとう・ありがとう": "Thank you"
+        },
+        {
+            "在る; 有る・ある": "to live"
+        },
+        {
+            "或・ある": "a certain..."
+        },
+        {
+            "あるいは・あるいは": "or"
+        },
+        {
+            "アルバム・アルバム": "album"
+        },
+        {
+            "泡・あわ": "bubble"
+        },
+        {
+            "合わせる・あわせる": "to combine"
+        },
+        {
+            "慌てる・あわてる": "to become confused、to panic"
+        },
+        {
+            "哀れ・あわれ": "helpless"
+        },
+        {
+            "案・あん": "plan"
+        },
+        {
+            "案外・あんがい": "unexpectedly"
+        },
+        {
+            "暗記・あんき": "memorization"
+        },
+        {
+            "安定・あんてい": "stability"
+        },
+        {
+            "あんなに・あんなに": "to that extent"
+        },
+        {
+            "あんまり・あんまり": "not very"
+        },
+        {
+            "胃・い": "stomach"
+        },
+        {
+            "委員・いいん": "committee member"
+        },
+        {
+            "意外・いがい": "unexpected"
+        },
+        {
+            "行き・いき": "going"
+        },
+        {
+            "行き・ゆき": "going"
+        },
+        {
+            "息・いき": "breath"
+        },
+        {
+            "勢い・いきおい": "force"
+        },
+        {
+            "生き物・いきもの": "living thing"
+        },
+        {
+            "いけない・いけない": "must not do"
+        },
+        {
+            "医師・いし": "doctor"
+        },
+        {
+            "意思・いし": "intention"
+        },
+        {
+            "意志・いし": "will"
+        },
+        {
+            "維持・いじ": "maintenance"
+        },
+        {
+            "意識・いしき": "consciousness"
+        },
+        {
+            "異常・いじょう": "strangeness"
+        },
+        {
+            "意地悪・いじわる": "malicious"
+        },
+        {
+            "泉・いずみ": "spring"
+        },
+        {
+            "いずれ・いずれ": "where"
+        },
+        {
+            "以前・いぜん": "in the past; before"
+        },
+        {
+            "板・いた": "board"
+        },
+        {
+            "偉大・いだい": "greatness"
+        },
+        {
+            "抱く・いだく": "to hold (v.t.) (written expression)"
+        },
+        {
+            "いたずら・いたずら": "trick"
+        },
+        {
+            "いただきます・いただきます": "expression of gratitude before meals"
+        },
+        {
+            "痛み・いたみ": "pain"
+        },
+        {
+            "至る・いたる": "to come"
+        },
+        {
+            "市・いち": "market"
+        },
+        {
+            "位置・いち": "place"
+        },
+        {
+            "一時・いちじ": "for a time"
+        },
+        {
+            "一度に・いちどに": "all at once"
+        },
+        {
+            "市場・いちば": "market"
+        },
+        {
+            "いつか・いつか": "sometime"
+        },
+        {
+            "一家・いっか": "family"
+        },
+        {
+            "一種・いっしゅ": "a species"
+        },
+        {
+            "一瞬・いっしゅん": "a moment"
+        },
+        {
+            "一生・いっしょう": "throughout (one's) life"
+        },
+        {
+            "一層・いっそう": "much more"
+        },
+        {
+            "一体・いったい": "one object; body; what on earth?; generally"
+        },
+        {
+            "一致・いっち": "agreement; conformity"
+        },
+        {
+            "いつでも・いつでも": "(at) any time"
+        },
+        {
+            "いつのまにか・いつのまにか": "before one knows"
+        },
+        {
+            "一般・いっぱん": "general"
+        },
+        {
+            "一方・いっぽう": "on the other hand; meanwhile"
+        },
+        {
+            "いつまでも・いつまでも": "forever"
+        },
+        {
+            "移動・いどう": "migration"
+        },
+        {
+            "従兄弟・いとこ": "cousin (male)"
+        },
+        {
+            "従姉妹・いとこ": "cousin (female)"
+        },
+        {
+            "稲・いね": "rice-plant"
+        },
+        {
+            "居眠り・いねむり": "dozing"
+        },
+        {
+            "命・いのち": "life"
+        },
+        {
+            "違反・いはん": "violation (of law)"
+        },
+        {
+            "衣服・いふく": "clothes"
+        },
+        {
+            "居間・いま": "living room"
+        },
+        {
+            "今に・いまに": "before long"
+        },
+        {
+            "今にも・いまにも": "at any time"
+        },
+        {
+            "イメージ・イメージ": "one's image"
+        },
+        {
+            "否・いや": "no"
+        },
+        {
+            "以来・いらい": "since"
+        },
+        {
+            "依頼・いらい": "request; dependence"
+        },
+        {
+            "いらいら・いらいら": "getting nervous"
+        },
+        {
+            "いらっしゃい・いらっしゃい": "welcome"
+        },
+        {
+            "医療・いりょう": "medical care"
+        },
+        {
+            "岩・いわ": "rock"
+        },
+        {
+            "祝い・いわい": "celebration"
+        },
+        {
+            "祝う・いわう": "to congratulate"
+        },
+        {
+            "言わば・いわば": "so to speak"
+        },
+        {
+            "いわゆる・いわゆる": "the so-called"
+        },
+        {
+            "インク・インク": "ink"
+        },
+        {
+            "印刷・いんさつ": "printing"
+        },
+        {
+            "印象・いんしょう": "impression"
+        },
+        {
+            "引退・いんたい": "retirement"
+        },
+        {
+            "インタビュー・インタビュー": "interview"
+        },
+        {
+            "引用・いんよう": "quotation"
+        },
+        {
+            "ウイスキー・ウイスキー": "whiskey"
+        },
+        {
+            "上・うわ": "upper"
+        },
+        {
+            "魚・うお": "fish"
+        },
+        {
+            "うがい・うがい": "gargling"
+        },
+        {
+            "受け取る・うけとる": "to receive"
+        },
+        {
+            "動かす・うごかす": "to move"
+        },
+        {
+            "兎・うさぎ": "rabbit"
+        },
+        {
+            "牛・うし": "cattle"
+        },
+        {
+            "失う・うしなう": "to lose"
+        },
+        {
+            "疑う・うたがう": "to doubt"
+        },
+        {
+            "宇宙・うちゅう": "universe"
+        },
+        {
+            "討つ・うつ": "to attack"
+        },
+        {
+            "撃つ・うつ": "to attack"
+        },
+        {
+            "うっかり・うっかり": "carelessly; inadvertently"
+        },
+        {
+            "映す・うつす": "to project"
+        },
+        {
+            "訴える・うったえる": "to complain"
+        },
+        {
+            "写る・うつる": "to be photographed"
+        },
+        {
+            "映る・うつる": "to be reflected"
+        },
+        {
+            "うなる・うなる": "to groan"
+        },
+        {
+            "奪う・うばう": "to rob"
+        },
+        {
+            "馬・うま": "horse; promoted bishop (in Japanese chess known as shogi)"
+        },
+        {
+            "生まれ・うまれ": "birth"
+        },
+        {
+            "有無・うむ": "yes or no"
+        },
+        {
+            "梅・うめ": "plum"
+        },
+        {
+            "埋める・うめる": "to bury"
+        },
+        {
+            "裏切る・うらぎる": "to betray"
+        },
+        {
+            "羨ましい・うらやましい": "envious"
+        },
+        {
+            "売れる・うれる": "to be sold"
+        },
+        {
+            "噂・うわさ": "rumor"
+        },
+        {
+            "運・うん": "fortune"
+        },
+        {
+            "運転・うんてん": "operation"
+        },
+        {
+            "柄・え": "handle (of a sword"
+        },
+        {
+            "永遠・えいえん": "eternity"
+        },
+        {
+            "永久・えいきゅう": "eternity"
+        },
+        {
+            "影響・えいきょう": "influence"
+        },
+        {
+            "営業・えいぎょう": "business"
+        },
+        {
+            "衛星・えいせい": "satellite"
+        },
+        {
+            "栄養・えいよう": "nutrition"
+        },
+        {
+            "笑顔・えがお": "smile (on one's face)"
+        },
+        {
+            "描く・えがく": "to draw"
+        },
+        {
+            "餌・えさ": "feed"
+        },
+        {
+            "エネルギー・エネルギー": "energy (GER: energie)"
+        },
+        {
+            "得る・える": "to get"
+        },
+        {
+            "得る・うる": "to get"
+        },
+        {
+            "円・えん": "circle"
+        },
+        {
+            "延期・えんき": "postponement"
+        },
+        {
+            "演技・えんぎ": "acting"
+        },
+        {
+            "援助・えんじょ": "assistance"
+        },
+        {
+            "エンジン・エンジン": "engine"
+        },
+        {
+            "演説・えんぜつ": "speech"
+        },
+        {
+            "演奏・えんそう": "musical performance"
+        },
+        {
+            "老い・おい": "old age"
+        },
+        {
+            "追い付く・おいつく": "to overtake"
+        },
+        {
+            "王・おう": "king"
+        },
+        {
+            "追う・おう": "to chase"
+        },
+        {
+            "応援・おうえん": "aid"
+        },
+        {
+            "王様・おうさま": "king"
+        },
+        {
+            "王子・おうじ": "prince"
+        },
+        {
+            "応じる・おうじる": "to adapt"
+        },
+        {
+            "横断・おうだん": "crossing"
+        },
+        {
+            "終える・おえる": "to finish"
+        },
+        {
+            "大いに・おおいに": "much"
+        },
+        {
+            "覆う・おおう": "to cover"
+        },
+        {
+            "大家・おおや": "landlord"
+        },
+        {
+            "丘・おか": "hill"
+        },
+        {
+            "沖・おき": "open sea"
+        },
+        {
+            "奥・おく": "interior"
+        },
+        {
+            "贈る・おくる": "to present"
+        },
+        {
+            "起こる・おこる": "to occur"
+        },
+        {
+            "押える・おさえる": "to stop"
+        },
+        {
+            "幼い・おさない": "very young"
+        },
+        {
+            "収める・おさめる": "to store to pay"
+        },
+        {
+            "納める・おさめる": "to store to pay"
+        },
+        {
+            "治める・おさめる": "to govern"
+        },
+        {
+            "お辞儀・おじぎ": "bow"
+        },
+        {
+            "お洒落・おしゃれ": "smartly dressed"
+        },
+        {
+            "お喋り・おしゃべり": "chattering"
+        },
+        {
+            "汚染・おせん": "pollution"
+        },
+        {
+            "恐らく・おそらく": "perhaps"
+        },
+        {
+            "恐れる・おそれる": "to fear"
+        },
+        {
+            "恐ろしい・おそろしい": "terrible"
+        },
+        {
+            "教わる・おそわる": "to be taught"
+        },
+        {
+            "お互い・おたがい": "mutual"
+        },
+        {
+            "穏やか・おだやか": "calm"
+        },
+        {
+            "男の人・おとこのひと": "man"
+        },
+        {
+            "大人しい・おとなしい": "obedient"
+        },
+        {
+            "劣る・おとる": "to fall behind"
+        },
+        {
+            "鬼・おに": "ogre"
+        },
+        {
+            "帯・おび": "band"
+        },
+        {
+            "お昼・おひる": "lunch"
+        },
+        {
+            "オフィス・オフィス": "office"
+        },
+        {
+            "溺れる・おぼれる": "to be drowned"
+        },
+        {
+            "お前・おまえ": "you (sing)"
+        },
+        {
+            "おめでとう・おめでとう": "Congratulations!"
+        },
+        {
+            "お目に掛かる・おめにかかる": "meet ~"
+        },
+        {
+            "思い付く・おもいつく": "to think of"
+        },
+        {
+            "思い出・おもいで": "memories"
+        },
+        {
+            "主に・おもに": "mainly"
+        },
+        {
+            "思わず・おもわず": "unintentional"
+        },
+        {
+            "泳ぎ・およぎ": "swimming"
+        },
+        {
+            "およそ・およそ": "about"
+        },
+        {
+            "及ぼす・およぼす": "to exert"
+        },
+        {
+            "下す・おろす": "to lower"
+        },
+        {
+            "降ろす・おろす": "to take down"
+        },
+        {
+            "卸す・おろす": "to sell wholesale"
+        },
+        {
+            "音・おん": "sound"
+        },
+        {
+            "恩・おん": "favor"
+        },
+        {
+            "温暖・おんだん": "warmth"
+        },
+        {
+            "温度・おんど": "temperature"
+        },
+        {
+            "可・か": "passable"
+        },
+        {
+            "蚊・か": "mosquito"
+        },
+        {
+            "課・か": "department"
+        },
+        {
+            "カー・カー": "car"
+        },
+        {
+            "カード・カード": "card"
+        },
+        {
+            "貝・かい": "shell"
+        },
+        {
+            "害・がい": "harm"
+        },
+        {
+            "会員・かいいん": "member"
+        },
+        {
+            "絵画・かいが": "picture"
+        },
+        {
+            "海外・かいがい": "foreign"
+        },
+        {
+            "会計・かいけい": "account"
+        },
+        {
+            "解決・かいけつ": "settlement"
+        },
+        {
+            "会合・かいごう": "meeting"
+        },
+        {
+            "外交・がいこう": "diplomacy"
+        },
+        {
+            "開始・かいし": "start"
+        },
+        {
+            "解釈・かいしゃく": "explanation"
+        },
+        {
+            "外出・がいしゅつ": "outing"
+        },
+        {
+            "改善・かいぜん": "betterment"
+        },
+        {
+            "快適・かいてき": "pleasant"
+        },
+        {
+            "回復・かいふく": "recovery (from illness)"
+        },
+        {
+            "飼う・かう": "to keep; to own (a pet); to raise; to feed"
+        },
+        {
+            "帰す・かえす": "to send back"
+        },
+        {
+            "代える・かえる": "to exchange"
+        },
+        {
+            "替える・かえる": "to exchange"
+        },
+        {
+            "換える・かえる": "to exchange"
+        },
+        {
+            "反る・かえる": "to warp"
+        },
+        {
+            "香り・かおり": "aroma"
+        },
+        {
+            "画家・がか": "painter"
+        },
+        {
+            "抱える・かかえる": "to hold or carry under or in the arms"
+        },
+        {
+            "価格・かかく": "price"
+        },
+        {
+            "化学・かがく": "chemistry"
+        },
+        {
+            "輝く・かがやく": "to shine"
+        },
+        {
+            "係・かかり": "person in charge"
+        },
+        {
+            "罹る・かかる": "to suffer from"
+        },
+        {
+            "限る・かぎる": "to restrict"
+        },
+        {
+            "掻く・かく": "to scratch"
+        },
+        {
+            "描く・かく": "to draw"
+        },
+        {
+            "嗅ぐ・かぐ": "to sniff"
+        },
+        {
+            "家具・かぐ": "furniture"
+        },
+        {
+            "学・がく": "learning"
+        },
+        {
+            "額・がく": "amount; frame"
+        },
+        {
+            "覚悟・かくご": "resolution"
+        },
+        {
+            "確実・かくじつ": "certainty"
+        },
+        {
+            "学者・がくしゃ": "scholar"
+        },
+        {
+            "学習・がくしゅう": "study"
+        },
+        {
+            "隠す・かくす": "to hide"
+        },
+        {
+            "拡大・かくだい": "magnification"
+        },
+        {
+            "確認・かくにん": "affirmation"
+        },
+        {
+            "学問・がくもん": "scholarship"
+        },
+        {
+            "隠れる・かくれる": "to hide"
+        },
+        {
+            "影・かげ": "shade"
+        },
+        {
+            "陰・かげ": "shade"
+        },
+        {
+            "欠ける・かける": "to be lacking"
+        },
+        {
+            "加減・かげん": "adjustment; addition and subtraction"
+        },
+        {
+            "過去・かこ": "past"
+        },
+        {
+            "籠・かご": "basket"
+        },
+        {
+            "囲む・かこむ": "to surround"
+        },
+        {
+            "火災・かさい": "conflagration"
+        },
+        {
+            "重なる・かさなる": "to be piled up"
+        },
+        {
+            "重ねる・かさねる": "to pile up"
+        },
+        {
+            "飾り・かざり": "decoration"
+        },
+        {
+            "貸し・かし": "loan"
+        },
+        {
+            "菓子・かし": "confectionery"
+        },
+        {
+            "家事・かじ": "household matters; housework (same as 家の仕事 (いえのしごと))"
+        },
+        {
+            "賢い・かしこい": "wise"
+        },
+        {
+            "歌手・かしゅ": "singer"
+        },
+        {
+            "数・かず": "number"
+        },
+        {
+            "稼ぐ・かせぐ": "to earn income"
+        },
+        {
+            "数える・かぞえる": "to count"
+        },
+        {
+            "型・かた": "mold"
+        },
+        {
+            "肩・かた": "shoulder"
+        },
+        {
+            "堅い・かたい": "hard"
+        },
+        {
+            "硬い・かたい": "hard"
+        },
+        {
+            "方々・かたがた": "persons"
+        },
+        {
+            "片付く・かたづく": "to put in order"
+        },
+        {
+            "刀・かたな": "sword"
+        },
+        {
+            "語る・かたる": "to talk"
+        },
+        {
+            "勝ち・かち": "win"
+        },
+        {
+            "価値・かち": "value"
+        },
+        {
+            "がっかり・がっかり": "feel disappointed"
+        },
+        {
+            "活気・かっき": "vigor; liveliness; vitality; energy"
+        },
+        {
+            "楽器・がっき": "musical instrument"
+        },
+        {
+            "学期・がっき": "term (school)"
+        },
+        {
+            "活動・かつどう": "action"
+        },
+        {
+            "活躍・かつやく": "activity"
+        },
+        {
+            "活用・かつよう": "conjugation; practical use"
+        },
+        {
+            "仮定・かてい": "assumption"
+        },
+        {
+            "過程・かてい": "process"
+        },
+        {
+            "課程・かてい": "course"
+        },
+        {
+            "悲しむ・かなしむ": "to be sad"
+        },
+        {
+            "必ずしも・かならずしも": "(not) always"
+        },
+        {
+            "かなり・かなり": "considerably"
+        },
+        {
+            "金・かね": "gold"
+        },
+        {
+            "鐘・かね": "bell"
+        },
+        {
+            "可能・かのう": "possible"
+        },
+        {
+            "株・かぶ": "stock; stump (of tree)"
+        },
+        {
+            "被る・かぶる": "to wear; to be covered with"
+        },
+        {
+            "我慢・がまん": "patience"
+        },
+        {
+            "上・かみ": "first volume; superior quality; governmental"
+        },
+        {
+            "神・かみ": "god"
+        },
+        {
+            "雷・かみなり": "thunder"
+        },
+        {
+            "髪の毛・かみのけ": "hair (head)"
+        },
+        {
+            "科目・かもく": "(school) subject"
+        },
+        {
+            "かもしれない・かもしれない": "maybe"
+        },
+        {
+            "かゆい・かゆい": "itchy"
+        },
+        {
+            "歌謡・かよう": "song"
+        },
+        {
+            "空・から": "empty"
+        },
+        {
+            "殻・から": "shell"
+        },
+        {
+            "柄・がら": "pattern; build; character"
+        },
+        {
+            "刈る・かる": "to cut (hair)"
+        },
+        {
+            "河・かわ": "river"
+        },
+        {
+            "皮・かわ": "skin"
+        },
+        {
+            "革・かわ": "leather"
+        },
+        {
+            "可愛そう・かわいそう": "poor"
+        },
+        {
+            "可愛らしい・かわいらしい": "lovely"
+        },
+        {
+            "乾かす・かわかす": "to dry"
+        },
+        {
+            "渇く・かわく": "to be thirsty"
+        },
+        {
+            "代る・かわる": "to take the place of"
+        },
+        {
+            "缶・かん": "can"
+        },
+        {
+            "勘・かん": "perception"
+        },
+        {
+            "考え・かんがえ": "thinking"
+        },
+        {
+            "感覚・かんかく": "sense"
+        },
+        {
+            "間隔・かんかく": "space"
+        },
+        {
+            "観客・かんきゃく": "audience"
+        },
+        {
+            "環境・かんきょう": "environment"
+        },
+        {
+            "歓迎・かんげい": "welcome"
+        },
+        {
+            "観光・かんこう": "sightseeing"
+        },
+        {
+            "観察・かんさつ": "observation"
+        },
+        {
+            "感じ・かんじ": "feeling"
+        },
+        {
+            "感謝・かんしゃ": "thanks"
+        },
+        {
+            "患者・かんじゃ": "patient"
+        },
+        {
+            "勘定・かんじょう": "calculation"
+        },
+        {
+            "感情・かんじょう": "emotion(s)"
+        },
+        {
+            "感じる・かんじる": "to feel"
+        },
+        {
+            "感心・かんしん": "admiration"
+        },
+        {
+            "関心・かんしん": "concern"
+        },
+        {
+            "関する・かんする": "to concern"
+        },
+        {
+            "完成・かんせい": "complete"
+        },
+        {
+            "完全・かんぜん": "perfection"
+        },
+        {
+            "乾燥・かんそう": "dry"
+        },
+        {
+            "感想・かんそう": "(one's) impressions"
+        },
+        {
+            "感動・かんどう": "being deeply moved"
+        },
+        {
+            "監督・かんとく": "supervision"
+        },
+        {
+            "管理・かんり": "control"
+        },
+        {
+            "完了・かんりょう": "completion"
+        },
+        {
+            "関連・かんれん": "relation"
+        },
+        {
+            "議員・ぎいん": "member of the Diet"
+        },
+        {
+            "記憶・きおく": "memory"
+        },
+        {
+            "気温・きおん": "temperature (weather - not used for things)"
+        },
+        {
+            "機械・きかい": "machine"
+        },
+        {
+            "器械・きかい": "instrument"
+        },
+        {
+            "議会・ぎかい": "Diet"
+        },
+        {
+            "期間・きかん": "period"
+        },
+        {
+            "機関・きかん": "engine; institution"
+        },
+        {
+            "企業・きぎょう": "industry"
+        },
+        {
+            "効く・きく": "to be effective"
+        },
+        {
+            "期限・きげん": "deadline"
+        },
+        {
+            "機嫌・きげん": "humor"
+        },
+        {
+            "気候・きこう": "climate"
+        },
+        {
+            "岸・きし": "bank"
+        },
+        {
+            "生地・きじ": "fabric; dough"
+        },
+        {
+            "記事・きじ": "article"
+        },
+        {
+            "技師・ぎし": "engineer"
+        },
+        {
+            "記者・きしゃ": "reporter"
+        },
+        {
+            "傷・きず": "wound"
+        },
+        {
+            "期待・きたい": "expectation"
+        },
+        {
+            "気体・きたい": "vapor"
+        },
+        {
+            "帰宅・きたく": "returning home"
+        },
+        {
+            "貴重・きちょう": "precious"
+        },
+        {
+            "議長・ぎちょう": "chairman"
+        },
+        {
+            "きちんと・きちんと": "precisely"
+        },
+        {
+            "きつい・きつい": "tight"
+        },
+        {
+            "気付く・きづく": "to notice"
+        },
+        {
+            "気に入る・きにいる": "to like"
+        },
+        {
+            "記入・きにゅう": "entry"
+        },
+        {
+            "記念・きねん": "commemoration"
+        },
+        {
+            "機能・きのう": "function"
+        },
+        {
+            "気の毒・きのどく": "pitiful"
+        },
+        {
+            "寄付・きふ": "contribution"
+        },
+        {
+            "希望・きぼう": "hope"
+        },
+        {
+            "基本・きほん": "basic"
+        },
+        {
+            "決まり・きまり": "settlement"
+        },
+        {
+            "気味・きみ": "-like"
+        },
+        {
+            "奇妙・きみょう": "strange"
+        },
+        {
+            "義務・ぎむ": "duty"
+        },
+        {
+            "疑問・ぎもん": "question"
+        },
+        {
+            "逆・ぎゃく": "reverse"
+        },
+        {
+            "キャプテン・キャプテン": "captain"
+        },
+        {
+            "キャンプ・キャンプ": "camp"
+        },
+        {
+            "旧・きゅう": "ex-"
+        },
+        {
+            "級・きゅう": "class"
+        },
+        {
+            "球・きゅう": "globe"
+        },
+        {
+            "休暇・きゅうか": "vacation"
+        },
+        {
+            "休憩・きゅうけい": "rest"
+        },
+        {
+            "急激・きゅうげき": "sudden"
+        },
+        {
+            "吸収・きゅうしゅう": "absorption"
+        },
+        {
+            "救助・きゅうじょ": "relief"
+        },
+        {
+            "急速・きゅうそく": "rapid (e.g."
+        },
+        {
+            "休息・きゅうそく": "rest"
+        },
+        {
+            "急に・きゅうに": "suddenly"
+        },
+        {
+            "給料・きゅうりょう": "salary"
+        },
+        {
+            "器用・きよう": "skillful"
+        },
+        {
+            "教科書・きょうかしょ": "textbook"
+        },
+        {
+            "競技・きょうぎ": "game"
+        },
+        {
+            "行儀・ぎょうぎ": "manners"
+        },
+        {
+            "供給・きょうきゅう": "supply"
+        },
+        {
+            "教授・きょうじゅ": "teaching"
+        },
+        {
+            "強調・きょうちょう": "emphasis"
+        },
+        {
+            "共通・きょうつう": "commonness"
+        },
+        {
+            "共同・きょうどう": "cooperation"
+        },
+        {
+            "恐怖・きょうふ": "fear"
+        },
+        {
+            "協力・きょうりょく": "cooperation"
+        },
+        {
+            "強力・きょうりょく": "powerful"
+        },
+        {
+            "許可・きょか": "permission"
+        },
+        {
+            "局・きょく": "office"
+        },
+        {
+            "巨大・きょだい": "huge"
+        },
+        {
+            "嫌う・きらう": "to hate"
+        },
+        {
+            "霧・きり": "fog"
+        },
+        {
+            "切れ・きれ": "cloth"
+        },
+        {
+            "切れる・きれる": "to cut well"
+        },
+        {
+            "記録・きろく": "record"
+        },
+        {
+            "議論・ぎろん": "argument"
+        },
+        {
+            "金・きん": "gold"
+        },
+        {
+            "銀・ぎん": "silver"
+        },
+        {
+            "禁煙・きんえん": "No Smoking"
+        },
+        {
+            "金額・きんがく": "amount of money"
+        },
+        {
+            "金庫・きんこ": "safe"
+        },
+        {
+            "禁止・きんし": "prohibition"
+        },
+        {
+            "金銭・きんせん": "money"
+        },
+        {
+            "金属・きんぞく": "metal"
+        },
+        {
+            "近代・きんだい": "modern times"
+        },
+        {
+            "緊張・きんちょう": "tension"
+        },
+        {
+            "筋肉・きんにく": "muscle"
+        },
+        {
+            "金融・きんゆう": "finance"
+        },
+        {
+            "句・く": "phrase"
+        },
+        {
+            "食う・くう": "(male) (vulg.) to eat"
+        },
+        {
+            "偶然・ぐうぜん": "(by) chance"
+        },
+        {
+            "臭い・くさい": "stinky"
+        },
+        {
+            "鎖・くさり": "chain"
+        },
+        {
+            "腐る・くさる": "to rot"
+        },
+        {
+            "癖・くせ": "a habit (often a bad habit)"
+        },
+        {
+            "管・くだ": "pipe"
+        },
+        {
+            "具体・ぐたい": "concrete"
+        },
+        {
+            "下り・くだり": "down-train (going away from Tokyo)"
+        },
+        {
+            "下る・くだる": "to get down"
+        },
+        {
+            "苦痛・くつう": "pain"
+        },
+        {
+            "ぐっすり・ぐっすり": "sound asleep"
+        },
+        {
+            "区別・くべつ": "distinction"
+        },
+        {
+            "組・くみ": "class"
+        },
+        {
+            "組合・くみあい": "association"
+        },
+        {
+            "組む・くむ": "to put together"
+        },
+        {
+            "汲む・くむ": "to draw"
+        },
+        {
+            "酌む・くむ": "to serve sake"
+        },
+        {
+            "悔しい・くやしい": "regrettable"
+        },
+        {
+            "位・くらい": "grade"
+        },
+        {
+            "暮らし・くらし": "living; life style"
+        },
+        {
+            "クラシック・クラシック": "classic(s)"
+        },
+        {
+            "暮らす・くらす": "to live"
+        },
+        {
+            "グラス・グラス": "glass; grass"
+        },
+        {
+            "グランド・グランド": "gland"
+        },
+        {
+            "クリーム・クリーム": "cream"
+        },
+        {
+            "繰り返す・くりかえす": "to repeat"
+        },
+        {
+            "クリスマス・クリスマス": "Christmas"
+        },
+        {
+            "狂う・くるう": "to go mad"
+        },
+        {
+            "グループ・グループ": "group"
+        },
+        {
+            "苦しい・くるしい": "tough; physically strenuous"
+        },
+        {
+            "苦しむ・くるしむ": "to suffer"
+        },
+        {
+            "暮れ・くれ": "year end"
+        },
+        {
+            "苦労・くろう": "hardship; suffering"
+        },
+        {
+            "加える・くわえる": "to append"
+        },
+        {
+            "咥える・くわえる": "to hold something in the mouth"
+        },
+        {
+            "詳しい・くわしい": "detailed; full; accurate"
+        },
+        {
+            "加わる・くわわる": "to join in"
+        },
+        {
+            "訓・くん": "native Japanese reading of a Chinese character"
+        },
+        {
+            "軍・ぐん": "army"
+        },
+        {
+            "郡・ぐん": "country"
+        },
+        {
+            "軍隊・ぐんたい": "army"
+        },
+        {
+            "訓練・くんれん": "practice"
+        },
+        {
+            "下・げ": "under"
+        },
+        {
+            "計・けい": "plan; sum"
+        },
+        {
+            "敬意・けいい": "respect"
+        },
+        {
+            "経営・けいえい": "management"
+        },
+        {
+            "景気・けいき": "condition"
+        },
+        {
+            "傾向・けいこう": "tendency"
+        },
+        {
+            "警告・けいこく": "warning"
+        },
+        {
+            "計算・けいさん": "calculation"
+        },
+        {
+            "掲示・けいじ": "notice"
+        },
+        {
+            "刑事・けいじ": "criminal case"
+        },
+        {
+            "芸術・げいじゅつ": "(fine) art"
+        },
+        {
+            "契約・けいやく": "contract"
+        },
+        {
+            "経由・けいゆ": "go by the way"
+        },
+        {
+            "ケース・ケース": "case"
+        },
+        {
+            "ゲーム・ゲーム": "game"
+        },
+        {
+            "劇・げき": "drama"
+        },
+        {
+            "劇場・げきじょう": "theater"
+        },
+        {
+            "化粧・けしょう": "make-up (cosmetic)"
+        },
+        {
+            "けち・けち": "stinginess"
+        },
+        {
+            "血液・けつえき": "blood"
+        },
+        {
+            "結果・けっか": "result"
+        },
+        {
+            "欠陥・けっかん": "defect"
+        },
+        {
+            "結局・けっきょく": "after all"
+        },
+        {
+            "決心・けっしん": "determination"
+        },
+        {
+            "欠席・けっせき": "absence"
+        },
+        {
+            "決定・けってい": "decision"
+        },
+        {
+            "欠点・けってん": "faults"
+        },
+        {
+            "結論・けつろん": "conclusion"
+        },
+        {
+            "煙・けむり": "smoke"
+        },
+        {
+            "蹴る・ける": "to kick"
+        },
+        {
+            "券・けん": "ticket"
+        },
+        {
+            "県・けん": "prefecture"
+        },
+        {
+            "見解・けんかい": "opinion"
+        },
+        {
+            "限界・げんかい": "limit"
+        },
+        {
+            "現金・げんきん": "cash"
+        },
+        {
+            "言語・げんご": "language"
+        },
+        {
+            "健康・けんこう": "health(y)"
+        },
+        {
+            "検査・けんさ": "inspection"
+        },
+        {
+            "現在・げんざい": "now (same as 今 (いま))"
+        },
+        {
+            "現実・げんじつ": "reality"
+        },
+        {
+            "現象・げんしょう": "phenomenon"
+        },
+        {
+            "現状・げんじょう": "present condition"
+        },
+        {
+            "建設・けんせつ": "construction"
+        },
+        {
+            "現代・げんだい": "today"
+        },
+        {
+            "建築・けんちく": "construction"
+        },
+        {
+            "見当・けんとう": "estimate"
+        },
+        {
+            "検討・けんとう": "consideration"
+        },
+        {
+            "現場・げんば": "actual spot"
+        },
+        {
+            "憲法・けんぽう": "constitution"
+        },
+        {
+            "権利・けんり": "right"
+        },
+        {
+            "後・ご": "afterwards"
+        },
+        {
+            "碁・ご": "Go (board game of capturing territory)"
+        },
+        {
+            "恋・こい": "love"
+        },
+        {
+            "濃い・こい": "thick (as of color"
+        },
+        {
+            "恋人・こいびと": "lover; sweetheart; girlfriend"
+        },
+        {
+            "幸運・こううん": "good luck"
+        },
+        {
+            "講演・こうえん": "lecture"
+        },
+        {
+            "効果・こうか": "effect"
+        },
+        {
+            "硬貨・こうか": "coin"
+        },
+        {
+            "高価・こうか": "high price"
+        },
+        {
+            "豪華・ごうか": "luxurious"
+        },
+        {
+            "合格・ごうかく": "success"
+        },
+        {
+            "交換・こうかん": "exchange"
+        },
+        {
+            "航空・こうくう": "aviation"
+        },
+        {
+            "光景・こうけい": "scene"
+        },
+        {
+            "合計・ごうけい": "sum total"
+        },
+        {
+            "攻撃・こうげき": "attack"
+        },
+        {
+            "貢献・こうけん": "contribution"
+        },
+        {
+            "広告・こうこく": "advertisement"
+        },
+        {
+            "交際・こうさい": "friendship"
+        },
+        {
+            "校舎・こうしゃ": "school building"
+        },
+        {
+            "後者・こうしゃ": "the latter"
+        },
+        {
+            "工場・こうば": "factory"
+        },
+        {
+            "公正・こうせい": "justice"
+        },
+        {
+            "構成・こうせい": "organization"
+        },
+        {
+            "高速・こうそく": "high speed"
+        },
+        {
+            "行動・こうどう": "action"
+        },
+        {
+            "強盗・ごうとう": "robbery"
+        },
+        {
+            "後輩・こうはい": "junior members of a group"
+        },
+        {
+            "幸福・こうふく": "happiness"
+        },
+        {
+            "公平・こうへい": "fairness"
+        },
+        {
+            "候補・こうほ": "candidacy"
+        },
+        {
+            "考慮・こうりょ": "consideration"
+        },
+        {
+            "越える・こえる": "to exceed"
+        },
+        {
+            "超える・こえる": "to exceed"
+        },
+        {
+            "コーチ・コーチ": "coach"
+        },
+        {
+            "コード・コード": "code; cord; chord"
+        },
+        {
+            "氷・こおり": "ice"
+        },
+        {
+            "凍る・こおる": "to freeze"
+        },
+        {
+            "ゴール・ゴール": "goal"
+        },
+        {
+            "誤解・ごかい": "misunderstanding"
+        },
+        {
+            "語学・ごがく": "language study"
+        },
+        {
+            "呼吸・こきゅう": "breath"
+        },
+        {
+            "故郷・こきょう": "hometown"
+        },
+        {
+            "極・ごく": "quite"
+        },
+        {
+            "国語・こくご": "national language"
+        },
+        {
+            "国籍・こくせき": "nationality"
+        },
+        {
+            "黒板・こくばん": "blackboard"
+        },
+        {
+            "克服・こくふく": "conquest"
+        },
+        {
+            "国民・こくみん": "national"
+        },
+        {
+            "穀物・こくもつ": "grain"
+        },
+        {
+            "腰・こし": "hip"
+        },
+        {
+            "胡椒・こしょう": "pepper"
+        },
+        {
+            "個人・こじん": "individual"
+        },
+        {
+            "越す・こす": "to go over (e.g."
+        },
+        {
+            "超す・こす": "to cross"
+        },
+        {
+            "国家・こっか": "state"
+        },
+        {
+            "国会・こっかい": "National Diet"
+        },
+        {
+            "国境・こっきょう": "national or state border"
+        },
+        {
+            "骨折・こっせつ": "bone fracture"
+        },
+        {
+            "小包・こづつみ": "parcel"
+        },
+        {
+            "琴・こと": "Japanese harp"
+        },
+        {
+            "異なる・ことなる": "to differ"
+        },
+        {
+            "諺・ことわざ": "proverb"
+        },
+        {
+            "断る・ことわる": "to refuse"
+        },
+        {
+            "粉・こな": "flour"
+        },
+        {
+            "好み・このみ": "liking"
+        },
+        {
+            "好む・このむ": "to like"
+        },
+        {
+            "こぼす・こぼす": "to spill"
+        },
+        {
+            "こぼれる・こぼれる": "to overflow"
+        },
+        {
+            "塵・ごみ": "garbage"
+        },
+        {
+            "小麦・こむぎ": "wheat"
+        },
+        {
+            "ごめんなさい・ごめんなさい": "I beg your pardon"
+        },
+        {
+            "小屋・こや": "hut"
+        },
+        {
+            "これら・これら": "these"
+        },
+        {
+            "殺す・ころす": "to kill"
+        },
+        {
+            "転ぶ・ころぶ": "to fall down"
+        },
+        {
+            "今回・こんかい": "now"
+        },
+        {
+            "今後・こんご": "from now on"
+        },
+        {
+            "混雑・こんざつ": "confusion"
+        },
+        {
+            "こんなに・こんなに": "so"
+        },
+        {
+            "困難・こんなん": "difficulty"
+        },
+        {
+            "今日・こんにち": "today"
+        },
+        {
+            "こんにちは・こんにちは": "hello"
+        },
+        {
+            "婚約・こんやく": "engagement"
+        },
+        {
+            "混乱・こんらん": "chaos"
+        },
+        {
+            "差・さ": "difference"
+        },
+        {
+            "サービス・サービス": "service"
+        },
+        {
+            "際・さい": "on the occasion of"
+        },
+        {
+            "最高・さいこう": "highest"
+        },
+        {
+            "財産・ざいさん": "property"
+        },
+        {
+            "最終・さいしゅう": "last"
+        },
+        {
+            "最中・さいちゅう": "in the middle of"
+        },
+        {
+            "最低・さいてい": "least"
+        },
+        {
+            "才能・さいのう": "talent"
+        },
+        {
+            "裁判・さいばん": "trial"
+        },
+        {
+            "材料・ざいりょう": "ingredients"
+        },
+        {
+            "幸い・さいわい": "fortunately; luckily"
+        },
+        {
+            "サイン・サイン": "autograph; sign; sine"
+        },
+        {
+            "境・さかい": "border"
+        },
+        {
+            "逆らう・さからう": "to go against"
+        },
+        {
+            "盛り・さかり": "helping"
+        },
+        {
+            "作業・さぎょう": "work"
+        },
+        {
+            "裂く・さく": "to tear"
+        },
+        {
+            "昨・さく": "last (year)"
+        },
+        {
+            "作品・さくひん": "work"
+        },
+        {
+            "作物・さくもつ": "produce (e.g."
+        },
+        {
+            "桜・さくら": "cherry blossom"
+        },
+        {
+            "酒・さけ": "alcohol"
+        },
+        {
+            "叫ぶ・さけぶ": "to shout"
+        },
+        {
+            "避ける・さける": "to avoid (physical contact); to ward off"
+        },
+        {
+            "支える・ささえる": "support"
+        },
+        {
+            "刺さる・ささる": "to stick"
+        },
+        {
+            "刺す・さす": "to sting"
+        },
+        {
+            "指す・さす": "to point"
+        },
+        {
+            "挿す・さす": "to insert"
+        },
+        {
+            "注す・さす": "to pour (drink)"
+        },
+        {
+            "射す・さす": "to shine"
+        },
+        {
+            "座席・ざせき": "seat"
+        },
+        {
+            "誘う・さそう": "to invite (someone to do something with you); to tempt"
+        },
+        {
+            "札・さつ": "bill"
+        },
+        {
+            "作家・さっか": "author"
+        },
+        {
+            "作曲・さっきょく": "composition (of music)"
+        },
+        {
+            "ざっと・ざっと": "roughly"
+        },
+        {
+            "さっぱり・さっぱり": "feeling refreshed"
+        },
+        {
+            "さて・さて": "well; now (typically used when switching to a new"
+        },
+        {
+            "砂漠・さばく": "desert"
+        },
+        {
+            "差別・さべつ": "discrimination"
+        },
+        {
+            "ママ・ママ": "Mama"
+        },
+        {
+            "豆・まめ": "beans"
+        },
+        {
+            "守る・まもる": "to protect; to abide (by the rules)"
+        },
+        {
+            "迷う・まよう": "to be puzzled"
+        },
+        {
+            "丸・まる": "circle"
+        },
+        {
+            "円・まる": "circle"
+        },
+        {
+            "まるで・まるで": "just like"
+        },
+        {
+            "万一・まんいち": "by some chance"
+        },
+        {
+            "満足・まんぞく": "satisfaction"
+        },
+        {
+            "身・み": "body"
+        },
+        {
+            "実・み": "fruit"
+        },
+        {
+            "見送り・みおくり": "seeing one off"
+        },
+        {
+            "味方・みかた": "ally"
+        },
+        {
+            "見事・みごと": "splendid"
+        },
+        {
+            "ミス・ミス": "miss (mistake"
+        },
+        {
+            "満ちる・みちる": "to be full"
+        },
+        {
+            "密・みつ": "thick"
+        },
+        {
+            "認める・みとめる": "to recognize"
+        },
+        {
+            "見舞い・みまい": "expression of sympathy"
+        },
+        {
+            "土産・みやげ": "souvenir"
+        },
+        {
+            "都・みやこ": "city; capital"
+        },
+        {
+            "妙・みょう": "strange"
+        },
+        {
+            "明後日・みょうごにち": "day after tomorrow"
+        },
+        {
+            "未来・みらい": "future (life tense)"
+        },
+        {
+            "魅力・みりょく": "charm"
+        },
+        {
+            "診る・みる": "to examine (a patient)"
+        },
+        {
+            "ミルク・ミルク": "milk"
+        },
+        {
+            "無・む": "nothing"
+        },
+        {
+            "向かい・むかい": "facing"
+        },
+        {
+            "迎え・むかえ": "meeting"
+        },
+        {
+            "向く・むく": "to face"
+        },
+        {
+            "剥く・むく": "to peel"
+        },
+        {
+            "向ける・むける": "to turn towards"
+        },
+        {
+            "無視・むし": "disregard"
+        },
+        {
+            "蒸し暑い・むしあつい": "humid"
+        },
+        {
+            "虫歯・むしば": "cavity"
+        },
+        {
+            "寧ろ・むしろ": "rather"
+        },
+        {
+            "蒸す・むす": "to steam"
+        },
+        {
+            "結ぶ・むすぶ": "to tie"
+        },
+        {
+            "無駄・むだ": "futility"
+        },
+        {
+            "夢中・むちゅう": "crush"
+        },
+        {
+            "胸・むね": "breast"
+        },
+        {
+            "無料・むりょう": "free"
+        },
+        {
+            "芽・め": "sprout"
+        },
+        {
+            "明確・めいかく": "clear"
+        },
+        {
+            "名刺・めいし": "(name) card; business card"
+        },
+        {
+            "名詞・めいし": "noun"
+        },
+        {
+            "命じる・めいじる": "to order"
+        },
+        {
+            "名人・めいじん": "master"
+        },
+        {
+            "命令・めいれい": "order"
+        },
+        {
+            "迷惑・めいわく": "trouble"
+        },
+        {
+            "目上・めうえ": "person of higher status; one's senior"
+        },
+        {
+            "飯・めし": "meals"
+        },
+        {
+            "滅多に・めったに": "rarely (with neg. verb)"
+        },
+        {
+            "メモ・メモ": "memorandum"
+        },
+        {
+            "面・めん": "face"
+        },
+        {
+            "綿・めん": "cotton"
+        },
+        {
+            "免許・めんきょ": "license"
+        },
+        {
+            "面接・めんせつ": "interview"
+        },
+        {
+            "面倒・めんどう": "trouble"
+        },
+        {
+            "メンバー・メンバー": "member"
+        },
+        {
+            "申し込む・もうしこむ": "to apply for"
+        },
+        {
+            "申し訳・もうしわけ": "apology"
+        },
+        {
+            "毛布・もうふ": "blanket"
+        },
+        {
+            "燃える・もえる": "to burn"
+        },
+        {
+            "目的・もくてき": "purpose"
+        },
+        {
+            "目標・もくひょう": "mark"
+        },
+        {
+            "文字・もじ": "letter (of alphabet)"
+        },
+        {
+            "文字・もんじ": "letter (of alphabet)"
+        },
+        {
+            "もしかすると・もしかすると": "perhaps"
+        },
+        {
+            "もしも・もしも": "if"
+        },
+        {
+            "持ち上げる・もちあげる": "to raise"
+        },
+        {
+            "用いる・もちいる": "to use"
+        },
+        {
+            "もったいない・もったいない": "wasteful; more than one deserves"
+        },
+        {
+            "尤も・もっとも": "quite right"
+        },
+        {
+            "元・もと": "origin"
+        },
+        {
+            "基・もと": "basis"
+        },
+        {
+            "素・もと": "prime"
+        },
+        {
+            "戻す・もどす": "to restore"
+        },
+        {
+            "基づく・もとづく": "to be grounded on"
+        },
+        {
+            "求める・もとめる": "to request"
+        },
+        {
+            "者・もの": "person (same as 人 (ひと))"
+        },
+        {
+            "物音・ものおと": "sounds"
+        },
+        {
+            "物語・ものがたり": "tale"
+        },
+        {
+            "物事・ものごと": "things"
+        },
+        {
+            "燃やす・もやす": "to burn"
+        },
+        {
+            "模様・もよう": "pattern"
+        },
+        {
+            "文句・もんく": "a complaint"
+        },
+        {
+            "やがて・やがて": "before long"
+        },
+        {
+            "役・やく": "role"
+        },
+        {
+            "約・やく": "approximately"
+        },
+        {
+            "訳・やく": "translation"
+        },
+        {
+            "訳す・やくす": "to translate"
+        },
+        {
+            "役割・やくわり": "assigning (allotment of) parts"
+        },
+        {
+            "家賃・やちん": "rent"
+        },
+        {
+            "厄介・やっかい": "trouble"
+        },
+        {
+            "宿・やど": "inn"
+        },
+        {
+            "雇う・やとう": "to employ"
+        },
+        {
+            "屋根・やね": "roof"
+        },
+        {
+            "破る・やぶる": "to tear; to violate; to defeat"
+        },
+        {
+            "破れる・やぶれる": "to get torn"
+        },
+        {
+            "辞める・やめる": "to retire"
+        },
+        {
+            "やや・やや": "a little"
+        },
+        {
+            "唯一・ゆいいつ": "only"
+        },
+        {
+            "勇気・ゆうき": "courage"
+        },
+        {
+            "友好・ゆうこう": "friendship"
+        },
+        {
+            "有効・ゆうこう": "valid"
+        },
+        {
+            "優秀・ゆうしゅう": "superiority"
+        },
+        {
+            "優勝・ゆうしょう": "overall victory"
+        },
+        {
+            "友情・ゆうじょう": "friendship"
+        },
+        {
+            "友人・ゆうじん": "friend (formal)"
+        },
+        {
+            "有能・ゆうのう": "able"
+        },
+        {
+            "郵便・ゆうびん": "mail"
+        },
+        {
+            "ユーモア・ユーモア": "humor"
+        },
+        {
+            "有利・ゆうり": "advantageous"
+        },
+        {
+            "床・ゆか": "floor"
+        },
+        {
+            "愉快・ゆかい": "pleasant"
+        },
+        {
+            "譲る・ゆずる": "to turn over"
+        },
+        {
+            "豊か・ゆたか": "abundant"
+        },
+        {
+            "茹でる・ゆでる": "to boil"
+        },
+        {
+            "許す・ゆるす": "to permit"
+        },
+        {
+            "夜・よ": "evening"
+        },
+        {
+            "夜明け・よあけ": "dawn"
+        },
+        {
+            "酔う・よう": "to get drunk"
+        },
+        {
+            "容易・ようい": "easy"
+        },
+        {
+            "容器・ようき": "container"
+        },
+        {
+            "陽気・ようき": "season"
+        },
+        {
+            "要求・ようきゅう": "request"
+        },
+        {
+            "用心・ようじん": "care"
+        },
+        {
+            "様子・ようす": "aspect"
+        },
+        {
+            "要するに・ようするに": "in a word"
+        },
+        {
+            "要素・ようそ": "element"
+        },
+        {
+            "要点・ようてん": "gist"
+        },
+        {
+            "曜日・ようび": "day of the week"
+        },
+        {
+            "ヨーロッパ・ヨーロッパ": "Europe"
+        },
+        {
+            "予期・よき": "expectation"
+        },
+        {
+            "横切る・よこぎる": "to cross (e.g."
+        },
+        {
+            "汚す・よごす": "to pollute"
+        },
+        {
+            "予算・よさん": "estimate"
+        },
+        {
+            "止す・よす": "to cease"
+        },
+        {
+            "寄せる・よせる": "to collect"
+        },
+        {
+            "予測・よそく": "prediction"
+        },
+        {
+            "ヨット・ヨット": "yacht"
+        },
+        {
+            "夜中・よなか": "midnight"
+        },
+        {
+            "世の中・よのなか": "society"
+        },
+        {
+            "余分・よぶん": "extra"
+        },
+        {
+            "予報・よほう": "forecast"
+        },
+        {
+            "予防・よぼう": "prevention"
+        },
+        {
+            "読み・よみ": "reading"
+        },
+        {
+            "嫁・よめ": "bride"
+        },
+        {
+            "余裕・よゆう": "excess; surplus"
+        },
+        {
+            "より・より": "twist"
+        },
+        {
+            "因る・よる": "to come from"
+        },
+        {
+            "喜び・よろこび": "joy"
+        },
+        {
+            "よろしく (かん)・よろしく (かん)": "best regards"
+        },
+        {
+            "四・よん": "four"
+        },
+        {
+            "来・らい～": "next ~"
+        },
+        {
+            "ライター・ライター": "lighter; writer"
+        },
+        {
+            "楽・らく": "comfort"
+        },
+        {
+            "ラケット・ラケット": "racket"
+        },
+        {
+            "利益・りえき": "profits"
+        },
+        {
+            "理解・りかい": "understanding"
+        },
+        {
+            "陸・りく": "land"
+        },
+        {
+            "利口・りこう": "clever"
+        },
+        {
+            "離婚・りこん": "divorce"
+        },
+        {
+            "理想・りそう": "ideal"
+        },
+        {
+            "率・りつ": "rate"
+        },
+        {
+            "留学・りゅうがく": "studying abroad"
+        },
+        {
+            "流行・りゅうこう": "fashionable"
+        },
+        {
+            "量・りょう": "quantity"
+        },
+        {
+            "寮・りょう": "hostel"
+        },
+        {
+            "両替・りょうがえ": "change"
+        },
+        {
+            "料金・りょうきん": "fee"
+        },
+        {
+            "例・れい": "instance"
+        },
+        {
+            "礼・れい": "expression of gratitude; bow"
+        },
+        {
+            "例外・れいがい": "exception"
+        },
+        {
+            "礼儀・れいぎ": "manners"
+        },
+        {
+            "冷静・れいせい": "calm"
+        },
+        {
+            "列・れつ": "queue"
+        },
+        {
+            "列車・れっしゃ": "train (ordinary)"
+        },
+        {
+            "レベル・レベル": "level"
+        },
+        {
+            "連想・れんそう": "association (of ideas)"
+        },
+        {
+            "連続・れんぞく": "consecutive"
+        },
+        {
+            "老人・ろうじん": "the aged"
+        },
+        {
+            "労働・ろうどう": "labor"
+        },
+        {
+            "ロケット・ロケット": "locket"
+        },
+        {
+            "論じる・ろんじる": "to argue"
+        },
+        {
+            "論争・ろんそう": "controversy"
+        },
+        {
+            "論文・ろんぶん": "thesis"
+        },
+        {
+            "輪・わ": "ring"
+        },
+        {
+            "ワイン・ワイン": "wine"
+        },
+        {
+            "わがまま・わがまま": "selfishness"
+        },
+        {
+            "別れ・わかれ": "parting"
+        },
+        {
+            "分かれる・わかれる": "to branch off"
+        },
+        {
+            "脇・わき": "side"
+        },
+        {
+            "湧く・わく": "to boil"
+        },
+        {
+            "分ける・わける": "to divide"
+        },
+        {
+            "わざと・わざと": "on purpose"
+        },
+        {
+            "僅か・わずか": "only"
+        },
+        {
+            "綿・わた": "cotton"
+        },
+        {
+            "話題・わだい": "topic"
+        },
+        {
+            "笑い・わらい": "laugh"
+        },
+        {
+            "割る・わる": "to divide"
+        },
+        {
+            "悪口・わるくち": "abuse"
+        },
+        {
+            "我々・われわれ": "we"
+        },
+        {
+            "湾・わん": "bay"
+        },
+        {
+            "椀・わん": "bowl"
+        },
+        {
+            "碗・わん": "bowl"
+        },
+        {
+            "悪・あく": "evil"
+        },
+        {
+            "当り・あたり": "hit"
+        },
+        {
+            "アップ・アップ": "up"
+        },
+        {
+            "宛てる・あてる": "to address"
+        },
+        {
+            "アンケート・アンケート": "questionnaire (FRE: enquete)"
+        },
+        {
+            "異・い": "difference (of opinion)"
+        },
+        {
+            "意・い": "will"
+        },
+        {
+            "医院・いいん": "doctor's office (surgery)"
+        },
+        {
+            "怒り・いかり": "anger"
+        },
+        {
+            "粋・いき": "chic"
+        },
+        {
+            "意地・いじ": "disposition"
+        },
+        {
+            "依然・いぜん": "still"
+        },
+        {
+            "傷める・いためる": "to damage"
+        },
+        {
+            "炒める・いためる": "to stir-fry"
+        },
+        {
+            "一帯・いったい": "a region"
+        },
+        {
+            "異動・いどう": "a change"
+        },
+        {
+            "衣料・いりょう": "clothing"
+        },
+        {
+            "渦・うず": "swirl"
+        },
+        {
+            "埋まる・うまる": "to be buried"
+        },
+        {
+            "産む・うむ": "to give birth (v.t.)"
+        },
+        {
+            "縁・えん": "chance"
+        },
+        {
+            "尾・お": "tail"
+        },
+        {
+            "負う・おう": "to bear"
+        },
+        {
+            "遅れ・おくれ": "delay"
+        },
+        {
+            "教え・おしえ": "teachings"
+        },
+        {
+            "驚き・おどろき": "surprise"
+        },
+        {
+            "織る・おる": "to weave"
+        },
+        {
+            "欠く・かく": "to lack"
+        },
+        {
+            "角・かく": "angle"
+        },
+        {
+            "核・かく": "nucleus"
+        },
+        {
+            "格・かく": "status"
+        },
+        {
+            "学歴・がくれき": "academic background"
+        },
+        {
+            "駆ける・かける": "to run"
+        },
+        {
+            "賭ける・かける": "to bet"
+        },
+        {
+            "課題・かだい": "subject"
+        },
+        {
+            "片付け・かたづけ": "tidying up"
+        },
+        {
+            "加味・かみ": "seasoning"
+        },
+        {
+            "借り・かり": "borrowing"
+        },
+        {
+            "狩り・かり": "hunting"
+        },
+        {
+            "管・かん": "pipe"
+        },
+        {
+            "～観・かん": "feeling"
+        },
+        {
+            "癌・がん": "cancer"
+        },
+        {
+            "刊行・かんこう": "publication"
+        },
+        {
+            "慣行・かんこう": "customary practice"
+        },
+        {
+            "歓声・かんせい": "cheer"
+        },
+        {
+            "官僚・かんりょう": "bureaucrat"
+        },
+        {
+            "器官・きかん": "organ (of body"
+        },
+        {
+            "季刊・きかん": "quarterly (e.g."
+        },
+        {
+            "起源・きげん": "origin"
+        },
+        {
+            "機構・きこう": "mechanism"
+        },
+        {
+            "築く・きずく": "to build"
+        },
+        {
+            "規制・きせい": "regulation"
+        },
+        {
+            "丘陵・きゅうりょう": "hill"
+        },
+        {
+            "協議・きょうぎ": "conference"
+        },
+        {
+            "享受・きょうじゅ": "enjoyment"
+        },
+        {
+            "協調・きょうちょう": "co-operation"
+        },
+        {
+            "切り・きり": "limits"
+        },
+        {
+            "菌・きん": "germ"
+        },
+        {
+            "近視・きんし": "nearsightedness"
+        },
+        {
+            "苦・く": "trouble"
+        },
+        {
+            "群・ぐん": "group"
+        },
+        {
+            "刑・けい": "penalty"
+        },
+        {
+            "経緯・けいい": "sequence of events"
+        },
+        {
+            "計器・けいき": "meter"
+        },
+        {
+            "契機・けいき": "opportunity"
+        },
+        {
+            "携帯・けいたい": "carrying something; mobile telephone"
+        },
+        {
+            "形態・けいたい": "form"
+        },
+        {
+            "血管・けっかん": "blood vessel"
+        },
+        {
+            "決行・けっこう": "doing (with resolve)"
+        },
+        {
+            "件・けん": "matter"
+        },
+        {
+            "減少・げんしょう": "decrease"
+        },
+        {
+            "公演・こうえん": "public performance"
+        },
+        {
+            "後悔・こうかい": "regret"
+        },
+        {
+            "航海・こうかい": "sail"
+        },
+        {
+            "拘束・こうそく": "restriction"
+        },
+        {
+            "荒廃・こうはい": "ruin"
+        },
+        {
+            "降伏・こうふく": "capitulation"
+        },
+        {
+            "興奮・こうふん": "excitement"
+        },
+        {
+            "語句・ごく": "words"
+        },
+        {
+            "個々・ここ": "individual"
+        },
+        {
+            "故人・こじん": "the deceased"
+        },
+        {
+            "小銭・こぜに": "coins"
+        },
+        {
+            "ことによると・ことによると": "(depending on the circumstances)"
+        },
+        {
+            "コンテスト・コンテスト": "contest"
+        },
+        {
+            "採集・さいしゅう": "collecting"
+        },
+        {
+            "作・さく": "a work"
+        },
+        {
+            "策・さく": "plan"
+        },
+        {
+            "設備・せつび": "equipment"
+        },
+        {
+            "絶滅・ぜつめつ": "destruction"
+        },
+        {
+            "節約・せつやく": "economizing"
+        },
+        {
+            "攻める・せめる": "to attack"
+        },
+        {
+            "責める・せめる": "to condemn"
+        },
+        {
+            "善・ぜん": "good"
+        },
+        {
+            "全・ぜん": "all"
+        },
+        {
+            "全員・ぜんいん": "all members"
+        },
+        {
+            "専攻・せんこう": "major subject"
+        },
+        {
+            "全国・ぜんこく": "the entire nation"
+        },
+        {
+            "洗剤・せんざい": "detergent"
+        },
+        {
+            "先日・せんじつ": "the other day"
+        },
+        {
+            "前者・ぜんしゃ": "the former"
+        },
+        {
+            "選手・せんしゅ": "player selected for a team (usually athletic)"
+        },
+        {
+            "全身・ぜんしん": "the whole body"
+        },
+        {
+            "前進・ぜんしん": "advance"
+        },
+        {
+            "センター・センター": "center"
+        },
+        {
+            "全体・ぜんたい": "whole"
+        },
+        {
+            "選択・せんたく": "selection"
+        },
+        {
+            "宣伝・せんでん": "advertisement"
+        },
+        {
+            "象・ぞう": "elephant"
+        },
+        {
+            "騒音・そうおん": "noise"
+        },
+        {
+            "増加・ぞうか": "increase"
+        },
+        {
+            "操作・そうさ": "operation"
+        },
+        {
+            "想像・そうぞう": "imagination"
+        },
+        {
+            "相続・そうぞく": "succession"
+        },
+        {
+            "装置・そうち": "equipment"
+        },
+        {
+            "相当・そうとう": "considerably"
+        },
+        {
+            "速度・そくど": "speed"
+        },
+        {
+            "底・そこ": "bottom"
+        },
+        {
+            "そこで・そこで": "so (conj.)"
+        },
+        {
+            "組織・そしき": "organization; structure; tissue"
+        },
+        {
+            "そして・そして": "and then"
+        },
+        {
+            "注ぐ・そそぐ": "to pour (into)"
+        },
+        {
+            "育つ・そだつ": "to be brought up"
+        },
+        {
+            "そっくり・そっくり": "the splitting image of; entirely"
+        },
+        {
+            "そっと・そっと": "softly"
+        },
+        {
+            "袖・そで": "sleeve"
+        },
+        {
+            "備える・そなえる": "to prepare"
+        },
+        {
+            "具える・そなえる": "to be furnished with"
+        },
+        {
+            "そのうえ・そのうえ": "in addition"
+        },
+        {
+            "そのうち・そのうち": "before long"
+        },
+        {
+            "そのまま・そのまま": "without change"
+        },
+        {
+            "蕎麦・そば": "soba (buckwheat noodles)"
+        },
+        {
+            "ソファー・ソファー": "sofa"
+        },
+        {
+            "粗末・そまつ": "humble"
+        },
+        {
+            "それぞれ・それぞれ": "each"
+        },
+        {
+            "それでも・それでも": "but (still)"
+        },
+        {
+            "それと・それと": "and"
+        },
+        {
+            "それとも・それとも": "or"
+        },
+        {
+            "揃う・そろう": "to become complete"
+        },
+        {
+            "揃える・そろえる": "to put things in order"
+        },
+        {
+            "損・そん": "loss"
+        },
+        {
+            "損害・そんがい": "damage"
+        },
+        {
+            "尊敬・そんけい": "respect"
+        },
+        {
+            "存在・そんざい": "existence"
+        },
+        {
+            "尊重・そんちょう": "respect"
+        },
+        {
+            "田・た": "rice field"
+        },
+        {
+            "他・た": "other (esp. places and things)"
+        },
+        {
+            "対・たい": "pair"
+        },
+        {
+            "大・だい": "big"
+        },
+        {
+            "題・だい": "title"
+        },
+        {
+            "体育・たいいく": "physical education"
+        },
+        {
+            "体温・たいおん": "temperature (body)"
+        },
+        {
+            "大会・たいかい": "convention"
+        },
+        {
+            "大気・たいき": "atmosphere"
+        },
+        {
+            "代金・だいきん": "price"
+        },
+        {
+            "退屈・たいくつ": "tedium"
+        },
+        {
+            "滞在・たいざい": "stay"
+        },
+        {
+            "大使・たいし": "ambassador"
+        },
+        {
+            "大した・たいした": "significant"
+        },
+        {
+            "体重・たいじゅう": "(body) weight"
+        },
+        {
+            "対象・たいしょう": "target; object (of worship"
+        },
+        {
+            "対照・たいしょう": "contrast"
+        },
+        {
+            "大臣・だいじん": "cabinet minister"
+        },
+        {
+            "対する・たいする": "to face"
+        },
+        {
+            "大戦・たいせん": "great war"
+        },
+        {
+            "態度・たいど": "attitude"
+        },
+        {
+            "大統領・だいとうりょう": "president"
+        },
+        {
+            "大半・たいはん": "most of"
+        },
+        {
+            "代表・だいひょう": "representative"
+        },
+        {
+            "大部分・だいぶぶん": "most part"
+        },
+        {
+            "タイプライター・タイプライター": "typewriter"
+        },
+        {
+            "逮捕・たいほ": "arrest"
+        },
+        {
+            "題名・だいめい": "title"
+        },
+        {
+            "ダイヤ・ダイヤ": "(railway) schedule; diamond"
+        },
+        {
+            "太陽・たいよう": "sun"
+        },
+        {
+            "平ら・たいら": "flatness"
+        },
+        {
+            "代理・だいり": "representation"
+        },
+        {
+            "大陸・たいりく": "continent"
+        },
+        {
+            "倒す・たおす": "to throw down"
+        },
+        {
+            "タオル・タオル": "(hand) towel"
+        },
+        {
+            "だが・だが": "but"
+        },
+        {
+            "互い・たがい": "mutual"
+        },
+        {
+            "高める・たかめる": "to raise"
+        },
+        {
+            "宝・たから": "treasure"
+        },
+        {
+            "宅・たく": "house"
+        },
+        {
+            "炊く・たく": "to boil"
+        },
+        {
+            "焚く・たく": "to burn"
+        },
+        {
+            "抱く・だく": "to embrace"
+        },
+        {
+            "だけど・だけど": "however"
+        },
+        {
+            "たしか・たしか": "certain"
+        },
+        {
+            "確かめる・たしかめる": "to ascertain"
+        },
+        {
+            "多少・たしょう": "a little (same as 少し (すこし))"
+        },
+        {
+            "助かる・たすかる": "to be saved; (something) helps (v.i.)"
+        },
+        {
+            "助ける・たすける": "to help (v.t.)"
+        },
+        {
+            "ただ・ただ": "free of charge; just (~); only (~)"
+        },
+        {
+            "只・ただ": "free of charge"
+        },
+        {
+            "唯・ただ": "mere"
+        },
+        {
+            "戦い・たたかい": "battle"
+        },
+        {
+            "戦う・たたかう": "to fight"
+        },
+        {
+            "叩く・たたく": "to strike"
+        },
+        {
+            "直ちに・ただちに": "at once"
+        },
+        {
+            "畳む・たたむ": "to fold (clothes)"
+        },
+        {
+            "立ち上がる・たちあがる": "to stand up"
+        },
+        {
+            "立場・たちば": "standpoint"
+        },
+        {
+            "建つ・たつ": "to stand; to be built (v.i.)"
+        },
+        {
+            "経つ・たつ": "(time) passes"
+        },
+        {
+            "達する・たっする": "to reach"
+        },
+        {
+            "唯・たった": "only"
+        },
+        {
+            "だって・だって": "but"
+        },
+        {
+            "たっぷり・たっぷり": "full"
+        },
+        {
+            "たとえ・たとえ": "even if"
+        },
+        {
+            "谷・たに": "valley"
+        },
+        {
+            "他人・たにん": "unrelated person"
+        },
+        {
+            "種・たね": "seed; material; cause"
+        },
+        {
+            "束・たば": "bunch"
+        },
+        {
+            "足袋・たび": "Japanese socks (with split toe)"
+        },
+        {
+            "度・たび": "counter for occurrences"
+        },
+        {
+            "旅・たび": "travel"
+        },
+        {
+            "たびたび・たびたび": "often"
+        },
+        {
+            "玉・たま": "ball"
+        },
+        {
+            "球・たま": "globe"
+        },
+        {
+            "弾・たま": "bullet"
+        },
+        {
+            "偶・たま": "even number"
+        },
+        {
+            "騙す・だます": "to trick"
+        },
+        {
+            "偶々・たまたま": "unexpectedly"
+        },
+        {
+            "たまらない・たまらない": "intolerable"
+        },
+        {
+            "溜まる・たまる": "to collect"
+        },
+        {
+            "黙る・だまる": "to be silent"
+        },
+        {
+            "試し・ためし": "trial"
+        },
+        {
+            "試す・ためす": "to attempt"
+        },
+        {
+            "溜める・ためる": "to accumulate"
+        },
+        {
+            "便り・たより": "news"
+        },
+        {
+            "頼る・たよる": "to rely on"
+        },
+        {
+            "段・だん": "step"
+        },
+        {
+            "単位・たんい": "credit (for a course in school); unit"
+        },
+        {
+            "単語・たんご": "word; vocabulary"
+        },
+        {
+            "男子・だんし": "young man"
+        },
+        {
+            "単純・たんじゅん": "simplicity"
+        },
+        {
+            "誕生・たんじょう": "birth"
+        },
+        {
+            "ダンス・ダンス": "dance"
+        },
+        {
+            "団体・だんたい": "organization"
+        },
+        {
+            "担当・たんとう": "(in) charge"
+        },
+        {
+            "単なる・たんなる": "mere"
+        },
+        {
+            "単に・たんに": "simply"
+        },
+        {
+            "地・ち": "earth"
+        },
+        {
+            "地位・ちい": "(social) position"
+        },
+        {
+            "地域・ちいき": "area"
+        },
+        {
+            "チーズ・チーズ": "cheese"
+        },
+        {
+            "チーム・チーム": "team"
+        },
+        {
+            "知恵・ちえ": "wisdom"
+        },
+        {
+            "地下・ちか": "basement"
+        },
+        {
+            "違い・ちがい": "difference"
+        },
+        {
+            "違いない・ちがいない": "(phrase) sure"
+        },
+        {
+            "近頃・ちかごろ": "lately"
+        },
+        {
+            "地球・ちきゅう": "the earth"
+        },
+        {
+            "地区・ちく": "district"
+        },
+        {
+            "遅刻・ちこく": "lateness"
+        },
+        {
+            "知事・ちじ": "prefectural governor"
+        },
+        {
+            "知識・ちしき": "knowledge"
+        },
+        {
+            "父親・ちちおや": "father"
+        },
+        {
+            "知能・ちのう": "intelligence"
+        },
+        {
+            "地平線・ちへいせん": "horizon"
+        },
+        {
+            "地方・ちほう": "area"
+        },
+        {
+            "茶・ちゃ": "tea"
+        },
+        {
+            "チャンス・チャンス": "chance"
+        },
+        {
+            "ちゃんと・ちゃんと": "perfectly"
+        },
+        {
+            "中・ちゅう": "inside"
+        },
+        {
+            "注・ちゅう": "annotation"
+        },
+        {
+            "中央・ちゅうおう": "central"
+        },
+        {
+            "中学・ちゅうがく": "middle school"
+        },
+        {
+            "中古・ちゅうこ": "used"
+        },
+        {
+            "中止・ちゅうし": "suspension"
+        },
+        {
+            "駐車・ちゅうしゃ": "parking (e.g."
+        },
+        {
+            "昼食・ちゅうしょく": "lunch (same as 昼ご飯 (ひるごはん))"
+        },
+        {
+            "中心・ちゅうしん": "center"
+        },
+        {
+            "注目・ちゅうもく": "notice"
+        },
+        {
+            "注文・ちゅうもん": "order"
+        },
+        {
+            "長期・ちょうき": "long time period"
+        },
+        {
+            "調査・ちょうさ": "survey; investigation"
+        },
+        {
+            "調子・ちょうし": "condition"
+        },
+        {
+            "頂上・ちょうじょう": "top"
+        },
+        {
+            "ちょうだい・ちょうだい": "-- colloquial form of ください; typically used by children or women --"
+        },
+        {
+            "貯金・ちょきん": "(bank) savings"
+        },
+        {
+            "直接・ちょくせつ": "direct"
+        },
+        {
+            "著者・ちょしゃ": "author"
+        },
+        {
+            "散らす・ちらす": "to scatter"
+        },
+        {
+            "散る・ちる": "to fall"
+        },
+        {
+            "遂に・ついに": "finally"
+        },
+        {
+            "通過・つうか": "passage through"
+        },
+        {
+            "通貨・つうか": "currency"
+        },
+        {
+            "通学・つうがく": "commuting to school"
+        },
+        {
+            "通勤・つうきん": "commuting to work"
+        },
+        {
+            "通行・つうこう": "passage"
+        },
+        {
+            "通じる・つうじる": "to run to"
+        },
+        {
+            "通信・つうしん": "correspondence"
+        },
+        {
+            "通訳・つうやく": "interpretation; interpreter"
+        },
+        {
+            "捕まる・つかまる": "to be arrested; to be caught"
+        },
+        {
+            "掴む・つかむ": "to seize"
+        },
+        {
+            "疲れ・つかれ": "tiredness"
+        },
+        {
+            "付き合い・つきあい": "socialization; friendship; association"
+        },
+        {
+            "付合う・つきあう": "to associate with"
+        },
+        {
+            "次々・つぎつぎ": "in succession"
+        },
+        {
+            "付く・つく": "to adjoin"
+        },
+        {
+            "就く・つく": "to settle in (place)"
+        },
+        {
+            "突く・つく": "to thrust"
+        },
+        {
+            "次ぐ・つぐ": "to rank next to"
+        },
+        {
+            "注ぐ・つぐ": "to pour (into)"
+        },
+        {
+            "付ける・つける": "to attach"
+        },
+        {
+            "着ける・つける": "to put on"
+        },
+        {
+            "伝わる・つたわる": "to be handed down"
+        },
+        {
+            "土・つち": "earth"
+        },
+        {
+            "続き・つづき": "sequel"
+        },
+        {
+            "包み・つつみ": "bundle"
+        },
+        {
+            "勤め・つとめ": "work"
+        },
+        {
+            "務め・つとめ": "duty"
+        },
+        {
+            "繋がる・つながる": "to be connected to"
+        },
+        {
+            "繋ぐ・つなぐ": "to tie"
+        },
+        {
+            "繋げる・つなげる": "to connect"
+        },
+        {
+            "常に・つねに": "always (same as いつも) (written expression)"
+        },
+        {
+            "翼・つばさ": "wings"
+        },
+        {
+            "つまり・つまり": "namely; in other words; in short"
+        },
+        {
+            "罪・つみ": "crime"
+        },
+        {
+            "積む・つむ": "to pile up"
+        },
+        {
+            "詰める・つめる": "to pack"
+        },
+        {
+            "積もる・つもる": "to pile up"
+        },
+        {
+            "梅雨・つゆ": "rainy season"
+        },
+        {
+            "辛い・つらい": "painful"
+        },
+        {
+            "釣・つり": "fishing"
+        },
+        {
+            "連れ・つれ": "companion"
+        },
+        {
+            "出・で": "outflow"
+        },
+        {
+            "出会い・であい": "meeting"
+        },
+        {
+            "出合い・であい": "an encounter"
+        },
+        {
+            "出会う・であう": "to meet by chance"
+        },
+        {
+            "提案・ていあん": "proposal"
+        },
+        {
+            "定期・ていき": "fixed term"
+        },
+        {
+            "抵抗・ていこう": "resistance"
+        },
+        {
+            "提出・ていしゅつ": "presentation"
+        },
+        {
+            "停電・ていでん": "failure of electricity"
+        },
+        {
+            "程度・ていど": "degree"
+        },
+        {
+            "停留所・ていりゅうじょ": "bus or tram stop"
+        },
+        {
+            "デート・デート": "date (in the sense of 'social engagement' only)"
+        },
+        {
+            "敵・てき": "enemy"
+        },
+        {
+            "出来事・できごと": "incident happening"
+        },
+        {
+            "適する・てきする": "to fit"
+        },
+        {
+            "適切・てきせつ": "appropriate"
+        },
+        {
+            "適度・てきど": "moderate"
+        },
+        {
+            "適用・てきよう": "applying"
+        },
+        {
+            "できれば・できれば": "if possible…"
+        },
+        {
+            "手品・てじな": "conjuring trick"
+        },
+        {
+            "ですから・ですから": "therefore"
+        },
+        {
+            "鉄・てつ": "iron"
+        },
+        {
+            "哲学・てつがく": "philosophy"
+        },
+        {
+            "手伝い・てつだい": "help"
+        },
+        {
+            "徹底・てってい": "thoroughness"
+        },
+        {
+            "鉄道・てつどう": "railway; railroad"
+        },
+        {
+            "徹夜・てつや": "staying up all night"
+        },
+        {
+            "手間・てま": "time"
+        },
+        {
+            "デモ・デモ": "demo"
+        },
+        {
+            "典型・てんけい": "type"
+        },
+        {
+            "天候・てんこう": "weather"
+        },
+        {
+            "電子・でんし": "electron; electronic"
+        },
+        {
+            "テント・テント": "tent"
+        },
+        {
+            "伝統・でんとう": "tradition"
+        },
+        {
+            "天然・てんねん": "nature"
+        },
+        {
+            "問い・とい": "question"
+        },
+        {
+            "党・とう": "party (political)"
+        },
+        {
+            "塔・とう": "tower"
+        },
+        {
+            "答案・とうあん": "examination paper"
+        },
+        {
+            "同一・どういつ": "identity"
+        },
+        {
+            "銅貨・どうか": "copper coin"
+        },
+        {
+            "当時・とうじ": "at that time"
+        },
+        {
+            "動詞・どうし": "verb"
+        },
+        {
+            "同時・どうじ": "simultaneous(ly)"
+        },
+        {
+            "どうしても・どうしても": "at any cost"
+        },
+        {
+            "どうぞよろしく・どうぞよろしく": "pleased to meet you"
+        },
+        {
+            "到着・とうちゃく": "arrival"
+        },
+        {
+            "道徳・どうとく": "morals"
+        },
+        {
+            "投票・とうひょう": "voting"
+        },
+        {
+            "東洋・とうよう": "Orient"
+        },
+        {
+            "同様・どうよう": "identical"
+        },
+        {
+            "童謡・どうよう": "children's song"
+        },
+        {
+            "同僚・どうりょう": "colleague; co-worker"
+        },
+        {
+            "道路・どうろ": "road"
+        },
+        {
+            "通す・とおす": "to let pass"
+        },
+        {
+            "通り過ぎる・とおりすぎる": "to pass"
+        },
+        {
+            "都会・とかい": "city"
+        },
+        {
+            "溶く・とく": "to dissolve (paint)"
+        },
+        {
+            "解く・とく": "to unfasten; answer"
+        },
+        {
+            "退く・どく": "to retreat"
+        },
+        {
+            "毒・どく": "poison"
+        },
+        {
+            "得意・とくい": "pride"
+        },
+        {
+            "読書・どくしょ": "reading"
+        },
+        {
+            "独身・どくしん": "single"
+        },
+        {
+            "特徴・とくちょう": "characteristic(s); feature(s); trait(s)"
+        },
+        {
+            "特長・とくちょう": "forte"
+        },
+        {
+            "独特・どくとく": "peculiarity"
+        },
+        {
+            "独立・どくりつ": "independence (e.g."
+        },
+        {
+            "溶ける・とける": "to melt"
+        },
+        {
+            "解ける・とける": "to come untied"
+        },
+        {
+            "どこか・どこか": "somewhere"
+        },
+        {
+            "ところが・ところが": "however"
+        },
+        {
+            "ところで・ところで": "by the way; even if"
+        },
+        {
+            "登山・とざん": "mountain-climbing"
+        },
+        {
+            "都市・とし": "town"
+        },
+        {
+            "年月・としつき": "months and years"
+        },
+        {
+            "図書・としょ": "books"
+        },
+        {
+            "年寄・としより": "old people"
+        },
+        {
+            "閉じる・とじる": "to close (e.g."
+        },
+        {
+            "途端・とたん": "just (now"
+        },
+        {
+            "土地・とち": "plot of land"
+        },
+        {
+            "突然・とつぜん": "abruptly"
+        },
+        {
+            "トップ・トップ": "top"
+        },
+        {
+            "届く・とどく": "to reach"
+        },
+        {
+            "とにかく・とにかく": "anyhow"
+        },
+        {
+            "飛ばす・とばす": "to skip over"
+        },
+        {
+            "飛び出す・とびだす": "to jump out"
+        },
+        {
+            "留める・とめる": "to fasten"
+        },
+        {
+            "泊める・とめる": "to have someone stay (over night) (v.t.)"
+        },
+        {
+            "友・とも": "friend"
+        },
+        {
+            "共に・ともに": "sharing with"
+        },
+        {
+            "虎・とら": "tiger"
+        },
+        {
+            "ドライブ・ドライブ": "drive"
+        },
+        {
+            "トラック・トラック": "truck; (running) track"
+        },
+        {
+            "ドラマ・ドラマ": "drama"
+        },
+        {
+            "トランプ・トランプ": "playing cards (lit: trump)"
+        },
+        {
+            "取り上げる・とりあげる": "to take up"
+        },
+        {
+            "努力・どりょく": "great effort"
+        },
+        {
+            "トレーニング・トレーニング": "training"
+        },
+        {
+            "ドレス・ドレス": "dress"
+        },
+        {
+            "取れる・とれる": "to come off"
+        },
+        {
+            "泥・どろ": "mud"
+        },
+        {
+            "トン・トン": "ton (1000 lbs.)"
+        },
+        {
+            "とんでもない・とんでもない": "outrageous"
+        },
+        {
+            "どんなに・どんなに": "how"
+        },
+        {
+            "トンネル・トンネル": "tunnel"
+        },
+        {
+            "名・な": "name"
+        },
+        {
+            "内容・ないよう": "subject"
+        },
+        {
+            "なお・なお": "still"
+        },
+        {
+            "仲・なか": "relation"
+        },
+        {
+            "流す・ながす": "to drain"
+        },
+        {
+            "半ば・なかば": "middle"
+        },
+        {
+            "仲間・なかま": "company"
+        },
+        {
+            "中身・なかみ": "content(s); substance"
+        },
+        {
+            "中味・なかみ": "contents"
+        },
+        {
+            "眺め・ながめ": "scene; view; prospect; outlook"
+        },
+        {
+            "眺める・ながめる": "to view"
+        },
+        {
+            "流れ・ながれ": "stream"
+        },
+        {
+            "流れる・ながれる": "to flow"
+        },
+        {
+            "亡くす・なくす": "to lose someone"
+        },
+        {
+            "殴る・なぐる": "to strike; to hit; to punch"
+        },
+        {
+            "無し・なし": "without"
+        },
+        {
+            "なぜなら・なぜなら": "because"
+        },
+        {
+            "謎・なぞ": "riddle"
+        },
+        {
+            "納得・なっとく": "consent"
+        },
+        {
+            "何か・なにか": "something"
+        },
+        {
+            "なにも・なにも": "nothing"
+        },
+        {
+            "鍋・なべ": "saucepan"
+        },
+        {
+            "生・なま": "raw"
+        },
+        {
+            "怠ける・なまける": "to be idle"
+        },
+        {
+            "波・なみ": "wave"
+        },
+        {
+            "涙・なみだ": "tear"
+        },
+        {
+            "悩む・なやむ": "to agonize"
+        },
+        {
+            "鳴らす・ならす": "to ring"
+        },
+        {
+            "為る・なる": "to change"
+        },
+        {
+            "生る・なる": "to bear fruit"
+        },
+        {
+            "馴れる・なれる": "to become domesticated"
+        },
+        {
+            "縄・なわ": "rope"
+        },
+        {
+            "何で・なんで": "Why"
+        },
+        {
+            "何でも・なんでも": "by all means"
+        },
+        {
+            "何とか・なんとか": "somehow"
+        },
+        {
+            "似合う・にあう": "to suit (a person)"
+        },
+        {
+            "煮える・にえる": "to boil"
+        },
+        {
+            "苦手・にがて": "poor (at)"
+        },
+        {
+            "握る・にぎる": "to grasp"
+        },
+        {
+            "日・にち": "day"
+        },
+        {
+            "日常・にちじょう": "ordinary"
+        },
+        {
+            "日光・にっこう": "sunlight"
+        },
+        {
+            "日中・にっちゅう": "daytime"
+        },
+        {
+            "にっこり・にっこり": "smile sweetly"
+        },
+        {
+            "日本・にっぽん": "Japan"
+        },
+        {
+            "日本・にほん": "Japan"
+        },
+        {
+            "入場・にゅうじょう": "entrance"
+        },
+        {
+            "煮る・にる": "to boil"
+        },
+        {
+            "人気・にんき": "popularity"
+        },
+        {
+            "人間・にんげん": "human being"
+        },
+        {
+            "抜く・ぬく": "to extract"
+        },
+        {
+            "抜ける・ぬける": "to come out"
+        },
+        {
+            "布・ぬの": "cloth"
+        },
+        {
+            "濡らす・ぬらす": "to wet"
+        },
+        {
+            "根・ね": "root"
+        },
+        {
+            "値・ね": "value"
+        },
+        {
+            "願い・ねがい": "desire"
+        },
+        {
+            "願う・ねがう": "to desire"
+        },
+        {
+            "鼠・ねずみ": "mouse"
+        },
+        {
+            "熱帯・ねったい": "tropics"
+        },
+        {
+            "熱中・ねっちゅう": "enthusiasm"
+        },
+        {
+            "年間・ねんかん": "year"
+        },
+        {
+            "年月・ねんげつ": "months and years"
+        },
+        {
+            "年中・ねんじゅう": "whole year"
+        },
+        {
+            "年代・ねんだい": "age"
+        },
+        {
+            "年齢・ねんれい": "age"
+        },
+        {
+            "野・の": "field"
+        },
+        {
+            "能・のう": "being skilled in"
+        },
+        {
+            "農家・のうか": "farmer"
+        },
+        {
+            "農業・のうぎょう": "agriculture"
+        },
+        {
+            "農民・のうみん": "farmers"
+        },
+        {
+            "能力・のうりょく": "ability"
+        },
+        {
+            "ノー・ノー": "no"
+        },
+        {
+            "軒・のき": "eaves"
+        },
+        {
+            "残す・のこす": "to leave (behind"
+        },
+        {
+            "残り・のこり": "remaining"
+        },
+        {
+            "乗せる・のせる": "to place on (something)"
+        },
+        {
+            "載せる・のせる": "to place on (something); to publish"
+        },
+        {
+            "覗く・のぞく": "to peek in"
+        },
+        {
+            "除く・のぞく": "to remove"
+        },
+        {
+            "望み・のぞみ": "wish"
+        },
+        {
+            "望む・のぞむ": "to desire"
+        },
+        {
+            "後・のち": "afterwards"
+        },
+        {
+            "ノック・ノック": "knock; fungo (baseball)"
+        },
+        {
+            "伸ばす・のばす": "to extend"
+        },
+        {
+            "延ばす・のばす": "to extend"
+        },
+        {
+            "伸びる・のびる": "to extend"
+        },
+        {
+            "延びる・のびる": "to be prolonged"
+        },
+        {
+            "述べる・のべる": "to state"
+        },
+        {
+            "上る・のぼる": "to ascend"
+        },
+        {
+            "昇る・のぼる": "to arise"
+        },
+        {
+            "載る・のる": "to appear (in print)"
+        },
+        {
+            "のんびり・のんびり": "carefree"
+        },
+        {
+            "場・ば": "place"
+        },
+        {
+            "はあ (かん)・はあ (かん)": "(sigh)"
+        },
+        {
+            "パーセント・パーセント": "percent"
+        },
+        {
+            "灰・はい": "ash"
+        },
+        {
+            "梅雨・ばいう": "rainy season"
+        },
+        {
+            "バイオリン・バイオリン": "violin"
+        },
+        {
+            "ハイキング・ハイキング": "hiking"
+        },
+        {
+            "配達・はいたつ": "delivery"
+        },
+        {
+            "パイプ・パイプ": "pipe; channels official or otherwise"
+        },
+        {
+            "俳優・はいゆう": "actor"
+        },
+        {
+            "パイロット・パイロット": "pilot"
+        },
+        {
+            "生える・はえる": "to grow"
+        },
+        {
+            "墓・はか": "grave"
+        },
+        {
+            "馬鹿・ばか": "fool"
+        },
+        {
+            "博士・はかせ": "doctorate"
+        },
+        {
+            "計る・はかる": "to measure"
+        },
+        {
+            "量る・はかる": "to measure"
+        },
+        {
+            "測る・はかる": "to measure"
+        },
+        {
+            "掃く・はく": "to sweep"
+        },
+        {
+            "吐く・はく": "to throw up"
+        },
+        {
+            "拍手・はくしゅ": "clapping hands"
+        },
+        {
+            "莫大・ばくだい": "enormous"
+        },
+        {
+            "爆発・ばくはつ": "explosion"
+        },
+        {
+            "博物館・はくぶつかん": "museum"
+        },
+        {
+            "激しい・はげしい": "violent"
+        },
+        {
+            "はさみ・はさみ": "scissors"
+        },
+        {
+            "破産・はさん": "(personal) bankruptcy"
+        },
+        {
+            "端・はし": "end (e.g."
+        },
+        {
+            "始まり・はじまり": "origin"
+        },
+        {
+            "パス・パス": "path"
+        },
+        {
+            "外す・はずす": "to unfasten"
+        },
+        {
+            "パスポート・パスポート": "passport"
+        },
+        {
+            "外れる・はずれる": "to be disconnected"
+        },
+        {
+            "旗・はた": "flag"
+        },
+        {
+            "肌・はだ": "skin"
+        },
+        {
+            "裸・はだか": "naked"
+        },
+        {
+            "畑・はたけ": "field"
+        },
+        {
+            "働き・はたらき": "work"
+        },
+        {
+            "バッグ・バッグ": "bag"
+        },
+        {
+            "発見・はっけん": "discovery"
+        },
+        {
+            "発行・はっこう": "issue (publications)"
+        },
+        {
+            "発車・はっしゃ": "departure of a vehicle"
+        },
+        {
+            "発射・はっしゃ": "firing"
+        },
+        {
+            "罰する・ばっする": "to punish"
+        },
+        {
+            "発達・はったつ": "development"
+        },
+        {
+            "ばったり・ばったり": "(to meet) by chance"
+        },
+        {
+            "発展・はってん": "development"
+        },
+        {
+            "発表・はっぴょう": "announcement; publication; presentation"
+        },
+        {
+            "発明・はつめい": "invention"
+        },
+        {
+            "派手・はで": "showy"
+        },
+        {
+            "話し合う・はなしあう": "to discuss"
+        },
+        {
+            "離す・はなす": "to part"
+        },
+        {
+            "放す・はなす": "to separate"
+        },
+        {
+            "離れる・はなれる": "(something"
+        },
+        {
+            "放れる・はなれる": "to leave"
+        },
+        {
+            "羽・はね": "wing"
+        },
+        {
+            "羽根・はね": "feather"
+        },
+        {
+            "幅・はば": "width"
+        },
+        {
+            "母親・ははおや": "mother"
+        },
+        {
+            "省く・はぶく": "to omit"
+        },
+        {
+            "場面・ばめん": "scene"
+        },
+        {
+            "流行る・はやる": "to be popular"
+        },
+        {
+            "腹・はら": "abdomen"
+        },
+        {
+            "原・はら": "field"
+        },
+        {
+            "バランス・バランス": "balance"
+        },
+        {
+            "針・はり": "needle"
+        },
+        {
+            "範囲・はんい": "extent"
+        },
+        {
+            "反抗・はんこう": "opposition"
+        },
+        {
+            "犯罪・はんざい": "crime"
+        },
+        {
+            "ハンサム・ハンサム": "handsome"
+        },
+        {
+            "反省・はんせい": "reflection"
+        },
+        {
+            "判断・はんだん": "judgment"
+        },
+        {
+            "犯人・はんにん": "offender"
+        },
+        {
+            "販売・はんばい": "sale"
+        },
+        {
+            "灯・ひ": "light"
+        },
+        {
+            "ビール・ビール": "beer"
+        },
+        {
+            "被害・ひがい": "damage"
+        },
+        {
+            "比較・ひかく": "comparison"
+        },
+        {
+            "ピクニック・ピクニック": "picnic"
+        },
+        {
+            "悲劇・ひげき": "tragedy"
+        },
+        {
+            "飛行・ひこう": "aviation"
+        },
+        {
+            "膝・ひざ": "knee"
+        },
+        {
+            "非常・ひじょう": "emergency"
+        },
+        {
+            "美人・びじん": "beautiful person (woman)"
+        },
+        {
+            "額・ひたい": "forehead"
+        },
+        {
+            "日付・ひづけ": "date"
+        },
+        {
+            "引越し・ひっこし": "moving"
+        },
+        {
+            "必死・ひっし": "desperation"
+        },
+        {
+            "ぴったり・ぴったり": "exactly"
+        },
+        {
+            "引っ張る・ひっぱる": "to pull"
+        },
+        {
+            "否定・ひてい": "negation"
+        },
+        {
+            "ビデオ・ビデオ": "video tape; VCR"
+        },
+        {
+            "一言・ひとこと": "one word"
+        },
+        {
+            "人込み・ひとごみ": "crowd of people"
+        },
+        {
+            "等しい・ひとしい": "equal"
+        },
+        {
+            "独り・ひとり": "alone"
+        },
+        {
+            "一人一人・ひとりひとり": "one by one"
+        },
+        {
+            "批判・ひはん": "criticism"
+        },
+        {
+            "批評・ひひょう": "criticism"
+        },
+        {
+            "秘密・ひみつ": "secret"
+        },
+        {
+            "微妙・びみょう": "delicate"
+        },
+        {
+            "紐・ひも": "string"
+        },
+        {
+            "冷やす・ひやす": "to cool"
+        },
+        {
+            "費用・ひよう": "cost"
+        },
+        {
+            "表・ひょう": "table (e.g."
+        },
+        {
+            "秒・びょう": "second (60th min)"
+        },
+        {
+            "評価・ひょうか": "assessment"
+        },
+        {
+            "表現・ひょうげん": "expression"
+        },
+        {
+            "表情・ひょうじょう": "facial expression"
+        },
+        {
+            "平等・びょうどう": "equality"
+        },
+        {
+            "評判・ひょうばん": "fame"
+        },
+        {
+            "表面・ひょうめん": "surface"
+        },
+        {
+            "広がる・ひろがる": "to spread (out)"
+        },
+        {
+            "広げる・ひろげる": "to spread"
+        },
+        {
+            "広める・ひろめる": "to broaden"
+        },
+        {
+            "品・ひん": "goods; taste"
+        },
+        {
+            "瓶・びん": "bottle"
+        },
+        {
+            "便・びん": "way"
+        },
+        {
+            "ピン・ピン": "pin"
+        },
+        {
+            "不・ふ": "un(~)"
+        },
+        {
+            "不・ぶ": "un(~)"
+        },
+        {
+            "無・ぶ": "nothing"
+        },
+        {
+            "分・ぶ": "dividing"
+        },
+        {
+            "不安・ふあん": "anxiety"
+        },
+        {
+            "風景・ふうけい": "scenery"
+        },
+        {
+            "夫婦・ふうふ": "married couple"
+        },
+        {
+            "笛・ふえ": "flute"
+        },
+        {
+            "不可・ふか": "wrong"
+        },
+        {
+            "深まる・ふかまる": "to deepen"
+        },
+        {
+            "武器・ぶき": "weapon"
+        },
+        {
+            "拭く・ふく": "to wipe"
+        },
+        {
+            "服装・ふくそう": "clothes"
+        },
+        {
+            "含む・ふくむ": "to contain"
+        },
+        {
+            "含める・ふくめる": "to include"
+        },
+        {
+            "袋・ふくろ": "bag"
+        },
+        {
+            "不幸・ふこう": "unhappiness"
+        },
+        {
+            "節・ふし": "tune"
+        },
+        {
+            "無事・ぶじ": "safety"
+        },
+        {
+            "不思議・ふしぎ": "mystery"
+        },
+        {
+            "不自由・ふじゆう": "discomfort"
+        },
+        {
+            "夫人・ふじん": "wife"
+        },
+        {
+            "婦人・ふじん": "woman (same as 女性 (じょせい)、女の人 (おんなのひと))"
+        },
+        {
+            "不正・ふせい": "injustice"
+        },
+        {
+            "防ぐ・ふせぐ": "to defend (against)"
+        },
+        {
+            "不足・ふそく": "insufficiency"
+        },
+        {
+            "舞台・ぶたい": "stage (theater)"
+        },
+        {
+            "双子・ふたご": "twins"
+        },
+        {
+            "再び・ふたたび": "again"
+        },
+        {
+            "普段・ふだん": "in everyday situations"
+        },
+        {
+            "縁・ふち": "edge"
+        },
+        {
+            "打つ・ぶつ": "to hit"
+        },
+        {
+            "不通・ふつう": "blockade"
+        },
+        {
+            "物価・ぶっか": "(commodity/consumer) prices"
+        },
+        {
+            "ぶつかる・ぶつかる": "to strike"
+        },
+        {
+            "ぶつける・ぶつける": "to knock"
+        },
+        {
+            "物質・ぶっしつ": "material"
+        },
+        {
+            "物理・ぶつり": "physics"
+        },
+        {
+            "筆・ふで": "writing brush"
+        },
+        {
+            "ふと・ふと": "suddenly"
+        },
+        {
+            "部分・ぶぶん": "portion"
+        },
+        {
+            "不平・ふへい": "complaint"
+        },
+        {
+            "不満・ふまん": "dissatisfaction"
+        },
+        {
+            "増やす・ふやす": "to increase (v.t.)"
+        },
+        {
+            "殖やす・ふやす": "to increase"
+        },
+        {
+            "プラス・プラス": "plus"
+        },
+        {
+            "プラスチック・プラスチック": "plastic"
+        },
+        {
+            "プラン・プラン": "plan"
+        },
+        {
+            "不利・ふり": "disadvantage"
+        },
+        {
+            "振る・ふる": "to wave"
+        },
+        {
+            "震える・ふるえる": "to shiver"
+        },
+        {
+            "ブレーキ・ブレーキ": "a brake"
+        },
+        {
+            "触れる・ふれる": "to touch"
+        },
+        {
+            "プロ・プロ": "professional"
+        },
+        {
+            "分・ぶん": "dividing"
+        },
+        {
+            "文・ぶん": "sentence"
+        },
+        {
+            "雰囲気・ふんいき": "atmosphere (e.g."
+        },
+        {
+            "分析・ぶんせき": "analysis"
+        },
+        {
+            "文明・ぶんめい": "civilization"
+        },
+        {
+            "分野・ぶんや": "field"
+        },
+        {
+            "塀・へい": "wall"
+        },
+        {
+            "平均・へいきん": "equilibrium"
+        },
+        {
+            "平和・へいわ": "peace"
+        },
+        {
+            "別に・べつに": "(not) particularly"
+        },
+        {
+            "減らす・へらす": "to decrease"
+        },
+        {
+            "減る・へる": "to decrease (in size or number)"
+        },
+        {
+            "ベルト・ベルト": "Belt for western clothes"
+        },
+        {
+            "変化・へんか": "change"
+        },
+        {
+            "ペンキ・ペンキ": "paint"
+        },
+        {
+            "変更・へんこう": "change"
+        },
+        {
+            "ベンチ・ベンチ": "bench"
+        },
+        {
+            "弁当・べんとう": "box lunch"
+        },
+        {
+            "方・ほう": "side"
+        },
+        {
+            "法・ほう": "Act (law: the X Act)"
+        },
+        {
+            "棒・ぼう": "pole"
+        },
+        {
+            "冒険・ぼうけん": "risk"
+        },
+        {
+            "方向・ほうこう": "direction"
+        },
+        {
+            "報告・ほうこく": "report"
+        },
+        {
+            "宝石・ほうせき": "gem"
+        },
+        {
+            "包装・ほうそう": "packing"
+        },
+        {
+            "豊富・ほうふ": "abundance"
+        },
+        {
+            "方法・ほうほう": "method"
+        },
+        {
+            "方々・ほうぼう": "here and there"
+        },
+        {
+            "訪問・ほうもん": "call"
+        },
+        {
+            "吠える・ほえる": "to bark"
+        },
+        {
+            "ボーイ・ボーイ": "porter; boy"
+        },
+        {
+            "ボート・ボート": "rowing boat"
+        },
+        {
+            "ホーム・ホーム": "platform; home"
+        },
+        {
+            "ボール・ボール": "ball; bowl"
+        },
+        {
+            "他・ほか": "other (esp. places and things)"
+        },
+        {
+            "誇り・ほこり": "pride"
+        },
+        {
+            "埃・ほこり": "dust"
+        },
+        {
+            "保証・ほしょう": "guarantee"
+        },
+        {
+            "保存・ほぞん": "preservation"
+        },
+        {
+            "歩道・ほどう": "walkway"
+        },
+        {
+            "仏・ほとけ": "Buddha"
+        },
+        {
+            "骨・ほね": "bone"
+        },
+        {
+            "炎・ほのお": "flame"
+        },
+        {
+            "頬・ほほ": "cheek (of face)"
+        },
+        {
+            "頬・ほお": "cheek (of face)"
+        },
+        {
+            "ほぼ・ほぼ": "almost"
+        },
+        {
+            "微笑む・ほほえむ": "to smile"
+        },
+        {
+            "堀・ほり": "moat"
+        },
+        {
+            "濠・ほり": "moat"
+        },
+        {
+            "本当・ほんと": "truth"
+        },
+        {
+            "本人・ほんにん": "the person himself"
+        },
+        {
+            "本物・ほんもの": "genuine article"
+        },
+        {
+            "ぼんやり・ぼんやり": "dim"
+        },
+        {
+            "間・ま": "space"
+        },
+        {
+            "まあ・まあ": "well (used when making a modest or hesitant statement)"
+        },
+        {
+            "マーケット・マーケット": "market"
+        },
+        {
+            "マイク・マイク": "mic"
+        },
+        {
+            "迷子・まいご": "lost (stray) child"
+        },
+        {
+            "マイナス・マイナス": "minus"
+        },
+        {
+            "任せる・まかせる": "to entrust to another"
+        },
+        {
+            "巻く・まく": "to wind"
+        },
+        {
+            "蒔く・まく": "to sow (seeds)"
+        },
+        {
+            "撒く・まく": "to scatter"
+        },
+        {
+            "幕・まく": "curtain"
+        },
+        {
+            "負け・まけ": "defeat"
+        },
+        {
+            "孫・まご": "grandchild"
+        },
+        {
+            "まさか・まさか": "by no means"
+        },
+        {
+            "まさに・まさに": "correctly"
+        },
+        {
+            "混ざる・まざる": "to be mixed"
+        },
+        {
+            "交ざる・まざる": "to be mixed"
+        },
+        {
+            "混じる・まじる": "to be mixed"
+        },
+        {
+            "交じる・まじる": "to be mixed"
+        },
+        {
+            "増す・ます": "to increase"
+        },
+        {
+            "貧しい・まずしい": "poor"
+        },
+        {
+            "マスター・マスター": "bar owner"
+        },
+        {
+            "ますます・ますます": "increasingly (same as もっと)"
+        },
+        {
+            "混ぜる・まぜる": "to mix"
+        },
+        {
+            "交ぜる・まぜる": "to be mixed"
+        },
+        {
+            "街・まち": "town; street"
+        },
+        {
+            "間違い・まちがい": "mistake"
+        },
+        {
+            "松・まつ": "pine tree"
+        },
+        {
+            "真っ赤・まっか": "deep red"
+        },
+        {
+            "全く・まったく": "really"
+        },
+        {
+            "祭・まつり": "festival"
+        },
+        {
+            "まとまる・まとまる": "to be collected"
+        },
+        {
+            "まとめる・まとめる": "to put in order"
+        },
+        {
+            "学ぶ・まなぶ": "to learn; to study"
+        },
+        {
+            "真似・まね": "mimicry"
+        },
+        {
+            "招く・まねく": "to invite"
+        },
+        {
+            "まぶしい・まぶしい": "dazzling"
+        },
+        {
+            "柵・さく": "fence"
+        },
+        {
+            "裂ける・さける": "to split"
+        },
+        {
+            "裁く・さばく": "to judge"
+        },
+        {
+            "酸化・さんか": "oxidation"
+        },
+        {
+            "死・し": "death"
+        },
+        {
+            "資格・しかく": "qualifications"
+        },
+        {
+            "視覚・しかく": "sense of sight"
+        },
+        {
+            "指揮・しき": "command"
+        },
+        {
+            "磁気・じき": "magnetism"
+        },
+        {
+            "磁器・じき": "porcelain"
+        },
+        {
+            "自己・じこ": "self"
+        },
+        {
+            "字体・じたい": "font"
+        },
+        {
+            "辞退・じたい": "refusal"
+        },
+        {
+            "視点・してん": "opinion"
+        },
+        {
+            "脂肪・しぼう": "fat"
+        },
+        {
+            "志望・しぼう": "wish"
+        },
+        {
+            "衆・しゅう": "masses"
+        },
+        {
+            "住・じゅう": "dwelling"
+        },
+        {
+            "修飾・しゅうしょく": "ornamentation; modification (gram)"
+        },
+        {
+            "私用・しよう": "personal use"
+        },
+        {
+            "仕様・しよう": "way"
+        },
+        {
+            "情・じょう": "feelings"
+        },
+        {
+            "生涯・しょうがい": "one's lifetime"
+        },
+        {
+            "上司・じょうし": "one's superior"
+        },
+        {
+            "正体・しょうたい": "natural shape"
+        },
+        {
+            "照明・しょうめい": "illumination"
+        },
+        {
+            "女史・じょし": "Ms."
+        },
+        {
+            "助詞・じょし": "(gram) particle(s)"
+        },
+        {
+            "ショック・ショック": "shock"
+        },
+        {
+            "進行・しんこう": "advance"
+        },
+        {
+            "新興・しんこう": "rising"
+        },
+        {
+            "振興・しんこう": "promotion"
+        },
+        {
+            "申告・しんこく": "report"
+        },
+        {
+            "真理・しんり": "truth"
+        },
+        {
+            "水洗・すいせん": "flushing"
+        },
+        {
+            "ストレス・ストレス": "stress"
+        },
+        {
+            "擦る・する": "to rub"
+        },
+        {
+            "正規・せいき": "regular"
+        },
+        {
+            "精巧・せいこう": "elaborate"
+        },
+        {
+            "精算・せいさん": "exact calculation"
+        },
+        {
+            "成年・せいねん": "majority"
+        },
+        {
+            "声明・せいめい": "declaration"
+        },
+        {
+            "姓名・せいめい": "full name"
+        },
+        {
+            "生理・せいり": "physiology"
+        },
+        {
+            "節・せつ": "when"
+        },
+        {
+            "膳・ぜん": "(small) table"
+        },
+        {
+            "禅・ぜん": "Zen (Buddhism)"
+        },
+        {
+            "選挙・せんきょ": "election"
+        },
+        {
+            "先行・せんこう": "preceding"
+        },
+        {
+            "選考・せんこう": "selection"
+        },
+        {
+            "相・そう": "aspect"
+        },
+        {
+            "沿う・そう": "to run along"
+        },
+        {
+            "添う・そう": "to accompany"
+        },
+        {
+            "僧・そう": "monk"
+        },
+        {
+            "像・ぞう": "statue"
+        },
+        {
+            "捜査・そうさ": "search (esp. in criminal investigations"
+        },
+        {
+            "操縦・そうじゅう": "management"
+        },
+        {
+            "創造・そうぞう": "creation"
+        },
+        {
+            "隊・たい": "party"
+        },
+        {
+            "退学・たいがく": "dropping out of school"
+        },
+        {
+            "タイトル・タイトル": "title"
+        },
+        {
+            "ダウン・ダウン": "down"
+        },
+        {
+            "高まる・たかまる": "to rise; to grow; to mount (v.i.)"
+        },
+        {
+            "断つ・たつ": "to sever"
+        },
+        {
+            "盾・たて": "shield"
+        },
+        {
+            "例え・たとえ": "example; even though"
+        },
+        {
+            "チャイム・チャイム": "chime"
+        },
+        {
+            "挑戦・ちょうせん": "challenge"
+        },
+        {
+            "治療・ちりょう": "medical treatment"
+        },
+        {
+            "対・つい": "pair"
+        },
+        {
+            "接ぐ・つぐ": "to join; to piece together; to set (bones); to graft (trees)"
+        },
+        {
+            "継ぐ・つぐ": "to succeed (someone in a business or inheritance"
+        },
+        {
+            "摘む・つむ": "to pluck"
+        },
+        {
+            "露・つゆ": "dew"
+        },
+        {
+            "強まる・つよまる": "to get strong"
+        },
+        {
+            "強める・つよめる": "to strengthen"
+        },
+        {
+            "データ・データ": "data"
+        },
+        {
+            "デザイン・デザイン": "design"
+        },
+        {
+            "デザート・デザート": "dessert"
+        },
+        {
+            "転校・てんこう": "change schools"
+        },
+        {
+            "伝言・でんごん": "verbal message"
+        },
+        {
+            "と・と": "and"
+        },
+        {
+            "問う・とう": "to ask"
+        },
+        {
+            "棟・とう": "ridge (of roof"
+        },
+        {
+            "倒産・とうさん": "(corporate) bankruptcy"
+        },
+        {
+            "同士・どうし": "one another"
+        },
+        {
+            "同志・どうし": "same mind"
+        },
+        {
+            "当然・とうぜん": "obvious; natural"
+        },
+        {
+            "動揺・どうよう": "disturbance"
+        },
+        {
+            "説く・とく": "to explain"
+        },
+        {
+            "綴じる・とじる": "to bind"
+        },
+        {
+            "供・とも": "accompanying"
+        },
+        {
+            "並・なみ": "medium (e.g."
+        },
+        {
+            "慣らす・ならす": "to accustom"
+        },
+        {
+            "馴らす・ならす": "to domesticate"
+        },
+        {
+            "難・なん": "difficulty"
+        },
+        {
+            "音・ね": "sound"
+        },
+        {
+            "年鑑・ねんかん": "yearbook"
+        },
+        {
+            "脳・のう": "brain"
+        },
+        {
+            "臨む・のぞむ": "to look out on"
+        },
+        {
+            "肺・はい": "lung"
+        },
+        {
+            "～敗・はい": "counter for loss"
+        },
+        {
+            "映える・はえる": "to shine"
+        },
+        {
+            "諮る・はかる": "to consult with"
+        },
+        {
+            "図る・はかる": "to plot"
+        },
+        {
+            "生やす・はやす": "to grow"
+        },
+        {
+            "班・はん": "group"
+        },
+        {
+            "判・はん": "size (of paper or books)"
+        },
+        {
+            "版・はん": "edition"
+        },
+        {
+            "碑・ひ": "stone monument bearing an inscription"
+        },
+        {
+            "非行・ひこう": "delinquency"
+        },
+        {
+            "票・ひょう": "label"
+        },
+        {
+            "広まる・ひろまる": "to spread"
+        },
+        {
+            "深める・ふかめる": "to deepen"
+        },
+        {
+            "福・ふく": "good fortune"
+        },
+        {
+            "振り・ふり": "style"
+        },
+        {
+            "経る・へる": "to pass"
+        },
+        {
+            "保護・ほご": "care"
+        },
+        {
+            "保障・ほしょう": "guarantee"
+        },
+        {
+            "補償・ほしょう": "compensation"
+        },
+        {
+            "ほっと・ほっと": "feel relieved"
+        },
+        {
+            "前もって・まえもって": "in advance"
+        },
+        {
+            "膜・まく": "membrane"
+        },
+        {
+            "マスコミ・マスコミ": "mass communication"
+        },
+        {
+            "股・また": "thigh"
+        },
+        {
+            "末・まつ": "the end of"
+        },
+        {
+            "マッサージ・マッサージ": "massage"
+        },
+        {
+            "見掛ける・みかける": "to (happen to see)"
+        },
+        {
+            "捲る・めくる": "to turn over"
+        },
+        {
+            "メッセージ・メッセージ": "message"
+        },
+        {
+            "野党・やとう": "opposition party"
+        },
+        {
+            "優・ゆう": "superiority"
+        },
+        {
+            "有機・ゆうき": "organic"
+        },
+        {
+            "世・よ": "world"
+        },
+        {
+            "良い・よい": "good"
+        },
+        {
+            "予想・よそう": "expectation"
+        },
+        {
+            "弱まる・よわまる": "to weaken"
+        },
+        {
+            "弱める・よわめる": "to weaken"
+        },
+        {
+            "ラベル・ラベル": "label"
+        },
+        {
+            "ルール・ルール": "rule"
+        },
+        {
+            "枠・わく": "frame"
+        }
+    ],
+    "Visibility": "public",
+    "Author": "2252"
+}
