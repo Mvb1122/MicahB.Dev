@@ -234,19 +234,27 @@ function GetPlayersWhoPlayGame(game) {
     game = game.trim();
 
     // Go through each player and determine the games.
+    /**@type {{Name: any;Discord_id: any;    Student_id: any;PlayerID: string;}[]} */
     let games = [];
     players.forEach(p => {
         let player = JSON.parse(GetFileFromCache(PlayerPath + "/" + p));
         player.PlayedGames.forEach(gameInList => {
+            const playerData = {
+                Name: player.Name,
+                Discord_id: player.Discord_id,
+                Student_id: player.Student_id,
+                PlayerID: p.substring(0, p.indexOf('.'))
+            };
             if (gameInList.trim() == game)
-                games.push({
-                    Name: player.Name,
-                    Discord_id: player.Discord_id,
-                    Student_id: player.Student_id,
-                    PlayerID: p.substring(0, p.indexOf('.'))
-                })
+                games.push(playerData)
         });
     });
+
+    // Sort alphabetically.
+    games.sort((a, b) => {
+        // Load both files, then use compare to sort.
+        return a.Name.localeCompare(b.Name);
+    })
 
     return games;
 }

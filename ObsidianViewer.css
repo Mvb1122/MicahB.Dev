@@ -2,7 +2,7 @@
     --Border-Radius: min(3vh, 3vw);
     --Border-Thickness: 3px;
 
-    --Internal-Link-Color: rgb(146, 0, 146);
+    --Internal-Link-Color: rgb(190, 2, 190);
     --External-Link-Color: rgb(241, 180, 180);
     
     --MainWidth: 8in
@@ -52,6 +52,7 @@ body {
 a {
     color: var(--Internal-Link-Color);
     text-decoration: underline dotted rgb(121, 0, 121);
+    text-indent: 0;
 }
 
 a[search]:hover::after {

@@ -30,6 +30,20 @@ function drop(event) {
     // If we're above the trash corner, delete it.
     const trashCorner = document.getElementById("TrashCorner");
     if (DoElementsOverlap(dm, trashCorner)) {
+        // If we're removing an AI node then disconnect the socket.
+        let IsAINode = false;
+        for (let i = 0; i < dm.children.length; i++) {
+            const node = dm.children.item(i);
+            if (node.id == "messages") {
+                IsAINode = true;
+                break;
+            }
+        }
+
+        if (IsAINode) {
+            Disconnect();
+        }
+
         dm.parentElement.removeChild(dm);
 
         // Autosave too.
@@ -41,6 +55,9 @@ function drop(event) {
 
     // Save for autoreloading. 
     SaveToLocalStorage();
+
+    // Resize the content div.
+    RecalculateBodyBounds();
 
     event.preventDefault();
     return false;
@@ -224,12 +241,70 @@ function Add(type, url = "null") {
             element.setAttribute("rel", "noreferrer noopener")
 
             // Create the icon:
-            const icon = document.createElement("img")
+            var icon = document.createElement("img")
             icon.className = "Icon";
             icon.src = `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=256`;
             icon.draggable = false; // Parent is draggable so dw.
 
             element.appendChild(icon);
+            break;
+        
+        case 'AI': 
+            element = document.createElement("div");
+
+            // Add a thing for the messages.
+            var messagesDiv = document.createElement("div");
+            messagesDiv.id = "messages";
+            element.appendChild(messagesDiv);
+
+            // Add a thing for text input.
+            var BottomRowDiv = document.createElement("div");
+            var TextInput = document.createElement("input");
+            TextInput.type = "text";
+            TextInput.id = "input";
+            TextInput.autocomplete = false;
+            
+            var SendButton = document.createElement("button");
+            SendButton.textContent = "📤";
+            SendButton.title = "Send!";
+            SendButton.setAttribute("onclick", "SendMessage()");
+            
+            var MuteButton = document.createElement("button");
+            MuteButton.textContent = "🔇"
+            MuteButton.title = "Mute/Unmute spoken AI. Also toggles user's microphone."
+            MuteButton.setAttribute("onclick", "ToggleAIMute()");
+            
+            BottomRowDiv.appendChild(TextInput);
+            BottomRowDiv.appendChild(SendButton);
+            BottomRowDiv.appendChild(MuteButton);
+            element.appendChild(BottomRowDiv);
+
+            // Styling stuff.
+            element.style.display = "flex";
+            element.style.flexFlow = "column";
+            element.style.justifyContent = "space-between";
+            element.style.width = "15vw";
+            element.style.height = "15vh";
+
+            messagesDiv.style.width = "100%";
+            messagesDiv.style.paddingBottom = "2%";
+            messagesDiv.style.overflow = "overlay";
+            TextInput.style.width = "78%";
+            SendButton.style.width = "8%";
+            MuteButton.style.width = "8%";
+
+                // Set margin.
+            [TextInput, SendButton, MuteButton].forEach(el => {
+                el.style.margin = "0px";
+            })
+            TextInput.style.marginRight = "2%";
+
+            // Get the AI to open up and stuff.
+            StartWebsocket();
+
+            // Add convenience enter = send key.
+            AddChatEnterListenerToMessages(TextInput);
+            
             break;
 
         default:
@@ -244,6 +319,23 @@ function Add(type, url = "null") {
     element.style.top = "50vh";
     EquipDraggable(element);
     SaveToLocalStorage();
+
+    return element;
+}
+
+function AddChatEnterListenerToMessages(el) {
+    // Ensure that the element passed is valid or return after trying.
+    if (el == null) {
+        el = document.getElementById("input");
+
+        if (el == null) return;
+    }
+
+    el.addEventListener("keydown", function (e) {
+        if (e.code === "Enter") {  // Checks whether the pressed key is "Enter"
+            SendMessage();
+        }
+    });
 }
 
 /**
@@ -344,7 +436,7 @@ function LoadContent(text) {
     }
 
     // Find highest z-index.
-    const zIndexes = text.match(/(?<=z-index: )\d?\d/g);
+    const zIndexes = text.match(/(?<=z-index: )\d+/g);
     let max = -100;
     if (zIndexes) {
         for (let i = 0; i < zIndexes.length; i++) {
@@ -360,6 +452,9 @@ function LoadContent(text) {
 
     // Make sure textarea causes autosave.
     for (let i = 0; i < areas.length; i++) attachAutosave(areas[i]);
+
+    // Add that text input listener to any AI nodes.
+    AddChatEnterListenerToMessages();
 }
 
 function DoElementsOverlap(Element1, Element2) {
@@ -523,4 +618,85 @@ function SaveToRecents() {
     OldRecents.push(data);
 
     localStorage.setItem(CanvasRecentsName, JSON.stringify(OldRecents));
+}
+
+/**
+ * Gets the maximum width and height of an element with children.
+ * @param {HTMLElement} element What to scan.
+ * @returns {DOMRect[]}
+ */
+function GetBoundsOfAllIncludingChildren(element) {
+    let bounds = [element.getBoundingClientRect()];
+    const children = element.children;
+    for (let i = 0; i < children.length; i++) {
+        const child = children.item(i);
+        bounds.push(child.getBoundingClientRect());
+
+        // Process all children. 
+        bounds = bounds.concat(GetBoundsOfAllIncludingChildren(child));
+    }
+
+    return bounds;
+}
+
+function RecalculateBodyBounds() {
+    // Get a list of all elements underneath the body, then use their bounds to change how large the body should be.
+    const body = document.getElementsByTagName("body")[0]; // document.getElementById("content");
+    const bodyBound = body.getBoundingClientRect();
+    const AllBounds = GetBoundsOfAllIncludingChildren(body);
+    let maxHeight, maxWidth = maxHeight = 0;
+    for (let i = 0; i < AllBounds.length; i++) {
+        const bound = AllBounds[i]
+        // Ignore 100% scale items.
+        if (bound.width == bodyBound.width || bound.height == bodyBound.height) continue;
+
+        if (bound.bottom > maxHeight) maxHeight = bound.bottom;
+        if (bound.right > maxWidth) maxWidth = bound.right;
+    }
+
+    // Apply the sizes to the body.
+        // If this is less than the screen size, then just use the screen size.
+    maxWidth = Math.max(window.visualViewport.width, maxWidth);
+    maxHeight = Math.max(window.visualViewport.height, maxHeight);
+    
+    // Remove bumping from root element.
+    maxWidth -= bodyBound.x;
+    maxHeight -= bodyBound.y;
+    SetBodyWidthHeight(maxWidth, maxHeight);
+}
+
+function SetBodyWidthHeight(maxWidth, maxHeight) {
+    document.getElementsByTagName("body")[0].style.width = maxWidth + "px";
+    document.getElementsByTagName("body")[0].style.height = maxHeight + "px";
+}
+
+/* Function stolen from WebAI files in GPT-3 Bot. */
+/**
+ * Writes text onto an HTML element over time.
+ * @param {string} text Text to write on.
+ * @param {HTMLElement | string} element Element to write onto or ID.
+ * @param {boolean} [append=true] Whether to add to current text.
+ * @param {number} [timeout=100] How long to wait in MS between letters.
+ * @returns {Promise} Resolves when write on is complete.
+ */
+function WriteOn(text, element, append = true, timeout = 15) {
+    return new Promise(async res => {
+        if (typeof element == String)
+            element = document.getElementById(element)
+    
+        let beforeContent = append ? element.innerText : "";
+        for (let i = 0; i < text.length; i++) {
+            beforeContent += text.charAt(i);
+            element.innerText = beforeContent;
+            
+            // Scroll all the way down.
+            element.scrollTo(0, element.scrollHeight)
+            await new Promise(r2 => {
+                setTimeout(() => {
+                    r2();
+                }, timeout);
+            });
+        }
+        res();
+    })
 }

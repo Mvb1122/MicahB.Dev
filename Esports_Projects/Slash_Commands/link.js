@@ -26,7 +26,7 @@ module.exports = {
         let { global, GetFileFromCache } = require('../../index.js')
         let c = "/link"
         if (c.startsWith("/link")) {
-            const link_code = message.options.getInteger("code");
+            let link_code = message.options.getInteger("code");
     
             // Fetch player information from cache.
             let playerInfo = global.playerCache[link_code];

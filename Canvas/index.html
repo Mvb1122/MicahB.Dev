@@ -21,7 +21,7 @@
     </script>
 </head>
 
-<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()">
+<body ondragover="drag_over(event)" ondrop="drop(event)" onload="EquipAllDraggable()" style="width:100vw; height: 100vh;">
     <div class="CenterButtons">
         <div style="position: relative; width: 120px;">
             <div id="AddNodules" class="Nodule" onmouseenter="document.getElementById(`NodeSelect`).hidden = false;" onmouseleave="document.getElementById(`NodeSelect`).hidden = true;" style="position: absolute;">
@@ -31,6 +31,7 @@
                     <button onclick="Add('url_Pre')">URL</button>
                     <button onclick="Add('img_Pre')">IMG</button>
                     <button onclick="Add('ico_Pre')">Icon</button>
+                    <button onclick="Add('AI')">AI</button>
                 </div>
             </div>
         </div>
@@ -67,6 +68,98 @@
     <script>
         // After content element has been loaded, load from localstorage.
         LoadFromLocalStorage();
+    </script>
+
+    <!-- Socket IO test. -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket = null;
+        function StartWebsocket() {
+            return new Promise(res => {
+                socket = io();
+                socket.on("connect", () => {
+                    console.log("Connected to server");
+
+                    // Ensure that the server is ready.
+                    Send("open", "");
+                    res();
+                });
+
+                socket.on("chat message", (msg) => {
+                    addMsg(msg);
+                });
+
+                socket.on("chat response", (msg) => {
+                    addMsg("AI: " + msg)
+                })
+
+                socket.on("Function Message", /** @param {string} msg */ (msg) => {
+                    const seed = msg.substring(0, msg.indexOf("-"));
+                    const mode = msg.substring(seed.length + 1, msg.indexOf(" "));
+                    let textContent = msg.substring(msg.indexOf(" "));
+
+                    // Remove starting/trailing quotes.
+                    textContent = textContent.replace(/^"+|"+$/g, '');
+
+                    // Show it on screen.
+                    console.log("Function message:")
+                    console.log({
+                        seed: seed,
+                        mode: mode,
+                        message: msg
+                    });
+                    
+                    const id = `Channel_${seed}`;
+                    if (document.getElementById(id) == null) {
+                        /** @type {HTMLElement} */
+                        const TextBox = Add("text");
+                        TextBox.style.width = "15vw";
+                        TextBox.style.height = "15vw";
+                        TextBox.id = id;
+
+                        WriteOn(textContent, TextBox);
+                    } else WriteOn(textContent, document.getElementById(id));
+
+                })
+            })
+        }
+
+        function Disconnect() {
+            if (socket == null) return;
+
+            console.log("Disconnected from server!");
+            socket.disconnect();
+            socket = null;
+        }
+
+        async function Send(event, data) {
+            if (socket == null) await StartWebsocket();
+
+            if (event == "chat message") {
+                addMsg(data);
+                // Clear input.
+                document.getElementById('input').value = ""
+            }
+
+            return socket.emit(event, data);
+        }
+
+        // Just Send but using input boxes.
+        function SendMessage() {
+            Send("chat message", document.getElementById("input").value);
+        }
+
+        function addMsg(msg) {
+            const m = document.createElement("p");
+            document.getElementById("messages").appendChild(m);
+            m.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+                inline: "nearest",
+            });
+
+            WriteOn(msg, m)
+        }
     </script>
 </body>
 

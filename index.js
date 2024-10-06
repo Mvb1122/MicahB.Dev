@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs');
 const http = require('http');
 const zlib = require('zlib');
 const Path = require('path')
+const sharp = require('sharp');
+const { Readable } = require('stream')
 const DEBUG = false;
 
 const mimeTypes = {
@@ -492,13 +495,31 @@ const requestListener = async function (req, res) {
 
                     // If this is an AI image file or YBN Note, tell the user's device to cache it; those images don't usually change very often.
                         // (Cache for 1 week.)
-                    if ((mime.includes("image") && localURL.includes("AI")) || localURL.includes(".excalidraw.json"))
+                    if ((mime.includes("image") && localURL.includes("AI")) || localURL.includes(".excalidraw.json")) 
                         res.setHeader("Cache-Control", "max-age=604800")
 
                     // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
                         // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index") || localURL.includes("favicon")) {
                         res.end(GetFileFromCache(localURL));
+                    } else if (localURL.includes('.png') && args.compress) {
+                        // If we're reading a png, use sharp to recode it.
+                        if (DEBUG) console.log("PNG Compression Started!");
+                        if (File_Cache[localURL] == undefined)
+                            sharp(GetFileFromCache(localURL))
+                                .png({ progressive: true, compressionLevel: 7 })
+                                .toBuffer()
+                                .then(v => {
+                                    // Make a stream from the buffer in order to send it over time rather than all at once.
+                                    const stream = Readable.from(v);
+                                    stream.pipe(res);
+                                    if (DEBUG)
+                                        stream.on('close', () => {
+                                            console.log("PNG Compression Complete!");
+                                        });
+                                    File_Cache[localURL] = v;
+                                })
+                        else res.end(File_Cache[localURL]);
                     } else if (args.compress) {
                         res.EndWithCompression(GetFileFromCache(localURL));
                     } else {
@@ -616,6 +637,85 @@ const server = http.createServer(requestListener);
 server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
+
+//#region Add socket support to the server.
+const { Server: SocketServer } = require("socket.io");
+const { io: SocketClientIO, Socket } = require("socket.io-client");
+const io = new SocketServer(server);
+
+/**
+ * @type {Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>[]}
+ */
+const IOsockets = [];
+
+io.on("connection", (socket) => {
+  if (DEBUG)
+    console.log(`connect ${socket.id}`);
+
+  IOsockets.push(socket);
+
+  // Handle disconnection
+  socket.on("disconnect", () => {
+    const index = IOsockets.indexOf(socket);
+    if (index !== -1) {
+      IOsockets.splice(index, 1);
+    }
+  });
+
+  socket.onAny((event, args) => {
+    const thisEvent = `${event}|${JSON.stringify(args)}`;
+
+    if (thisEvent !== lastEvent) {
+      lastEvent = thisEvent;
+      AIServerSocket.emit(event, args);
+      socket.broadcast.emit(event, args); // Broadcast to other clients except sender
+    }
+  });
+});
+
+let lastEvent = "";
+/**
+ * @type {Socket}
+ */
+let AIServerSocket = TryMakeAIServerSocket();
+
+function TryMakeAIServerSocket() {
+    try {
+        AIServerSocket = new SocketClientIO('http://localhost:7243', { reconnect: true });
+        AIServerSocket.onAny((event, args) => {
+            const thisEvent = `${event}|${JSON.stringify(args)}`;
+          
+            if (thisEvent !== lastEvent) {
+              lastEvent = thisEvent;
+              IOsockets.forEach(con => {
+                con.emit(event, args); // Emit to all clients
+              });
+            }
+          });
+        
+        // Add error handling for AIServerSocket
+        AIServerSocket.on('connect_error', () => {
+            console.error("Failed to connect to AI server!");
+            /*setTimeout(() => {
+                TryMakeAIServerSocket();
+            }, 30000);*/
+        });
+
+        if (DEBUG) {
+            AIServerSocket.on('connect', () => {
+                console.log("Connected to AI server!");
+            });
+        }
+
+        return AIServerSocket;
+    } catch {
+        // Try again 30 seconds down the line.
+        setTimeout(() => {
+            return AIServerSocket = TryMakeAIServerSocket();
+        }, 30000);
+    }
+}
+//#endregion
 
 // Stolen from StackOverflow ;) 
     // And then Not-updated to use UTF-8.

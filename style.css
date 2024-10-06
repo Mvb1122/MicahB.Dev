@@ -70,7 +70,7 @@ img,
 
 .pfp {
     clip-path: circle(at center);
-    background-image: url("./trans pfp.png");
+    background-image: url("./trans pfp.webp"); /* url("./trans pfp.png"); */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

@@ -18,27 +18,41 @@ html {
 }
 
 body {
-    background-image: url("./BG@2x.png");
-    background-size: 80%;
-    background-repeat: repeat;
-    background-color: white;
+    /* this is needed or the background will be offset by a few pixels at the top */
+    overflow: auto;
+    position: relative;
 
     font-family: sans-serif;
-
-    width: 100%;
-    height: 100%;
 
     display: flex;
     flex-direction: column;
 
     margin: 0px;
-    padding: 8px;
+    padding: 0px;
+}
+  
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+
+    display: block;
+    background-image: url("./BG@2x.png");
+    background-size: 80%;
+    background-repeat: repeat;
+    width: 100%;
+    height: 100%;
 }
 
 /* Make the background and shadows dark if the user wants that sorta thing. */
 @media (prefers-color-scheme: dark) {
-    body {
-        backdrop-filter: invert(1) opacity(0.9);
+    body::before {
+        /* backdrop-filter: invert(1) opacity(0.9); */
+        background-color: black;
+        filter: opacity(0.9) contrast(0.9);
     }
 
     .Nodule {
@@ -75,7 +89,14 @@ body {
 }
 
 .Nodule {
-    position:absolute !important;
+    position: absolute !important;
+    resize: both;
+    overflow: auto;
+}
+
+img.Nodule {
+    /* Hide border on images because it looks better. */
+    margin: 0; padding: 0;
 }
 
 button:hover {
@@ -130,6 +151,9 @@ a:has(img)[title] {
     box-shadow: none;
     display: flex;
     flex-direction: column-reverse;
+
+    resize: none;
+    overflow: visible;
 }
 
 a:has(img)::after {
@@ -154,6 +178,8 @@ a:has(img)::after {
     z-index: 5000000000;
     justify-content: center;
     flex-direction: column;
+
+    backdrop-filter: blur(3px);
 }
 
 /* Puts in center */

@@ -5,8 +5,7 @@
 // Regexs
 const ObsidianLinkRegex = new RegExp(/(?<=)\!?\[\[[^\]]*\]\]/g);
 const TagRegex = new RegExp(/(?<!#)\B#{1}([A-Za-z0-9]{1,})/g);
-const SingleLaTeX = new RegExp(/\$(.*?)\$/g);
-// // const MultipleLaTeX = new RegExp(/\$\$(.*?)\$\$/g);
+const laTexReGex = new RegExp(/(\$(.{1,}?)\$)|(\${2}(\n|\r)([\s\S]*?)(\n|\r)\${2})/gm);
 
 // console.log("+[[School Todo]]".match(ObsidianLinkRegex).length)
 
@@ -94,27 +93,32 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
                 file = file.replaceAll(tag, `{TAG:${inside}}`);
             }
 
-        // Hand it over to Showdown for the actual conversion.
-        const Converter = new Showdown.Converter();
-        // Converter.setOption('tables', true);
-        Converter.setFlavor('allOn');
-        file = Converter.makeHtml(file);
-
         // Replace LaTex: (Do it after making HTML)
-        const laTeX = file.match(SingleLaTeX); // .concat(file.match(MultipleLaTeX));
+        const laTeX = file.match(laTexReGex); // .concat(file.match(MultipleLaTeX));
         if (laTeX != null) {
             for (let i = 0; i < laTeX.length; i++) {
                 let replaced = laTeX[i];
                 do {
                     if (replaced.startsWith("$")) replaced = replaced.substring(1);
                     if (replaced.endsWith("$")) replaced = replaced.substring(0, replaced.length - 1);
-                } while (replaced.startsWith("$") || replaced.endsWith("$"))
-                const mathML = temml.renderToString(replaced);
+                } while (replaced.startsWith("$") || replaced.endsWith("$"));
+                
+                replaced = replaced.trim();
+
+                const mathML = temml.renderToString(replaced, {
+                    displayMode: laTeX[i].includes('\n') // Turn on displaymode for multiline expressions.
+                });
 
                 if (mathML != "<math></math>")
                     file = file.replaceAll(laTeX[i], mathML)
             }
         }
+
+        // Hand it over to Showdown for the actual conversion.
+        const Converter = new Showdown.Converter();
+        // Converter.setOption('tables', true);
+        Converter.setFlavor('allOn');
+        file = Converter.makeHtml(file);
 
         // Highlight code.
             // Instead of using regex, use worse string manip. methods in order to handle this.

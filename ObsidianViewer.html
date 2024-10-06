@@ -158,6 +158,27 @@
             const LoadingText = "Loading...";
             async function Load(path, LoadToElement = "Content") {
                 return new Promise(async (res, rej) => {
+                    // If we're loading a PDF, handle it using an embed.
+                    if (path.endsWith(".pdf")) {
+                        const PDFFrame = document.createElement('embed');
+                        // Make src path not relative.
+                        let splitLocation = path.includes("\\") ? path.lastIndexOf("\\") : path.lastIndexOf("/");
+                        const folder = path.substring(0, splitLocation);
+                        const host = new URL(document.URL).host;
+                        PDFFrame.src = "./" + path
+                        PDFFrame.width = "100%";
+                        
+                        // Set the height properly when it loads.
+                        const SetHeight = (e) => { 
+                            PDFFrame.height = PDFFrame.contentWindow.document.body.scrollHeight; 
+                        };
+
+                        PDFFrame.onload = SetHeight;
+
+                        document.getElementById(LoadToElement).innerHTML = PDFFrame.outerHTML;
+                        return;
+                    } 
+
                     try {
                         // First, fetch the HTML from the server and load it in.
                         const isBaseDocument = LoadToElement == "Content";
@@ -378,14 +399,14 @@
                                     document.getElementById("BaseDocumentTitle").innerHTML = data.title;
 
                                 // Handle hiding backlinks.
-                                if (data.backlinks != undefined && !data.backlinks)
+                                if (data.backlinks != undefined && !data.backlinks && document.getElementById("BaseDocumentBacklinks") != null)
                                     document.getElementById("BaseDocumentBacklinks").parentElement.removeChild(document.getElementById("BaseDocumentBacklinks"));
 
                                 // Handle style requests.
                                 switch (data.style) {
                                     case "legal":
                                         Body.style.backgroundColor = "white";
-                                        Body.style.fontFamily = "'Times New Roman', Times, serif";
+                                        Body.style.fontFamily = "Cambria, 'Times New Roman', Times, serif";
                                         Body.style.color = "black"
                                         Body.style.padding = "3em";
 
@@ -404,6 +425,7 @@
                                                     // Make table rows 
                                                     case "TD":
                                                     case "TH":
+                                                        // if (element.style.color == undefined || element.style.color == "#fff" || element.style.color == "white")
                                                         element.style.color = "black";
                                                         break;
                                                 
