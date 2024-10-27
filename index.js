@@ -15,6 +15,8 @@ const mimeTypes = {
     "json": "application/json",
     "mp3": "audio/mpeg",
     "mp4": "video/mp4",
+    "m4a": "audio/m4a",
+    "ogg": "audio/ogg",
     "jpeg": "image/jpeg",
     "jpg": "image/jpeg",
     "png": "image/png",

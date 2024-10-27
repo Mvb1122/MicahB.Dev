@@ -62,7 +62,7 @@ if (ShouldGenerate) {
     
     const data = JSON.stringify({
         role: "user",
-        content: `Please write a Japanese example sentence for the following word or phrase. Feel free to write a dialogue, but keep it simple. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Only write your translation once. Phrase: ${submitted.Word}\nWith the definition ${submitted.Definition}. Please do not write any notes onto the end of your translation.`
+        content: `Please write a Japanese example sentence for the following word or phrase. Do not write anything except for the example sentence. After you have written your example, please write an English translation beneath it. Only write your translation once. Phrase: ${submitted.Word}\nWith the definition ${submitted.Definition}. Please do not write any notes onto the end of your translation.\n\nPlease follow this format:\n\n例文：YOUR EXAMPLE HERE\n英語：TRANSLATION HERE`
     });
     
     const response = await fetch(url, {

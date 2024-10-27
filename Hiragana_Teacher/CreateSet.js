@@ -159,3 +159,25 @@ function DeleteSet() {
         ToggleSetDisplay();
     }
 }
+
+// This is a hidden function because it's a bit computationally expensive to run.
+function ForceRemakeAllExamples() {
+    // First alert to make sure they really want to do this. 
+    if (!confirm("Do you really want to remake all examples? (This cannot be undone!)")) return;
+
+    const setData = getSetData();
+    for (let index in setData) {
+        const row = setData[index];
+
+        const word = Object.keys(row)[0];
+        const data = {
+            "Set": EditSetID,
+            "Word": word,
+            "Definition": row[word],
+            "ForceNew": true,
+            "login_token": login_token
+        };
+
+        postJSON(`${pageURL}/Post_Modules/GetExampleSentence.js&cache=false`, data)
+    }
+}
