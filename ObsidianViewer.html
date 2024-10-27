@@ -334,6 +334,67 @@
                                 }
                             }
 
+                            // Look for <Transcript file={Whatever}> embeds:
+                            const transcribeNodes = Element.getElementsByTagName("Transcript");
+                            for (let i = 0; i < transcribeNodes.length; i++) {
+                                const element = transcribeNodes[i];
+                                const file = "/" + folder + "/" + element.getAttribute("file");
+
+                                // First, create a body element, then add a the file name and an audio element, and finally add the transcript.
+                                const tsBody = document.createElement("div");
+                                tsBody.className = "Transcript";
+
+                                // Add the name of the file.
+                                let fileName = element.getAttribute("file").split('/').pop();
+                                const tsNameElement = document.createElement("h4");
+                                tsNameElement.innerText = fileName;
+                                tsBody.appendChild(tsNameElement);
+
+                                const audioElement = document.createElement("audio");
+                                audioElement.src = backend + file;
+                                audioElement.controls = true;
+                                tsBody.appendChild(audioElement);
+                                
+                                // Add a button to try and load the transcript.
+                                const tsButton = document.createElement("button");
+                                tsButton.innerText = "Try to load transcript!";
+                                tsButton.onclick = () => {
+                                    // Remove the button.
+                                    tsBody.removeChild(tsButton);
+
+                                    // Asynchronously attempt to add transcript if it exists.
+                                    const tsFile = file.substring(0, file.lastIndexOf(".")) + ".md";
+                                    const tsFileURL = backend + "/" + tsFile;
+                                    fetch(tsFileURL)
+                                        .then(async v => {
+                                            if (v.status == 404) return;
+    
+                                            // if successful, then add element.
+                                            const rawText = await v.text();
+                                            const textDiv = document.createElement("div");
+                                            
+                                            // Add a disclaimer.
+                                            const disc = document.createElement("strong");
+                                            disc.innerText = "✨ Transcripts are created with AI! They may be incorrect at times, and speaker labels may be incorrect as well."
+                                            textDiv.appendChild(disc);
+                                            
+                                            const text = document.createElement("div");
+                                            text.innerText = rawText;
+                                            textDiv.appendChild(text);
+    
+                                            tsBody.appendChild(textDiv);
+                                        })
+                                        .catch(v => {
+                                            // Write error.
+                                            console.error("No transcript found for " + file + " at URL:\n" + tsFileURL);
+                                        })
+                                }
+                                tsBody.appendChild(tsButton);
+
+                                // Put it on screen.
+                                element.appendChild(tsBody);
+                            }
+
                         }
                         else {
                             // If it is, convert it to SVG.
