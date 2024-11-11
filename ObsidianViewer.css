@@ -303,3 +303,18 @@ YBN > div > button:hover {
 .hljs-comment {
     color: rgb(190, 190, 190) !important;
 }
+
+/* Mermaid Graph Z-Index bug fix. */
+pre.mermaid, pre:has(code.mermaid) {
+    z-index: 15; /* If I ever end up making a document with more than 15 nested pages, then it can suffer without diagrams. */
+    display: flex;
+    justify-content: center;
+}
+
+/* Page Numbers */
+@page {
+    /* margin box at top right showing page number */
+    @right-top {
+        content: "Bushman " counter(pageNumber);
+    }
+}

@@ -5,7 +5,10 @@
         <meta name="description" content="A viewer for my Obsidian Markdown files.">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>MicahB.Dev | Markdown Viewer</title>
+        
+        <!-- Excalidraw stuff required for page numbers and also drawings -->
         <script src="https://cdn.jsdelivr.net/npm/@excalidraw/utils@0.1.2/dist/excalidraw-utils.min.js"></script>
+        
         <script>
             const backend = "."
             let CurrentBaseDocument = "";
@@ -502,11 +505,39 @@
                                     default:
                                         break;
                                 }
-                            } catch (e) {
-                                if (e)
-                                    console.log(e);
-                                // Do nothing; there's no valid blocks.
+                            } catch (e) { /* Do nothing; there's no valid blocks. */ }
+
+                        // Look for Mermaid diagrams.
+                        let foundMermaid = false;
+                        for (let i = 0; i < blocks.length; i++) {
+                            const b = blocks.item(i);
+                            const c = b.className;
+                            
+                            if (c.includes("mermaid")) {
+                                // This is a mermaid graph.
+                                foundMermaid = true;
+
+                                // Reformat this element to be a mermaid graph. 
+                                const text = b.innerText.replaceAll("<br>", "\n").replaceAll("<br/>", "\n").replaceAll("&nbsp; ", "    ").replaceAll("<span class='hljs-symbol'>", "").replaceAll("</span>", "");
+                                const p = b.parentElement; // Make p in to <pre class="mermaid"> so mermaid can find it.
+
+                                const newParent = document.createElement('pre');
+                                newParent.className = "mermaid";
+                                newParent.innerHTML = text;
+
+                                p.replaceWith(newParent);
                             }
+                        }
+
+                        // Get mermaid to render the graphs if we found any.
+                        if (foundMermaid) {
+                            mermaid.initialize({
+                                securityLevel: 'loose',
+                                theme: 'dark',
+                            });
+
+                            mermaid.run();
+                        }
                     } catch (e) {
                         console.log(e)
                         rej(e);
@@ -534,6 +565,11 @@
                     // Reload the page.
                     Load(CurrentBaseDocument);
                 })
+            }
+
+            async function Save() {
+                // Open a new window which just links to the pure markdown file.
+                window.open(backend + "/" + CurrentBaseDocument);
             }
     
             // Check every 100ms to see if the page params changed.
@@ -597,6 +633,7 @@
             <button onclick="GetSuggestedLinks()" class="DarkButton" title="Go Home!">🏠</button>
             <button onclick="Reload()" class="DarkButton" title="Reload the current page!">🔄</button>
             <button onclick="print()" class="DarkButton" title="Print!">🖨️</button>
+            <button onclick="Save()" class="DarkButton" title="Download!">📥</button>
         </div>
         <div id="Home" class="Display">
             Loading...
@@ -611,4 +648,7 @@
         window.onkeyup = function(e) { pressedKeys[e.keyCode] = false; }
         window.onkeydown = function(e) { pressedKeys[e.keyCode] = true; }
     </script>
+
+    <!-- Mermaid Graph rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
 </html>
