@@ -318,3 +318,8 @@ pre.mermaid, pre:has(code.mermaid) {
         content: "Bushman " counter(pageNumber);
     }
 }
+
+/* Math alignment fix */
+mtd.tml-right {
+    text-align: -webkit-right;
+}
