@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A webapp which tracks ESports Attendance.</title>
+        <meta name="description" content="As work for LCHS Esports, I made a webapp which displays player attendance and wins/losses.">
+    
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="topnav.css">
+        <link rel="icon" type="image/x-icon" href="LCHS_Favicon.ico">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9331531720474135" crossorigin="anonymous"></script>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JGVXR46BL"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2JGVXR46BL');
+        </script>
+
+        <style>
+            div[hidden] {
+                display: none !important;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="topnav">
+            <a href="Attendance_Home.html">Home</a>
+            <a href="Attendance_Players.html">View Registered Players</a>
+            <a href="Attendance_Winrate.html">View Winrate</a>
+            <a href="Attendance_Attendance.html">View Attendance</a>
+            <a href="Attendance_Make_Player.html">Create Player</a>
+            <a href="Attendance_Logger.html">Log a Match!</a>
+            <a class="active" href="Attendance_MK_MatchMaker.html">Mario Kart Tryout Matchmaker Assistant</a>
+        </div>
+        <br>
+        <main>
+            <div id="screen_0" style="display: flex; flex-direction: column; align-items: center;">
+                Please enter how many players are competing, enter the admin password, and then please hit next.
+                <br><br>
+                <input type="number" name="players" id="numPlayersCount", min="0", placeholder="Please enter number here!">
+                <br><input type="password" name="password" id="passwordInput" placeholder="Please enter password here!">
+                <br><button onclick="PrepBoxes()">Next</button>
+            </div>
+            <div id="screen_1" hidden>
+                Please select the players below and then hit next.
+                <div id="PlayerEnterBoxes" style="display: flex; flex-direction: column;">
+
+                </div>
+            </div>
+            <div id="screen_2" style="display: flex; flex-direction: column;" hidden>
+
+            </div>
+        </main>
+    </body>
+
+    <script src="../Helpers.js"></script>
+    <script>
+        /** 
+         * @type {[{Name: string, Discord_id: number, Student_id: number, PlayerID: number}]}
+         * */
+        let playersCache = [];
+        let num = 0;
+        let token = -1;
+
+        /** 
+         * Submits the password to the server for review and returns a boolean. 
+         * @returns {boolean} true if successful.
+         * */
+        async function CheckPasscode() {
+            // Post passcode to the server.
+            let res = await postJSON("./Post_Modules/CheckPasscode.js", { passcode: document.getElementById("passwordInput").value });
+            if (res.sucessful) {
+                token = res.token;
+                return true;
+            } else {
+                alert("Incorrect password! Please try again.");
+                return false;
+            }
+        }
+
+        async function PrepBoxes() {
+            // First, let's make sure the password input is filled.
+            if (!await CheckPasscode()) return;
+            
+            // Get num of players. 
+            num = document.getElementById("numPlayersCount").value;
+
+            // Get a list of all mario kart players. 
+            const game = "Mario Kart"
+            /** 
+             * @type {[{Name: string, Discord_id: number, Student_id: number, PlayerID: number}]}
+             * */
+            const players = playersCache = (await (await fetch("https://micahb.dev/ESports_Projects/Modules/GetPlayersWithGame.js&game=" + escape(game))).json()).players;
+
+            // Add them all to a dropdown.
+            const dropdown_base = document.createElement("select");
+            for (let i = 0; i < players.length; i++) {
+                // Add players.
+                const option = document.createElement("option");
+                option.value = players[i].PlayerID;
+                option.innerText = players[i].Name;
+
+                dropdown_base.appendChild(option);
+            }
+
+            // Fill all dropdowns on screen.
+            document.getElementById("PlayerEnterBoxes").innerHTML = "";
+            for (let i = 0; i < num; i++) {
+                const clone = dropdown_base.cloneNode(true);
+                document.getElementById("PlayerEnterBoxes").appendChild(clone);
+            }
+
+            // Add the button into the div so it's centered.
+            const btn = document.createElement("button");
+            for (let i = 0; i < 2; i++) document.getElementById("PlayerEnterBoxes").appendChild(document.createElement("br"));
+            document.getElementById("PlayerEnterBoxes").appendChild(btn)
+            btn.innerText = "Next";
+            btn.onclick = MakeMatches;
+
+            // Swap screen.
+            SwapScreen(0, 1);
+        }
+
+        function GetSelectIDFromIndex(i) {
+            return `game${i}Select`
+        };
+
+        /** 
+         * @type {{sliceLength: number;teams: {name: string;id: number;}[][];}[]}
+        */
+        let games = [];
+        /** 
+         * @type {[{name: string, id: number}]}
+        */
+        let sparePlayers = [];
+        async function MakeMatches() {
+            // Extract the selected players.
+            /** 
+             * @type {[{name: string, id: number}]}
+            */
+            let players = [];
+            const enterBoxes = document.getElementById("PlayerEnterBoxes");
+            for (let i = 0; i < num; i++) {
+                const el = enterBoxes.children[i];
+
+                if (el.nodeName.toLowerCase() == "select")
+                    // Add the selected option.
+                    players.push({
+                        name: el.options[el.selectedIndex].text,
+                        id: el.value
+                    });
+            };
+
+            // Put the spare players from the last game in first, then shuffle the order of the players.
+            players = sparePlayers.concat(players).filter((v, index, arr) => {
+                // Deduplicate
+                for (let i = 0; i < index; i++) if (arr[i].id == v.id) return false;
+                return true;
+            });
+
+            for (let i = players.length - 1; i >= 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = players[i];
+                players[i] = players[j];
+                players[j] = temp;
+            }
+
+            // Map them into games.
+            games = [];
+            do {
+                const sliceLength = players.length >= 8 ? 8 : 6;
+                const slice = players.slice(0, sliceLength);
+                players = players.slice(sliceLength);
+                
+                // Split them into two teams.
+                const team1 = [];
+                const team2 = [];
+
+                for (let i = 0; i < slice.length; i++) 
+                    if (i % 2 == 0) team1.push(slice[i]); 
+                    else team2.push(slice[i]);
+
+                const thisGame = {
+                    sliceLength: sliceLength,
+                    teams: [
+                        team1, team2
+                    ]
+                };
+
+                games.push(thisGame);
+            } while (players.length >= 6);
+
+            // Display them on screen.
+            const screen2 = document.getElementById("screen_2");
+            screen2.innerHTML = "";
+
+            // Create a listing for each game.
+            for (let i = 0; i < games.length; i++) {
+                const game = games[i];
+
+                const display = document.createElement("div");
+                const header = document.createElement("h2");
+                const type = game.sliceLength / 2;
+                header.innerText = `${type}v${type} Game`;
+
+                const table = document.createElement("table");
+                const tr = document.createElement("tr");
+
+                // Add select for submitting wins or losses.
+                const select = document.createElement("select");
+                select.id = GetSelectIDFromIndex(i);
+
+                game.teams.forEach((team, index) => {
+                    const td = document.createElement("td");
+                    td.style.paddingRight = "2em"
+                    
+                    // Add name.
+                    const name = document.createElement("p");
+                    name.innerHTML = `Team ${index + 1}:`
+                    td.appendChild(name);
+                    
+                    // List players by name.
+                    const list = document.createElement("ol");
+                    for (let j = 0; j < team.length; j++) {
+                        const li = document.createElement("li");
+                        li.innerText = team[j].name;
+                        td.appendChild(li);
+                    }
+                    
+                    tr.appendChild(td);
+
+                    // Create the option on the select for this team winning.
+                    const op = document.createElement("option");
+                    op.value = JSON.stringify(team.map(v => v.id));
+                    op.innerText = `${team[0].name}'s team won!`;
+                    select.appendChild(op);
+                });
+
+                table.appendChild(tr);
+                display.appendChild(header)
+                display.appendChild(table);
+                display.appendChild(select);
+                screen2.appendChild(display)
+            }
+
+            // If we have spare players, add them to a set-aside list.
+            if (players.length > 0) {
+                const spareSection = document.createElement("div");
+                const header = document.createElement("h2");
+                header.innerText = "Spare Players:";
+                const p = document.createElement("p");
+                p.innerText = "Please sit aside and discuss strategies! If you get permission from a coach and agree to swap places, you may take the space of an active player.";
+                p.style.width = "5in"
+
+                const list = document.createElement("ol");
+                for (let i = 0; i < players.length; i++) {
+                    const li = document.createElement("li");
+                    li.innerText = players[i].name;
+                    list.appendChild(li);
+                }
+
+                spareSection.append(header, p, list);
+                screen2.appendChild(spareSection);
+
+                // Put the spare players in first.
+                sparePlayers = players;
+            }
+
+            // Add a back button and a regenerate button.
+            const backButton = document.createElement("button");
+            backButton.innerText = "Back to start!";
+            backButton.onclick = () => { SwapScreen(2, 0); };
+
+            const regenButton = document.createElement("button");
+            regenButton.innerText = "Remake matches without submitting!";
+            regenButton.onclick = MakeMatches;
+
+            // Add a button for submitting matches.
+            const submitButton = document.createElement("button");
+            submitButton.innerText = "Submit and remake matches!";
+            submitButton.onclick = async () => {
+                // Go through each match and post the data to the server.
+                for (let i = 0; i < games.length; i++) {
+                    const game = games[i];
+                    /** @type {string[]} */
+                    const winners = JSON.parse(document.getElementById(GetSelectIDFromIndex(i)).value);
+                    // Get the losers by filtering the winner playeres other teams. 
+                    const losers = game.teams.filter((v) => {
+                        return v.some(player => {
+                            // If this returns true, means player is in winners. Does not include team.
+                            // If this returns false, means player is not in winners. Includes team in losers.
+                            return winners.indexOf(player.id) != -1;
+                        })
+                    }).map(t => t.map(v => v.id)).flat();
+
+                    let res = postJSON("./Post_Modules/LogMatch.js", { 
+                        token: token,
+                        Winners: winners,
+                        Losers: losers,
+                        Options: {
+                            Game: "Mario Kart"
+                        }
+                    });
+                }
+
+                // Now remake matches.
+                MakeMatches();
+            }
+            
+            screen2.append(backButton, regenButton, submitButton);
+
+            SwapScreen(1, 2);
+        }
+
+        async function Demo() {
+            document.getElementById("numPlayersCount").value = 8;
+            await PrepBoxes();
+            await MakeMatches();
+        }
+        // Demo();
+
+        function SwapScreen(from, to) {
+            document.getElementById("screen_" + from).hidden = true;
+            document.getElementById("screen_" + to).hidden = false;
+        }
+    </script>
+</html>
