@@ -24,6 +24,11 @@ function SimilarityToTerms(string, terms) {
 
     // Split by words and return how many are included in the term. 
     let o = 0;
+
+    // Return 100 points if it's an exact match.
+        // This should ensure that exact matches consistently rank as the top.
+    if (terms.length == 1 && terms[0] == string) return 100;
+
     for (let i = 0; i < terms.length; i++) {
         const part = terms[i];
         if (stringWords.includes(part.toLowerCase())) o++;
