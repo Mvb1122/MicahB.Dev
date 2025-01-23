@@ -40,30 +40,106 @@ window.addEventListener('beforeprint', () => {
     // Clear the screen.
     document.getElementById("body").innerHTML = ""; // document.getElementById("MultiCardDisplay").innerHTML;
     document.getElementById("body").style.backgroundColor = "white";
-    document.getElementById("body").style.display = "grid";
-    document.getElementById("body").style.gridTemplateColumns = "repeat(auto-fill, 186px)";
-    document.getElementById("body").style.alignItems = "start"
+    if (printMode) {
+        document.getElementById("body").style.display = "grid";
+        document.getElementById("body").style.gridTemplateColumns = "repeat(auto-fill, 186px)";
+        document.getElementById("body").style.alignItems = "start"
+    }
 
     // Reapply the CSS.
     let css = document.createElement("style");
     css.innerHTML = FlipCardCSS;
     document.getElementById("body").appendChild(css);
 
+    // Create a br that breaks the page if doubleSided.
+    const sides = [];
+    const pageBreak = document.createElement('div');
+    pageBreak.className = "pageBreak"
+    const wrapper = document.createElement('div');
+    wrapper.className = "HalfCardWrapper";
+
     // Add the actual cards.
     listOfWords.forEach(word => {
-        let WordCard = base.replace("FrontText", word.front.trim()).replace("BackText", word.back.trim());
-        document.getElementById("body").innerHTML += WordCard;
+        if (printMode) {
+            // Single Sided
+            let WordCard = base.replace("FrontText", word.front.trim()).replace("BackText", word.back.trim());
+            document.getElementById("body").innerHTML += WordCard;
+        } else {
+            // Double sided:
+                // Make front side. 
+            const frontSide = document.createElement("div")
+            frontSide.className = "PrintFront";
+            frontSide.innerHTML = word.front.trim();
+            const frontWrapper = wrapper.cloneNode();
+            frontWrapper.appendChild(frontSide);
+                // Make back side.
+            const backSide = document.createElement("div");
+            backSide.className = "PrintBack";
+            backSide.innerHTML = word.back.trim();
+            const backWrapper = wrapper.cloneNode();
+            backWrapper.appendChild(backSide);
+
+            // Push to divs. 
+            sides.push({
+                front: frontWrapper, 
+                back: backWrapper
+            });
+        }
     });
+
+    // Add double-sided stuff if required.
+    if (!printMode) {
+        // Limit 6 to a page, so group.
+        const pageLimit = 20;
+        /**
+         * @type {{front: Node, back: Node}[][]}
+         */
+        const groups = [];
+        let part = [];
+        for (let i = 0; i < sides.length; i++) {
+            part.push(sides[i]);
+            if (i % pageLimit == 0 && i != 0) {
+                groups.push(part);
+                part = [];
+            }
+        }
+        if (part != []) groups.push(part);
+
+        // Map to page set.
+        const pageGroups = groups.map(v => {
+            // Put all the fronts on one div.
+            const fronts = v.map(c => c.front);
+            const backs = v.map(c => c.back);
+
+            const frontDiv = document.createElement("div");
+            fronts.forEach(v => frontDiv.appendChild(v));
+
+            const backDiv = document.createElement("div");
+            backs.forEach(v => backDiv.appendChild(v));
+
+            const group = document.createElement("div");
+            group.append(frontDiv, pageBreak.cloneNode(), backDiv, pageBreak.cloneNode());
+            return group;
+        });
+
+        // Append to body.
+        pageGroups.forEach(v => document.getElementById("body").appendChild(v));
+    }
 })
 
 window.addEventListener('afterprint', () => {
+    // return; // For DEBUG.
+
     // Return things to normal.
     document.getElementById("body").innerHTML = startingText;
     document.getElementById("body").style = startingStyle;
 })
 
-function Print() {
-    alert("Make sure to set your page margins to none! You can also set the page scale to 80% to fit 25 cards on one sheet, as well.") 
+let printMode = false; // Double-sided.
+function Print(singleSided) {
+    if (singleSided)
+        alert("Make sure to set your page margins to none! You can also set the page scale to 80% to fit 25 cards on one sheet, as well.") 
+    printMode = singleSided;
     window.print();
 }
 

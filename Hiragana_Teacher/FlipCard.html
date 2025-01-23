@@ -84,7 +84,6 @@
     }
 
     .PrintFront, .PrintBack {
-        height: 50%;
         width: 100%;
 
         display: flex;
@@ -108,10 +107,35 @@
         break-inside: avoid;
     }
 
+    .CardWrapper > div{
+        /* For single side printing. */
+        height: 50%;
+    }
+
+    .HalfCardWrapper {
+        display: inline-block;
+        page-break-inside: avoid;
+
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+
+        margin-left: 0.125in;
+        margin-top: 0.125in;
+
+        width: 1.875in;
+        height: 1.25in; /* Half Height */
+        break-inside: avoid;
+    }
+
+    .HalfCardWrapper > div { 
+        height: 100%; /* For double side printing. */
+    }
+
     .PrintFront {
         background-color: white;
         color: black;
-        font-size: x-large;
+        font-size: x-large; /* Messes with sizing on longer words. */
     }
 
     .PrintBack {
@@ -122,6 +146,10 @@
 
     #MultiCardDisplay {
         display: box; border: 3px black;
+    }
+
+    @media print {
+        .pageBreak { page-break-after: always; }
     }
 </style>
 <div style="display: flex; flex-direction: column;" id="SingleCardDisplay">
@@ -167,6 +195,12 @@
 </div>
 <br><br>
 <button class="return-button" onclick="leaveCardScreen()">Go Back to the Selection Screen</button>
-<button class="return-button" onclick="Print()">Print This Card Set</button>
-<button class="return-button" onclick="MoveToNextFont()">Change Fonts</button>
+<br><br>
+<div class="return-button" style="display: inline-block;">
+    Print: 
+    <button class="return-button" onclick="Print(true)" style="width: auto">Single Sided</button>
+    <button class="return-button" onclick="Print(false)" style="width: auto">Double Sided</button>
+</div>
+<br>
+<button class="return-button" onclick="MoveToNextFont()">Change Fonts</button><br>
 <button class="return-button" id="ToggleIdleFlipButton" onclick="ToggleIdleMode()">Enable Idle Mode (Flips every Five seconds)</button>
