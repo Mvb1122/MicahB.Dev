@@ -475,6 +475,8 @@ function EvaluateAnswer() {
         });
     } else if (answerMode == "NoSplit") {
         right = UserAnswer == syllable;
+    } else if (answerMode == "Includes") {
+        right = syllable.includes(UserAnswer);
     }
 
     // If the user was right, decrease the chance of getting that one.
