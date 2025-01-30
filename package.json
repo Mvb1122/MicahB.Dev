@@ -23,7 +23,7 @@
     "excalidraw-to-svg": "^3.0.2",
     "highlight.js": "^11.9.0",
     "http": "0.0.1-security",
-    "nodemon": "^2.0.19",
+    "nodemon": "^3.1.9",
     "package.json": "^0.0.0",
     "path2d-polyfill": "^2.0.1",
     "prettier": "^3.0.3",
