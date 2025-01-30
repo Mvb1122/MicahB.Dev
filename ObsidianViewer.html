@@ -544,6 +544,10 @@
                     }
                 })
             }
+
+            async function LoadHome() {
+                return Load("Markdown\\General\\Homepage.md");
+            }
     
             function UpdatePageFromParams() {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -552,7 +556,10 @@
                         Load(urlParams.get("file"));
                     }, 500);
                 } else {
-                    GetSuggestedLinks();
+                    // GetSuggestedLinks();
+
+                    // Instead of getting suggested links, just load the homepage.
+                    return LoadHome();
                 }
             }
 
@@ -630,7 +637,8 @@
     </head>
     <body onload="UpdatePageFromParams()" id="body">
         <div id="ButtonContainer" hidden>
-            <button onclick="GetSuggestedLinks()" class="DarkButton" title="Go Home!">🏠</button>
+            <button onclick="LoadHome()" class="DarkButton" title="Go Home!">🏠</button>
+            <button onclick="GetSuggestedLinks()" class="DarkButton" title="See all pages!">🔍</button>
             <button onclick="Reload()" class="DarkButton" title="Reload the current page!">🔄</button>
             <button onclick="print()" class="DarkButton" title="Print!">🖨️</button>
             <button onclick="Save()" class="DarkButton" title="Download!">📥</button>
