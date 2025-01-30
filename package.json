@@ -18,7 +18,7 @@
     "@discordjs/rest": "^1.7.1",
     "@excalidraw/utils": "^0.1.2",
     "compression": "^1.7.4",
-    "discord.js": "^14.13.0",
+    "discord.js": "^14.17.3",
     "events": "^3.3.0",
     "excalidraw-to-svg": "^3.0.2",
     "highlight.js": "^11.9.0",
