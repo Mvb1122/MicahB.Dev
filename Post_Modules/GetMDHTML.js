@@ -19,7 +19,8 @@ const { JSDOM } = jsdom;
 let GivenData = JSON.parse(data);
 
 
-if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
+const safe = PathIsSafe(GivenData.location);
+if (GivenData.location != undefined && fs.existsSync(GivenData.location) && safe) {
     // First, let's read in the file.
     // GivenData.location = DecodeLocation();
     /**
@@ -188,7 +189,7 @@ if (GivenData.location != undefined && fs.existsSync(GivenData.location)) {
     res.setHeader("Content-Type", getMime("json"));
     let Response = {
         sucessful: false,
-        reason: "Invalid file!",
+        reason: safe ? "Unable to read!" : "Invalid file!",
         location: GivenData.location ? GivenData.location : undefined
     }
 
