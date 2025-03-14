@@ -462,11 +462,20 @@
                                 if (data.title != undefined && isBaseDocument) 
                                     document.getElementById("BaseDocumentTitle").innerHTML = data.title;
 
+                                if (data.jpTitle != undefined && isBaseDocument) {
+                                    // Create the JP title element and add it to the body.
+                                    const jpTitle = document.createElement('div');
+                                    jpTitle.innerText = data.jpTitle;
+                                    jpTitle.className = "jpTitle";
+                                    document.getElementById(LoadToElement).appendChild(jpTitle);
+                                }
+
                                 // Handle hiding backlinks.
                                 if (data.backlinks != undefined && !data.backlinks && document.getElementById("BaseDocumentBacklinks") != null)
                                     document.getElementById("BaseDocumentBacklinks").parentElement.removeChild(document.getElementById("BaseDocumentBacklinks"));
 
                                 // Handle style requests.
+                                    // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
                                 switch (data.style) {
                                     case "legal":
                                         Body.style.backgroundColor = "white";
@@ -501,7 +510,30 @@
                                         }
                                         break;
                                 
-                                        // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
+                                        // Warning: This does not work with printing.
+                                    case "原稿用紙": // East Asian-style vertical writing.
+                                        Body.style.backgroundColor = "white";
+                                        Body.style.fontFamily = "Cambria, 'Times New Roman', Times, serif";
+                                        Body.style.color = "black"
+                                        Body.style.padding = "3em";
+
+                                        // Make it write the correct way.
+                                        Body.style.writingMode = "vertical-rl";
+                                        Body.style.height = "var(--MainWidth)";
+                                        Body.style.width = "auto";
+                                        Body.style.paddingLeft = "min(7%, 1in)";
+                                        Body.style.overflow = "scroll";
+
+                                        // We have to make the root display element wider to accomodate.
+                                        document.getElementsByTagName('body')[0].style.width = "max-content";
+
+                                        // Make the button container sit on the bottom as a row instead of the top left as a column. 
+                                        const buttonContainer = document.getElementById("ButtonContainer").style
+                                        buttonContainer.flexDirection = "row"
+                                        buttonContainer.bottom = "min(3%, 1in)";
+                                        buttonContainer.top = "auto";
+                                        break;
+                                    
                                     default:
                                         break;
                                 }

@@ -207,7 +207,7 @@ blockquote[tldr] {
     color: rgb(117, 221, 255);
 }
 
-blockquote[warning] {
+blockquote[warning], blockquote[question] {
     background-color: darkorange;
     border: solid rgb(167, 92, 0) var(--Border-Thickness);
     color: rgb(255, 230, 184);
@@ -315,11 +315,32 @@ pre.mermaid, pre:has(code.mermaid) {
 @page {
     /* margin box at top right showing page number */
     @right-top {
-        content: "Bushman " counter(pageNumber);
+        /* content: "Bushman " counter(pageNumber);
+        counter-increment: pageNumber; */ 
     }
 }
 
 /* Math alignment fix */
 mtd.tml-right {
     text-align: -webkit-right;
+}
+
+/* Proper hr width */
+hr {
+    width: 80%;
+}
+
+/* JPTitle Thing */
+.jpTitle {
+    top: min(3%, 1in);
+    right: min(3%, 1in);
+    position: fixed;
+    writing-mode: vertical-rl;
+    color: white;
+}
+
+@media print {
+    .jpTitle {
+        color: black;
+    }
 }
