@@ -1,6 +1,6 @@
 // Configuration:
-const setName = '6700147787981651.json';
-const TrimAfterFirstAnswer = true;
+const setName = '1.json';
+const TrimAfterFirstAnswer = false;
 
 
 // Load set to be flipped:
