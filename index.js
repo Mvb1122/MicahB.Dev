@@ -98,7 +98,7 @@ function DeepSearchSync(term, arr) {
     return matches;
 }
 
-const OutlawedPaths = ["node_modules", ".git", "FTP\\AI\\", "Rubbish"]
+const OutlawedPaths = ["node_modules", ".git", "Rubbish"]
 function ContainsOutlawedPath(path) {
     for (let i = 0; i < OutlawedPaths.length; i++) if (path.includes(OutlawedPaths[i])) return true;
     return false;
@@ -365,9 +365,7 @@ const requestListener = async function (req, res) {
     if (localURL.includes('?')) {
         args = parseQuery(localURL.substring(localURL.indexOf("?")));
         localURL = localURL.substring(0, localURL.indexOf("?"))
-    }
-
-    if (localURL.includes('&')) {
+    } else if (localURL.includes('&')) {
         args = parseQuery(localURL.substring(localURL.indexOf("&")));
         localURL = localURL.substring(0, localURL.indexOf("&"))
     }
@@ -730,31 +728,13 @@ function TryMakeAIServerSocket() {
 
 // Stolen from StackOverflow ;) 
     // And then Not-updated to use UTF-8.
-// const utf8 = require('utf-8')
-
-/**
- * @param {String} part
- */
-function DecodeUTF8(part) {
-    /* if (utf8.isNotUTF8()) { */ 
-        return decodeURIComponent(part);
-    /* } else {
-        let bytes = [];
-        for (let i = 0; i < part.length; i++) {
-            bytes.push(utf8.getCharCode(part[i]));
-        }
-
-        return utf8.getStringFromBytes(bytes);
-    } */ 
-}
-
 function parseQuery(queryString) {
-    var query = {};
-    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
-    for (var i = 0; i < pairs.length; i++) {
+    const query = {};
+    const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (let i = 0; i < pairs.length; i++) {
         try {
-            var pair = pairs[i].split('=');
-            query[decodeURIComponent(pair[0])] = DecodeUTF8(pair[1]);
+            const pair = pairs[i].split('=');
+            query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         } catch (error) {
             if (DEBUG) {
                 console.log("Pair: [" + pair[0] + "," + pair[1] + "]")
@@ -777,10 +757,6 @@ global.File_Cache = File_Cache;
 // Run Hiragana Teacher stuff.
 // require("./Hiragana_Teacher/Hiragana_Teacher_Index.js")
 eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
-
-// Run the AI Index stuff.
-// require("./FTP/AI/AI_Index.js")
-eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
 const SaveGlobalAndExit = function (error = null) {
     if (error) console.log(error);
