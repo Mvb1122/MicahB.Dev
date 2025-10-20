@@ -18,15 +18,13 @@ const { JSDOM } = jsdom;
 
 let GivenData = JSON.parse(data);
 
-
-const safe = PathIsSafe(GivenData.location);
-if (GivenData.location != undefined && fs.existsSync(GivenData.location) && safe) {
+if (GivenData.location != undefined && fs.existsSync(unescape(GivenData.location)) && PathIsSafe(unescape(GivenData.location))) {
     // First, let's read in the file.
     // GivenData.location = DecodeLocation();
     /**
      * @type {String}
     */
-    let file = String(GetFileFromCache(GivenData.location)); // .split("\n");
+    let file = String(GetFileFromCache(unescape(GivenData.location))); // .split("\n");
     const IsExcalidraw = GivenData.location.endsWith(".excalidraw.md");
 
     if (!IsExcalidraw) {

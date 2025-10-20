@@ -8,6 +8,10 @@
     --MainWidth: 8in
 }
 
+*[hidden] {
+    display: none !important;
+}
+
 body {
     background-color: rgb(37, 37, 37);
     display: flex;
