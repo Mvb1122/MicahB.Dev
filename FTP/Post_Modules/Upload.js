@@ -1,6 +1,13 @@
-const path = require('path');
+res.statusCode = 403;
+res.setHeader("Content-Type", "application/json");
+res.end(JSON.stringify({sucessful: false, reason: "This module has been disabled!"}));
+return;
 
-if (args.target != null && !args.target.includes("modules")) {
+// This module is just kinda... Maybe I shouldn't have it...
+const path = require('path');
+const { PathIsSafe } = require('../../index.js');
+
+if (args.target != null && PathIsSafe(args.target)) {
     const fs = require('fs');
     // Remove header stuff and write.
     if (data.includes("0D0A0D0A89504E47", 0, "hex")){

@@ -13,8 +13,22 @@
             const backend = "."
             let CurrentBaseDocument = "";
             async function GetSuggestedLinks() {
+                class File {
+                    part = ""
+                    title = ""
+
+                    constructor(part, title) {
+                        this.part = part; this.title = title;
+                    }
+                }
+
                 const files = await (await fetch(backend + "/Modules/Search.js&term=.md")).json();
                 const ul = document.createElement("ul");
+                /**
+                 * @type{File[]}
+                 */
+                const fileList = [];
+
                 files.result.forEach(file => {
                     if (file.includes("md")) {
                         const part = document.createElement("li");
@@ -30,14 +44,42 @@
     
                         part.appendChild(link);
                         ul.appendChild(part);
+
+                        fileList.push(new File(part, file));
                     }
                 });
                 // Clear and add text.
                 document.getElementById("Home").innerHTML = "<h1>Checkout these pages:</h1>"
+
+                // Add a search bar.
+                const searchBar = document.createElement("input");
+                searchBar.type = "text";
+                searchBar.style.width = "100%";
+                searchBar.addEventListener("keydown", (el, ev) => {
+                    // Current text: 
+                    const searchText = searchBar.value.trim().toLowerCase();
+                    const newUl = document.createElement("ul");
+                    // Filter to just the ones that contain the thing and add it to a new list element.
+                    fileList
+                        .filter(item => item.title.toLowerCase().includes(searchText))
+                        .forEach(item => newUl.appendChild(item.part.cloneNode(true)));
+
+                    const homeElem = document.getElementById("Home");
+
+                    // Replace the existing list if there is one, otherwise append the new list.
+                    const existingUl = homeElem.querySelector("ul");
+                    if (existingUl) {
+                            homeElem.replaceChild(newUl, existingUl);
+                    } else {
+                            homeElem.appendChild(newUl);
+                    }
+                });
+                document.getElementById("Home").appendChild(searchBar);
+
                 document.getElementById("Home").appendChild(ul);
                 document.getElementById("Home").hidden = false;
                 document.getElementById("Content").hidden = true;
-                document.getElementById("ButtonContainer").hidden = true;
+                // document.getElementById("ButtonContainer").hidden = true;
             }
             
             /**
@@ -141,20 +183,49 @@
 
                 // Fetch the pages, then load each of them.
                 return fetch(NotebookDirectory + "pages.json").then(v => v.json()).then(json => {
-                    json.pages.forEach(page => {
-                        const part = document.createElement("div");
-                        NotebookElement.appendChild(part);
-                        fetch(NotebookDirectory + page + ".excalidraw.json").then(v => v.json()).then(eJSON => {
-                            // Convert the page to SVG.
-                            const svg = exportToSvg(eJSON);
-                            svg.then(v => {
-                                // Enable scaling.
-                                v.setAttribute("preserveAspectRatio", "xMidYMid meet");
-                                v.removeAttribute("width"); v.removeAttribute("height");
-                                part.appendChild(v);
+                    // This means old YBN notebook.
+                    if (!("type" in json)) 
+                        json.pages.forEach(page => {
+                            const part = document.createElement("div");
+                            NotebookElement.appendChild(part);
+                            fetch(NotebookDirectory + page + ".excalidraw.json").then(v => v.json()).then(eJSON => {
+                                // Convert the page to SVG.
+                                const svg = exportToSvg(eJSON);
+                                svg.then(v => {
+                                    // Enable scaling.
+                                    v.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                                    v.removeAttribute("width"); v.removeAttribute("height");
+                                    part.appendChild(v);
+                                })
                             })
                         })
-                    })
+                    else if (json.type == "reMarkable") {
+                        // White background.
+                        NotebookElement.style.backgroundColor = "white";
+
+                        // Remarkable notebook.
+                        json.pages.forEach(page => {
+                            const part = document.createElement("div");
+                            NotebookElement.appendChild(part);
+                            fetch(NotebookDirectory + page + ".svg").then(v => v.text()).then(svgContent => {
+                                // Convert the page to SVG.
+                                const svg = document.createElement("svg");
+                                svg.innerHTML = svgContent;
+                                
+                                // Enable scaling.
+                                svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                                svg.removeAttribute("width"); 
+                                svg.removeAttribute("height");
+
+                                part.appendChild(svg);
+                            })
+
+                            
+                            // Add white background also.
+                            part.style.position = "relative";
+                            part.style.zIndex = 1;
+                        })
+                    }
                 })
             }
     
@@ -162,11 +233,11 @@
             async function Load(path, LoadToElement = "Content") {
                 return new Promise(async (res, rej) => {
                     // If we're loading a PDF, handle it using an embed.
+                    let splitLocation = path.includes("\\") ? path.lastIndexOf("\\") : path.lastIndexOf("/");
+                    const folder = path.substring(0, splitLocation);
                     if (path.endsWith(".pdf")) {
                         const PDFFrame = document.createElement('embed');
                         // Make src path not relative.
-                        let splitLocation = path.includes("\\") ? path.lastIndexOf("\\") : path.lastIndexOf("/");
-                        const folder = path.substring(0, splitLocation);
                         const host = new URL(document.URL).host;
                         PDFFrame.src = "./" + path
                         PDFFrame.width = "100%";
@@ -462,11 +533,29 @@
                                 if (data.title != undefined && isBaseDocument) 
                                     document.getElementById("BaseDocumentTitle").innerHTML = data.title;
 
+                                if (data.jpTitle != undefined && isBaseDocument) {
+                                    // Create the JP title element and add it to the body.
+                                    const jpTitle = document.createElement('div');
+                                    jpTitle.innerText = data.jpTitle;
+                                    jpTitle.className = "jpTitle";
+                                    Element.appendChild(jpTitle);
+                                }
+
                                 // Handle hiding backlinks.
                                 if (data.backlinks != undefined && !data.backlinks && document.getElementById("BaseDocumentBacklinks") != null)
                                     document.getElementById("BaseDocumentBacklinks").parentElement.removeChild(document.getElementById("BaseDocumentBacklinks"));
 
+                                // Handle additional scripts. 
+                                if (data.additionalJs != undefined) {
+                                    // Resolve the url. 
+                                    const newScript = document.createElement("script");
+                                    newScript.src = folder + "/" + data.additionalJs;
+                                    // Add to screen. 
+                                    Element.appendChild(newScript);
+                                }
+
                                 // Handle style requests.
+                                    // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
                                 switch (data.style) {
                                     case "legal":
                                         Body.style.backgroundColor = "white";
@@ -501,11 +590,34 @@
                                         }
                                         break;
                                 
-                                        // Note: Page styling will persist on additional loads, to make browsing have less LCPs.
+                                        // Warning: This does not work with printing.
+                                    case "原稿用紙": // East Asian-style vertical writing.
+                                        Body.style.backgroundColor = "white";
+                                        Body.style.fontFamily = "Cambria, 'Times New Roman', Times, serif";
+                                        Body.style.color = "black"
+                                        Body.style.padding = "3em";
+
+                                        // Make it write the correct way.
+                                        Body.style.writingMode = "vertical-rl";
+                                        Body.style.height = "var(--MainWidth)";
+                                        Body.style.width = "auto";
+                                        Body.style.paddingLeft = "min(7%, 1in)";
+                                        Body.style.overflow = "scroll";
+
+                                        // We have to make the root display element wider to accomodate.
+                                        document.getElementsByTagName('body')[0].style.width = "max-content";
+
+                                        // Make the button container sit on the bottom as a row instead of the top left as a column. 
+                                        const buttonContainer = document.getElementById("ButtonContainer").style
+                                        buttonContainer.flexDirection = "row"
+                                        buttonContainer.bottom = "min(3%, 1in)";
+                                        buttonContainer.top = "auto";
+                                        break;
+                                    
                                     default:
                                         break;
                                 }
-                            } catch (e) { /* Do nothing; there's no valid blocks. */ }
+                            } catch (e) { console.log(e) /* Do nothing; there's no valid blocks. */ }
 
                         // Look for Mermaid diagrams.
                         let foundMermaid = false;

@@ -6,6 +6,7 @@ const Path = require('path')
 const sharp = require('sharp');
 const { Readable } = require('stream')
 const DEBUG = false;
+const AllowStrigoiWrite = false;
 
 const mimeTypes = {
     "txt": "text/plain",
@@ -97,7 +98,7 @@ function DeepSearchSync(term, arr) {
     return matches;
 }
 
-const OutlawedPaths = ["node_modules", ".git", "FTP\\AI\\", "Rubbish"]
+const OutlawedPaths = ["node_modules", ".git", "Rubbish"]
 function ContainsOutlawedPath(path) {
     for (let i = 0; i < OutlawedPaths.length; i++) if (path.includes(OutlawedPaths[i])) return true;
     return false;
@@ -257,21 +258,27 @@ const getMime = (s) => {
 ./git*
 etc...
 */
-const DisallowedPatterns = [/\/\.git/, /Hiragana_Teacher\/Users\/\d+\/user.json/]
+const DisallowedPatterns = [/\/\.git/, /Hiragana_Teacher\/Users\/\d+\/user.json/];
+const pathLib = require('path');
 
 /**
  * Checks if a path is okay to share.
- * @param {String} path The path to safety check.
+ * @param {String} filePath The path to safety check.
+ * @returns {boolean} Whether it's safe to read or not. 
  */
-function PathIsSafe(path) {
+function PathIsSafe(filePath) {
+    // First check if the path is within the mDB folder. 
+    const resPath = pathLib.resolve(filePath);
+    if (!resPath.includes(__dirname)) return false;
+
     for (let i = 0; i < DisallowedPatterns.length; i++) {
-        const Matches = path.match(DisallowedPatterns[i]);
+        const Matches = filePath.match(DisallowedPatterns[i]);
         if (Matches != undefined) return false;
     }
 
     // Last check, if it's a .js file, look to see if it starts with a JSON object declaring a safety thing.
-    if (path.includes(".js") && path.includes("/modules/")) {
-        let data = String(GetFileFromCache(path));
+    if (filePath.includes(".js") && filePath.includes("modules") && fs.existsSync(filePath)) {
+        let data = String(GetFileFromCache(filePath));
         if (data.includes("{") && data.includes("}"))
             try {
                 const json = JSON.parse(data.substring(0, data.indexOf("}") + 1));
@@ -291,9 +298,11 @@ let File_Cache = [];
 /**
  * Loads a file from the cache, or adds it to the cache if needed.
  * @param {String} url The path to read from, as relative to index.js
- * @returns {Buffer} The file
+ * @returns {Buffer?} The file
  */
 function GetFileFromCache(url) {
+    if (!PathIsSafe(url)) return null;
+
     if (!DEBUG && File_Cache[url])
         return File_Cache[url]
     
@@ -343,6 +352,7 @@ const requestListener = async function (req, res) {
         res.writeHead(301);
         return res.end();
     }
+    
     if (req.url.startsWith('/'))
         localURL += '.' + req.url;
     else
@@ -355,9 +365,7 @@ const requestListener = async function (req, res) {
     if (localURL.includes('?')) {
         args = parseQuery(localURL.substring(localURL.indexOf("?")));
         localURL = localURL.substring(0, localURL.indexOf("?"))
-    }
-
-    if (localURL.includes('&')) {
+    } else if (localURL.includes('&')) {
         args = parseQuery(localURL.substring(localURL.indexOf("&")));
         localURL = localURL.substring(0, localURL.indexOf("&"))
     }
@@ -500,7 +508,7 @@ const requestListener = async function (req, res) {
                     if ((mime.includes("image") && localURL.includes("AI")) || localURL.includes(".excalidraw.json")) 
                         res.setHeader("Cache-Control", "max-age=604800")
 
-                    // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below..
+                    // Cache requests for index files. Alternatively, the line to cache files smaller than 10MB is below.
                         // || GetFileSizeInMegabytes(localURL) < 10
                     if (localURL.includes("index") || localURL.includes("favicon")) {
                         res.end(GetFileFromCache(localURL));
@@ -559,7 +567,7 @@ const requestListener = async function (req, res) {
         });
 
         // Archaic Strigoi code... No good.
-        if (req.url.startsWith("/users/") || req.url.startsWith("/seriesImages/") || req.url.startsWith("/mDB/") || req.url.startsWith("/json/")) {
+        if (AllowStrigoiWrite && (req.url.startsWith("/users/") || req.url.startsWith("/seriesImages/") || req.url.startsWith("/mDB/") || req.url.startsWith("/json/"))) {
             res.setHeader("Content-Type", "text/plain");
             res.writeHead(200);
             req.on('end', () => {
@@ -589,13 +597,12 @@ const requestListener = async function (req, res) {
             // Only run this if the file is a .js file and in a post_modules directory.
         if (req.url.toLowerCase().includes("post_modules")) {
             if (DEBUG) console.log(`Post_Modules request for ${localURL}`);
-            if (fs.existsSync(localURL))
+            if (fs.existsSync(localURL) && PathIsSafe(localURL))
             {    
                 req.on('end', () => {
                     let data; 
                     if (!req.url.includes("Upload.js")) {
                         data = Buffer.concat(binary_data).toString();
-                        if (DEBUG) console.log("Input: `" + data + "`");
                     } else {
                         data = Buffer.concat(binary_data);
                     }
@@ -604,7 +611,7 @@ const requestListener = async function (req, res) {
                         // Also cache them to make stuff go faster.
                     try {
                         const file = RemovePrependedObject(GetFileFromCache(localURL).toString());
-                        if (localURL.endsWith(".js")) {
+                        if (localURL.endsWith(".js") && PathIsSafe(localURL)) {
                             eval(`async function f() {${file}} f();`);
                         } else {
                             res.statusCode = 403;
@@ -721,31 +728,13 @@ function TryMakeAIServerSocket() {
 
 // Stolen from StackOverflow ;) 
     // And then Not-updated to use UTF-8.
-// const utf8 = require('utf-8')
-
-/**
- * @param {String} part
- */
-function DecodeUTF8(part) {
-    /* if (utf8.isNotUTF8()) { */ 
-        return decodeURIComponent(part);
-    /* } else {
-        let bytes = [];
-        for (let i = 0; i < part.length; i++) {
-            bytes.push(utf8.getCharCode(part[i]));
-        }
-
-        return utf8.getStringFromBytes(bytes);
-    } */ 
-}
-
 function parseQuery(queryString) {
-    var query = {};
-    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
-    for (var i = 0; i < pairs.length; i++) {
+    const query = {};
+    const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (let i = 0; i < pairs.length; i++) {
         try {
-            var pair = pairs[i].split('=');
-            query[decodeURIComponent(pair[0])] = DecodeUTF8(pair[1]);
+            const pair = pairs[i].split('=');
+            query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         } catch (error) {
             if (DEBUG) {
                 console.log("Pair: [" + pair[0] + "," + pair[1] + "]")
@@ -758,7 +747,7 @@ function parseQuery(queryString) {
 
 // Load persistant information.
 const global = fs.existsSync("./Global.json") ? JSON.parse(fs.readFileSync("./Global.json")) : {};
-module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime, MDBacklinks, GlobalPaths }
+module.exports = { global, GetFileFromCache, GetFileSizeInMegabytes, getMime, MDBacklinks, GlobalPaths, PathIsSafe }
 // Run ESports setup stuff.
 const esports = require("./Esports_Projects/Esports_Index.js")
 // eval(fs.readFileSync("Esports_Projects/Esports_Index.js").toString());
@@ -768,10 +757,6 @@ global.File_Cache = File_Cache;
 // Run Hiragana Teacher stuff.
 // require("./Hiragana_Teacher/Hiragana_Teacher_Index.js")
 eval(fs.readFileSync('Hiragana_Teacher/Hiragana_Teacher_Index.js').toString());
-
-// Run the AI Index stuff.
-// require("./FTP/AI/AI_Index.js")
-eval(fs.readFileSync("./FTP/AI/AI_Index.js").toString());;
 
 const SaveGlobalAndExit = function (error = null) {
     if (error) console.log(error);

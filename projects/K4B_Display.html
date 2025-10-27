@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>K4B Display.</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            body {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .chunk {
+                height: 100%;
+                width: 50%;
+
+                /* border: 1px black dashed; */
+            }
+
+            table, iframe {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <table>
+            <td class="chunk">
+                Days until Surgery:
+                <h1 id="countdown">
+                    1,000,000!!!!
+                </h1>
+            </td>
+            <td class="chunk" id="weather">
+                Weather on this side.
+
+                <iframe id="hiddenFrame"></iframe>
+            </td>
+        </table>
+        
+        <script>
+            function sendRequest(url) {
+                // Point the hidden iframe to a server script
+                // The server returns an HTML page containing JavaScript
+                // that calls parent.handleResponse(...)
+                document.getElementById("hiddenFrame").src = url;
+            }
+
+            // This is called from the iframe's loaded script
+            function handleResponse(data) {
+                /**
+                 * @type {{dt: number
+                    sunrise: number
+                    sunset: number
+                    temp: number
+                    feels_like: number
+                    pressure: number
+                    humidity: number
+                    dew_point: number
+                    uvi: number
+                    clouds: number
+                    visibility: number
+                    wind_speed: number
+                    wind_deg: number
+                    wind_gust: number
+                    weather: Weather[]}}
+                 * */
+                const weather = data.weather;
+                
+                /**
+                 * @type {{
+                    dt: number
+                    temp: number
+                    feels_like: number
+                    pressure: number
+                    humidity: number
+                    dew_point: number
+                    uvi: number
+                    clouds: number
+                    visibility: number
+                    wind_speed: number
+                    wind_deg: number
+                    wind_gust: number
+                    weather: Weather2[]
+                    pop: number
+                    }[]}
+                 * */
+                const hourly = data.hourlyPrediction;
+
+                document.getElementById("weather").innerHTML = "This information is from " + data.time + "<br>" 
+                + "It currently feels like " + weather.feels_like + "°F but the actual temperature is " + weather.temp + "<br>"
+                + "The Humidity is currently " + weather.humidity + "%<br>"
+                + "The current wind speed is " + weather.wind_speed + "MPH pointed at " + weather.wind_deg + "°.<br>"
+                + "It is currently " + weather.clouds + "% cloudy.<br>Weather by hour from when data was fetched:<br>";
+
+                const pred0 = hourly[0];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "1hr: " + pred0.temp + "°F<br>";
+                const pred1 = hourly[1];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "2hr: " + pred1.temp + "°F<br>";
+                const pred2 = hourly[2];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "3hr: " + pred2.temp + "°F<br>";
+                const pred3 = hourly[3];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "4hr: " + pred3.temp + "°F<br>";
+                const pred4 = hourly[4];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "5hr: " + pred4.temp + "°F<br>";
+                const pred5 = hourly[5];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "6hr: " + pred5.temp + "°F<br>";
+                const pred6 = hourly[6];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "7hr: " + pred6.temp + "°F<br>";
+                const pred7 = hourly[7];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "8hr: " + pred7.temp + "°F<br>";
+                const pred8 = hourly[8];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "9hr: " + pred8.temp + "°F<br>";
+                const pred9 = hourly[9];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "10hr: " + pred9.temp + "°F<br>";
+                const pred10 = hourly[10];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "11hr: " + pred10.temp + "°F<br>";
+                const pred11 = hourly[11];
+                document.getElementById("weather").innerHTML = document.getElementById("weather").innerHTML + "12hr: " + pred11.temp + "°F<br>";
+
+                document.getElementById("hiddenFrame").remove();
+            }
+
+            function timeUntilDec8() {
+                const now = new Date();
+                const target = new Date(now.getFullYear(), 11, 8, 8, 0, 0); 
+                // Month is 0-based: 11 = December
+
+                // If target date already passed this year, set for next year
+                if (now > target) {
+                    target.setFullYear(target.getFullYear() + 1);
+                }
+
+                const diffMs = target - now; // difference in ms
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const days = Math.floor(diffHours / 24);
+                const hours = diffHours % 24;
+
+                return { days: days, hours: hours };
+            }
+
+            function loop() {
+                const result = timeUntilDec8();
+                document.getElementById("countdown").innerText = result.days + " days, " + result.hours + " hours."
+            
+                sendRequest("./Modules/GetInfoForK4B.js&cache=false");
+            }
+
+            loop();
+            setInterval(loop, 1 * 1000 * 60 * 60);
+        </script>
+    </body>
+</html>
